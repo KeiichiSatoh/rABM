@@ -1,7 +1,7 @@
 Version: 1.0
 ProjectId: f648bdd7-d793-436f-a26a-1a962e0be2ef
 
-RestoreWorkspace: Default
+RestoreWorkspace: No
 SaveWorkspace: Default
 AlwaysSaveHistory: Default
 
@@ -15,3 +15,8 @@ LaTeX: pdfLaTeX
 
 AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
+
+BuildType: Package
+PackageUseDevtools: Yes
+PackageInstallArgs: --no-multiarch --with-keep.source
+PackageRoxygenize: rd,collate,namespace
