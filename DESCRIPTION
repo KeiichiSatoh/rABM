@@ -2,9 +2,11 @@ Package: rABM
 Title: A flexible and extensible agent-based modeling package for exploratory social science research
 Version: 0.0.0.1
 Date: 2025-03-18
-Authors@R: 
-    person("Keiichi", "Satoh", email = "keiichi.satoh@r.hit-u.ac.jp", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R:c(
+    person("Keiichi", "Satoh", email = "keiichi.satoh@r.hit-u.ac.jp", role = c("aut", "cre")),
+    person("Liang", "Hao", role = c("ctb"))
+    )
+Description: rABM is an R package for agent-based modeling (ABM), specifically tailored to social science applications. It offers a flexible and extensible framework that allows users to build a variety of ABMs using any type of R object. The framework supports interactions among multiple agent types governed by diverse behavioral rules. Moreover, users can easily experiment with different parameters or rules without rewriting the entire model. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -14,6 +16,8 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     R6,
-    Rcpp
+    Rcpp,
+    rlang
 LinkingTo: 
     Rcpp
+    

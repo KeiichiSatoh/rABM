@@ -6,10 +6,15 @@
 \alias{rABM-package}
 \title{rABM: A flexible and extensible agent-based modeling package for exploratory social science research}
 \description{
-What the package does (one paragraph).
+rABM is an R package for agent-based modeling (ABM), specifically tailored to social science applications. It offers a flexible and extensible framework that allows users to build a variety of ABMs using any type of R object. The framework supports interactions among multiple agent types governed by diverse behavioral rules. Moreover, users can easily experiment with different parameters or rules without rewriting the entire model.
 }
 \author{
 \strong{Maintainer}: Keiichi Satoh \email{keiichi.satoh@r.hit-u.ac.jp}
+
+Other contributors:
+\itemize{
+  \item Liang Hao [contributor]
+}
 
 }
 \keyword{internal}
