@@ -13,7 +13,7 @@ runABM(
   update_FUN_name = NULL,
   stop_FUN_name = NULL,
   times = 1,
-  save_log = FALSE,
+  save_log = TRUE,
   add_tryCatch = TRUE,
   return_update_FUN = FALSE,
   saveRDS_inbetween = FALSE,
@@ -52,7 +52,7 @@ a specified number of steps defined in \code{times}. Defaults to \code{NULL}.}
 Used if \code{stop_FUN_name} is not provided. Defaults to \code{1}.}
 
 \item{save_log}{Logical; if \code{TRUE}, logs each simulation step.
-Defaults to \code{FALSE}.}
+Defaults to \code{TRUE}.}
 
 \item{add_tryCatch}{Logical; if \code{TRUE}, wraps function calls
 with \code{tryCatch} to handle errors gracefully. Defaults to \code{TRUE}.}
