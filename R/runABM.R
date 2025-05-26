@@ -24,7 +24,7 @@
 #' @param times An integer specifying the number of simulation steps to run.
 #' Used if \code{stop_FUN_name} is not provided. Defaults to \code{1}.
 #' @param save_log Logical; if \code{TRUE}, logs each simulation step.
-#' Defaults to \code{FALSE}.
+#' Defaults to \code{TRUE}.
 #' @param add_tryCatch Logical; if \code{TRUE}, wraps function calls
 #' with \code{tryCatch} to handle errors gracefully. Defaults to \code{TRUE}.
 #' @param return_update_FUN Logical; if \code{TRUE},
@@ -172,7 +172,7 @@ runABM <- function(G,
                    update_FUN_name = NULL,
                    stop_FUN_name = NULL,
                    times = 1,
-                   save_log = FALSE,
+                   save_log = TRUE,
                    add_tryCatch = TRUE,
                    return_update_FUN = FALSE,
                    saveRDS_inbetween = FALSE,
