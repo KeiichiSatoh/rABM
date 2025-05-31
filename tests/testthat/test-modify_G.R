@@ -80,3 +80,20 @@ test_that("modify_G: replaces and renames a field", {
   expect_false("stage" %in% ls(G2))
   expect_false(identical(G2$stage2, G$stage))
 })
+
+test_that("modify_G: works adding G and E correctly", {
+  G <- setABM(agents = 2, stage = data.frame(age = c(1,2)))
+  G2 <- modify_G(G, field_name = "added_global_FUN", method = "add_global_FUN",
+                 field = function(){print(1)},
+                 deep_clone = TRUE)
+  expect_true(all(names(formals(G2$added_global_FUN)) %in% c("G", "E")))
+})
+
+test_that("modify_G: Put error correctly, when adding no function to FUN", {
+  G <- setABM(agents = 2, stage = data.frame(age = c(1,2)))
+  expect_error(
+    modify_G(G, field_name = "added_global_FUN", method = "add_global_FUN",
+             field = c(1),
+             deep_clone = TRUE)
+  )
+})

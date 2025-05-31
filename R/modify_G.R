@@ -53,6 +53,9 @@
 #'
 #' @export
 
+
+
+
 modify_G <- function(G, field_name,
                      method = c("add_stage", "add_global_FUN", "add_select_FUN",
                                 "add_stop_FUN","add_update_FUN","add_active_binding",
@@ -150,6 +153,15 @@ modify_G <- function(G, field_name,
     if(!is.null(new_field_name)){
       field_name <- new_field_name
     }
+  }
+
+  # check field type
+  if(method %in% c("add_global_FUN", "add_select_FUN", "add_stop_FUN", "add_update_FUN")){
+    stopifnot("The 'field' argument must be a function for the chosen method." = is.function(field))
+    # add G and E to formals
+    current_formals <- formals(field)
+    current_formals[which(names(current_formals)=="G")|which(names(current_formals)=="E")] <- NULL
+    formals(field) <- c(alist(G = G, E = E), current_formals) # add G=G and E=E
   }
 
   # switch
