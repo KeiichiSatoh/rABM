@@ -17,7 +17,7 @@
 #'
 #' This class is implemented using the `R6` class. While agents can
 #' be instantiated directly using `ABM_Agent$new()`,
-#' it is highly recommended to use \link{init_agent} for batch creation of
+#' it is highly recommended to use \link{init_agents} for batch creation of
 #' agents for the actual usage. The `init_agent` function provides
 #' the navigation for setting various field types and includes validation checks
 #' that is not present in the `ABM_Agent` class method.

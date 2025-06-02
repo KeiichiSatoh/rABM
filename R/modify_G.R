@@ -7,11 +7,11 @@
 #' @param G An object of class \code{ABM_G}, created by \code{setABM()}.
 #' @param field_name A string indicating the name of the field to modify, delete, or rename.
 #' @param method A string specifying the operation to perform.
-#' One of \code{"add_stage"}, \code{"add_global_FUN"}, \code{"add_select_FUN"},
+#' One of \code{"add_agents"}, \code{"add_stage"}, \code{"add_global_FUN"}, \code{"add_select_FUN"},
 #' \code{"add_stop_FUN"}, \code{"add_update_FUN"}, \code{"add_active_binding"},
 #' \code{"rename"}, \code{"replace"}, or \code{"delete"}.
-#' @param field The object to assign to the field (e.g., vector, matrix,
-#' data.frame, list or a function). Required for \code{"add_*"} and
+#' @param new_obj The object to assign to the field (e.g., a set of 'ABM_agents',
+#' vector, matrix, data.frame, list or a function). Required for \code{"add_*"} and
 #' \code{"replace"} methods.
 #' @param new_field_name Optional. A string specifying the new name of the field,
 #' used when \code{method = "rename"} or when renaming during \code{"replace"}.
@@ -29,9 +29,10 @@
 #' optionally with a new name.
 #' - For \code{method = "add_*"}, a new field will be added to the object.
 #'
-#' If the specified field belongs to the \code{agent} category,
-#' the function will stop with an error. Use \code{modify_agents()}
-#' for such modifications.
+#' **Note**: If the user wants to modify the contents of \code{agents}, use
+#' \code{modify_agents()} instead.
+#'
+#' @seealso [modify_agents()]
 #'
 #' @examples
 #' G <- setABM(agents = 2, stage = data.frame(age = c(1, 2)),
@@ -42,35 +43,37 @@
 #'             active_binding_field = function(){1})
 #'
 #' # Add a new stage
-#' G2 <- modify_G(G, field_name = "stage2", method = "add_stage", field = matrix(0, 2, 2))
+#' G2 <- modify_G(G, field_name = "stage2", method = "add_stage", new_obj = matrix(0, 2, 2))
 #'
 #' # Rename an existing field
 #' G2 <- modify_G(G, field_name = "stage", method = "rename", new_field_name = "stage_renamed")
 #'
 #' # Replace a function
 #' new_FUN <- function() print("new")
-#' G2 <- modify_G(G, field_name = "global_FUN", method = "replace", field = new_FUN)
+#' G2 <- modify_G(G, field_name = "global_FUN", method = "replace", new_obj = new_FUN)
 #'
 #' @export
 
-
-
-
 modify_G <- function(G, field_name,
-                     method = c("add_stage", "add_global_FUN", "add_select_FUN",
-                                "add_stop_FUN","add_update_FUN","add_active_binding",
-                                "rename",
-                                "replace",
-                                "delete"),
-                     field = NULL,
+                     method = c(
+                       "add_agents",
+                       "add_stage",
+                       "add_global_FUN", "add_select_FUN",
+                       "add_stop_FUN","add_update_FUN","add_active_binding",
+                       "rename",
+                       "replace",
+                       "delete"),
+                     new_obj = NULL,
                      new_field_name = NULL,
                      deep_clone = TRUE){
   # check the input
   stopifnot("G must be class of 'ABM_G'" = class(G)[1] == "ABM_G")
   method <- match.arg(method)
+
+  # check the conflict of the arguments
   if(method=="delete"){
-    if(!is.null(field)){
-      warning("The 'field' argument is ignored when method is 'delete'.")
+    if(!is.null(new_obj)){
+      warning("The 'new_obj' argument is ignored when method is 'delete'.")
     }
     if(!is.null(new_field_name)){
       warning("The 'new_field_name' argument is ignored when method is 'delete'.")
@@ -79,18 +82,18 @@ modify_G <- function(G, field_name,
     stopifnot("The 'new_field_name' must be supplied when 'method' is 'rename'." = !is.null(new_field_name))
     stopifnot("The 'new_field_name' must be a character vector." = is.character(new_field_name))
     stopifnot("The 'new_field_name' must be oflength 1." = length(new_field_name) == 1)
-    if(!is.null(field)){
-      warning("The input in 'field' is ignored when 'method' is 'rename'.")
+    if(!is.null(new_obj)){
+      warning("The input in 'new_obj' is ignored when 'method' is 'rename'.")
     }
   }else if(method=="replace"){
-    stopifnot("The 'new_field_name' argument must be supplied when method is 'rename'." = !is.null(field))
+    stopifnot("The 'new_field_name' argument must be supplied when method is 'rename'." = !is.null(new_obj))
     if(!is.null(new_field_name)){
       message("Since 'new_field_name' is supplied, it will be used as the new field name.")
       stopifnot("'new_field_name' must be a character." = is.character(new_field_name))
       stopifnot("'new_field_name' must be a length of 1." = length(new_field_name) == 1)
     }
   }else{
-    stopifnot("'field' must be supplied to the selected 'method'." = !is.null(field))
+    stopifnot("'new_obj' must be supplied to the selected 'method'." = !is.null(new_obj))
     if(!is.null(new_field_name)){
       warning("The 'new_field_name' argument is ignored.")
     }
@@ -107,19 +110,16 @@ modify_G <- function(G, field_name,
     stopifnot("No field exists that matches 'field_name'." = field_name %in% ls(G))
     # get field_category
     field_category <- G$.__enclos_env__$private$field_category[field_name]
-    # stop if field_category is agent
-    if(field_category=="agent"){
-      stop("'modify_G' cannot be used to modify fields of category 'agent'. Please use 'modify_agents()' instead.")
-    }
-    # Whether the field is active_binding
+    # Whether the new_obj is active_binding
     active_binding_names <- names(G$.__enclos_env__$.__active__)
     is_active_binding <- field_name %in% active_binding_names
-    # retrieve and store field
-    field <- G[[field_name]]
+    # retrieve and store new_obj
+    new_obj <- G[[field_name]]
     # delete the field
     G$.remove_field(name = field_name)
     # overwrite the method
     method <- switch(field_category,
+           "agent" = {"add_agents"},
            "stage" = {ifelse(is_active_binding, "add_active_binding", "add_stage")},
            "global_FUN" = {"add_global_FUN"},
            "select_FUN" = {"add_select_FUN"},
@@ -133,10 +133,6 @@ modify_G <- function(G, field_name,
     stopifnot("No field exists that matches 'field_name'." = field_name %in% ls(G))
     # get field_category
     field_category <- G$.__enclos_env__$private$field_category[field_name]
-    # stop if field_category is agent
-    if(field_category=="agent"){
-      stop("'modify_G' cannot be used to modify fields of category 'agent'. Please use 'modify_agents()' instead.")
-    }
     # Whether the field is active_binding
     active_binding_names <- names(G$.__enclos_env__$.__active__)
     is_active_binding <- field_name %in% active_binding_names
@@ -144,6 +140,7 @@ modify_G <- function(G, field_name,
     G$.remove_field(name = field_name)
     # overwrite the method
     method <- switch(field_category,
+                     "agent" = {"add_agents"},
                      "stage" = {ifelse(is_active_binding, "add_active_binding", "add_stage")},
                      "global_FUN" = {"add_global_FUN"},
                      "select_FUN" = {"add_select_FUN"},
@@ -155,13 +152,18 @@ modify_G <- function(G, field_name,
     }
   }
 
-  # check field type
+  # check if new_obj is provided
+  if(method %in% c("add_agents", "add_global_FUN", "add_select_FUN", "add_stop_FUN", "add_update_FUN")){
+    stopifnot("The 'new_obj' argument must be supplied for the chosen method" = !is.null(new_obj))
+  }
+
+  # check if new_obj is function and add formals of G and E for the relevant methods.
   if(method %in% c("add_global_FUN", "add_select_FUN", "add_stop_FUN", "add_update_FUN")){
-    stopifnot("The 'field' argument must be a function for the chosen method." = is.function(field))
+    stopifnot("The 'new_obj' argument must be a function for the chosen method." = is.function(new_obj))
     # add G and E to formals
-    current_formals <- formals(field)
+    current_formals <- formals(new_obj)
     current_formals[which(names(current_formals)=="G")|which(names(current_formals)=="E")] <- NULL
-    formals(field) <- c(alist(G = G, E = E), current_formals) # add G=G and E=E
+    formals(new_obj) <- c(alist(G = G, E = E), current_formals) # add G=G and E=E
   }
 
   # switch
@@ -176,32 +178,35 @@ modify_G <- function(G, field_name,
            # delete
            G$.remove_field(name = field_name)
          },
+         "add_agents" = {
+           G$.add_agents(name = field_name, agents = new_obj)
+         },
          "add_stage" = {
-           G$.add_stage(name = field_name, stage = field)
+           G$.add_stage(name = field_name, stage = new_obj)
          },
          "add_global_FUN" = {
            G$.add_FUN(name = field_name,
-                      FUN = field,
+                      FUN = new_obj,
                       FUN_category = "global_FUN")
          },
          "add_select_FUN" = {
            G$.add_FUN(name = field_name,
-                      FUN = field,
+                      FUN = new_obj,
                       FUN_category = "select_FUN")
          },
          "add_stop_FUN" = {
            G$.add_FUN(name = field_name,
-                      FUN = field,
+                      FUN = new_obj,
                       FUN_category = "stop_FUN")
          },
          "add_update_FUN" = {
            G$.add_FUN(name = field_name,
-                      FUN = field,
+                      FUN = new_obj,
                       FUN_category = "update_FUN")
          },
          "add_active_binding" = {
            G$.add_active_binding(name = field_name,
-                                 FUN = field)
+                                 FUN = new_obj)
          }
          )
   # return

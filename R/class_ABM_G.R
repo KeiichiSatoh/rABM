@@ -85,8 +85,11 @@ ABM_G <- R6::R6Class(
     .add_agents = function(name, agents){
       stopifnot("Do not set a name that already exists in the fields." = any(name == ls(self))==FALSE)
       stopifnot("All agent must be ABM_Agent class objects" = all(sapply(agents, function(X){class(X)[[1]]})=="ABM_Agent"))
-      private$field_type <- c(private$field_type, name = "agent")
       self[[name]] <- agents
+      # register field category
+      new_agents <- "agent"
+      names(new_agents) <- name
+      private$field_category <- c(private$field_category, new_agents)
     },
 
     #' @description

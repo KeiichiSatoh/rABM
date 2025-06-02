@@ -7,9 +7,10 @@
 modify_G(
   G,
   field_name,
-  method = c("add_stage", "add_global_FUN", "add_select_FUN", "add_stop_FUN",
-    "add_update_FUN", "add_active_binding", "rename", "replace", "delete"),
-  field = NULL,
+  method = c("add_agents", "add_stage", "add_global_FUN", "add_select_FUN",
+    "add_stop_FUN", "add_update_FUN", "add_active_binding", "rename", "replace",
+    "delete"),
+  new_obj = NULL,
   new_field_name = NULL,
   deep_clone = TRUE
 )
@@ -20,12 +21,12 @@ modify_G(
 \item{field_name}{A string indicating the name of the field to modify, delete, or rename.}
 
 \item{method}{A string specifying the operation to perform.
-One of \code{"add_stage"}, \code{"add_global_FUN"}, \code{"add_select_FUN"},
+One of \code{"add_agents"}, \code{"add_stage"}, \code{"add_global_FUN"}, \code{"add_select_FUN"},
 \code{"add_stop_FUN"}, \code{"add_update_FUN"}, \code{"add_active_binding"},
 \code{"rename"}, \code{"replace"}, or \code{"delete"}.}
 
-\item{field}{The object to assign to the field (e.g., vector, matrix,
-data.frame, list or a function). Required for \code{"add_*"} and
+\item{new_obj}{The object to assign to the field (e.g., a set of 'ABM_agents',
+vector, matrix, data.frame, list or a function). Required for \code{"add_*"} and
 \code{"replace"} methods.}
 
 \item{new_field_name}{Optional. A string specifying the new name of the field,
@@ -54,9 +55,8 @@ optionally with a new name.
 \item For \code{method = "add_*"}, a new field will be added to the object.
 }
 
-If the specified field belongs to the \code{agent} category,
-the function will stop with an error. Use \code{modify_agents()}
-for such modifications.
+\strong{Note}: If the user wants to modify the contents of \code{agents}, use
+\code{modify_agents()} instead.
 }
 \examples{
 G <- setABM(agents = 2, stage = data.frame(age = c(1, 2)),
@@ -67,13 +67,16 @@ G <- setABM(agents = 2, stage = data.frame(age = c(1, 2)),
             active_binding_field = function(){1})
 
 # Add a new stage
-G2 <- modify_G(G, field_name = "stage2", method = "add_stage", field = matrix(0, 2, 2))
+G2 <- modify_G(G, field_name = "stage2", method = "add_stage", new_obj = matrix(0, 2, 2))
 
 # Rename an existing field
 G2 <- modify_G(G, field_name = "stage", method = "rename", new_field_name = "stage_renamed")
 
 # Replace a function
 new_FUN <- function() print("new")
-G2 <- modify_G(G, field_name = "global_FUN", method = "replace", field = new_FUN)
+G2 <- modify_G(G, field_name = "global_FUN", method = "replace", new_obj = new_FUN)
 
+}
+\seealso{
+\code{\link[=modify_agents]{modify_agents()}}
 }

@@ -23,7 +23,7 @@ setABM(
 }
 \arguments{
 \item{agents}{A list of \code{ABM_Agent} objects representing agents in the model,
-typically created using the \link{init_agent} function. Alternatively,
+typically created using the \link{init_agents} function. Alternatively,
 a positive integer can be provided to create that number of agents.
 Default is \code{NULL}, meaning no agents will be created.}
 
@@ -81,8 +81,8 @@ If no name is provided (e.g., \code{list(x)}), the object name will be used as t
 \itemize{
 \item Specify a number to create a corresponding number of agents.
 This approach is useful for initializing the skeleton of a \code{G} object,
-with further details to be added later using functions like \link{modify_agent}.
-\item Alternatively, provide a list of \code{ABM_Agent} objects created via \link{init_agent}.
+with further details to be added later using functions like \link{modify_agents}.
+\item Alternatively, provide a list of \code{ABM_Agent} objects created via \link{init_agents}.
 To include multiple agent groups, use a list, e.g., \code{agents = list(teacher = 2, student = 3)}.
 }
 \item \strong{\code{stage}}: Accepts various formats, including scalar, vector, matrix, array, data.frame, or list.
@@ -124,7 +124,7 @@ automatically receive two arguments internally: \code{G} (the \code{G} object) a
 G <- setABM(agents = 3, stage = matrix(0, 3, 3))
 }
 \seealso{
-\link{runABM}, \link{init_agent}, \link{ABM_G}
+\link{runABM}, \link{init_agents}, \link{ABM_G}
 }
 \author{
 Keiichi Satoh

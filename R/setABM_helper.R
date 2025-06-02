@@ -20,7 +20,7 @@
     ## "ABM_Agent" classではない場合
     lapply(unlist(agents), function(y){
       if(is.numeric(y)){
-        init_agent(n = y)
+        init_agents(n = y)
       }else{
         stop("agents must be either ABM_Agent class object or a positive integer.")
       }

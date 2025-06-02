@@ -155,7 +155,7 @@
 #' # setup agents
 #' agent_attr <- data.frame(age = c(0, 1, 2))
 #' get_older <- function() { self$age <- self$age + 1 }
-#' agents <- init_agent(attr_df = agent_attr, act_FUN = get_older)
+#' agents <- init_agents(attr_df = agent_attr, act_FUN = get_older)
 #' # Initialize the ABM environment
 #' G <- setABM(agents = agents)
 #'

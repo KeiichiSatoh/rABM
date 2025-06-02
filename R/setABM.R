@@ -6,7 +6,7 @@
 #' using the `runABM` function.
 #'
 #' @param agents A list of `ABM_Agent` objects representing agents in the model,
-#' typically created using the \link{init_agent} function. Alternatively,
+#' typically created using the \link{init_agents} function. Alternatively,
 #' a positive integer can be provided to create that number of agents.
 #' Default is `NULL`, meaning no agents will be created.
 #' @param stage A data structure (e.g., matrix, list, or other formats)
@@ -42,8 +42,8 @@
 #' - **`agents`**:
 #'   - Specify a number to create a corresponding number of agents.
 #'   This approach is useful for initializing the skeleton of a `G` object,
-#'     with further details to be added later using functions like \link{modify_agent}.
-#'   - Alternatively, provide a list of `ABM_Agent` objects created via \link{init_agent}.
+#'     with further details to be added later using functions like \link{modify_agents}.
+#'   - Alternatively, provide a list of `ABM_Agent` objects created via \link{init_agents}.
 #'     To include multiple agent groups, use a list, e.g., `agents = list(teacher = 2, student = 3)`.
 #' - **`stage`**: Accepts various formats, including scalar, vector, matrix, array, data.frame, or list.
 #'   Multiple stages can be specified as `stage = list(stage1 = mat1, stage2 = mat2)`.
@@ -71,7 +71,7 @@
 #' - **`time`**: Tracks the current simulation time step, starting at 1 by default.
 #' - **`notes`**: Allows users to store custom metadata or notes as a list.
 #'
-#' @seealso [runABM], [init_agent], [ABM_G]
+#' @seealso [runABM], [init_agents], [ABM_G]
 #' @author Keiichi Satoh
 #' @import R6
 #' @export

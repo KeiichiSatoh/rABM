@@ -11,7 +11,7 @@
 #' @return A list of initialized agent objects, each with an assigned ID and specified attributes and actions.
 #'
 #' @details
-#' The \code{init_agent} function generates agent instances with specified attributes
+#' The \code{init_agents} function generates agent instances with specified attributes
 #' and functions.
 #'
 #' Number of agents:
@@ -81,10 +81,10 @@
 #'
 #' @examples
 #' # Example usage
-#' init_agent(n = 5, attr_df = data.frame(age = c(25, 30, 35, 40, 45)))
+#' init_agents(n = 5, attr_df = data.frame(age = c(25, 30, 35, 40, 45)))
 #'
 
-init_agent <- function(n = NULL, attr_df = NULL, act_FUN = NULL,
+init_agents <- function(n = NULL, attr_df = NULL, act_FUN = NULL,
                        active_binding_field = NULL, ID_start = 1,
                        other_attrs = NULL){
   # attrを処理する
@@ -134,8 +134,10 @@ init_agent <- function(n = NULL, attr_df = NULL, act_FUN = NULL,
       current_formals <- formals(FUN)
       current_formals[which(names(current_formals)=="G")|which(names(current_formals)=="E")] <- NULL
       formals(FUN) <- c(alist(G = G, E = E), current_formals) # G=G, E = Eを足す
-      # self <- selfを1行目に足す
-      body(FUN) <- as.call(append(as.list(body(FUN)), expression(self <- self), after=1))
+      # add: self <- self to the 1st line(if required)
+      if(body(FUN)[[2]]!="self <- self"){
+        body(FUN) <- as.call(append(as.list(body(FUN)), expression(self <- self), after=1))
+      }
       FUN
     })
   })
