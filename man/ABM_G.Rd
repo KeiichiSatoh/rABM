@@ -13,46 +13,39 @@ ABM class
 
 \code{G} stands for "Game". This class is implemented using the \code{R6} class system.
 Although \code{G} object can be instantiated directly using \code{ABM_G$new()},
-it is highly recommended to use the \link{setABM} function for practical usage.
-The \code{setABM} function provides navigation for setting various field types and
-includes validation checks that are not present in the \code{ABM_G} class method.
+it is highly recommended to use the \link{setABM} and \link{init_agents}
+function for practical usage.
+These functions function provides navigation for setting agents and various
+field types and includes validation checks that are not present in
+the \code{ABM_G} class method.
 
-Similarly, to modify fields of agents, consider using the \link{modify_G}
-function for the safer approach.
+Similarly, to modify fields of agents or entire \code{G} object, use the
+\link{modify_agents} and \link{modify_G} function for the safer approach, respectively.
 
 Name of the fields and methods: Each field name and method name must
-be unique within the agent's namespace.
+be unique.
 \subsection{Important Note on Copying an \code{ABM_G} Object}{
 
 Copying an \code{R6} object differs from copying other R objects. For example,
 if a user copies \code{G} to \code{G2} using \code{G2 <- G}, modifying the fields of \code{G2}
 will also modify the fields of \code{G}. This happens because both objects share
 the same encapsulated environment. To avoid unintended behavior,
-use the \link{copy_G} function or
-call \code{G$clone(deep = TRUE)} to create a deep copy of the object.
+use the \link{copy_G} and \link{copy_agents} function.
+
+\emph{\strong{Technical note}}:
 \itemize{
-\item \strong{Environment Assignment}:
-The function's environment is set to the object's encapsulated environment
+\item The function's environment is set to the object's encapsulated environment
 (\code{self$.__enclos_env__}) to ensure access to the object's internal state.
-\item \strong{Field Registration}:
-The created active binding is registered in the object's private field
+\item The created active binding is registered in the object's private field
 category as a \code{"stage"}.
 }
 
 The field_types are either 'agent', 'stage',
-'global_FUN', 'select_FUN', 'update_FUN', or 'partial_update_FUN_body'.
+'global_FUN', 'select_FUN', 'stop_FUN', 'update_FUN', 'summary_FUN', 'plot_FUN'.
 
 Active bindings are a feature of R that links a field's value to a function.
 Active bindings allow the field's value to be dynamically computed or
 updated whenever it is accessed or modified.
-
-The \code{partial_body} parameter can be provided as either:
-\itemize{
-\item An R expression: The method extracts the first element of the expression
-as the function body.
-\item A character string: The method parses the string into an R expression
-and extracts the first element.
-}
 
 The \code{.remove_field} method performs the following actions:
 \itemize{
@@ -66,7 +59,7 @@ in a categorized manner:
 \itemize{
 \item \strong{Agents}: Lists the agents in the object along with their attributes, categorized by scalar, vector, matrix, array, and data.frame types. Active bindings are marked with an asterisk (\code{*}).
 \item \strong{Stages}: Lists stage fields and their types, including active bindings (marked with an asterisk).
-\item \strong{Functions}: Displays the names of global, select, stop, update, and partial update functions.
+\item \strong{Functions}: Displays the names of global, select, stop, update, summary, and plot functions.
 \item \strong{Metadata}: Outputs metadata such as the current simulation time, log entries, and notes.
 Active bindings in the object are explicitly highlighted,
 and a note is included to explain the significance of fields marked with \code{*}.
@@ -124,10 +117,11 @@ and \code{log} structure are properly managed.
 }
 }
 \seealso{
-\link{activeBindingFunction}
+\code{\link[=modify_G]{modify_G()}}, \code{\link[=modify_agents]{modify_agents()}}, \code{\link[=copy_G]{copy_G()}}, \code{\link[=copy_agents]{copy_agents()}}
 
-\link{parse}, \link{expression}
+\link{activeBindingFunction}
 }
+\keyword{internal}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
@@ -145,8 +139,9 @@ and \code{log} structure are properly managed.
 \item \href{#method-ABM_G-.add_stage}{\code{ABM_G$.add_stage()}}
 \item \href{#method-ABM_G-.add_FUN}{\code{ABM_G$.add_FUN()}}
 \item \href{#method-ABM_G-.add_active_binding}{\code{ABM_G$.add_active_binding()}}
-\item \href{#method-ABM_G-.add_partial_update_FUN_body}{\code{ABM_G$.add_partial_update_FUN_body()}}
 \item \href{#method-ABM_G-.remove_field}{\code{ABM_G$.remove_field()}}
+\item \href{#method-ABM_G-.replace_field}{\code{ABM_G$.replace_field()}}
+\item \href{#method-ABM_G-.rename_field}{\code{ABM_G$.rename_field()}}
 \item \href{#method-ABM_G-print}{\code{ABM_G$print()}}
 \item \href{#method-ABM_G-.save}{\code{ABM_G$.save()}}
 \item \href{#method-ABM_G-.field_list}{\code{ABM_G$.field_list()}}
@@ -237,7 +232,8 @@ Add a function (FUN) to the \code{ABM_G} object.
 \if{html}{\out{<div class="r">}}\preformatted{ABM_G$.add_FUN(
   name,
   FUN,
-  FUN_category = c("global_FUN", "select_FUN", "stop_FUN", "update_FUN")
+  FUN_category = c("global_FUN", "select_FUN", "stop_FUN", "update_FUN", "summary_FUN",
+    "plot_FUN")
 )}\if{html}{\out{</div>}}
 }
 
@@ -275,27 +271,6 @@ The function is executed whenever the active binding field is accessed or modifi
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ABM_G-.add_partial_update_FUN_body"></a>}}
-\if{latex}{\out{\hypertarget{method-ABM_G-.add_partial_update_FUN_body}{}}}
-\subsection{Method \code{.add_partial_update_FUN_body()}}{
-Add a partial update function body to the \code{ABM_G} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ABM_G$.add_partial_update_FUN_body(name, partial_body)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{name}}{A character string specifying the name of the partial update
-function body. The name must be unique and not already exist in the current fields.}
-
-\item{\code{partial_body}}{An R expression or a character string representing
-the body of the function to be added.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ABM_G-.remove_field"></a>}}
 \if{latex}{\out{\hypertarget{method-ABM_G-.remove_field}{}}}
 \subsection{Method \code{.remove_field()}}{
@@ -311,6 +286,50 @@ associated active bindings and field category entries.
 \item{\code{name}}{A character string specifying the name of the field to be removed. The field must exist in the object.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ABM_G-.replace_field"></a>}}
+\if{latex}{\out{\hypertarget{method-ABM_G-.replace_field}{}}}
+\subsection{Method \code{.replace_field()}}{
+Replaces an existing field or method with a new value or function.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ABM_G$.replace_field(name, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Name of the field to replace.}
+
+\item{\code{value}}{The new value or function to assign.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+None.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ABM_G-.rename_field"></a>}}
+\if{latex}{\out{\hypertarget{method-ABM_G-.rename_field}{}}}
+\subsection{Method \code{.rename_field()}}{
+Renames an existing field, method, or active binding.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ABM_G$.rename_field(name, new_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Current name of the field.}
+
+\item{\code{new_name}}{New name to assign.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+None.
 }
 }
 \if{html}{\out{<hr>}}

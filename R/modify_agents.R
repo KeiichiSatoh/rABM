@@ -33,21 +33,30 @@
 #'   \item{\code{"add_agent"}}{Adds one or more new `ABM_Agent` objects to the list. Duplicate IDs will be reassigned.}
 #'   \item{\code{"delete_agent"}}{Remove agents by position in `agents` list.}
 #'   \item{\code{"add_attr_df"}}{Adds new attributes from a vector or data.frame. Each row must correspond to one agent.}
-#'   \item{\code{"add_act_FUN"}}{Adds action functions. Each will receive `G` and `E` as arguments and be prefixed internally with `self <- self`.}
+#'   \item{\code{"add_act_FUN"}}{Adds action functions. Each will receive `G` and `E` as arguments. See more details in `Notes on add_act_FUN`.}
 #'   \item{\code{"add_active_binding"}}{Adds active bindings. The input must be a named list of functions.}
 #'   \item{\code{"add_other_attrs"}}{Adds arbitrary named attributes as standard fields (not active bindings or functions).}
 #'   \item{\code{"rename"}}{Renames a field inside each agent. The field is deleted and re-added under a new name using the correct method.}
 #'   \item{\code{"replace"}}{Replaces a field with new values. Accepts vectors, data.frames, or lists depending on the field type.}
 #'   \item{\code{"copy"}}{Duplicates a field under a new name. Field type is preserved (attribute, binding, or method).}
-#'   \item{\code{"delete"}}{Removes a field from all agents.}
+#'   \item{\code{"delete_field"}}{Removes a field from all agents.}
 #' }
 #'
-#' @param G An object of class `ABM_G`. If supplied, the agents will be extracted from its field (specified by `G_agent_name`).
-#' @param G_agent_name A string giving the name of the field in `G` that stores the agents (e.g., `"agents"`). Required if `G` is provided.
-#' @param new_obj The object(s) to add or use for replacement. The structure depends on the `method`.
+#' ** Notes on `add_act_FUN`
+#' This accepts several format of `new_obj` depending on the intention of the users.
+#' - set a single act_FUN to all agents: set \code{new_obj = act_x}
+#' - set multiple act_FUNs to all agents: set \code{new_obj = list(act_x = act_x, act_y = act_y, ...)}
+#' - set a single act_FUN that differ for each agent: set \code{new_obj = list(act_x = list(act_x1, act_x2, ...))}
+#' - set multiple act_FUNs that differ for each agent: set \code{new_obj = list(act_x = list(act_x1, act_x2, ...), act_y = list(act_y1, act_y2, act_y3))}
+#'
+#' @param G An object of class `ABM_G`. If supplied, the agents will be extracted from its field (specified by `G_agents_name`).
+#' @param G_agents_name A string giving the name of the field in `G` that stores the agents (e.g., `"agents"`). Required if `G` is provided.
+#' @param new_obj The object(s) to add or use for replacement. The structure depends on the type of the field to be added (see `acceptable format` in details).
 #' @param method A string specifying the modification method. One of:
-#' \code{"add_agent"}, \code{"add_attr_df"}, \code{"add_act_FUN"}, \code{"add_active_binding"},
-#' \code{"add_other_attrs"}, \code{"rename"}, \code{"replace"}, \code{"copy"}, \code{"delete"}.
+#' \code{"add_agent"}, \code{"delete_agent"}, \code{"add_attr_df"},
+#' \code{"add_act_FUN"}, \code{"add_active_binding"},
+#' \code{"add_other_attrs"}, \code{"rename"}, \code{"replace"}, \code{"copy"},
+#' \code{"delete_field"}.
 #' @param field_name The name of the field to rename, replace, copy, or delete.
 #' @param new_field_name The new name to assign when renaming or copying a field.
 #' @param delete_agent_posit Integer vector specifying the positions of agents to delete when `method = "delete_agent"`.
@@ -65,28 +74,28 @@
 #'
 #' # Add new agents
 #' new_agents <- init_agents(n = 2, attr_df = data.frame(age = c(14, 15)))
-#' G <- modify_agents(G = G, G_agent_name = "agents", new_obj = new_agents,
+#' G <- modify_agents(G = G, G_agents_name = "agents", new_obj = new_agents,
 #'                    method = "add_agent")
 #'
 #' # Add new attribute
-#' G <- modify_agents(G = G, G_agent_name = "agents",
+#' G <- modify_agents(G = G, G_agents_name = "agents",
 #'                    new_obj = data.frame(height = c(100, 110, 120, 130, 140)),
 #'                    method = "add_attr_df")
 #'
 #' # Rename a field
-#' G <- modify_agents(G = G, G_agent_name = "agents", field_name = "age",
+#' G <- modify_agents(G = G, G_agents_name = "agents", field_name = "age",
 #'                    new_field_name = "age_years", method = "rename")
 #'
 #' # Replace a field
-#' G <- modify_agents(G = G, G_agent_name = "agents", field_name = "age_years",
+#' G <- modify_agents(G = G, G_agents_name = "agents", field_name = "age_years",
 #'                    new_obj = c(101, 111, 121, 131, 141), method = "replace")
 #'
 #' # Delete a field
-#' G <- modify_agents(G = G, G_agent_name = "agents", field_name = "age_years",
-#'                    method = "delete")
+#' G <- modify_agents(G = G, G_agents_name = "agents", field_name = "age_years",
+#'                    method = "delete_field")
 #'
 #' # Delete the second and third agent
-#' G <- modify_agents(G = G, G_agent_name = "agents", method = "delete_agent",
+#' G <- modify_agents(G = G, G_agents_name = "agents", method = "delete_agent",
 #'                    delete_agent_posit = c(2, 3))
 #'
 #' # Modify agents directly (without ABM_G)
@@ -96,7 +105,7 @@
 
 modify_agents <- function(
     G = NULL,
-    G_agent_name = NULL,
+    G_agents_name = NULL,
     new_obj = NULL,
     method = c("add_agent",
                "delete_agent",
@@ -107,7 +116,7 @@ modify_agents <- function(
                "rename",
                "replace",
                "copy",
-               "delete"),
+               "delete_field"),
     field_name = NULL,
     new_field_name = NULL,
     delete_agent_posit = NULL,
@@ -121,16 +130,16 @@ modify_agents <- function(
   # check the G input
   if(!is.null(G)){
     stopifnot("G must be class of 'ABM_G'" = class(G)[1] == "ABM_G")
-    stopifnot("The 'G_agent_name' must be provided" = !is.null(G_agent_name))
-    stopifnot("The 'G_agent_name' must be a character vector of lenth 1." = length(G_agent_name)==1 && is.character(G_agent_name))
-    stopifnot("No matched agent new_obj to 'G_agent_name' found in 'G'." = G_agent_name %in% ls(G))
+    stopifnot("The 'G_agents_name' must be provided" = !is.null(G_agents_name))
+    stopifnot("The 'G_agents_name' must be a character vector of lenth 1." = length(G_agents_name)==1 && is.character(G_agents_name))
+    stopifnot("No matched agent new_obj to 'G_agents_name' found in 'G'." = G_agents_name %in% ls(G))
     if(!is.null(agents)){
       message("Note: 'agents' was provided but will be ignored because 'G' is also supplied.")
     }
     if(deep_clone){
       G <- G$clone(deep = TRUE)
     }
-    agents <- G[[G_agent_name]]
+    agents <- G[[G_agents_name]]
   }else{
   # check the 'agents' input
     stopifnot("Either 'agents' or 'G' must be supplied." = !is.null(agents))
@@ -145,9 +154,10 @@ modify_agents <- function(
   agent_n <- length(agents)
 
   # check the field_name
-  if(method %in% c("rename", "replace", "delete", "copy")){
+  if(method %in% c("rename", "replace", "delete", "copy", "delete_field")){
     stopifnot("'field_name' must be supplied for the chosen 'method'." = !is.null(field_name))
     stopifnot("'field_name' must be a character vector of length 1." = length(field_name)==1 && is.character(field_name))
+    stopifnot("No field named 'field_name' found." = field_name %in% ls(agents[[1]]))
   }
 
   # check the "new_field_name"
@@ -164,102 +174,17 @@ modify_agents <- function(
   if(method %in% c("rename", "replace", "copy") && !is.null(new_field_name)){
     stopifnot("'new_field_name' must be supplied for the chosen 'method'." = !is.null(new_field_name))
     stopifnot("'new_field_name' must be a character vector of length 1." = length(new_field_name)==1 && is.character(new_field_name))
+    stopifnot("The 'new_field_name' is not allowed to be duplicated to the existened field name." = !new_field_name %in% ls(agents[[1]]))
   }
 
-  # preparation for rename, replace or copy
-  if(method %in% c("rename", "replace", "copy")){
-    # pre-define the function to judge the method
-    judge_adequate_method <- function(agents, field_name){
-      field_type <- agents[[1]]$.__enclos_env__$private$field_type()[field_name]
-      is_active_binding <- field_name %in% names(agents[[1]]$.__enclos_env__$.__active__)
-      if(field_type == "function"){
-        "add_act_FUN"
-      }else{
-        if(is_active_binding){
-          "add_active_binding"
-        }else{
-          "add_other_attrs"
-        }
-      }
-    }
-    # predefine the function to get the adequate field
-    get_adequate_field <- function(agents, field_name, next_method){
-      new_obj <- switch(next_method,
-                        "add_other_attrs" = {
-                          list(lapply(1:length(agents), function(i){
-                            agents[[i]][[field_name]]
-                          }))
-                        },
-                        "add_active_binding" = {
-                          list(agents[[1]]$.__enclos_env__$.__active__[[field_name]])
-                        },
-                        "add_act_FUN" = {
-                          list(lapply(1:length(agents), function(i){
-                            agents[[i]][[field_name]]
-                          }))
-                        })
-      # output
-      new_obj
-    }
-    # get the next_method
-    next_method <- judge_adequate_method(agents = agents, field_name = field_name)
-    # switch by the current method
-    # Note: After switch(), the method is updated to 'next_method' for actual execution
-    switch(method,
-      "rename" = {
-        new_obj <- get_adequate_field(agents = agents, field_name = field_name, next_method = next_method)
-        names(new_obj) <- new_field_name
-        # delete the current field
-        lapply(1:length(agents), function(i){
-          agents[[i]]$.remove_field(name = field_name)
-        })
-        # new_obj_sbs
-        new_obj_sbs <- new_field_name
-      },
-      "replace" = {
-        # retrieve the current field
-        current_field <- agents[[1]][[field_name]]
-        # check the object for replace
-        if(!is.data.frame(new_obj) && is.list(new_obj)){
-          stopifnot("The 'new_obj' must match the number of agents when the 'new_obj' is 'list'. Be sure to set the first element of the list must be the same as the numebr of agents." = length(new_obj)==agent_n)
-        }
-        if(is.data.frame(new_obj)){
-          if(NCOL(new_obj) > 1){
-            message("Note: Only the first column of 'new_obj' (data.frame) will be used for replacement.")
-          }
-          new_obj <- list(new_obj[,1])
-        }else{
-          new_obj <- list(new_obj)
-        }
-        names(new_obj) <- field_name
-        # check the adequacy
-        if(length(new_obj[[1]][[1]]) != length(current_field)){
-          warning("The element of 'new_obj' does not match the current field.")
-        }
-        stopifnot("The length of the 'new_obj' must be the number of agents." = length(new_obj[[1]])==agent_n)
+  # check if "new_obj" is supplied
+  if(method %in% c("add_agent",  "add_attr_df", "add_act_FUN", "add_active_binding",
+                   "add_other_attrs", "replace")){
+    stopifnot("The 'new_obj' must be supplied for this method." = !is.null(new_obj))
+  }
 
-        # delete the current field
-        lapply(1:length(agents), function(i){
-          agents[[i]]$.remove_field(name = field_name)
-        })
-        # new_obj_sbs
-        new_obj_sbs <- field_name
-      },
-      "copy" = {
-        new_obj <- get_adequate_field(agents = agents, field_name = field_name, next_method = next_method)
-        names(new_obj) <- new_field_name
-        # new_obj_sbs
-        new_obj_sbs <- new_field_name
-      })
-    # replace the method with next_method
-    method <- next_method
-  } #------preparation for rename, replace or copy------//
-
-  # switch
   switch(method,
          "add_agent" = {
-           # check if 'new_obj' are supplied
-           stopifnot("The 'new_obj' must be supplied for this method." = !is.null(new_obj))
            # check if all elements in new_obj is class "ABM_Agent"
            stopifnot("All objects in 'new_obj' must be class 'ABM_Agent'" =
                        all(unlist(lapply(new_obj, function(p){class(p)[1]=="ABM_Agent"}))))
@@ -313,14 +238,10 @@ modify_agents <- function(
            # shape the formals
            act_FUN_list <- lapply(act_FUN_list, function(FUN_vec){
              lapply(FUN_vec, function(FUN){
-               # すでにユーザーが誤ってGを引数に書いていたらひとまず消す
+               # delet G if the user already wrote
                current_formals <- formals(FUN)
                current_formals[which(names(current_formals)=="G")|which(names(current_formals)=="E")] <- NULL
-               formals(FUN) <- c(alist(G = G, E = E), current_formals) # G=G, E = Eを足す
-               # self <- selfを1行目に足す
-               if(body(FUN)[[2]]!="self <- self"){
-                 body(FUN) <- as.call(append(as.list(body(FUN)), expression(self <- self), after=1))
-               }
+               formals(FUN) <- c(alist(G = G, E = E), current_formals) # add: G=G, E=E
                FUN
              })
            })
@@ -345,7 +266,7 @@ modify_agents <- function(
          "add_other_attrs" = {
            ## check the input
            stopifnot("'new_obj' for this method must be a list." = is.list(new_obj) & !is.data.frame(new_obj))
-           ## 中身の値の確認
+           ## check the elements in 'new_obj'
            lapply(new_obj, function(X){
              stopifnot("The length of each element within 'new_obj' must be the number of agents." = agent_n == length(X))
              if(is.function(X)){
@@ -379,16 +300,69 @@ modify_agents <- function(
              })
            })
          }, #-------"add_other_attrs"---------//
-         "delete" = {
+         "rename" = {
+           lapply(1:agent_n, function(i){
+             agents[[i]]$.rename_field(name = field_name, new_name = new_field_name)
+           })
+         }, #------"rename"------------------//
+         "replace" = {
+           field_list <- agents[[1]]$.field_list()
+           field_info <- field_list[which(field_list$name==field_name), ]
+           # copy the new_obj for each agent if required and adequate
+           if(field_info$category=="act_FUN" || field_info$active_binding==TRUE){
+             if(length(new_obj)==1){
+               new_obj2 <- vector("list", agent_n)
+               for(i in 1:agent_n){
+                 new_obj2[[i]] <- new_obj
+               }
+               new_obj <- new_obj2
+             }
+           }
+           # convert data.frame to vector
+           if(is.data.frame(new_obj)){
+             if(NCOL(new_obj)>1){
+               warning("Only the first column of the 'new_obj' is used.")
+             }
+             new_obj <- new_obj[ ,1]
+           }
+           # check the length
+           stopifnot("The length of 'new_obj' must be the number of agents" = length(new_obj)==agent_n)
+           # conduct replacing
+           lapply(1:agent_n, function(i){
+             agents[[i]]$.replace_field(name = field_name, value = new_obj[[i]])
+           })
+         }, #-----"replace"----------------//
+         "copy" = {
+           field_list <- agents[[1]]$.field_list()
+           field_info <- field_list[which(field_list$name==field_name), ]
+           # get the value
+           if(field_info$active_binding==TRUE){
+             lapply(1:agent_n, function(i){
+               FUN <- agents[[i]]$.__enclos_env__$.__active__[[field_name]]
+               agents[[i]]$.add_active_binding(name = new_field_name, FUN = FUN)
+             })
+           }else if(field_info$category=="act_FUN"){
+             lapply(1:agent_n, function(i){
+               FUN <- agents[[i]][[field_name]]
+               agents[[i]]$.add_method(name = new_field_name, method = FUN)
+             })
+           }else{
+             lapply(1:agent_n, function(i){
+               value <- agents[[i]][[field_name]]
+               agents[[i]]$.add_field(name = new_field_name, value = value)
+             })
+           }
+         }, #------"copy"----------------------------//
+         "delete_field" = {
            lapply(1:agent_n, function(i){
              agents[[i]]$.remove_field(name = field_name)
            })
-         } #-------"delete"-------------------//
+         } #-------"delete_field"-------------------//
   ) #---switch-------------//
 
   # Change the output in accordance to the input
   if(!is.null(G)){
-    G <- modify_G(G, field_name = G_agent_name, method = "replace", new_obj = agents, deep_clone = deep_clone)
+    G <- modify_G(G, field_name = G_agents_name, method = "replace", new_obj = agents, deep_clone = deep_clone)
     return(G)
   }else{
     return(agents)

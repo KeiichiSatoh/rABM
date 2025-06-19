@@ -1,37 +1,19 @@
 #' @title ABM_Agent Class
 #' @description
-#' The \code{ABM_Agent} class provides methods and fields for creating and
-#' managing agent's action and attributes in an agent-based model (ABM).
-#' It allows agents to have custom fields, methods, and active bindings,
-#' making this class highly flexible for various simulation scenarios.
+#' The \code{ABM_Agent} class defines an agent used in agent-based modeling (ABM),
+#' offering mechanisms for managing attributes, methods, and active bindings.
 #'
 #' @details
-#' `ABM_Agent` is the class for agents that includes:
-#' - A initialize method (i.e., `new()`)
-#' - Methods for adding/removing fields, methods, and active bindings
-#' (i.e., `.add_field()`, `.add_method()`, `.add_active_binding()`,
-#' `remove_field()`).
-#' - Functions to retrieve agent attributes (i.e., `.save()`).
-#' - A print method to display agent information (i.e., `print()`.
-#' - clone method to copy the instanced agent object (i.e., `clone()`).
+#' This R6-based class is intended for internal infrastructure and supports:
+#' - Adding/removing agent fields, methods, and active bindings
+#' - Dynamic modification and inspection of agent structure
+#' - Customized field replacement and renaming
 #'
-#' This class is implemented using the `R6` class. While agents can
-#' be instantiated directly using `ABM_Agent$new()`,
-#' it is highly recommended to use \link{init_agents} for batch creation of
-#' agents for the actual usage. The `init_agent` function provides
-#' the navigation for setting various field types and includes validation checks
-#' that is not present in the `ABM_Agent` class method.
+#' While agents can be created via `ABM_Agent$new()`, users are advised to use
+#' \code{\link{init_agents}} for batch initialization and validation.
+#' Similarly, \code{\link{modify_agents}} provides safer field-level manipulation.
 #'
-#' Similarly, to modify fields of agents,
-#' consider using the \link{modify_agents} function for the safer approach.
-#'
-#' Name of the fields and methods:
-#' Each field name and method name must be unique within the agent's namespace.
-#' Attempting to provide a duplicate name will result in an error,
-#' as duplicate names can interfere with the agent's proper functioning.
-#' Field names are set as attributes, while methods are assigned as callable
-#' functions.
-#' The environment of each method is automatically set to the agent instance.
+#' Field and method names must be unique within the agent. Duplicates will raise an error.
 #'
 #' @import R6
 #' @export
@@ -40,20 +22,18 @@ ABM_Agent <- R6::R6Class(
   "ABM_Agent", lock_objects = FALSE, cloneable = TRUE,
   public = list(
     #' @description
-    #' Initialize a new agent with custom fields and methods.
-    #' @param fields A named list of fields to initialize the agent with.
-    #' Each field is assigned a value in the new agent instance.
-    #' @param methods A named list of functions (methods) to initialize the agent with.
-    #' Each method is added to the agent's instance.
-    #' @return
-    #' The instance of the agent with the provided fields and methods.
+    #' Initializes a new agent with specified fields and methods.
+    #' @param fields A named list of fields to initialize.
+    #' @param methods A named list of methods (functions) to assign.
+    #' @return A new \code{ABM_Agent} instance.
+    #' @keywords internal
     initialize = function(fields = list(), methods = list()) {
-      # フィールドをオブジェクトにセット
+      # set objects to fields
       for (name in names(fields)) {
         stopifnot("Do not use the same field name." = name %in% names(self)==FALSE)
         self[[name]] <- fields[[name]]
       }
-      # メソッドをオブジェクトにセット
+      # set objects to methods
       for (name in names(methods)) {
         stopifnot("Do not use the same field name." = name %in% names(self)==FALSE)
         self[[name]] <- methods[[name]]
@@ -62,48 +42,39 @@ ABM_Agent <- R6::R6Class(
     },
 
     #' @description
-    #' Add a new field to the agent.
-    #' @param name A string representing the name of the field to add. The name must be unique within the agent.
-    #' @param value The value to assign to the new field.
-    #' @return
-    #' This method does not return a value. It adds the specified field to the agent.
+    #' Adds a new field to the agent.
+    #' @param name A string indicating the name of the field.
+    #' @param value The value to assign.
+    #' @return None.
+    #' @keywords internal
     .add_field = function(name, value){
-      stopifnot("Do not use the same field name." = name %in% names(self)==FALSE)
       self[[name]] <- value
     },
 
     #' @description
-    #' Add a new method to the agent.
-    #' @param name A string representing the name of the method to add. The name must be unique within the agent.
-    #' @param method A function to add as a method. The function will be associated with the specified name.
-    #' @return
-    #' This method does not return a value. It adds the specified method to the agent.
+    #' Adds a new method (function) to the agent.
+    #' @param name Name to assign the method.
+    #' @param method A function object to assign.
+    #' @return None.
+    #' @keywords internal
     .add_method = function(name, method) {
-      stopifnot("Do not use the same field name." = name %in% names(self) == FALSE)
-      # Check if the provided method is a function
-      stopifnot("method must be a function." = is.function(method))
-      self[[name]] <- method
       # Set the method's environment to the agent's environment
-      environment(self[[name]]) <- self$.__enclos_env__
+      environment(method) <- self$.__enclos_env__
+      self[[name]] <- method
     },
 
     #' @description
-    #' Add a new active binding to the agent.
-    #' @param name A string representing the name of the active binding.
-    #' The name must be unique within the agent.
-    #' @param FUN A function that defines the behavior of the active binding.
-    #' This function is dynamically called whenever the active binding is accessed.
-    #' @return
-    #' This method does not return a value. It modifies the agent by adding the specified active binding.
+    #' Adds an active binding to the agent.
+    #' @param name The name of the active binding.
+    #' @param FUN A function defining the active binding behavior.
+    #' @return None.
+    #' @keywords internal
     .add_active_binding = function(name, FUN){
-      stopifnot("Do not use the same field name." = (name %in% names(self)==FALSE))
-      # 関数かどうかを確認
-      stopifnot("FUN must be a function." = is.function(FUN))
-      # environmentを付加する
+      # attach environment
       environment(FUN) <- self$.__enclos_env__
-      # active_bindingをする
+      # set active_binding
       makeActiveBinding(name, FUN, self$.__enclos_env__$self)
-      # 名前とセットにして環境に保存する
+      # set into the environment of self
       FUN_list <- list(FUN)
       names(FUN_list) <- name
       self$.__enclos_env__$.__active__ <- c(self$.__enclos_env__$.__active__,
@@ -111,11 +82,10 @@ ABM_Agent <- R6::R6Class(
     },
 
     #' @description
-    #' Remove a field or method from the agent.
-    #' @param name A string representing the name of the field to remove.
-    #' The field must exist in the agent instance.
-    #' @return
-    #' This method does not return a value. It modifies the agent instance by removing the specified field.
+    #' Removes a field (including active bindings or methods) from the agent.
+    #' @param name The name of the field to remove.
+    #' @return None.
+    #' @keywords internal
     .remove_field = function(name){
       rm(list = name, envir = self)
       active_binding_names <- names(self$.__enclos_env__$.__active__)
@@ -124,8 +94,54 @@ ABM_Agent <- R6::R6Class(
       }
     },
 
-    #'@description
-    #' Show the property of the fields in a structured format.
+    #' @description
+    #' Replaces an existing field or method with a new value or function.
+    #' @param name Name of the field to replace.
+    #' @param value The new value or function to assign.
+    #' @return None.
+    #' @keywords internal
+    .replace_field = function(name, value){
+      # retrieve the type
+      field_list <- self$.field_list()
+      field_info <- field_list[which(field_list$name==name), ]
+      # delete first
+      self$.remove_field(name)
+      # then add a new value
+      if(field_info$category=="act_FUN"){
+        self$.add_method(name = name, value)
+      }else if(field_info$active_binding){
+        self$.add_active_binding(name = name, FUN = value)
+      }else{
+        self[[name]] <- value
+      }
+    },
+
+    #' @description
+    #' Renames an existing field, method, or active binding.
+    #' @param name Current name of the field.
+    #' @param new_name New name to assign.
+    #' @return None.
+    #' @keywords internal
+    .rename_field = function(name, new_name){
+      field_list <- self$.field_list()
+      field_info <- field_list[which(field_list$name == name), ]
+
+      if (field_info$category == "act_FUN") {
+        FUN <- self[[name]]
+        self$.add_method(name = new_name, method = FUN)
+      } else if (field_info$active_binding) {
+        FUN <- self$.__enclos_env__$.__active__[[name]]
+        self$.add_active_binding(name = new_name, FUN = FUN)
+      } else {
+        self[[new_name]] <- self[[name]]
+      }
+      self$.remove_field(name = name)
+    },
+
+    #' @description
+    #' Returns a data frame describing current fields, their types, and binding status.
+    #' @return A data.frame with field names, categories, types, and whether they are active bindings.
+    #' @keywords internal
     .field_list = function(){
       fields <- ls(self)[!ls(self) %in% c("ID", "print","clone","initialize")]
       field_type <- as.vector(private$field_type())
@@ -140,10 +156,9 @@ ABM_Agent <- R6::R6Class(
     },
 
     #' @description
-    #' Print the agent's attributes in a structured format.
-    #' @return
-    #' This method does not return a value. It outputs the agent's attributes to the console.
-    #' #' @details
+    #' Prints a structured summary of the agent's attributes.
+    #' @return None. Output is printed to the console.
+    #' @details
     #' This method provides a detailed view of the agent's attributes,
     #' categorizing them based on their type.
     #' Attributes are grouped into the following categories:
@@ -158,10 +173,10 @@ ABM_Agent <- R6::R6Class(
     #' Fields that are active bindings are marked with an asterisk (`*`) next to their names.
     #' Active bindings are fields whose values are computed dynamically upon access.
     print = function(){
-      # タイプを分析する
+      # analyze the field_type
       field_type <- private$field_type()
       active_binding_names <- names(self$.__enclos_env__$.__active__)
-      # フィールド分け
+      # differentiate the fields
       scalar_field <- names(field_type[field_type=="scalar"])
       vector_field <- names(field_type[field_type=="vector"])
       matrix_field <- names(field_type[field_type=="matrix"])
@@ -169,7 +184,7 @@ ABM_Agent <- R6::R6Class(
       data.frame_field <- names(field_type[field_type=="data.frame"])
       other_field <- names(field_type[field_type=="other"])
       act_FUN_field <- names(field_type[field_type=="function"])
-      # 表示
+      # print
       cat("<ABM_Agent>", "\n")
       cat("[scalar & vector values]", "\n")
       ## ID
@@ -190,7 +205,7 @@ ABM_Agent <- R6::R6Class(
           cat("", X, ": ", self[[X]], "\n", sep = "")
         }
       })
-      ## 追記の必要性
+      ## other field types
       if(length(matrix_field)>0|length(array_field)>0|length(data.frame_field)>0|length(other_field)>0){
         cat("[other field names]", "\n")
       }
@@ -272,10 +287,13 @@ ABM_Agent <- R6::R6Class(
       names(values) <- c("ID", field_names)
       values}
   ),
+
   private = list(
-    # Determine the types of fields in the agent. The method excludes basic predefined fields (`initialize`, `clone`, `print`, `ID`) from the analysis, as these are not informative.
-    # return
-    # A named character vector where the names represent field names, and the values indicate the type of each field.
+    # @description
+    # Determines and categorizes field types in the agent.
+    # @return A named character vector of types for each field.
+    # @keywords internal
+    # @details
     # Possible field types include:
     # - `"act_FUN"`: If the field is a function.
     # - `"scalar"`: If the field is a scalar (a vector of length 1).

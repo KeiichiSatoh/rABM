@@ -9,15 +9,17 @@
 #' @details
 #' `G` stands for "Game". This class is implemented using the `R6` class system.
 #' Although `G` object can be instantiated directly using `ABM_G$new()`,
-#' it is highly recommended to use the \link{setABM} function for practical usage.
-#' The `setABM` function provides navigation for setting various field types and
-#' includes validation checks that are not present in the `ABM_G` class method.
+#' it is highly recommended to use the \link{setABM} and \link{init_agents}
+#' function for practical usage.
+#' These functions function provides navigation for setting agents and various
+#' field types and includes validation checks that are not present in
+#' the `ABM_G` class method.
 #'
-#' Similarly, to modify fields of agents, consider using the \link{modify_G}
-#' function for the safer approach.
+#' Similarly, to modify fields of agents or entire `G` object, use the
+#' \link{modify_agents} and \link{modify_G} function for the safer approach, respectively.
 #'
 #' Name of the fields and methods: Each field name and method name must
-#' be unique within the agent's namespace.
+#' be unique.
 #'
 #' ### Important Note on Copying an `ABM_G` Object
 #'
@@ -25,18 +27,16 @@
 #' if a user copies `G` to `G2` using `G2 <- G`, modifying the fields of `G2`
 #' will also modify the fields of `G`. This happens because both objects share
 #' the same encapsulated environment. To avoid unintended behavior,
-#' use the \link{copy_G} function or
-#' call `G$clone(deep = TRUE)` to create a deep copy of the object.
+#' use the \link{copy_G} and \link{copy_agents} function.
 #'
-#' - **Environment Assignment**:
-#'   The function's environment is set to the object's encapsulated environment
+#' ***Technical note***:
+#'   - The function's environment is set to the object's encapsulated environment
 #'    (`self$.__enclos_env__`) to ensure access to the object's internal state.
-#'
-#' - **Field Registration**:
-#'   The created active binding is registered in the object's private field
+#'   - The created active binding is registered in the object's private field
 #'   category as a `"stage"`.
 #'
 #' @import R6
+#' @seealso [modify_G()], [modify_agents()], [copy_G()], [copy_agents()]
 #' @export
 
 ABM_G <- R6::R6Class(
@@ -55,17 +55,17 @@ ABM_G <- R6::R6Class(
     #' @param notes A list of the notes (deefault is `NULL`).
     #' @return A new instance of the `ABM_G` object with the provided fields and methods.
     #' @details The field_types are either 'agent', 'stage',
-    #' 'global_FUN', 'select_FUN', 'update_FUN', or 'partial_update_FUN_body'.
+    #' 'global_FUN', 'select_FUN', 'stop_FUN', 'update_FUN', 'summary_FUN', 'plot_FUN'.
     initialize = function(fields = list(),
                           methods = list(),
                           log = NULL,
                           field_category = NA,
                           notes = NULL) {
-      # フィールドをオブジェクトにセット
+      # set field to the object
       for (field_name in names(fields)) {
         self[[field_name]] <- fields[[field_name]]
       }
-      # メソッドをオブジェクトにセット
+      # set method to the object
       for (method_name in names(methods)) {
         self[[method_name]] <- methods[[method_name]]
         environment(self[[method_name]]) <- self$.__enclos_env__
@@ -111,7 +111,7 @@ ABM_G <- R6::R6Class(
     #' @param name A character string specifying the field name for the function.
     #' @param FUN The function to be added.
     #' @param FUN_category The type of the function, one of `global_FUN`, `select_FUN`, `stop_FUN`, or `update_FUN`.
-    .add_FUN = function(name, FUN, FUN_category = c("global_FUN","select_FUN","stop_FUN","update_FUN")){
+    .add_FUN = function(name, FUN, FUN_category = c("global_FUN","select_FUN","stop_FUN","update_FUN","summary_FUN","plot_FUN")){
       stopifnot("Do not set a name that already exists in the fields." = any(name == ls(self))==FALSE)
       retrieved_FUN <- .get_FUN(FUN = FUN)
       self[[name]] <- retrieved_FUN
@@ -136,13 +136,13 @@ ABM_G <- R6::R6Class(
     #' @seealso [activeBindingFunction]
     .add_active_binding = function(name, FUN){
       stopifnot("Do not set a name that already exists in the fields." = any(name == ls(self))==FALSE)
-      # 関数かどうかを確認
+      # check if the input is function
       stopifnot("FUN must be a function." = is.function(FUN))
-      # environmentを付加する
+      # attach environment
       environment(FUN) <- self$.__enclos_env__
       # active_bindingをする
       makeActiveBinding(name, FUN, self$.__enclos_env__$self)
-      # 名前とセットにして環境に保存する
+      # save the name to the environment
       FUN_list <- list(FUN)
       names(FUN_list) <- name
       # If active binding does not exists, create it
@@ -156,33 +156,6 @@ ABM_G <- R6::R6Class(
       new_stage <- "stage"
       names(new_stage) <- name
       private$field_category <- c(private$field_category, new_stage)
-    },
-
-    #' @description
-    #' Add a partial update function body to the `ABM_G` object.
-    #' @param name A character string specifying the name of the partial update
-    #' function body. The name must be unique and not already exist in the current fields.
-    #' @param partial_body An R expression or a character string representing
-    #'  the body of the function to be added.
-    #' @details
-    #' The `partial_body` parameter can be provided as either:
-    #' - An R expression: The method extracts the first element of the expression
-    #' as the function body.
-    #' - A character string: The method parses the string into an R expression
-    #' and extracts the first element.
-    #' @seealso [parse], [expression]
-    .add_partial_update_FUN_body = function(name, partial_body){
-      stopifnot("Do not set a name that already exists in the fields." = any(name == ls(self))==FALSE)
-      # フォーマットする
-      if(is.expression(partial_body)){
-        body <- partial_body[[1]]
-      }else if(is.character(partial_body)){
-        body <- parse(text = partial_body)[[1]]
-      }else{
-        stop("partial_body must be either an expression or a character string.")
-      }
-      private$field_category <- c(private$field_category, name = "partial_update_FUN_body")
-      self[[name]] <- body
     },
 
     #' @description
@@ -205,9 +178,67 @@ ABM_G <- R6::R6Class(
       if(name %in% active_binding_names){
         self$.__enclos_env__$.__active__[[name]] <- NULL
       }
-      # field_categoryも削除
+      # delete field_category
       index <- which(names(private$field_category)==name)
       private$field_category <- private$field_category[-index]
+    },
+
+    #' @description
+    #' Replaces an existing field or method with a new value or function.
+    #' @param name Name of the field to replace.
+    #' @param value The new value or function to assign.
+    #' @return None.
+    #' @keywords internal
+    .replace_field = function(name, value){
+      # retrieve the type
+      is_agent <- private$field_category[name]=="agent"
+      field_list <- self$.field_list()
+      field_info <- field_list[which(field_list$name==name), ]
+
+      # delete first
+      self$.remove_field(name)
+
+      # then add a new value
+      if(is_agent){
+        self$.add_agents(name = name, agents = value)
+      }else{
+        if(field_info$category %in% c("global_FUN", "select_FUN", "stop_FUN", "update_FUN", "summary_FUN",
+                                      "plot_FUN")){
+          self$.add_FUN(name = name, FUN = value, FUN_category = field_info$category)
+        }else if(field_info$active_binding){
+          self$.add_active_binding(name = name, FUN = value)
+        }else{
+          self$.add_stage(name = name, stage = value)
+        }
+      }
+    },
+
+    #' @description
+    #' Renames an existing field, method, or active binding.
+    #' @param name Current name of the field.
+    #' @param new_name New name to assign.
+    #' @return None.
+    #' @keywords internal
+    .rename_field = function(name, new_name){
+      field_list <- self$.field_list()
+      field_info <- field_list[which(field_list$name == name), ]
+      # add a new value
+      if(field_info$category %in% c("global_FUN", "select_FUN", "stop_FUN",
+                                    "update_FUN", "summary_FUN", "plot_FUN")){
+        FUN <- self[[name]]
+        self$.add_FUN(name = new_name, FUN = FUN, FUN_category = field_info$category)
+      }else if(field_info$active_binding){
+        FUN <- self$.__enclos_env__$.__active__[[name]]
+        self$.add_active_binding(name = new_name, FUN = FUN)
+      }else if(private$field_category[name]=="agent"){
+        agents <- self[[name]]
+        self$.add_agents(name = new_name, agents = agents)
+      }else{
+        value <- self[[name]]
+        self$.add_stage(name = new_name, stage = value)
+      }
+      # then delete a field of the old name
+      self$.remove_field(name = name)
     },
 
     #' @description
@@ -218,15 +249,16 @@ ABM_G <- R6::R6Class(
     #' in a categorized manner:
     #' - **Agents**: Lists the agents in the object along with their attributes, categorized by scalar, vector, matrix, array, and data.frame types. Active bindings are marked with an asterisk (`*`).
     #' - **Stages**: Lists stage fields and their types, including active bindings (marked with an asterisk).
-    #' - **Functions**: Displays the names of global, select, stop, update, and partial update functions.
+    #' - **Functions**: Displays the names of global, select, stop, update, summary, and plot functions.
     #' - **Metadata**: Outputs metadata such as the current simulation time, log entries, and notes.
     #' Active bindings in the object are explicitly highlighted,
     #' and a note is included to explain the significance of fields marked with `*`.
     print = function(){
-      # field_categoryを取得する
+      # obtain the field_category
       field_category <- private$field_category
+      field_category <- na.exclude(field_category)
       field_type <- private$field_type()
-      # プリント
+      # print
       cat("<ABM_G>", "\n")
       # agent
       agent_category <- names(field_category)[field_category=="agent"]
@@ -234,10 +266,10 @@ ABM_G <- R6::R6Class(
         cat("[agent]", "\n")
         for(X in agent_category){
           agent_field_list <- self[[X]][[1]]$.field_list()
-          agent_field_list <- agent_field_list[-1, ]  # IDの行を削除する
+          agent_field_list <- agent_field_list[-1, ]  # delete the row of ID
           agent_field_name <- agent_field_list$name
           agent_field_type <- agent_field_list$type
-          agent_active_binding <- agent_field_list$active_binding
+          agent_active_binding <- agent_field_list$name[agent_field_list$active_binding]
           cat(X, " (n = ", length(self[[X]]), ")", "\n", sep = "")
           ## agent:scalar
           cat("  scalar: ID ", sep = "")
@@ -401,32 +433,37 @@ ABM_G <- R6::R6Class(
       } #-----stage
 
       # Functions
-      if(length(field_category[field_category %in% c("global_FUN","select_FUN", "stop_FUN", "update_FUN","partial_update_FUN_body")])>0){
+      if(length(field_category[field_category %in% c("global_FUN", "select_FUN", "stop_FUN", "update_FUN","summary_FUN", "plot_FUN")])>0){
         cat("[FUN]", "\n")
         # global_FUN
         global_FUN_category <- names(field_category)[field_category=="global_FUN"]
         if(length(global_FUN_category)>0){
-          cat("global_FUN:", global_FUN_category, "\n", sep = " ")
+          cat("global_FUN :", global_FUN_category, "\n", sep = " ")
         }
         # select_FUN
         select_FUN_category <- names(field_category)[field_category=="select_FUN"]
         if(length(select_FUN_category)>0){
-          cat("select_FUN:", select_FUN_category, "\n", sep = " ")
+          cat("select_FUN :", select_FUN_category, "\n", sep = " ")
         }
         # stop_FUN
         stop_FUN_category <- names(field_category)[field_category=="stop_FUN"]
         if(length(stop_FUN_category)>0){
-          cat("stop_FUN  :", stop_FUN_category, "\n", sep = " ")
+          cat("stop_FUN   :", stop_FUN_category, "\n", sep = " ")
         }
         # update_FUN
         update_FUN_category <- names(field_category)[field_category=="update_FUN"]
         if(length(update_FUN_category)>0){
-          cat("update_FUN:", update_FUN_category, "\n", sep = " ")
+          cat("update_FUN :", update_FUN_category, "\n", sep = " ")
         }
-        # partial_update_FUN_body
-        partial_update_FUN_body_category <- names(field_category)[field_category=="partial_update_FUN_body"]
-        if(length(partial_update_FUN_body_category)>0){
-          cat("partial_update_FUN_category:", partial_update_FUN_body_category, "\n", sep = " ")
+        # summary_FUN
+        summary_FUN_category <- names(field_category)[field_category=="summary_FUN"]
+        if(length(update_FUN_category)>0){
+          cat("summary_FUN:", summary_FUN_category, "\n", sep = " ")
+        }
+        # plot_FUN
+        plot_FUN_category <- names(field_category)[field_category=="plot_FUN"]
+        if(length(update_FUN_category)>0){
+          cat("plot_FUN   :", plot_FUN_category, "\n", sep = " ")
         }
         cat("\n")
       }
@@ -468,7 +505,7 @@ ABM_G <- R6::R6Class(
     #'   - Overwrites the corresponding log entry if it already exists for the
     #'   current time.
     .save = function(){
-      # フィールド名を取得する
+      # get the field name
       field <- private$field_category
       field_agent <- names(field[field=="agent"])
       field_other <- c(names(field[field=="stage"]), "time")
@@ -481,7 +518,7 @@ ABM_G <- R6::R6Class(
         }
       })
       names(G_values) <- field_other
-      # agentの値を取得する
+      # get the agents' values
       G_agent <- lapply(field_agent, function(field_agent_p){
         agents <- self[[field_agent_p]]
         values <- lapply(1:length(agents), function(i){
@@ -491,7 +528,7 @@ ABM_G <- R6::R6Class(
         values
       })
       names(G_agent) <- field_agent
-      # すべてをつなげてnew_logへ
+      # combine the obtained values and attach them to new_log
       G_values <- c(G_values, G_agent)
       new_log <- list(G_values)
       names(new_log) <- paste0("t", self$time)
@@ -549,7 +586,7 @@ ABM_G <- R6::R6Class(
       }else{
         other_list <- NULL
       }
-      # まとめる
+      # summarize
       field_list <- do.call(rbind, list(agent_list, other_list))
       field_list
     },
@@ -569,7 +606,7 @@ ABM_G <- R6::R6Class(
     #' @return
     #' A list containing the values of the specified attribute for each agent.
     .agent_attr = function(agents, attr, log = NULL){
-      # log = NULLの場合：現在のデータから取得する
+      # log = NULL: get the data from the current field
       if(is.null(log)){
         lapply(1:length(self[[agents]]), function(i){
           self[[agents]][[i]][[attr]]
@@ -584,7 +621,7 @@ ABM_G <- R6::R6Class(
 
   private = list(
     deep_clone = function(name, value){
-      # agentに関してはdeep_cloneしたものを付加する.
+      # deep_clone for agents.
       field_type <- private$field_category
       agent_type <- names(field_type)[field_type=="agent"]
       if(name %in% agent_type){

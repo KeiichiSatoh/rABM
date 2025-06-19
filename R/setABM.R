@@ -17,8 +17,8 @@
 #' @param select_FUN A function to select agents during simulation based on specific criteria. Default is `NULL`.
 #' @param stop_FUN A function defining the stopping conditions for the simulation. Default is `NULL`.
 #' @param update_FUN A function that encapsulates one complete iteration of agent updates during the simulation. Default is `NULL`.
-#' @param partial_update_FUN_body A body of expressions to construct parts of `update_FUN`.
-#' Provide either character or `expression` objects. Default is `NULL`.
+#' @param summary_FUN A function that print a user-defined summary of the current G. Default is `NULL`.
+#' @param plot_FUN A function that plot a user-defined plot of the current G. Default is `NULL`.
 #' @param log A list containing snapshots of the `G` object at each simulation step. Default is `NULL`.
 #' @param time An integer representing the current time step of the `G` object.
 #' The initial time is 1. Default is `NULL`, which sets `time = 1`.
@@ -47,7 +47,7 @@
 #'     To include multiple agent groups, use a list, e.g., `agents = list(teacher = 2, student = 3)`.
 #' - **`stage`**: Accepts various formats, including scalar, vector, matrix, array, data.frame, or list.
 #'   Multiple stages can be specified as `stage = list(stage1 = mat1, stage2 = mat2)`.
-#' - **Functions (`active_binding_field`, `global_FUN`, `select_FUN`, `stop_FUN`, `update_FUN`)**:
+#' - **Functions (`active_binding_field`, `global_FUN`, `select_FUN`, `stop_FUN`, `update_FUN`, `summary_FUN`, `plot_FUN`)**:
 #'   Functions can be specified in one of four ways:
 #'   1. Function object: e.g., `act_FUN = act_x1`.
 #'   2. Anonymous function: e.g., `act_FUN = function() {...}`.
@@ -59,10 +59,11 @@
 #' - **`select_FUN`**: Returns agent's index in the list of agents (NOT: `IDs`) based on a selection condition.
 #' - **`stop_FUN`**: Ends the simulation if specific conditions are met (returns `TRUE`).
 #' - **`update_FUN`**: Encapsulates one complete iteration of updates.
-#' - **`partial_update_FUN_body`**: A modular way to predefine parts of `update_FUN`.
+#' - **`summary_FUN`**: A utility function that summarizes the result of the simulation.
+#' - **`plot_FUN`**: A plot function of `G` object.
 #'
 #' ### Additional Notes
-#' All functions (except `partial_update_FUN_body` and `active_binding_field`)
+#' All functions (except `active_binding_field`)
 #' automatically receive two arguments internally: `G` (the `G` object) and `E`
 #'  (a temporary environment for intermediate objects).
 #'
@@ -86,7 +87,8 @@ setABM <- function(
     select_FUN = NULL,
     stop_FUN = NULL,
     update_FUN = NULL,
-    partial_update_FUN_body = NULL,
+    summary_FUN = NULL,
+    plot_FUN = NULL,
     log = NULL,
     time = NULL,
     notes = NULL,
@@ -94,7 +96,7 @@ setABM <- function(
                 stage = NULL,
                 active_binding_field = NULL,
                 global_FUN = NULL, select_FUN = NULL, stop_FUN = NULL, update_FUN = NULL,
-                partial_update_FUN_body = NULL,
+                summary_FUN = NULL, plot_FUN = NULL,
                 log = NULL, time = NULL, notes = NULL)){
   # agent----------
   if(!is.null(init$agents)){
@@ -135,8 +137,9 @@ setABM <- function(
   }else{
     global_FUN_sbs <- substitute(global_FUN)
   }
-  global_FUN_formatted <- .shape_global_FUN(global_FUN = global_FUN,
-                                            global_FUN_sbs = global_FUN_sbs)
+  global_FUN_formatted <- .shape_G_FUN(FUN = global_FUN,
+                                       FUN_sbs = global_FUN_sbs,
+                                       FUN_category = "global_FUN")
 
   # select_FUN----
   if(!is.null(init$select_FUN)){
@@ -145,8 +148,9 @@ setABM <- function(
   }else{
     select_FUN_sbs <- substitute(select_FUN)
   }
-  select_FUN_formatted <- .shape_select_FUN(select_FUN = select_FUN,
-                                            select_FUN_sbs = select_FUN_sbs)
+  select_FUN_formatted <- .shape_G_FUN(FUN = select_FUN,
+                                       FUN_sbs = select_FUN_sbs,
+                                       FUN_category = "select_FUN")
 
   # stop_FUN----
   if(!is.null(init$stop_FUN)){
@@ -155,8 +159,9 @@ setABM <- function(
   }else{
     stop_FUN_sbs <- substitute(stop_FUN)
   }
-  stop_FUN_formatted <- .shape_stop_FUN(stop_FUN = stop_FUN,
-                                        stop_FUN_sbs = stop_FUN_sbs)
+  stop_FUN_formatted <- .shape_G_FUN(FUN = stop_FUN,
+                                     FUN_sbs = stop_FUN_sbs,
+                                     FUN_category = "stop_FUN")
 
   # update_FUN----
   if(!is.null(init$update_FUN)){
@@ -165,19 +170,31 @@ setABM <- function(
   }else{
     update_FUN_sbs <- substitute(update_FUN)
   }
-  update_FUN_formatted <- .shape_update_FUN(update_FUN = update_FUN,
-                                            update_FUN_sbs = update_FUN_sbs)
+  update_FUN_formatted <- .shape_G_FUN(FUN = update_FUN,
+                                       FUN_sbs = update_FUN_sbs,
+                                       FUN_category = "update_FUN")
 
-  # partial_FUN_expr---
-  if(!is.null(init$partial_update_FUN_body)){
-    partial_update_FUN_body <- init$partial_update_FUN_body
-    partial_update_FUN_body_sbs <- substitute(partial_update_FUN_body)
+  # summary_FUN---
+  if(!is.null(init$summary_FUN)){
+    summary_FUN <- init$summary_FUN
+    summary_FUN_sbs <- substitute(summary_FUN)
   }else{
-    partial_update_FUN_body_sbs <- substitute(partial_update_FUN_body)
+    summary_FUN_sbs <- substitute(summary_FUN)
   }
-  partial_update_FUN_body_formatted <- .shape_partial_update_FUN_body(
-    partial_update_FUN_body = partial_update_FUN_body,
-    partial_update_FUN_body_sbs = partial_update_FUN_body_sbs)
+  summary_FUN_formatted <- .shape_G_FUN(FUN = summary_FUN,
+                                        FUN_sbs = summary_FUN_sbs,
+                                        FUN_category = "summary_FUN")
+
+  # plot_FUN------
+  if(!is.null(init$plot_FUN)){
+    plot_FUN <- init$plot_FUN
+    plot_FUN_sbs <- substitute(plot_FUN)
+  }else{
+    plot_FUN_sbs <- substitute(plot_FUN)
+  }
+  plot_FUN_formatted <- .shape_G_FUN(FUN = plot_FUN,
+                                     FUN_sbs = plot_FUN_sbs,
+                                     FUN_category = "plot_FUN")
 
   ## log---------
   if(!is.null(init$log)){log <- init$log}
@@ -219,21 +236,23 @@ setABM <- function(
                       select_FUN_formatted$category,
                       stop_FUN_formatted$category,
                       update_FUN_formatted$category,
-                      partial_update_FUN_body_formatted$category)
+                      summary_FUN_formatted$category,
+                      plot_FUN_formatted$category)
 
-  ## Gを生成する
+  ## generate G
   G <- ABM_G$new(fields = c(agents_formatted$value,
                             stage_formatted$value,
-                            partial_update_FUN_body_formatted$value,
                             time),
                  methods = c(global_FUN_formatted$value,
                              select_FUN_formatted$value,
                              stop_FUN_formatted$value,
-                             update_FUN_formatted$value),
+                             update_FUN_formatted$value,
+                             summary_FUN_formatted$value,
+                             plot_FUN_formatted$value),
                  field_category = field_category,
                  log = log, notes = notes)
 
-  # active_bindingを処理する(NULLではない場合)
+  # attach active_binding(if NOT NULL)
   if(!is.null(active_binding_field_formatted$value)){
     active <- assign_func_envs(active_binding_field_formatted$value, G$.__enclos_env__)
     for(name in names(active)){
@@ -242,16 +261,16 @@ setABM <- function(
     G$.__enclos_env__$.__active__ <- active
   }
 
-  # logがNULLの場合には初期値を貼り付ける
+  # if log = NULL: attach the initial values
   if(is.null(G$log)){
     G$.save()}
 
-  # 同じ名前のfieldがないかを確認し、あればストップをかける
+  # check if there is no duplicated field names
   check_name_tb <- table(ls(G))>1
   if(any(check_name_tb)){
     stop(paste0("The following field has a duplicated name. Please give each field a unique name: ", names(check_name_tb[check_name_tb])))
   }
 
-  # Gを返却する
+  # Return G
   G
 }

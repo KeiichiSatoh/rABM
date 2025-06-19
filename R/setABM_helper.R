@@ -3,21 +3,21 @@
 ################################################################################
 
 .shape_agent <- function(agents, agents_sbs){
-  # NULLかどうかを判定
+  # Check if agents_sbs is NULL
   if(is.null(agents_sbs)){
     return(NULL)
   }
 
-  # オブジェクトラベル
+  # get object label
   if(is.symbol(agents_sbs)){
     agents_label <- deparse(agents_sbs)
   }else{
     agents_label <- "agents"
   }
 
-  # classを確認し、番号の場合にはagentを作成する
+  # check the class. If the input 'agents' is a numeric, create agents
   agents <- if(!all(lapply(unlist(agents), function(x){class(x)[[1]]})=="ABM_Agent")){
-    ## "ABM_Agent" classではない場合
+    ## If "ABM_Agent" class is not "agents"
     lapply(unlist(agents), function(y){
       if(is.numeric(y)){
         init_agents(n = y)
@@ -29,16 +29,16 @@
     agents
   }
 
-  # インプットが複数のエージェントタイプを含むものかで場合分け
+  # Check if the 'agents' have multiple agent types
   if(is.list(agents[[1]])==FALSE){
     agent_formatted <- list(agents)
   }else{
     agent_formatted <- agents
   }
 
-  # 名前がついているかを確認
+  # check if names are available
   if(is.null(names(agent_formatted))){
-    ## 名前がついていない場合
+    ## if there is no name
     if(length(agent_formatted)==1){
       names(agent_formatted) <- agents_label
     }else{
@@ -46,16 +46,16 @@
     }
   }
 
-  # 一部にしか名前がつけられていないということはないか確認
+  # check if only a part of them has a name
   if(any(names(agent_formatted)=="")){
     stop("Put names to each agent object.")
   }
 
-  # field_categoryを定義する
+  # set field_category as "agent"
   field_category <- rep("agent", length(agent_formatted))
   names(field_category) <- names(agent_formatted)
 
-  # アウトプット
+  # output
   agent_formatted <- list(value = agent_formatted, category = field_category)
   agent_formatted
 }
@@ -67,14 +67,14 @@
 
 #' @import rlang
 .shape_stage <- function(stage = NULL, stage_sbs = NULL){
-  # NULLかどうかを判定
+  # Return if the input is NULL
   if(is.null(stage_sbs)){
     return(NULL)
   }
 
-  # オブジェクトラベル
+  # get object label
   if(is.list(stage) & !is.data.frame(stage)){
-    ## stageに投入されたのが二つ以上のリストだった場合
+    ## If stage is more than one object as list
     stage_label <- as.character(stage_sbs)[-1]
     stage_label <- sapply(stage_label, function(X){
       if(exists(X)){
@@ -84,7 +84,7 @@
       }
     })
   }else{
-    ## それ以外
+    ## Other
     if(is.symbol(stage_sbs)){
       stage_label <- deparse(stage_sbs)
     }else{
@@ -92,14 +92,14 @@
     }
   }
 
-  # リスト形式にすべて統一する
+  # Convert the input into list
   if(!is.list(stage)|is.data.frame(stage)){
     stage_list <- list(stage)
   }else{
     stage_list <- stage
   }
 
-  # 要素ごとにチェックをする
+  # Check each element
   stage_formatted <- lapply(stage_list, function(X){
     if(is.function(X)){
       stop("Do not assign a function directly to a stage. If you intend to create an active binding field, use the 'active_binding_field' argument instead.")
@@ -107,8 +107,8 @@
     X
   })
 
-  # 名前を処理する
-  # listに名前がついていない場合
+  # Format the names
+  # if there is no name
   if(is.null(names(stage_formatted))){
     if(length(stage_formatted)==1|length(stage_formatted)==length(stage_label)){
       names(stage_formatted) <- stage_label
@@ -117,7 +117,7 @@
     }
   }
 
-  # 一部にしか名前がつけられていないということはないか確認
+  # Check if only a part of the elements has a name
   if(any(names(stage_formatted)=="")){
     if(length(names(stage_formatted)[names(stage_formatted)==""])==1){
       names(stage_formatted)[names(stage_formatted)==""] <- "Y"
@@ -126,11 +126,11 @@
     }
   }
 
-  # field_categoryを定義する
+  # define field_category
   field_category <- rep("stage", length(stage_formatted))
   names(field_category) <- names(stage_formatted)
 
-  # アウトプット
+  # return
   stage_formatted <- list(value = stage_formatted, category = field_category)
   stage_formatted
 }
@@ -145,25 +145,25 @@
     active_binding_field = NULL,
     active_binding_field_sbs = NULL){
 
-  # NULLかどうかを判定
+  # Return if NULL
   if(is.null(active_binding_field)){
     return(NULL)
   }
 
-  # オブジェクトラベル
+  # object label
   if(is.symbol(active_binding_field_sbs)){
     active_binding_field_label <- deparse(active_binding_field_sbs)
   }else{
     active_binding_field_label <- "ABF"
   }
 
-  # リスト形式にすべて統一する
+  # convert into list
   if(!is.list(active_binding_field)){
     active_binding_field <- list(active_binding_field)
   }
   active_binding_field_formatted <- active_binding_field
 
-  ## すべての形をfunction型に揃える
+  ## makes all the inputs into functions
   for(i in 1:length(active_binding_field_formatted)){
     if(is.character(active_binding_field_formatted[[i]])){
       parsed_FUN <- parse(text = active_binding_field_formatted[[i]])[[1]]
@@ -176,7 +176,7 @@
         stopifnot("The 'active_binding' retrieved from the specified object must be a function." = is.function(retrieved_FUN))
         original_args <- formals(retrieved_FUN)
         parsed_args <- call_args(parsed_FUN)
-        # からのFUNを作成し、formalsとbodyを付加する
+        # create an empty function and then attach formals and a body
         FUN <- function(){}
         original_args[names(parsed_args)] <- parsed_args
         body(FUN) <- body(retrieved_FUN)
@@ -186,11 +186,11 @@
     }
   }
 
-  # すべて関数型になっているか確認
+  # check if all elements are functions
   stopifnot("active_binding_field must be a function." = all(unlist(lapply(active_binding_field_formatted, is.function))))
 
-  # 名前を処理する
-  # listに名前がついていない場合
+  # set names
+  # if there are no names
   if(is.null(names(active_binding_field_formatted))){
     if(length(active_binding_field_formatted)==1){
       names(active_binding_field_formatted) <- active_binding_field_label
@@ -199,7 +199,7 @@
     }
   }
 
-  # 一部にしか名前がつけられていないということはないか確認
+  # check if only a part of elements has names
   if(any(names(active_binding_field_formatted)=="")){
     if(length(names(active_binding_field_formatted)[names(active_binding_field_formatted)==""])==1){
       names(active_binding_field_formatted)[names(active_binding_field_formatted)==""] <- "ABF"
@@ -208,11 +208,11 @@
     }
   }
 
-  # field_categoryを定義する
+  # define field_category
   field_category <- rep("stage", length(active_binding_field_formatted))
   names(field_category) <- names(active_binding_field_formatted)
 
-  # アウトプット
+  # return
   active_binding_field_formatted <- list(value = active_binding_field_formatted,
                                          category = field_category)
   active_binding_field_formatted
@@ -238,38 +238,38 @@ assign_func_envs <- function(objs, target_env) {
 #' @import rlang
 
 .get_FUN <- function(FUN){
-  # FUNが関数かclosureの場合にはそのままFUNを返す
+  # return FUN if the input is closure
   if(is.function(FUN)|rlang::is_closure(FUN)){
     FUN
   }else if(is.character(FUN)){
-    # FUNがcharacter型の場合には当該関数を環境から取得する
+    # if FUN is a character, get the function from environment
     if(exists(FUN)){
-      ## FUNが環境に存在するならば、そちらから取得
+      ## if FUN exists in the environment, get it
       FUN <- get(FUN)
       stopifnot("The retrieved object in global_FUN is not a function." = is.function(FUN))
       FUN
     }else{
-      ## FUNが存在しないならば、callとして取得できないか試す
+      ## if FUN does not exists in the environment, try to get it as a call
       parsed_FUN <- parse(text = FUN)[[1]]
       func_name <- rlang::call_name(parsed_FUN)
       if(exists(func_name)){
-        ### func_nameが存在している場合、処理を行う
+        ### if func_name, convert it accordingly
         func_args <- rlang::call_args(parsed_FUN)
         assign("temp_func", get(func_name))
-        #### 元の関数のデフォルト値を新しい値に置き換える
+        #### update the formals according to the intended arguments
         if(length(func_args) > 0){
           for(k in 1:length(func_args)){
             formals(temp_func)[names(func_args[k])] <- func_args[k]
           }
         }
-        ### temp_funcを戻す
+        ### return temp_func
         temp_func
       }else{
-        ### func_nameが存在しない場合
+        ### if no func_name found
         stop("FUN does not exists in the environment.")
       }
     }
-    # FUNがcharacter型の場合：ここまで----------------------
+    # if FUN is a character---------//
   }else{
     stop("The retrieved object is not a function.")
   }
@@ -277,310 +277,68 @@ assign_func_envs <- function(objs, target_env) {
 
 
 #-------------------------------------------------------------------------------
-# .shape_global_FUN
+# .shape_G_FUN
 #-------------------------------------------------------------------------------
-#' @import rlang
 
-.shape_global_FUN <- function(global_FUN, global_FUN_sbs){
-  if(is.null(global_FUN)){
+.shape_G_FUN <- function(FUN, FUN_sbs,
+                       FUN_category = c("global_FUN", "select_FUN", "stop_FUN",
+                                        "update_FUN", "summary_FUN", "plot_FUN")){
+  # Return NULL if input is NULL
+  if(is.null(FUN)){
     return(NULL)
   }
 
-  # オブジェクトラベル
-  if(is.symbol(global_FUN_sbs)){
-    global_FUN_label <- deparse(global_FUN_sbs)
+  # match.arg: FUN_category
+  FUN_category <- match.arg(FUN_category)
+
+  # set object label
+  if(is.symbol(FUN_sbs)){
+    FUN_label <- deparse(FUN_sbs)
   }else{
-    global_FUN_label <- "global_FUN"
+    FUN_label <- FUN_category
   }
 
-  # リストかどうか
-  if(!is.list(global_FUN)){
-    global_FUN_list <- list(global_FUN)
+  # Check if it is list object
+  if(!is.list(FUN)){
+    FUN_list <- list(FUN)
   }else{
-    global_FUN_list <- global_FUN
+    FUN_list <- FUN
   }
 
-  # それぞれのFUNについて、functionを取得する
-  global_FUN_formatted <- lapply(global_FUN_list, function(X){
+  # Get functions to each element of FUN
+  FUN_formatted <- lapply(FUN_list, function(X){
     .get_FUN(FUN = X)
   })
 
-  # act_FUN_listの中身において、引数にGを追加する
-  global_FUN_formatted <- lapply(global_FUN_formatted, function(FUN){
-    # すでにユーザーが誤ってGを引数に書いていたらひとまず消す
+  # Set G and E to formals
+  FUN_formatted <- lapply(FUN_formatted, function(FUN){
+    # Delete G or E if the user already set
     current_formals <- formals(FUN)
     current_formals[which(names(current_formals)=="G")|which(names(current_formals)=="E")] <- NULL
-    formals(FUN) <- c(alist(G = G, E = E), current_formals) # G=G,E=Eを足す
+    formals(FUN) <- c(alist(G = G, E = E), current_formals) # add G = G, E = E
     FUN
   })
 
-  # listに名前がついていない場合
-  if(is.null(names(global_FUN_formatted))){
-    if(length(global_FUN_formatted)==1){
-      names(global_FUN_formatted) <- global_FUN_label
+  # add names to list if it is not set yet
+  if(is.null(names(FUN_formatted))){
+    if(length(FUN_formatted)==1){
+      names(FUN_formatted) <- FUN_label
     }else{
-      names(global_FUN_formatted) <- paste0(global_FUN_label, 1:length(global_FUN_formatted))
+      names(FUN_formatted) <- paste0(FUN_label, 1:length(FUN_formatted))
     }
   }
 
-  # 一部にしか名前がつけられていないということはないか確認
-  if(any(names(global_FUN_formatted)=="")){
-    stop("Put names to each global_FUN object.")
+  # Check if only a part of the elements has a name
+  if(any(names(FUN_formatted)=="")){
+    stop("Put names to each FUN object.")
   }
 
-  # field_categoryを定義する
-  field_category <- rep("global_FUN", length(global_FUN_formatted))
-  names(field_category) <- names(global_FUN_formatted)
+  # define FUN_category
+  FUN_category_formatted <- rep(FUN_category, length(FUN_formatted))
+  names(FUN_category_formatted) <- names(FUN_formatted)
 
-  # アウトプット
-  global_FUN_formatted <- list(value = global_FUN_formatted,
-                               category = field_category)
-  global_FUN_formatted
+  # output
+  FUN_formatted <- list(value = FUN_formatted,
+                        category = FUN_category_formatted)
+  FUN_formatted
 }
-
-
-#-------------------------------------------------------------------------------
-# .shape_select_FUN
-#-------------------------------------------------------------------------------
-#' @import rlang
-
-.shape_select_FUN <- function(select_FUN, select_FUN_sbs){
-  if(is.null(select_FUN)){
-    return(NULL)
-  }
-
-  # オブジェクトラベル
-  if(is.symbol(select_FUN_sbs)){
-    select_FUN_label <- deparse(select_FUN_sbs)
-  }else{
-    select_FUN_label <- "select_FUN"
-  }
-
-  # リストかどうか
-  if(!is.list(select_FUN)){
-    select_FUN_list <- list(select_FUN)
-  }else{
-    select_FUN_list <- select_FUN
-  }
-
-  # それぞれのFUNについて、functionを取得する
-  select_FUN_formatted <- lapply(select_FUN_list, function(X){
-    .get_FUN(FUN = X)
-  })
-
-  # act_FUN_listの中身において、引数にGを追加する
-  select_FUN_formatted <- lapply(select_FUN_formatted, function(FUN){
-    # すでにユーザーが誤ってGを引数に書いていたらひとまず消す
-    current_formals <- formals(FUN)
-    current_formals[which(names(current_formals)=="G")|which(names(current_formals)=="E")] <- NULL
-    formals(FUN) <- c(alist(G = G, E = E), current_formals) # G=G,E=Eを足す
-    FUN
-  })
-
-  # listに名前がついていない場合
-  if(is.null(names(select_FUN_formatted))){
-    if(length(select_FUN_formatted)==1){
-      names(select_FUN_formatted) <- select_FUN_label
-    }else{
-      names(select_FUN_formatted) <- paste0(select_FUN_label, 1:length(select_FUN_formatted))
-    }
-  }
-
-  # 一部にしか名前がつけられていないということはないか確認
-  if(any(names(select_FUN_formatted)=="")){
-    stop("Put names to each select_FUN object.")
-  }
-
-  # field_categoryを定義する
-  field_category <- rep("select_FUN", length(select_FUN_formatted))
-  names(field_category) <- names(select_FUN_formatted)
-
-  # アウトプット
-  select_FUN_formatted <- list(value = select_FUN_formatted,
-                               category = field_category)
-  select_FUN_formatted
-}
-
-#-------------------------------------------------------------------------------
-# .shape_stop_FUN
-#-------------------------------------------------------------------------------
-
-.shape_stop_FUN <- function(stop_FUN, stop_FUN_sbs){
-  if(is.null(stop_FUN)){
-    return(NULL)
-  }
-
-  # オブジェクトラベル
-  if(is.symbol(stop_FUN_sbs)){
-    stop_FUN_label <- deparse(stop_FUN_sbs)
-  }else{
-    stop_FUN_label <- "stop_FUN"
-  }
-
-  # リストかどうか
-  if(!is.list(stop_FUN)){
-    stop_FUN_list <- list(stop_FUN)
-  }else{
-    stop_FUN_list <- stop_FUN
-  }
-
-  # それぞれのFUNについて、functionを取得する
-  stop_FUN_formatted <- lapply(stop_FUN_list, function(X){
-    .get_FUN(FUN = X)
-  })
-
-  # act_FUN_listの中身において、引数にGを追加する
-  stop_FUN_formatted <- lapply(stop_FUN_formatted, function(FUN){
-    # すでにユーザーが誤ってGを引数に書いていたらひとまず消す
-    current_formals <- formals(FUN)
-    current_formals[which(names(current_formals)=="G")|which(names(current_formals)=="E")] <- NULL
-    formals(FUN) <- c(alist(G = G, E = E), current_formals) # G=G,E=Eを足す
-    FUN
-  })
-
-  # listに名前がついていない場合
-  if(is.null(names(stop_FUN_formatted))){
-    if(length(stop_FUN_formatted)==1){
-      names(stop_FUN_formatted) <- stop_FUN_label
-    }else{
-      names(stop_FUN_formatted) <- paste0(stop_FUN_label, 1:length(stop_FUN_formatted))
-    }
-  }
-
-  # 一部にしか名前がつけられていないということはないか確認
-  if(any(names(stop_FUN_formatted)=="")){
-    stop("Put names to each stop_FUN object.")
-  }
-
-  # field_categoryを定義する
-  field_category <- rep("stop_FUN", length(stop_FUN_formatted))
-  names(field_category) <- names(stop_FUN_formatted)
-
-  # アウトプット
-  stop_FUN_formatted <- list(value = stop_FUN_formatted,
-                             category = field_category)
-  stop_FUN_formatted
-}
-
-#-------------------------------------------------------------------------------
-# .shape_update_FUN
-#-------------------------------------------------------------------------------
-
-
-.shape_update_FUN <- function(update_FUN, update_FUN_sbs){
-  if(is.null(update_FUN)){
-    return(NULL)
-  }
-
-  # オブジェクトラベル
-  if(is.symbol(update_FUN_sbs)){
-    update_FUN_label <- deparse(update_FUN_sbs)
-  }else{
-    update_FUN_label <- "update_FUN"
-  }
-
-  # リストかどうか
-  if(!is.list(update_FUN)){
-    update_FUN_list <- list(update_FUN)
-  }else{
-    update_FUN_list <- update_FUN
-  }
-
-  # それぞれのFUNについて、functionを取得する
-  update_FUN_formatted <- lapply(update_FUN_list, function(X){
-    .get_FUN(FUN = X)
-  })
-
-  # act_FUN_listの中身において、引数にGを追加する
-  update_FUN_formatted <- lapply(update_FUN_formatted, function(FUN){
-    # すでにユーザーが誤ってGを引数に書いていたらひとまず消す
-    current_formals <- formals(FUN)
-    current_formals[which(names(current_formals)=="G")|which(names(current_formals)=="E")] <- NULL
-    formals(FUN) <- c(alist(G = G, E = E), current_formals) # G=G,E=Eを足す
-    FUN
-  })
-
-  # listに名前がついていない場合
-  if(is.null(names(update_FUN_formatted))){
-    if(length(update_FUN_formatted)==1){
-      names(update_FUN_formatted) <- update_FUN_label
-    }else{
-      names(update_FUN_formatted) <- paste0(update_FUN_label, 1:length(update_FUN_formatted))
-    }
-  }
-
-  # 一部にしか名前がつけられていないということはないか確認
-  if(any(names(update_FUN_formatted)=="")){
-    stop("Put names to each update_FUN object.")
-  }
-
-  # field_categoryを定義する
-  field_category <- rep("update_FUN", length(update_FUN_formatted))
-  names(field_category) <- names(update_FUN_formatted)
-
-  # アウトプット
-  update_FUN_formatted <- list(value = update_FUN_formatted,
-                             category = field_category)
-  update_FUN_formatted
-}
-
-#-------------------------------------------------------------------------------
-# .shape_partial_update_FUN_body
-#-------------------------------------------------------------------------------
-
-.shape_partial_update_FUN_body <- function(
-    partial_update_FUN_body,
-    partial_update_FUN_body_sbs){
-  if(is.null(partial_update_FUN_body)){
-    return(NULL)
-  }
-
-  # オブジェクトラベル
-  if(is.symbol(partial_update_FUN_body_sbs)){
-    partial_update_FUN_body_label <- deparse(partial_update_FUN_body_sbs)
-  }else{
-    partial_update_FUN_body_label <- "partial_update_FUN_body"
-  }
-
-  # リストかどうか
-  if(!is.list(partial_update_FUN_body)){
-    partial_update_FUN_body_list <- list(partial_update_FUN_body)
-  }else{
-    partial_update_FUN_body_list <- partial_update_FUN_body
-  }
-
-  # それぞれのリスト要素について整形し、call型に変換する
-  partial_update_FUN_body_formatted <- lapply(partial_update_FUN_body_list, function(X){
-    if(is.expression(X)){
-      X[[1]]
-    }else if(is.character(X)){
-      parse(text = X)[[1]]
-    }else{
-      stop("partial_update_FUN_body must be either an expression, a character string, or a list of these types.")
-    }
-  })
-
-  # listに名前がついていない場合
-  if(is.null(names(partial_update_FUN_body_formatted))){
-    if(length(partial_update_FUN_body_formatted)==1){
-      names(partial_update_FUN_body_formatted) <-partial_update_FUN_body_label
-    }else{
-      names(partial_update_FUN_body_formatted) <- paste0(partial_update_FUN_body_label, 1:length(partial_update_FUN_body_formatted))
-    }
-  }
-
-  # 一部にしか名前がつけられていないということはないか確認
-  if(any(names(partial_update_FUN_body_formatted)=="")){
-    stop("Put names to each partial_update_FUN_body object.")
-  }
-
-  # field_categoryを定義する
-  field_category <- rep("partial_update_FUN_body", length(partial_update_FUN_body_formatted))
-  names(field_category) <- names(partial_update_FUN_body_formatted)
-
-  # アウトプット
-  partial_update_FUN_body_formatted <- list(value = partial_update_FUN_body_formatted,
-                                            category = field_category)
-  partial_update_FUN_body_formatted
-}
-

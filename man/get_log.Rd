@@ -42,7 +42,7 @@ optionally applies a processing function or combines the results.
 # Prepare a simple ABM_G object
 increase_x <- function() { G$x <- G$x + 1 }
 G <- setABM(stage = list(x = 1), global_FUN = increase_x)
-G <- runABM(G, schedule = "increase_x", times = 3, save_log = TRUE)
+G <- runABM(G, plan = "increase_x", times = 3, save_log = TRUE)
 
 # Get the value of x over time
 get_log(G$x)

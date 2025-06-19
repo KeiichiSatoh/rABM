@@ -4,41 +4,24 @@
 \alias{ABM_Agent}
 \title{ABM_Agent Class}
 \description{
-The \code{ABM_Agent} class provides methods and fields for creating and
-managing agent's action and attributes in an agent-based model (ABM).
-It allows agents to have custom fields, methods, and active bindings,
-making this class highly flexible for various simulation scenarios.
+The \code{ABM_Agent} class defines an agent used in agent-based modeling (ABM),
+offering mechanisms for managing attributes, methods, and active bindings.
 }
 \details{
-\code{ABM_Agent} is the class for agents that includes:
+This R6-based class is intended for internal infrastructure and supports:
 \itemize{
-\item A initialize method (i.e., \code{new()})
-\item Methods for adding/removing fields, methods, and active bindings
-(i.e., \code{.add_field()}, \code{.add_method()}, \code{.add_active_binding()},
-\code{remove_field()}).
-\item Functions to retrieve agent attributes (i.e., \code{.save()}).
-\item A print method to display agent information (i.e., \code{print()}.
-\item clone method to copy the instanced agent object (i.e., \code{clone()}).
+\item Adding/removing agent fields, methods, and active bindings
+\item Dynamic modification and inspection of agent structure
+\item Customized field replacement and renaming
 }
 
-This class is implemented using the \code{R6} class. While agents can
-be instantiated directly using \code{ABM_Agent$new()},
-it is highly recommended to use \link{init_agents} for batch creation of
-agents for the actual usage. The \code{init_agent} function provides
-the navigation for setting various field types and includes validation checks
-that is not present in the \code{ABM_Agent} class method.
+While agents can be created via \code{ABM_Agent$new()}, users are advised to use
+\code{\link{init_agents}} for batch initialization and validation.
+Similarly, \code{\link{modify_agents}} provides safer field-level manipulation.
 
-Similarly, to modify fields of agents,
-consider using the \link{modify_agents} function for the safer approach.
-
-Name of the fields and methods:
-Each field name and method name must be unique within the agent's namespace.
-Attempting to provide a duplicate name will result in an error,
-as duplicate names can interfere with the agent's proper functioning.
-Field names are set as attributes, while methods are assigned as callable
-functions.
-The environment of each method is automatically set to the agent instance.
+Field and method names must be unique within the agent. Duplicates will raise an error.
 }
+\keyword{internal}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -47,6 +30,8 @@ The environment of each method is automatically set to the agent instance.
 \item \href{#method-ABM_Agent-.add_method}{\code{ABM_Agent$.add_method()}}
 \item \href{#method-ABM_Agent-.add_active_binding}{\code{ABM_Agent$.add_active_binding()}}
 \item \href{#method-ABM_Agent-.remove_field}{\code{ABM_Agent$.remove_field()}}
+\item \href{#method-ABM_Agent-.replace_field}{\code{ABM_Agent$.replace_field()}}
+\item \href{#method-ABM_Agent-.rename_field}{\code{ABM_Agent$.rename_field()}}
 \item \href{#method-ABM_Agent-.field_list}{\code{ABM_Agent$.field_list()}}
 \item \href{#method-ABM_Agent-print}{\code{ABM_Agent$print()}}
 \item \href{#method-ABM_Agent-.save}{\code{ABM_Agent$.save()}}
@@ -57,7 +42,7 @@ The environment of each method is automatically set to the agent instance.
 \if{html}{\out{<a id="method-ABM_Agent-new"></a>}}
 \if{latex}{\out{\hypertarget{method-ABM_Agent-new}{}}}
 \subsection{Method \code{new()}}{
-Initialize a new agent with custom fields and methods.
+Initializes a new agent with specified fields and methods.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ABM_Agent$new(fields = list(), methods = list())}\if{html}{\out{</div>}}
 }
@@ -65,23 +50,21 @@ Initialize a new agent with custom fields and methods.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{fields}}{A named list of fields to initialize the agent with.
-Each field is assigned a value in the new agent instance.}
+\item{\code{fields}}{A named list of fields to initialize.}
 
-\item{\code{methods}}{A named list of functions (methods) to initialize the agent with.
-Each method is added to the agent's instance.}
+\item{\code{methods}}{A named list of methods (functions) to assign.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-The instance of the agent with the provided fields and methods.
+A new \code{ABM_Agent} instance.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ABM_Agent-.add_field"></a>}}
 \if{latex}{\out{\hypertarget{method-ABM_Agent-.add_field}{}}}
 \subsection{Method \code{.add_field()}}{
-Add a new field to the agent.
+Adds a new field to the agent.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ABM_Agent$.add_field(name, value)}\if{html}{\out{</div>}}
 }
@@ -89,21 +72,21 @@ Add a new field to the agent.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{name}}{A string representing the name of the field to add. The name must be unique within the agent.}
+\item{\code{name}}{A string indicating the name of the field.}
 
-\item{\code{value}}{The value to assign to the new field.}
+\item{\code{value}}{The value to assign.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-This method does not return a value. It adds the specified field to the agent.
+None.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ABM_Agent-.add_method"></a>}}
 \if{latex}{\out{\hypertarget{method-ABM_Agent-.add_method}{}}}
 \subsection{Method \code{.add_method()}}{
-Add a new method to the agent.
+Adds a new method (function) to the agent.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ABM_Agent$.add_method(name, method)}\if{html}{\out{</div>}}
 }
@@ -111,21 +94,21 @@ Add a new method to the agent.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{name}}{A string representing the name of the method to add. The name must be unique within the agent.}
+\item{\code{name}}{Name to assign the method.}
 
-\item{\code{method}}{A function to add as a method. The function will be associated with the specified name.}
+\item{\code{method}}{A function object to assign.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-This method does not return a value. It adds the specified method to the agent.
+None.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ABM_Agent-.add_active_binding"></a>}}
 \if{latex}{\out{\hypertarget{method-ABM_Agent-.add_active_binding}{}}}
 \subsection{Method \code{.add_active_binding()}}{
-Add a new active binding to the agent.
+Adds an active binding to the agent.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ABM_Agent$.add_active_binding(name, FUN)}\if{html}{\out{</div>}}
 }
@@ -133,23 +116,21 @@ Add a new active binding to the agent.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{name}}{A string representing the name of the active binding.
-The name must be unique within the agent.}
+\item{\code{name}}{The name of the active binding.}
 
-\item{\code{FUN}}{A function that defines the behavior of the active binding.
-This function is dynamically called whenever the active binding is accessed.}
+\item{\code{FUN}}{A function defining the active binding behavior.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-This method does not return a value. It modifies the agent by adding the specified active binding.
+None.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ABM_Agent-.remove_field"></a>}}
 \if{latex}{\out{\hypertarget{method-ABM_Agent-.remove_field}{}}}
 \subsection{Method \code{.remove_field()}}{
-Remove a field or method from the agent.
+Removes a field (including active bindings or methods) from the agent.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ABM_Agent$.remove_field(name)}\if{html}{\out{</div>}}
 }
@@ -157,37 +138,81 @@ Remove a field or method from the agent.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{name}}{A string representing the name of the field to remove.
-The field must exist in the agent instance.}
+\item{\code{name}}{The name of the field to remove.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-This method does not return a value. It modifies the agent instance by removing the specified field.
+None.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ABM_Agent-.replace_field"></a>}}
+\if{latex}{\out{\hypertarget{method-ABM_Agent-.replace_field}{}}}
+\subsection{Method \code{.replace_field()}}{
+Replaces an existing field or method with a new value or function.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ABM_Agent$.replace_field(name, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Name of the field to replace.}
+
+\item{\code{value}}{The new value or function to assign.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+None.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ABM_Agent-.rename_field"></a>}}
+\if{latex}{\out{\hypertarget{method-ABM_Agent-.rename_field}{}}}
+\subsection{Method \code{.rename_field()}}{
+Renames an existing field, method, or active binding.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ABM_Agent$.rename_field(name, new_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Current name of the field.}
+
+\item{\code{new_name}}{New name to assign.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+None.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ABM_Agent-.field_list"></a>}}
 \if{latex}{\out{\hypertarget{method-ABM_Agent-.field_list}{}}}
 \subsection{Method \code{.field_list()}}{
-Show the property of the fields in a structured format.
+Returns a data frame describing current fields, their types, and binding status.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ABM_Agent$.field_list()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+A data.frame with field names, categories, types, and whether they are active bindings.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ABM_Agent-print"></a>}}
 \if{latex}{\out{\hypertarget{method-ABM_Agent-print}{}}}
 \subsection{Method \code{print()}}{
-Print the agent's attributes in a structured format.
+Prints a structured summary of the agent's attributes.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ABM_Agent$print()}\if{html}{\out{</div>}}
 }
 
-\subsection{Returns}{
-This method does not return a value. It outputs the agent's attributes to the console.
-#' @details
+\subsection{Details}{
 This method provides a detailed view of the agent's attributes,
 categorizing them based on their type.
 Attributes are grouped into the following categories:
@@ -203,6 +228,10 @@ Attributes are grouped into the following categories:
 Fields that are active bindings are marked with an asterisk (\code{*}) next to their names.
 Active bindings are fields whose values are computed dynamically upon access.
 }
+}
+
+\subsection{Returns}{
+None. Output is printed to the console.
 }
 }
 \if{html}{\out{<hr>}}

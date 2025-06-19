@@ -6,10 +6,10 @@
 \usage{
 modify_agents(
   G = NULL,
-  G_agent_name = NULL,
+  G_agents_name = NULL,
   new_obj = NULL,
   method = c("add_agent", "delete_agent", "add_attr_df", "add_act_FUN",
-    "add_active_binding", "add_other_attrs", "rename", "replace", "copy", "delete"),
+    "add_active_binding", "add_other_attrs", "rename", "replace", "copy", "delete_field"),
   field_name = NULL,
   new_field_name = NULL,
   delete_agent_posit = NULL,
@@ -18,15 +18,17 @@ modify_agents(
 )
 }
 \arguments{
-\item{G}{An object of class \code{ABM_G}. If supplied, the agents will be extracted from its field (specified by \code{G_agent_name}).}
+\item{G}{An object of class \code{ABM_G}. If supplied, the agents will be extracted from its field (specified by \code{G_agents_name}).}
 
-\item{G_agent_name}{A string giving the name of the field in \code{G} that stores the agents (e.g., \code{"agents"}). Required if \code{G} is provided.}
+\item{G_agents_name}{A string giving the name of the field in \code{G} that stores the agents (e.g., \code{"agents"}). Required if \code{G} is provided.}
 
-\item{new_obj}{The object(s) to add or use for replacement. The structure depends on the \code{method}.}
+\item{new_obj}{The object(s) to add or use for replacement. The structure depends on the type of the field to be added (see \verb{acceptable format} in details).}
 
 \item{method}{A string specifying the modification method. One of:
-\code{"add_agent"}, \code{"add_attr_df"}, \code{"add_act_FUN"}, \code{"add_active_binding"},
-\code{"add_other_attrs"}, \code{"rename"}, \code{"replace"}, \code{"copy"}, \code{"delete"}.}
+\code{"add_agent"}, \code{"delete_agent"}, \code{"add_attr_df"},
+\code{"add_act_FUN"}, \code{"add_active_binding"},
+\code{"add_other_attrs"}, \code{"rename"}, \code{"replace"}, \code{"copy"},
+\code{"delete_field"}.}
 
 \item{field_name}{The name of the field to rename, replace, copy, or delete.}
 
@@ -75,13 +77,22 @@ For a detailed explanation of operations available via the \code{method} argumen
 \item{\code{"add_agent"}}{Adds one or more new \code{ABM_Agent} objects to the list. Duplicate IDs will be reassigned.}
 \item{\code{"delete_agent"}}{Remove agents by position in \code{agents} list.}
 \item{\code{"add_attr_df"}}{Adds new attributes from a vector or data.frame. Each row must correspond to one agent.}
-\item{\code{"add_act_FUN"}}{Adds action functions. Each will receive \code{G} and \code{E} as arguments and be prefixed internally with \code{self <- self}.}
+\item{\code{"add_act_FUN"}}{Adds action functions. Each will receive \code{G} and \code{E} as arguments. See more details in \verb{Notes on add_act_FUN}.}
 \item{\code{"add_active_binding"}}{Adds active bindings. The input must be a named list of functions.}
 \item{\code{"add_other_attrs"}}{Adds arbitrary named attributes as standard fields (not active bindings or functions).}
 \item{\code{"rename"}}{Renames a field inside each agent. The field is deleted and re-added under a new name using the correct method.}
 \item{\code{"replace"}}{Replaces a field with new values. Accepts vectors, data.frames, or lists depending on the field type.}
 \item{\code{"copy"}}{Duplicates a field under a new name. Field type is preserved (attribute, binding, or method).}
-\item{\code{"delete"}}{Removes a field from all agents.}
+\item{\code{"delete_field"}}{Removes a field from all agents.}
+}
+
+** Notes on \code{add_act_FUN}
+This accepts several format of \code{new_obj} depending on the intention of the users.
+\itemize{
+\item set a single act_FUN to all agents: set \code{new_obj = act_x}
+\item set multiple act_FUNs to all agents: set \code{new_obj = list(act_x = act_x, act_y = act_y, ...)}
+\item set a single act_FUN that differ for each agent: set \code{new_obj = list(act_x = list(act_x1, act_x2, ...))}
+\item set multiple act_FUNs that differ for each agent: set \code{new_obj = list(act_x = list(act_x1, act_x2, ...), act_y = list(act_y1, act_y2, act_y3))}
 }
 }
 \examples{
@@ -91,28 +102,28 @@ G <- setABM(agents = agents)
 
 # Add new agents
 new_agents <- init_agents(n = 2, attr_df = data.frame(age = c(14, 15)))
-G <- modify_agents(G = G, G_agent_name = "agents", new_obj = new_agents,
+G <- modify_agents(G = G, G_agents_name = "agents", new_obj = new_agents,
                    method = "add_agent")
 
 # Add new attribute
-G <- modify_agents(G = G, G_agent_name = "agents",
+G <- modify_agents(G = G, G_agents_name = "agents",
                    new_obj = data.frame(height = c(100, 110, 120, 130, 140)),
                    method = "add_attr_df")
 
 # Rename a field
-G <- modify_agents(G = G, G_agent_name = "agents", field_name = "age",
+G <- modify_agents(G = G, G_agents_name = "agents", field_name = "age",
                    new_field_name = "age_years", method = "rename")
 
 # Replace a field
-G <- modify_agents(G = G, G_agent_name = "agents", field_name = "age_years",
+G <- modify_agents(G = G, G_agents_name = "agents", field_name = "age_years",
                    new_obj = c(101, 111, 121, 131, 141), method = "replace")
 
 # Delete a field
-G <- modify_agents(G = G, G_agent_name = "agents", field_name = "age_years",
-                   method = "delete")
+G <- modify_agents(G = G, G_agents_name = "agents", field_name = "age_years",
+                   method = "delete_field")
 
 # Delete the second and third agent
-G <- modify_agents(G = G, G_agent_name = "agents", method = "delete_agent",
+G <- modify_agents(G = G, G_agents_name = "agents", method = "delete_agent",
                    delete_agent_posit = c(2, 3))
 
 # Modify agents directly (without ABM_G)

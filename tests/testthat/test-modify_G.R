@@ -67,17 +67,9 @@ test_that("modify_G: renames a field", {
   expect_false("stage" %in% ls(G2))
 })
 
-test_that("modify_G: replaces a field without setting a new name.", {
+test_that("modify_G: replaces a field.", {
   G <- setABM(agents = 2, stage = data.frame(age = c(1,2)))
   G2 <- modify_G(G, "stage", method = "replace", new_obj = matrix(0,2,2))
-  expect_false(identical(G2$stage2, G$stage))
-})
-
-test_that("modify_G: replaces and renames a field", {
-  G <- setABM(agents = 2, stage = data.frame(age = c(1,2)))
-  G2 <- modify_G(G, "stage", method = "replace", new_obj = matrix(0,2,2), new_field_name = "stage2")
-  expect_true("stage2" %in% ls(G2))
-  expect_false("stage" %in% ls(G2))
   expect_false(identical(G2$stage2, G$stage))
 })
 
@@ -98,7 +90,10 @@ test_that("modify_G: Put error correctly, when adding no function to FUN", {
   )
 })
 
-
+test_that("modify_G: Put error correctly, when no field name exists for 'rename' method", {
+  G <- setABM(agents = 2, stage = list(a = 1))
+  expect_error(modify_G(G, field_name = "b", new_field_name = "c", method = "rename"))
+})
 
 test_that("modify_G: test 'add_agents' method", {
   G <- setABM(agents = 2, stage = data.frame(age = c(1,2)))

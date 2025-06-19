@@ -12,13 +12,14 @@ setABM(
   select_FUN = NULL,
   stop_FUN = NULL,
   update_FUN = NULL,
-  partial_update_FUN_body = NULL,
+  summary_FUN = NULL,
+  plot_FUN = NULL,
   log = NULL,
   time = NULL,
   notes = NULL,
   init = list(agents = NULL, stage = NULL, active_binding_field = NULL, global_FUN =
-    NULL, select_FUN = NULL, stop_FUN = NULL, update_FUN = NULL, partial_update_FUN_body
-    = NULL, log = NULL, time = NULL, notes = NULL)
+    NULL, select_FUN = NULL, stop_FUN = NULL, update_FUN = NULL, summary_FUN = NULL,
+    plot_FUN = NULL, log = NULL, time = NULL, notes = NULL)
 )
 }
 \arguments{
@@ -41,8 +42,9 @@ that allow dynamic behavior for specific stages. Default is \code{NULL}.}
 
 \item{update_FUN}{A function that encapsulates one complete iteration of agent updates during the simulation. Default is \code{NULL}.}
 
-\item{partial_update_FUN_body}{A body of expressions to construct parts of \code{update_FUN}.
-Provide either character or \code{expression} objects. Default is \code{NULL}.}
+\item{summary_FUN}{A function that print a user-defined summary of the current G. Default is \code{NULL}.}
+
+\item{plot_FUN}{A function that plot a user-defined plot of the current G. Default is \code{NULL}.}
 
 \item{log}{A list containing snapshots of the \code{G} object at each simulation step. Default is \code{NULL}.}
 
@@ -87,7 +89,7 @@ To include multiple agent groups, use a list, e.g., \code{agents = list(teacher 
 }
 \item \strong{\code{stage}}: Accepts various formats, including scalar, vector, matrix, array, data.frame, or list.
 Multiple stages can be specified as \code{stage = list(stage1 = mat1, stage2 = mat2)}.
-\item \strong{Functions (\code{active_binding_field}, \code{global_FUN}, \code{select_FUN}, \code{stop_FUN}, \code{update_FUN})}:
+\item \strong{Functions (\code{active_binding_field}, \code{global_FUN}, \code{select_FUN}, \code{stop_FUN}, \code{update_FUN}, \code{summary_FUN}, \code{plot_FUN})}:
 Functions can be specified in one of four ways:
 \enumerate{
 \item Function object: e.g., \code{act_FUN = act_x1}.
@@ -101,13 +103,14 @@ that calculate their values based on other fields in the \code{G} object.
 \item \strong{\code{select_FUN}}: Returns agent's index in the list of agents (NOT: \code{IDs}) based on a selection condition.
 \item \strong{\code{stop_FUN}}: Ends the simulation if specific conditions are met (returns \code{TRUE}).
 \item \strong{\code{update_FUN}}: Encapsulates one complete iteration of updates.
-\item \strong{\code{partial_update_FUN_body}}: A modular way to predefine parts of \code{update_FUN}.
+\item \strong{\code{summary_FUN}}: A utility function that summarizes the result of the simulation.
+\item \strong{\code{plot_FUN}}: A plot function of \code{G} object.
 }
 }
 
 \subsection{Additional Notes}{
 
-All functions (except \code{partial_update_FUN_body} and \code{active_binding_field})
+All functions (except \code{active_binding_field})
 automatically receive two arguments internally: \code{G} (the \code{G} object) and \code{E}
 (a temporary environment for intermediate objects).
 }
