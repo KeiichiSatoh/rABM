@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 0.1.2
+2025-06-20
+* [new] %aa% and %ai% operators are now added.
+
 # rABM 0.1.1
 2025-06-19
 Middle update
