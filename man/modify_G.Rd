@@ -12,7 +12,7 @@ modify_G(
     "add_active_binding", "rename", "replace", "delete"),
   new_obj = NULL,
   new_field_name = NULL,
-  deep_clone = TRUE
+  deep = TRUE
 )
 }
 \arguments{
@@ -34,13 +34,13 @@ vector, matrix, data.frame, list or a function). Required for \code{"add_*"} and
 \item{new_field_name}{A string specifying the new name of the field,
 used when \code{method = "rename"}.}
 
-\item{deep_clone}{Logical. If \code{TRUE} (default),
+\item{deep}{Logical. If \code{TRUE} (default),
 the function will operate on a deep clone of \code{G} and return the modified
 object. If \code{FALSE}, \code{G} will be modified in place and \code{NULL}
 will be returned.}
 }
 \value{
-If \code{deep_clone = TRUE}, returns a modified \code{ABM_G} object.
+If \code{deep = TRUE}, returns a modified \code{ABM_G} object.
 If \code{FALSE}, returns \code{NULL} and modifies the object in place.
 }
 \description{

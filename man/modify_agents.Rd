@@ -8,13 +8,13 @@ modify_agents(
   G = NULL,
   G_agents_name = NULL,
   new_obj = NULL,
-  method = c("add_agent", "delete_agent", "add_attr_df", "add_act_FUN",
+  method = c("add_agent", "delete_agent", "replace_agent", "add_attr_df", "add_act_FUN",
     "add_active_binding", "add_other_attrs", "rename", "replace", "copy", "delete_field"),
   field_name = NULL,
   new_field_name = NULL,
-  delete_agent_posit = NULL,
+  agent_posit = NULL,
   agents = NULL,
-  deep_clone = TRUE
+  deep = TRUE
 )
 }
 \arguments{
@@ -34,17 +34,17 @@ modify_agents(
 
 \item{new_field_name}{The new name to assign when renaming or copying a field.}
 
-\item{delete_agent_posit}{Integer vector specifying the positions of agents to delete when \code{method = "delete_agent"}.}
+\item{agent_posit}{Integer vector specifying the positions of agents to delete when \code{method = "delete_agent"}.}
 
 \item{agents}{A list of \code{ABM_Agent} objects. Used if \code{G} is not supplied.}
 
-\item{deep_clone}{Logical. If \code{TRUE} (default), the function operates on a deep clone of the object(s).}
+\item{deep}{Logical. If \code{TRUE} (default), the function operates on a deep clone of the object(s).}
 }
 \value{
 If \code{G} is supplied, returns a modified \code{ABM_G} object. Otherwise, returns a modified list of \code{ABM_Agent} objects.
 }
 \description{
-#' This function modifies internal fields or structure of agent objects
+This function modifies internal fields or structure of agent objects
 of class \code{ABM_Agent}. It allows adding or deleting agents,
 renaming, copying, replacing, or deleting specific fields,
 and adding various types of components (attributes, methods, active bindings).
@@ -76,6 +76,7 @@ For a detailed explanation of operations available via the \code{method} argumen
 \describe{
 \item{\code{"add_agent"}}{Adds one or more new \code{ABM_Agent} objects to the list. Duplicate IDs will be reassigned.}
 \item{\code{"delete_agent"}}{Remove agents by position in \code{agents} list.}
+\item{\code{"replace_agent"}}{Replace agents by position in \code{agents} list.}
 \item{\code{"add_attr_df"}}{Adds new attributes from a vector or data.frame. Each row must correspond to one agent.}
 \item{\code{"add_act_FUN"}}{Adds action functions. Each will receive \code{G} and \code{E} as arguments. See more details in \verb{Notes on add_act_FUN}.}
 \item{\code{"add_active_binding"}}{Adds active bindings. The input must be a named list of functions.}
@@ -94,6 +95,14 @@ This accepts several format of \code{new_obj} depending on the intention of the 
 \item set a single act_FUN that differ for each agent: set \code{new_obj = list(act_x = list(act_x1, act_x2, ...))}
 \item set multiple act_FUNs that differ for each agent: set \code{new_obj = list(act_x = list(act_x1, act_x2, ...), act_y = list(act_y1, act_y2, act_y3))}
 }
+
+#' \strong{Note on \code{new_obj} when adding or replacing a single agent}
+When adding or replacing a single agent, be sure to wrap the agent in a list.
+For example, if you want to replace the second agent with the first agent:
+\itemize{
+\item This does NOT work: \code{new_obj = G$agents[[1]]}
+\item This works correctly: \code{new_obj = list(G$agents[[1]])}
+}
 }
 \examples{
 # Create agents and ABM system
@@ -104,7 +113,6 @@ G <- setABM(agents = agents)
 new_agents <- init_agents(n = 2, attr_df = data.frame(age = c(14, 15)))
 G <- modify_agents(G = G, G_agents_name = "agents", new_obj = new_agents,
                    method = "add_agent")
-
 # Add new attribute
 G <- modify_agents(G = G, G_agents_name = "agents",
                    new_obj = data.frame(height = c(100, 110, 120, 130, 140)),
@@ -122,9 +130,15 @@ G <- modify_agents(G = G, G_agents_name = "agents", field_name = "age_years",
 G <- modify_agents(G = G, G_agents_name = "agents", field_name = "age_years",
                    method = "delete_field")
 
+# replace the second agent with the first agent
+G2 <- modify_agents(G = G, G_agents_name = "agents",
+                    new_obj = list(G$agents[[1]]),
+                    method = "replace_agent",
+                    agent_posit = 2)
+
 # Delete the second and third agent
 G <- modify_agents(G = G, G_agents_name = "agents", method = "delete_agent",
-                   delete_agent_posit = c(2, 3))
+                   agent_posit = c(2, 3))
 
 # Modify agents directly (without ABM_G)
 agents <- modify_agents(agents = agents,

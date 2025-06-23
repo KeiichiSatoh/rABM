@@ -1,25 +1,26 @@
-#' Agent selection operations
+#' Agent Selection by Index Operations
 #'
-#' These operators allow you to extract or replace a subset of agents in a list,
-#' typically used within an agent-based modeling (ABM) framework.
+#' @description
+#' These operators  enable efficient and intuitive
+#' extraction and replacement of agents within an **`ABM_G`** object's agent
+#' list or a standalone list of **`ABM_Agent`** objects.
+#' They are specifically designed for **Agent-Based Modeling (ABM)**
+#' contexts, allowing you to access and modify agents by their numerical index.
 #'
-#' The `%ai%` operator extracts agents by index. By default, it returns shallow references
-#' to the agents (i.e., original objects). When `deep = TRUE` is specified, deep clones
-#' of the agents are returned instead.
+#' The `%ai%` operator extracts agents by index and returns shallow references
+#' to the agents (i.e., original objects). In contrast, the `%ai%` operator
+#' returns deep clones of the agents are returned instead.
 #'
 #' The `%ai%<-` replacement operator updates the agents at the given indices.
-#'
-#' @usage agents \%ai\% idx
-#' @usage \%ai\%(agents, idx, deep = FALSE)
-#' @usage agents \%ai\% idx <- value
+#' The length of `value` must match the length of `idx`.
 #'
 #' @param agents A list of ABM_Agent objects.
 #' @param idx An integer vector of indices to extract or replace.
-#' @param deep Logical. If TRUE, clones of the agents are returned. Only used with `%ai%`. Default is FALSE.
 #' @param value A list of replacement agents. Must match the length of `idx`.
 #'
 #' @return
-#' - `%ai%` returns a list of agents (shallow or deep copies).
+#' - `%ai%` returns a list of agents which are shallow copied.
+#' - `%aidp%` returns a list of agents which are deep copied.
 #' - `%ai%<-` returns the modified agent list.
 #'
 #' @examples
@@ -28,29 +29,38 @@
 #' agents %ai% c(1, 3)
 #'
 #' # Use deep clone if needed
-#' `%ai%`(agents, c(1, 3), deep = TRUE)
+#' agents %ai% c(1, 3)                  # This will return shallow copies
+#' agents %aidp% c(1, 3)                # This will return deep copies
+#'
+#' # replace the 2nd agent to the 1st agent
+#' agents %ai% 2 <- list(agents[[1]])
 #'
 #' # Use within ABM_G object
 #' G <- setABM(agents = agents)
 #' G$agents %ai% c(2, 3)
 #' G$agents %ai% c(2, 3) <- list(G$agents[[1]], G$agents[[1]])
 #'
-#' @seealso \code{\link{%aa%}} for accessing agent attributes,
-#'   and \code{\link{%aa%<-}} for modifying agent attributes.
+#' @seealso \code{\link{%aa%}} for accessing and
+#' modifying agent attributes.
 #'
-#' @rdname agent_selection_ops
+#' @rdname operators_agent_index
 #' @export
-`%ai%` <- function(agents, idx, deep = FALSE) {
-  if (deep) {
-    p <- lapply(idx, function(i) agents[[i]]$clone(deep = TRUE))
-  } else {
-    p <- lapply(idx, function(i) agents[[i]])
-  }
+`%ai%` <- function(agents, idx) {
+  p <- lapply(idx, function(i) agents[[i]])
   if (!is.null(nm <- names(agents))) names(p) <- nm[idx]
   p
 }
 
-#' @rdname agent_selection_ops
+#' @rdname operators_agent_index
+#' @export
+`%aidp%` <- function(agents, idx) {
+  p <- lapply(idx, function(i) agents[[i]]$clone(deep = TRUE))
+  if (!is.null(nm <- names(agents))) names(p) <- nm[idx]
+  p
+}
+
+
+#' @rdname operators_agent_index
 #' @export
 `%ai%<-` <- function(agents, idx, value) {
   stopifnot(length(idx) == length(value))

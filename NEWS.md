@@ -1,8 +1,16 @@
 # rABM (development version)
 
+# rABM 0.1.3
+2025-06-23
+* [revised] modify_agents: has a new method "replace_agent"
+* [new] get_agents_by_idx: is now added.
+* [revised] zzz.R: added a .DollarNames control so that the internal methods are
+not shown in the suggestion in Rstudio and "time", "notes" and "log" are shown always at the end.
+
 # rABM 0.1.2
 2025-06-20
 * [new] %aa% and %ai% operators are now added.
+* [new] sample2 is now added.
 
 # rABM 0.1.1
 2025-06-19

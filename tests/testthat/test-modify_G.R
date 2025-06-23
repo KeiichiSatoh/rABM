@@ -2,13 +2,13 @@
 
 test_that("modify_G: deletes stage correctly", {
   G <- setABM(agents = 2, stage = data.frame(age = c(1,2)))
-  G2 <- modify_G(G, field_name = "stage", method = "delete", deep_clone = TRUE)
+  G2 <- modify_G(G, field_name = "stage", method = "delete", deep = TRUE)
   expect_false("stage" %in% ls(G2))
 })
 
 test_that("modify_G: field is deleted (without deep clone)", {
   G <- setABM(agents = 2, stage = data.frame(age = c(1,2)))
-  G2 <- modify_G(G, field_name = "stage", method = "delete", deep_clone = FALSE)
+  G2 <- modify_G(G, field_name = "stage", method = "delete", deep = FALSE)
   expect_null(G2)
   expect_false("stage" %in% ls(G))
 })
@@ -77,7 +77,7 @@ test_that("modify_G: works adding G and E correctly", {
   G <- setABM(agents = 2, stage = data.frame(age = c(1,2)))
   G2 <- modify_G(G, field_name = "added_global_FUN", method = "add_global_FUN",
                  new_obj = function(){print(1)},
-                 deep_clone = TRUE)
+                 deep = TRUE)
   expect_true(all(names(formals(G2$added_global_FUN)) %in% c("G", "E")))
 })
 
@@ -86,7 +86,7 @@ test_that("modify_G: Put error correctly, when adding no function to FUN", {
   expect_error(
     modify_G(G, field_name = "added_global_FUN", method = "add_global_FUN",
              new_obj = c(1),
-             deep_clone = TRUE)
+             deep = TRUE)
   )
 })
 
@@ -101,7 +101,7 @@ test_that("modify_G: test 'add_agents' method", {
   G2 <- modify_G(G, field_name = "agents_B",
                  method = "add_agents",
              new_obj = agents_B,
-             deep_clone = TRUE)
+             deep = TRUE)
   expect_true("agents_B" %in% ls(G2))
 })
 

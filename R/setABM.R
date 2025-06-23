@@ -107,6 +107,7 @@ setABM <- function(
   }
   agents_formatted <- .shape_agent(agents = agents,
                                    agents_sbs = agents_sbs)
+  # agent deep_clone
 
   # stage------------
   if(!is.null(init$stage)){
@@ -270,6 +271,9 @@ setABM <- function(
   if(any(check_name_tb)){
     stop(paste0("The following field has a duplicated name. Please give each field a unique name: ", names(check_name_tb[check_name_tb])))
   }
+
+  # deep clone G, in order to avoid any unexpected shallow copy
+  G <- G$clone(deep = TRUE)
 
   # Return G
   G

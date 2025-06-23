@@ -7,14 +7,6 @@ test_that("%ai% extracts agents correctly", {
   expect_identical(out[[1]], agents[[1]])
 })
 
-test_that("%ai% returns deep clones when deep = TRUE", {
-  agents <- init_agents(n = 2, attr_df = data.frame(x = 1:2))
-  clones <- `%ai%`(agents, c(1, 2), deep = TRUE)
-  expect_length(clones, 2)
-  expect_false(identical(clones[[1]], agents[[1]]))
-  expect_equal(clones[[1]]$x, agents[[1]]$x)
-})
-
 test_that("%ai%<- replaces agents at specified indices", {
   agents <- init_agents(n = 3, attr_df = data.frame(x = 1:3))
   a2 <- agents[[2]]$clone(deep = TRUE)

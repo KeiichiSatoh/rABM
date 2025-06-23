@@ -1,6 +1,6 @@
 #' @title Modify a Set of ABM_Agent Objects
 #' @description
-#' #' This function modifies internal fields or structure of agent objects
+#' This function modifies internal fields or structure of agent objects
 #' of class \code{ABM_Agent}. It allows adding or deleting agents,
 #' renaming, copying, replacing, or deleting specific fields,
 #' and adding various types of components (attributes, methods, active bindings).
@@ -32,6 +32,7 @@
 #' \describe{
 #'   \item{\code{"add_agent"}}{Adds one or more new `ABM_Agent` objects to the list. Duplicate IDs will be reassigned.}
 #'   \item{\code{"delete_agent"}}{Remove agents by position in `agents` list.}
+#'   \item{\code{"replace_agent"}}{Replace agents by position in `agents` list.}
 #'   \item{\code{"add_attr_df"}}{Adds new attributes from a vector or data.frame. Each row must correspond to one agent.}
 #'   \item{\code{"add_act_FUN"}}{Adds action functions. Each will receive `G` and `E` as arguments. See more details in `Notes on add_act_FUN`.}
 #'   \item{\code{"add_active_binding"}}{Adds active bindings. The input must be a named list of functions.}
@@ -49,6 +50,12 @@
 #' - set a single act_FUN that differ for each agent: set \code{new_obj = list(act_x = list(act_x1, act_x2, ...))}
 #' - set multiple act_FUNs that differ for each agent: set \code{new_obj = list(act_x = list(act_x1, act_x2, ...), act_y = list(act_y1, act_y2, act_y3))}
 #'
+#'#' **Note on `new_obj` when adding or replacing a single agent**
+#' When adding or replacing a single agent, be sure to wrap the agent in a list.
+#' For example, if you want to replace the second agent with the first agent:
+#' - This does NOT work: `new_obj = G$agents[[1]]`
+#' - This works correctly: `new_obj = list(G$agents[[1]])`
+#'
 #' @param G An object of class `ABM_G`. If supplied, the agents will be extracted from its field (specified by `G_agents_name`).
 #' @param G_agents_name A string giving the name of the field in `G` that stores the agents (e.g., `"agents"`). Required if `G` is provided.
 #' @param new_obj The object(s) to add or use for replacement. The structure depends on the type of the field to be added (see `acceptable format` in details).
@@ -59,14 +66,13 @@
 #' \code{"delete_field"}.
 #' @param field_name The name of the field to rename, replace, copy, or delete.
 #' @param new_field_name The new name to assign when renaming or copying a field.
-#' @param delete_agent_posit Integer vector specifying the positions of agents to delete when `method = "delete_agent"`.
+#' @param agent_posit Integer vector specifying the positions of agents to delete when `method = "delete_agent"`.
 #' @param agents A list of `ABM_Agent` objects. Used if `G` is not supplied.
-#' @param deep_clone Logical. If `TRUE` (default), the function operates on a deep clone of the object(s).
+#' @param deep Logical. If `TRUE` (default), the function operates on a deep clone of the object(s).
 #'
 #' @return If `G` is supplied, returns a modified `ABM_G` object. Otherwise, returns a modified list of `ABM_Agent` objects.
 #'
 #' @seealso [modify_G()] for modifying the `ABM_G` object itself.
-#' @export
 #' @examples
 #' # Create agents and ABM system
 #' agents <- init_agents(n = 3, attr_df = data.frame(age = c(11, 12, 13)))
@@ -76,7 +82,6 @@
 #' new_agents <- init_agents(n = 2, attr_df = data.frame(age = c(14, 15)))
 #' G <- modify_agents(G = G, G_agents_name = "agents", new_obj = new_agents,
 #'                    method = "add_agent")
-#'
 #' # Add new attribute
 #' G <- modify_agents(G = G, G_agents_name = "agents",
 #'                    new_obj = data.frame(height = c(100, 110, 120, 130, 140)),
@@ -94,14 +99,21 @@
 #' G <- modify_agents(G = G, G_agents_name = "agents", field_name = "age_years",
 #'                    method = "delete_field")
 #'
+#' # replace the second agent with the first agent
+#' G2 <- modify_agents(G = G, G_agents_name = "agents",
+#'                     new_obj = list(G$agents[[1]]),
+#'                     method = "replace_agent",
+#'                     agent_posit = 2)
+#'
 #' # Delete the second and third agent
 #' G <- modify_agents(G = G, G_agents_name = "agents", method = "delete_agent",
-#'                    delete_agent_posit = c(2, 3))
+#'                    agent_posit = c(2, 3))
 #'
 #' # Modify agents directly (without ABM_G)
 #' agents <- modify_agents(agents = agents,
 #'                         new_obj = list(flag = c(TRUE, FALSE, TRUE)),
 #'                         method = "add_other_attrs")
+#' @export
 
 modify_agents <- function(
     G = NULL,
@@ -109,6 +121,7 @@ modify_agents <- function(
     new_obj = NULL,
     method = c("add_agent",
                "delete_agent",
+               "replace_agent",
                "add_attr_df",
                "add_act_FUN",
                "add_active_binding",
@@ -119,9 +132,9 @@ modify_agents <- function(
                "delete_field"),
     field_name = NULL,
     new_field_name = NULL,
-    delete_agent_posit = NULL,
+    agent_posit = NULL,
     agents = NULL,
-    deep_clone = TRUE){
+    deep = TRUE){
   # substitute(sbs)
   new_obj_sbs <- substitute(new_obj)
   # match method argument
@@ -136,7 +149,7 @@ modify_agents <- function(
     if(!is.null(agents)){
       message("Note: 'agents' was provided but will be ignored because 'G' is also supplied.")
     }
-    if(deep_clone){
+    if(deep){
       G <- G$clone(deep = TRUE)
     }
     agents <- G[[G_agents_name]]
@@ -145,7 +158,7 @@ modify_agents <- function(
     stopifnot("Either 'agents' or 'G' must be supplied." = !is.null(agents))
     stopifnot("All class of 'agents' must be class of 'ABM_Agent'" =
                 all(unlist(lapply(agents, function(p){class(p)[1] == "ABM_Agent"}))))
-    if(deep_clone){
+    if(deep){
       agents <- lapply(agents, function(p){p$clone(deep = TRUE)})
     }
   }
@@ -178,7 +191,7 @@ modify_agents <- function(
   }
 
   # check if "new_obj" is supplied
-  if(method %in% c("add_agent",  "add_attr_df", "add_act_FUN", "add_active_binding",
+  if(method %in% c("add_agent", "replace_agent", "add_attr_df", "add_act_FUN", "add_active_binding",
                    "add_other_attrs", "replace")){
     stopifnot("The 'new_obj' must be supplied for this method." = !is.null(new_obj))
   }
@@ -194,6 +207,9 @@ modify_agents <- function(
            # check if 'agents' and 'new_obj' has the same field name.
            stopifnot("'agents' and the agents in 'new_obj' must have the same set of field names" =
                        all(ls(agents[[1]])==ls(new_obj[[1]])))
+           # deep copy the new_obj
+           new_obj <- lapply(1:length(new_obj), function(i){new_obj[[i]]$clone(deep = TRUE)})
+
            # modify ID if they are duplicate
            if(any(unlist(lapply(agents, function(p){p$ID})) %in% unlist(lapply(new_obj, function(q){q$ID})))){
              agent_max_ID <- max(unlist(lapply(agents, function(p){p$ID})))
@@ -207,10 +223,10 @@ modify_agents <- function(
            agents <- c(agents, new_obj)
          },#---"add_agent"---//
          "delete_agent" = {
-           stopifnot("Provide 'delete_agent_posit'." = !is.null(delete_agent_posit))
-           stopifnot("some of the agents that matchs 'delete_agent_posit' do not exist." = any(delete_agent_posit %in% 1:agent_n))
+           stopifnot("Provide 'agent_posit'." = !is.null(agent_posit))
+           stopifnot("some of the agents that matchs 'agent_posit' do not exist." = any(agent_posit %in% 1:agent_n))
            agent_label <- names(agents)
-           remain_agent_posit <- setdiff(1:agent_n, delete_agent_posit)
+           remain_agent_posit <- setdiff(1:agent_n, agent_posit)
            new_agent_list <- vector("list", length(remain_agent_posit))
            names(new_agent_list) <- agent_label[remain_agent_posit]
            for(p in 1:length(remain_agent_posit)){
@@ -219,6 +235,36 @@ modify_agents <- function(
            # overwrite agents
            agents <- new_agent_list
          }, #---"delete_agent"--//
+         "replace_agent" = {
+           # check if all elements in new_obj is class "ABM_Agent"
+           stopifnot("All objects in 'new_obj' must be class 'ABM_Agent'" =
+                       all(unlist(lapply(new_obj, function(p){class(p)[1]=="ABM_Agent"}))))
+           # check if each agent in 'new_obj' has the same field names
+           stopifnot("Each agent must have the same set of field names" =
+                       all(unlist(lapply(new_obj, function(p){all(ls(new_obj[[1]])==ls(p))}))))
+           # check if 'agents' and 'new_obj' has the same field name.
+           stopifnot("'agents' and the agents in 'new_obj' must have the same set of field names" =
+                       all(ls(agents[[1]])==ls(new_obj[[1]])))
+           # check the position
+           stopifnot("Provide 'agent_posit'." = !is.null(agent_posit))
+           stopifnot("some of the agents that matchs 'agent_posit' do not exist." = any(agent_posit %in% 1:agent_n))
+
+           # deep copy the new_obj
+           new_obj <- lapply(1:length(new_obj), function(i){new_obj[[i]]$clone(deep = TRUE)})
+
+           # set the agent ID and labels
+           new_agent_label <- names(agents)[agent_posit]
+           names(new_obj) <- new_agent_label
+
+           # get old agent ids
+           old_agent_ID <- unlist(lapply(agent_posit, function(p){agents[[p]]$ID}))
+
+           # replace
+           for(i in 1:length(agent_posit)){
+             new_obj[[i]]$ID <- old_agent_ID[i]
+             agents[[agent_posit[i]]] <- new_obj[[i]]
+           }
+         }, #---"replace_agent---//
          "add_attr_df" = {
            # shape new_obj
            new_obj <- .shape_agent_attr(attr = new_obj, attr_sbs = new_obj_sbs)
@@ -362,7 +408,7 @@ modify_agents <- function(
 
   # Change the output in accordance to the input
   if(!is.null(G)){
-    G <- modify_G(G, field_name = G_agents_name, method = "replace", new_obj = agents, deep_clone = deep_clone)
+    G <- modify_G(G, field_name = G_agents_name, method = "replace", new_obj = agents, deep = deep)
     return(G)
   }else{
     return(agents)

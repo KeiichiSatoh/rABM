@@ -182,7 +182,7 @@ test_that("modify_agents: 'replace' works for an act_FUN object whose element di
 
 test_that("modify_agents: 'delete_agent' works properly.", {
   G <- setABM(agents = init_agents(n = 5))
-  G2 <- modify_agents(G = G, G_agents_name = "agents", method = "delete_agent", delete_agent_posit = c(2,3))
+  G2 <- modify_agents(G = G, G_agents_name = "agents", method = "delete_agent", agent_posit = c(2,3))
   expect_true(all(names(G2$agents) %in% c("ID1", "ID4", "ID5")))
 })
 
