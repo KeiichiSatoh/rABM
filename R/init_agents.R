@@ -127,17 +127,13 @@ init_agents <- function(n = NULL, attr_df = NULL, act_FUN = NULL,
     active_binding_field_formatted <- NULL
   }
 
-  # act_FUN_listの中身において、引数にG、中身のすべての1行目にselfを追加する
+  # G = G, E = E
   act_FUN_list <- lapply(act_FUN_list, function(FUN_vec){
     lapply(FUN_vec, function(FUN){
-      # すでにユーザーが誤ってGを引数に書いていたらひとまず消す
+      # Delete G if the user already wrote it.
       current_formals <- formals(FUN)
       current_formals[which(names(current_formals)=="G")|which(names(current_formals)=="E")] <- NULL
-      formals(FUN) <- c(alist(G = G, E = E), current_formals) # G=G, E = Eを足す
-      # add: self <- self to the 1st line(if required)
-      if(body(FUN)[[2]]!="self <- self"){
-        body(FUN) <- as.call(append(as.list(body(FUN)), expression(self <- self), after=1))
-      }
+      formals(FUN) <- c(alist(G = G, E = E), current_formals) # add G=G, E = E
       FUN
     })
   })

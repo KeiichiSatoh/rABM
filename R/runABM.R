@@ -320,11 +320,6 @@ runABM <- function(G,
           agent <- plan_list$agent_name[j]
           FUN <- plan_list$name[j]
           # add_tryCatch?
-          tryCatch(G$children[[i]]$get_older(G = G, E = E), error = function(e) {
-            message(paste(sprintf("[%d th agent] \n", i), e))
-            return(NULL)
-          })
-
           if(add_tryCatch){
             act_FUN_text <- paste(
               "lapply(sample(", text_select_FUN, "), function(i) {",
