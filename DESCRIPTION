@@ -16,9 +16,7 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     R6,
-    Rcpp,
     rlang,
     stringr
 LinkingTo: 
-    Rcpp
     
