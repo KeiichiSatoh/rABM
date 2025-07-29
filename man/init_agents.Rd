@@ -8,21 +8,26 @@ init_agents(
   n = NULL,
   attr_df = NULL,
   act_FUN = NULL,
-  active_binding_field = NULL,
+  active_binding = NULL,
   ID_start = 1,
+  custom_ID = NULL,
   other_attrs = NULL
 )
 }
 \arguments{
 \item{n}{An integer specifying the number of agents to create. If \code{NULL}, \code{n} is derived from \code{attr_df} if provided.}
 
-\item{attr_df}{A data frame or a vector containing the initial attributes for each agent. Each row represents an agent's attributes.}
+\item{attr_df}{A data frame or a vector containing the initial attributes for each agent.
+Each row represents an agent's attributes.}
 
-\item{act_FUN}{A function or list of functions defining the actions or methods for each agent.}
+\item{act_FUN}{A function or list of functions defining the actions or
+methods for each agent.}
 
-\item{active_binding_field}{A character vector specifying fields that should have active bindings.}
+\item{active_binding}{A function or list of functions defining the output of the active bindings.}
 
 \item{ID_start}{An integer specifying the starting value for agent IDs. Default is \code{1}.}
+
+\item{custom_ID}{Optional vector of agent IDs. If provided, its length must match \code{n}.}
 
 \item{other_attrs}{A named list of additional attributes for each agent. Each list element must have the same length as \code{n}.}
 }
@@ -36,23 +41,33 @@ Creates and initializes agents with specified attributes, actions, and other par
 The \code{init_agents} function generates agent instances with specified attributes
 and functions.
 
-Number of agents:
+\strong{Number of agents}:
 Either \code{n} or \code{attr_df} must be provided to specify the number of agents.
 If both \code{n} and \code{attr_df} are given, the function checks that
 the number of agents (\code{n}) matches the number of rows in \code{attr_df}.
 
-act_FUN: When a single function is provided, it is replicated across all agents,
+\strong{act_FUN}:
+When a single function is provided, it is replicated across all agents,
 meaning that each agent follows the same behavior rule.
 If you want each agent to have a different behavior, pass a vector or list of
 functions, each corresponding to an agent. For example, to assign three different
 functions \code{act_x1}, \code{act_x2}, and \code{act_x3} to three agents respectively,
-set \code{act_FUN = list(act1 = list(act_x1, act_x2, act_x3))}.
+set:
+
+\code{act_FUN = list(act1 = list(act_x1, act_x2, act_x3))}
+
 To assign multiple actions to each agent, note that the first level of
 the list will be shared across all agents.
 For example, to assign two actions, \code{act_x} and \code{act_y}, to all agents,
-set \code{act_FUN = list(act_x = act_x, act_y = act_y)}.
+set:
+
+\code{act_FUN = list(act_x = act_x, act_y = act_y)}.
+
 To assign unique actions for each agent individually,
-use a structure like \code{act_FUN = list(act_x = list(act_x2, act_x2, act_x3), act_y = list(act_y1, act_y2, act_y3))}.
+use a structure like:
+
+\code{act_FUN = list(act_x = list(act_x2, act_x2, act_x3),
+                     act_y = list(act_y1, act_y2, act_y3))}.
 
 You can specify each agent's behavior rule in four ways:
 \itemize{
@@ -66,11 +81,9 @@ e.g., \code{act_FUN = "act_x1(a = 1)"}.
 }
 
 Automatically, \code{G = G} and \code{E = E} are added to the function arguments
-within \code{act_FUN} to facilitate simulation in the \code{runABM} function.
-Additionally, \code{self <- self} is inserted at the beginning of the function
-body to enable agents to reference themselves within embedded functions.
+within \code{act_FUN} and \code{active_binding} to facilitate simulation in the \code{runABM} function.
 
-active_binding_field:
+\strong{active_binding}:
 An active binding field recalculates its value based on other fields of
 the agent according to a predefined function.
 The specification follows the same format as for \code{act_FUN}.
@@ -78,20 +91,45 @@ When creating a custom function, ensure that it returns
 the desired field value. For more information,
 see the R6 package tutorial: \url{https://r6.r-lib.org/articles/Introduction.html}.
 
-ID_start:
+Example of active binding:
+Suppose you want each agent to have a \code{status} field that automatically returns
+\code{"adult"} if the agent's \code{age >= 18}, and \code{"child"} otherwise.
+You can define this behavior as follows:
+
+\code{
+active_binding <- list(
+  status = function() {
+    if (self$age >= 18) {
+      "adult"
+    } else {
+      "child"
+    }
+  }
+)
+}
+
+Note: In this example, \code{status} is not stored as a regular field;
+it is dynamically computed from the \code{age} field each time it is accessed.
+
+Important considerations for active binding:
+\itemize{
+\item Active bindings depend on other fields (e.g., \code{self$age} in the above example).
+These dependent fields must be defined before the active binding is accessed.
+Otherwise, an error such as "object 'age' not found" will occur.
+\item You can reference other fields using \verb{self$} within the function body.
+\item Be cautious not to create circular dependencies (e.g., \code{status} depends on
+\code{score}, and \code{score} depends on \code{status}).
+}
+
+\strong{ID_start}:
 Each agent in a simulation should have a unique ID. If using multiple types of
 agents within a simulation,
 set this value to avoid ID overlap between agent groups.
-On the other hand, this means that the list index and ID_number does not match anymore,
-which is sometimes cumbersome for writing a selection function.
-Generally, it is recommended to leave the ID_start as the default, because
-during the simulation, it is specified which sets of agents to pickup and hence
-overlap of the IDs among the sets of the agents is not problematic.
 
-other_attrs:
+\strong{other_attrs}:
 The primary way to specify agent attributes is through \code{attr_df}, a data frame.
-However, if an agent's attribute needs to be a vector, matrix,
-or data frame (e.g., for individual agent-level data), use \code{other_attrs}
+However, if an agent's attribute needs to be a vector, matrix, data frame, or list
+(e.g., for individual agent-level data), use \code{other_attrs}
 as a list. Ensure each attribute within \code{other_attrs} has \code{n} elements
 to match the number of agents.
 Similar to \code{act_FUN}, the first list level represents fields.

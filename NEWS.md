@@ -1,5 +1,15 @@
 # rABM (development version)
 
+# rABM 0.1.4
+2025-07-29
+* [revised] init_agents: 
+    - now accepts custom_ID
+    - agents can have have different active binding functions
+    - parameter name changed from "active_binding_field" to "active_binding"
+    - agents does not have ID as their list name. They have only IDs in their field.
+* - revised test files in accordance to this overall changes.
+    
+
 # rABM 0.1.3
 2025-06-23
 * [revised] modify_agents: has a new method "replace_agent"

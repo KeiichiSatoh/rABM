@@ -1,18 +1,23 @@
 #' Agent Selection by Index Operations
 #'
 #' @description
-#' These operators  enable efficient and intuitive
-#' extraction and replacement of agents within an **`ABM_G`** object's agent
-#' list or a standalone list of **`ABM_Agent`** objects.
-#' They are specifically designed for **Agent-Based Modeling (ABM)**
-#' contexts, allowing you to access and modify agents by their numerical index.
+#' These operators enable efficient and intuitive extraction and replacement of
+#' agents from either an **`ABM_G`** object (via its `$agents` list) or
+#' from a standalone list of **`ABM_Agent`** objects.
+#'
 #'
 #' The `%ai%` operator extracts agents by index and returns shallow references
-#' to the agents (i.e., original objects). In contrast, the `%ai%` operator
+#' to the agents (i.e., original objects). In contrast, the `%aidp%` operator
 #' returns deep clones of the agents are returned instead.
 #'
 #' The `%ai%<-` replacement operator updates the agents at the given indices.
 #' The length of `value` must match the length of `idx`.
+#'
+#' If any of the requested indices in `%ai%` or `%aidp%` are out of bounds,
+#' a warning is issued and `NULL` is returned in their place.
+#'
+#' In `%ai%<-`, if any indices are out of bounds, they are skipped with a warning.
+#' The length of `value` must match the length of `idx` before filtering.
 #'
 #' @param agents A list of ABM_Agent objects.
 #' @param idx An integer vector of indices to extract or replace.
@@ -45,29 +50,53 @@
 #'
 #' @rdname operators_agent_index
 #' @export
+#'
+
 `%ai%` <- function(agents, idx) {
-  p <- lapply(idx, function(i) agents[[i]])
-  if (!is.null(nm <- names(agents))) names(p) <- nm[idx]
+  p <- lapply(idx, function(i){
+    tryCatch(agents[[i]],
+             error = function(e){
+               warning(sprintf("agents[[%s]] not found. Returning NULL.", i))
+               NULL
+             })
+  })
+  names(p) <- names(agents)[idx]
   p
 }
+
 
 #' @rdname operators_agent_index
 #' @export
+
 `%aidp%` <- function(agents, idx) {
-  p <- lapply(idx, function(i) agents[[i]]$clone(deep = TRUE))
-  if (!is.null(nm <- names(agents))) names(p) <- nm[idx]
+  p <- lapply(idx, function(i){
+    tryCatch(agents[[i]]$clone(deep = TRUE),
+             error = function(e){
+               warning(sprintf("agents[[%s]] not found. Returning NULL.", i))
+               NULL
+             })
+  })
+  names(p) <- names(agents)[idx]
   p
 }
-
 
 #' @rdname operators_agent_index
 #' @export
 `%ai%<-` <- function(agents, idx, value) {
   stopifnot(length(idx) == length(value))
 
-  for (i in seq_along(idx)) {
-    agents[[idx[i]]] <- value[[i]]
+  valid <- idx <= length(agents)
+  if (any(!valid)) {
+    warning("some of the 'idx' are out of bound, which are skipped.")
+    idx <- idx[valid]
+    value <- value[valid]
+  }
+
+  for (j in seq_along(idx)) {
+    agents[[idx[[j]]]] <- value[[j]]
   }
 
   agents
 }
+
+

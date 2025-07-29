@@ -2,7 +2,8 @@
 test_that("%aa% extracts attribute values correctly", {
   agents <- init_agents(n = 3, attr_df = data.frame(x = c(10, 20, 30)))
   out <- agents %aa% "x"
-  expect_equal(out, list("ID1" = 10, "ID2" = 20, "ID3" = 30))
+  out <- unlist(out)
+  expect_equal(out, c(10, 20, 30))
 })
 
 test_that("%aa%<- sets attribute values correctly", {

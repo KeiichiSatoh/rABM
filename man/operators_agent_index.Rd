@@ -27,18 +27,22 @@ agents \%aidp\% idx
 }
 }
 \description{
-These operators  enable efficient and intuitive
-extraction and replacement of agents within an \strong{\code{ABM_G}} object's agent
-list or a standalone list of \strong{\code{ABM_Agent}} objects.
-They are specifically designed for \strong{Agent-Based Modeling (ABM)}
-contexts, allowing you to access and modify agents by their numerical index.
+These operators enable efficient and intuitive extraction and replacement of
+agents from either an \strong{\code{ABM_G}} object (via its \verb{$agents} list) or
+from a standalone list of \strong{\code{ABM_Agent}} objects.
 
 The \verb{\%ai\%} operator extracts agents by index and returns shallow references
-to the agents (i.e., original objects). In contrast, the \verb{\%ai\%} operator
+to the agents (i.e., original objects). In contrast, the \verb{\%aidp\%} operator
 returns deep clones of the agents are returned instead.
 
 The \verb{\%ai\%<-} replacement operator updates the agents at the given indices.
 The length of \code{value} must match the length of \code{idx}.
+
+If any of the requested indices in \verb{\%ai\%} or \verb{\%aidp\%} are out of bounds,
+a warning is issued and \code{NULL} is returned in their place.
+
+In \verb{\%ai\%<-}, if any indices are out of bounds, they are skipped with a warning.
+The length of \code{value} must match the length of \code{idx} before filtering.
 }
 \examples{
 # Create and extract agents

@@ -215,7 +215,6 @@ modify_agents <- function(
              agent_max_ID <- max(unlist(lapply(agents, function(p){p$ID})))
              for(i in 1:length(new_obj)){
                new_obj[[i]]$ID <- agent_max_ID + i
-               names(new_obj)[i] <- paste0("ID", agent_max_ID + i)
              }
              message("Note: Some IDs in 'new_obj' were duplicated with existing agents. New IDs have been automatically assigned.")
            }
@@ -225,10 +224,8 @@ modify_agents <- function(
          "delete_agent" = {
            stopifnot("Provide 'agent_posit'." = !is.null(agent_posit))
            stopifnot("some of the agents that matchs 'agent_posit' do not exist." = any(agent_posit %in% 1:agent_n))
-           agent_label <- names(agents)
            remain_agent_posit <- setdiff(1:agent_n, agent_posit)
            new_agent_list <- vector("list", length(remain_agent_posit))
-           names(new_agent_list) <- agent_label[remain_agent_posit]
            for(p in 1:length(remain_agent_posit)){
              new_agent_list[[p]] <- agents[[remain_agent_posit[p]]]
            }
@@ -251,10 +248,6 @@ modify_agents <- function(
 
            # deep copy the new_obj
            new_obj <- lapply(1:length(new_obj), function(i){new_obj[[i]]$clone(deep = TRUE)})
-
-           # set the agent ID and labels
-           new_agent_label <- names(agents)[agent_posit]
-           names(new_obj) <- new_agent_label
 
            # get old agent ids
            old_agent_ID <- unlist(lapply(agent_posit, function(p){agents[[p]]$ID}))
@@ -300,12 +293,12 @@ modify_agents <- function(
            })
          }, #------"add_act_FUN"-----//
          "add_active_binding" = {
-           new_obj_list <- .shape_active_binding_field_agent(active_binding_field = new_obj,
-                                                             active_binding_field_sbs = new_obj_sbs)
-           obj_name <- names(new_obj_list)
-           lapply(1:agent_n, function(i){
-             lapply(1:length(obj_name), function(p){
-               agents[[i]]$.add_active_binding(name = obj_name[p], FUN = new_obj_list[[p]])
+           new_obj_list <- .shape_act_FUN(act_FUN = new_obj, act_FUN_sbs = new_obj_sbs, n = agent_n)
+
+           obj_names <- names(new_obj_list)
+           lapply(obj_names, function(obj_name){
+             lapply(1:agent_n, function(i){
+               agents[[i]]$.add_active_binding(name = obj_name, FUN = new_obj_list[[obj_name]][[i]])
              })
            })
          },  #------"add_active_binding"----//
