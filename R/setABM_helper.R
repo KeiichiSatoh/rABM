@@ -102,7 +102,7 @@
   # Check each element
   stage_formatted <- lapply(stage_list, function(X){
     if(is.function(X)){
-      stop("Do not assign a function directly to a stage. If you intend to create an active binding field, use the 'active_binding_field' argument instead.")
+      stop("Do not assign a function directly to a stage. If you intend to create an active binding field, use the 'active_binding' argument instead.")
     }
     X
   })
@@ -137,40 +137,40 @@
 
 
 #---------------------------------------------------------
-# .shape_active_binding_field
+# .shape_active_binding
 #---------------------------------------------------------
 
 #' @import rlang
-.shape_active_binding_field <- function(
-    active_binding_field = NULL,
-    active_binding_field_sbs = NULL){
+.shape_active_binding <- function(
+    active_binding = NULL,
+    active_binding_sbs = NULL){
 
   # Return if NULL
-  if(is.null(active_binding_field)){
+  if(is.null(active_binding)){
     return(NULL)
   }
 
   # object label
-  if(is.symbol(active_binding_field_sbs)){
-    active_binding_field_label <- deparse(active_binding_field_sbs)
+  if(is.symbol(active_binding_sbs)){
+    active_binding_label <- deparse(active_binding_sbs)
   }else{
-    active_binding_field_label <- "ABF"
+    active_binding_label <- "ABF"
   }
 
   # convert into list
-  if(!is.list(active_binding_field)){
-    active_binding_field <- list(active_binding_field)
+  if(!is.list(active_binding)){
+    active_binding <- list(active_binding)
   }
-  active_binding_field_formatted <- active_binding_field
+  active_binding_formatted <- active_binding
 
   ## makes all the inputs into functions
-  for(i in 1:length(active_binding_field_formatted)){
-    if(is.character(active_binding_field_formatted[[i]])){
-      parsed_FUN <- parse(text = active_binding_field_formatted[[i]])[[1]]
+  for(i in 1:length(active_binding_formatted)){
+    if(is.character(active_binding_formatted[[i]])){
+      parsed_FUN <- parse(text = active_binding_formatted[[i]])[[1]]
       if(is.name(parsed_FUN)){
         retrieved_FUN <- get(parsed_FUN)
         stopifnot("The 'active_binding' retrieved from the specified object must be a function." = is.function(retrieved_FUN))
-        active_binding_field_formatted[[i]] <- retrieved_FUN
+        active_binding_formatted[[i]] <- retrieved_FUN
       }else if(is.call(parsed_FUN)){
         retrieved_FUN <- get(call_name(parsed_FUN))
         stopifnot("The 'active_binding' retrieved from the specified object must be a function." = is.function(retrieved_FUN))
@@ -181,41 +181,41 @@
         original_args[names(parsed_args)] <- parsed_args
         body(FUN) <- body(retrieved_FUN)
         formals(FUN) <- original_args
-        active_binding_field_formatted[[i]] <- FUN
+        active_binding_formatted[[i]] <- FUN
       }
     }
   }
 
   # check if all elements are functions
-  stopifnot("active_binding_field must be a function." = all(unlist(lapply(active_binding_field_formatted, is.function))))
+  stopifnot("active_binding must be a function." = all(unlist(lapply(active_binding_formatted, is.function))))
 
   # set names
   # if there are no names
-  if(is.null(names(active_binding_field_formatted))){
-    if(length(active_binding_field_formatted)==1){
-      names(active_binding_field_formatted) <- active_binding_field_label
+  if(is.null(names(active_binding_formatted))){
+    if(length(active_binding_formatted)==1){
+      names(active_binding_formatted) <- active_binding_label
     }else{
-      names(active_binding_field_formatted) <- paste0(active_binding_field_label, 1:length(active_binding_field_formatted))
+      names(active_binding_formatted) <- paste0(active_binding_label, 1:length(active_binding_formatted))
     }
   }
 
   # check if only a part of elements has names
-  if(any(names(active_binding_field_formatted)=="")){
-    if(length(names(active_binding_field_formatted)[names(active_binding_field_formatted)==""])==1){
-      names(active_binding_field_formatted)[names(active_binding_field_formatted)==""] <- "ABF"
+  if(any(names(active_binding_formatted)=="")){
+    if(length(names(active_binding_formatted)[names(active_binding_formatted)==""])==1){
+      names(active_binding_formatted)[names(active_binding_formatted)==""] <- "ABF"
     }else{
-      names(active_binding_field_formatted)[names(active_binding_field_formatted)==""] <- paste0("ABF", 1:length(names(active_binding_field_formatted)==""))
+      names(active_binding_formatted)[names(active_binding_formatted)==""] <- paste0("ABF", 1:length(names(active_binding_formatted)==""))
     }
   }
 
   # define field_category
-  field_category <- rep("stage", length(active_binding_field_formatted))
-  names(field_category) <- names(active_binding_field_formatted)
+  field_category <- rep("stage", length(active_binding_formatted))
+  names(field_category) <- names(active_binding_formatted)
 
   # return
-  active_binding_field_formatted <- list(value = active_binding_field_formatted,
+  active_binding_formatted <- list(value = active_binding_formatted,
                                          category = field_category)
-  active_binding_field_formatted
+  active_binding_formatted
 }
 
 #------------------------------------------------

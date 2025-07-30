@@ -1,5 +1,11 @@
 # rABM (development version)
 
+# rABM 0.1.5
+2025-07-30
+* [revised] setABM: Changed the argument from 'active_binding_field' to 'active_binding'
+* [new] log_to_G: a function to reconstruct G object from log.
+
+
 # rABM 0.1.4
 2025-07-29
 * [revised] init_agents: 

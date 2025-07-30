@@ -11,7 +11,7 @@
 #' Default is `NULL`, meaning no agents will be created.
 #' @param stage A data structure (e.g., matrix, list, or other formats)
 #' representing the 'stage' where agents act. Default is `NULL`.
-#' @param active_binding_field A named list specifying active binding fields
+#' @param active_binding A named list specifying active binding fields
 #' that allow dynamic behavior for specific stages. Default is `NULL`.
 #' @param global_FUN A function for global operations affecting the `G` object. Default is `NULL`.
 #' @param select_FUN A function to select agents during simulation based on specific criteria. Default is `NULL`.
@@ -23,7 +23,7 @@
 #' @param time An integer representing the current time step of the `G` object.
 #' The initial time is 1. Default is `NULL`, which sets `time = 1`.
 #' @param notes A list or data frame for user-defined notes or metadata related to the simulation. Default is `NULL`.
-#' @param init A named list of initial values for any of the arguments, including `agents`, `stage`, `active_binding_field`,
+#' @param init A named list of initial values for any of the arguments, including `agents`, `stage`, `active_binding`,
 #' `global_FUN`, `select_FUN`, `stop_FUN`, `update_FUN`, `partial_update_FUN_body`, `log`, `time`, `notes`.
 #' If both `init` and individual arguments are specified, the values in `init` take precedence. Default is an empty list.
 #' @return An object of class `ABM_G` representing the initialized ABM.
@@ -47,13 +47,13 @@
 #'     To include multiple agent groups, use a list, e.g., `agents = list(teacher = 2, student = 3)`.
 #' - **`stage`**: Accepts various formats, including scalar, vector, matrix, array, data.frame, or list.
 #'   Multiple stages can be specified as `stage = list(stage1 = mat1, stage2 = mat2)`.
-#' - **Functions (`active_binding_field`, `global_FUN`, `select_FUN`, `stop_FUN`, `update_FUN`, `summary_FUN`, `plot_FUN`)**:
+#' - **Functions (`active_binding`, `global_FUN`, `select_FUN`, `stop_FUN`, `update_FUN`, `summary_FUN`, `plot_FUN`)**:
 #'   Functions can be specified in one of four ways:
 #'   1. Function object: e.g., `act_FUN = act_x1`.
 #'   2. Anonymous function: e.g., `act_FUN = function() {...}`.
 #'   3. Function name as a string: e.g., `act_FUN = "act_x1"`.
 #'   4. Function name with arguments as a string: e.g., `act_FUN = "act_x1(a = 1)"`.
-#' - **`active_binding_field`**: This parameter specifies dynamic fields
+#' - **`active_binding`**: This parameter specifies dynamic fields
 #' that calculate their values based on other fields in the `G` object.
 #' - **`global_FUN`**: Operates on fields of the `G` object, similar to `act_FUN` at the agent level.
 #' - **`select_FUN`**: Returns agent's index in the list of agents (NOT: `IDs`) based on a selection condition.
@@ -63,7 +63,7 @@
 #' - **`plot_FUN`**: A plot function of `G` object.
 #'
 #' ### Additional Notes
-#' All functions (except `active_binding_field`)
+#' All functions (except `active_binding`)
 #' automatically receive two arguments internally: `G` (the `G` object) and `E`
 #'  (a temporary environment for intermediate objects).
 #'
@@ -82,7 +82,7 @@
 setABM <- function(
     agents = NULL,
     stage = NULL,
-    active_binding_field = NULL,
+    active_binding = NULL,
     global_FUN = NULL,
     select_FUN = NULL,
     stop_FUN = NULL,
@@ -94,7 +94,7 @@ setABM <- function(
     notes = NULL,
     init = list(agents = NULL,
                 stage = NULL,
-                active_binding_field = NULL,
+                active_binding = NULL,
                 global_FUN = NULL, select_FUN = NULL, stop_FUN = NULL, update_FUN = NULL,
                 summary_FUN = NULL, plot_FUN = NULL,
                 log = NULL, time = NULL, notes = NULL)){
@@ -120,16 +120,16 @@ setABM <- function(
                                   stage_sbs = stage_sbs)
 
 
-  # active_binding_field---
-  if(!is.null(init$active_binding_field)){
-    active_binding_field <- init$active_binding_field
-    active_binding_field_sbs <- substitute(active_binding_field)
+  # active_binding---
+  if(!is.null(init$active_binding)){
+    active_binding <- init$active_binding
+    active_binding_sbs <- substitute(active_binding)
   }else{
-    active_binding_field_sbs <- substitute(active_binding_field)
+    active_binding_sbs <- substitute(active_binding)
   }
-  active_binding_field_formatted <- .shape_active_binding_field(
-    active_binding_field = active_binding_field,
-    active_binding_field_sbs = active_binding_field_sbs)
+  active_binding_formatted <- .shape_active_binding(
+    active_binding = active_binding,
+    active_binding_sbs = active_binding_sbs)
 
   # global_FUN----
   if(!is.null(init$global_FUN)){
@@ -232,7 +232,7 @@ setABM <- function(
   ## field_category
   field_category <- c(agents_formatted$category,
                       stage_formatted$category,
-                      active_binding_field_formatted$category,
+                      active_binding_formatted$category,
                       global_FUN_formatted$category,
                       select_FUN_formatted$category,
                       stop_FUN_formatted$category,
@@ -254,8 +254,8 @@ setABM <- function(
                  log = log, notes = notes)
 
   # attach active_binding(if NOT NULL)
-  if(!is.null(active_binding_field_formatted$value)){
-    active <- assign_func_envs(active_binding_field_formatted$value, G$.__enclos_env__)
+  if(!is.null(active_binding_formatted$value)){
+    active <- assign_func_envs(active_binding_formatted$value, G$.__enclos_env__)
     for(name in names(active)){
       makeActiveBinding(name, active[[name]], G$.__enclos_env__$self)
     }

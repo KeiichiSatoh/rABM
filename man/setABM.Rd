@@ -7,7 +7,7 @@
 setABM(
   agents = NULL,
   stage = NULL,
-  active_binding_field = NULL,
+  active_binding = NULL,
   global_FUN = NULL,
   select_FUN = NULL,
   stop_FUN = NULL,
@@ -17,9 +17,9 @@ setABM(
   log = NULL,
   time = NULL,
   notes = NULL,
-  init = list(agents = NULL, stage = NULL, active_binding_field = NULL, global_FUN =
-    NULL, select_FUN = NULL, stop_FUN = NULL, update_FUN = NULL, summary_FUN = NULL,
-    plot_FUN = NULL, log = NULL, time = NULL, notes = NULL)
+  init = list(agents = NULL, stage = NULL, active_binding = NULL, global_FUN = NULL,
+    select_FUN = NULL, stop_FUN = NULL, update_FUN = NULL, summary_FUN = NULL, plot_FUN =
+    NULL, log = NULL, time = NULL, notes = NULL)
 )
 }
 \arguments{
@@ -31,7 +31,7 @@ Default is \code{NULL}, meaning no agents will be created.}
 \item{stage}{A data structure (e.g., matrix, list, or other formats)
 representing the 'stage' where agents act. Default is \code{NULL}.}
 
-\item{active_binding_field}{A named list specifying active binding fields
+\item{active_binding}{A named list specifying active binding fields
 that allow dynamic behavior for specific stages. Default is \code{NULL}.}
 
 \item{global_FUN}{A function for global operations affecting the \code{G} object. Default is \code{NULL}.}
@@ -53,7 +53,7 @@ The initial time is 1. Default is \code{NULL}, which sets \code{time = 1}.}
 
 \item{notes}{A list or data frame for user-defined notes or metadata related to the simulation. Default is \code{NULL}.}
 
-\item{init}{A named list of initial values for any of the arguments, including \code{agents}, \code{stage}, \code{active_binding_field},
+\item{init}{A named list of initial values for any of the arguments, including \code{agents}, \code{stage}, \code{active_binding},
 \code{global_FUN}, \code{select_FUN}, \code{stop_FUN}, \code{update_FUN}, \code{partial_update_FUN_body}, \code{log}, \code{time}, \code{notes}.
 If both \code{init} and individual arguments are specified, the values in \code{init} take precedence. Default is an empty list.}
 }
@@ -89,7 +89,7 @@ To include multiple agent groups, use a list, e.g., \code{agents = list(teacher 
 }
 \item \strong{\code{stage}}: Accepts various formats, including scalar, vector, matrix, array, data.frame, or list.
 Multiple stages can be specified as \code{stage = list(stage1 = mat1, stage2 = mat2)}.
-\item \strong{Functions (\code{active_binding_field}, \code{global_FUN}, \code{select_FUN}, \code{stop_FUN}, \code{update_FUN}, \code{summary_FUN}, \code{plot_FUN})}:
+\item \strong{Functions (\code{active_binding}, \code{global_FUN}, \code{select_FUN}, \code{stop_FUN}, \code{update_FUN}, \code{summary_FUN}, \code{plot_FUN})}:
 Functions can be specified in one of four ways:
 \enumerate{
 \item Function object: e.g., \code{act_FUN = act_x1}.
@@ -97,7 +97,7 @@ Functions can be specified in one of four ways:
 \item Function name as a string: e.g., \code{act_FUN = "act_x1"}.
 \item Function name with arguments as a string: e.g., \code{act_FUN = "act_x1(a = 1)"}.
 }
-\item \strong{\code{active_binding_field}}: This parameter specifies dynamic fields
+\item \strong{\code{active_binding}}: This parameter specifies dynamic fields
 that calculate their values based on other fields in the \code{G} object.
 \item \strong{\code{global_FUN}}: Operates on fields of the \code{G} object, similar to \code{act_FUN} at the agent level.
 \item \strong{\code{select_FUN}}: Returns agent's index in the list of agents (NOT: \code{IDs}) based on a selection condition.
@@ -110,7 +110,7 @@ that calculate their values based on other fields in the \code{G} object.
 
 \subsection{Additional Notes}{
 
-All functions (except \code{active_binding_field})
+All functions (except \code{active_binding})
 automatically receive two arguments internally: \code{G} (the \code{G} object) and \code{E}
 (a temporary environment for intermediate objects).
 }
