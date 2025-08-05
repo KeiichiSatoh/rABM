@@ -1,5 +1,13 @@
 # rABM (development version)
 
+# rABM 0.1.6
+2025-08-05
+* [new] ask_gpt: a function to ask questions about rABM to GPT utilizing RAG.
+* [new] log_to_G: a function to reconstruct G object from the log.
+* [new] compare_G: a function that lists the different field values between G1 and G2.
+* [revised] ABM_Agent: revised .add_active_binding method so that it surely delete the previous bindings.
+
+
 # rABM 0.1.5
 2025-07-30
 * [revised] setABM: Changed the argument from 'active_binding_field' to 'active_binding'

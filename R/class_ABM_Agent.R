@@ -70,10 +70,21 @@ ABM_Agent <- R6::R6Class(
     #' @return None.
     #' @keywords internal
     .add_active_binding = function(name, FUN){
+      self_env <- self$.__enclos_env__$self
+
+      # If the name already exists, then delete it
+      if (exists(name, envir = self_env, inherits = FALSE)) {
+        if (bindingIsActive(name, self_env)) {
+          remove(list = name, envir = self_env)
+        } else {
+          self$.remove_field(name)
+        }
+      }
+
       # attach environment
       environment(FUN) <- self$.__enclos_env__
       # set active_binding
-      makeActiveBinding(name, FUN, self$.__enclos_env__$self)
+      makeActiveBinding(name, FUN, self_env)
       # set into the environment of self
       FUN_list <- list(FUN)
       names(FUN_list) <- name

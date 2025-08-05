@@ -56,12 +56,21 @@ The initial time is 1. Default is \code{NULL}, which sets \code{time = 1}.}
 \item{init}{A named list of initial values for any of the arguments, including \code{agents}, \code{stage}, \code{active_binding},
 \code{global_FUN}, \code{select_FUN}, \code{stop_FUN}, \code{update_FUN}, \code{partial_update_FUN_body}, \code{log}, \code{time}, \code{notes}.
 If both \code{init} and individual arguments are specified, the values in \code{init} take precedence. Default is an empty list.}
+
+\item{agents, stage, ...}{See details.}
 }
 \value{
 An object of class \code{ABM_G} representing the initialized ABM.
 This object contains fields and methods required to manage the simulation.
+
+An object of class \code{ABM_G} representing the initialized ABM.
 }
 \description{
+The \code{setABM} function constructs a \code{G} object (short for 'game') for
+agent-based model (ABM) simulations.
+The created \code{G} object serves as the foundation for running simulations
+using the \code{runABM} function.
+
 The \code{setABM} function constructs a \code{G} object (short for 'game') for
 agent-based model (ABM) simulations.
 The created \code{G} object serves as the foundation for running simulations
@@ -127,6 +136,8 @@ automatically receive two arguments internally: \code{G} (the \code{G} object) a
 G <- setABM(agents = 3, stage = matrix(0, 3, 3))
 }
 \seealso{
+\link{runABM}, \link{init_agents}, \link{ABM_G}
+
 \link{runABM}, \link{init_agents}, \link{ABM_G}
 }
 \author{

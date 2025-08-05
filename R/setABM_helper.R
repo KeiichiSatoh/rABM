@@ -3,8 +3,10 @@
 ################################################################################
 
 .shape_agent <- function(agents, agents_sbs){
-  # Check if agents_sbs is NULL
-  if(is.null(agents_sbs)){
+  if (is.null(agents_sbs)) return(NULL)
+  if (is.null(agents)) return(NULL)
+  if (is.list(agents) && all(vapply(agents, is.null, logical(1)))) return(NULL)
+  if (is.null(tryCatch(eval(agents_sbs, envir = parent.frame()), error = function(e) NULL))) {
     return(NULL)
   }
 
@@ -68,71 +70,52 @@
 #' @import rlang
 .shape_stage <- function(stage = NULL, stage_sbs = NULL){
   # Return if the input is NULL
-  if(is.null(stage_sbs)){
-    return(NULL)
-  }
+  if (is.null(stage_sbs)) return(NULL)
+  if (is.null(stage)) return(NULL)
+  if (is.list(stage) && all(vapply(stage, is.null, logical(1)))) return(NULL)
 
-  # get object label
-  if(is.list(stage) & !is.data.frame(stage)){
-    ## If stage is more than one object as list
+  # Infer label for stage
+  if (is.list(stage) && !is.data.frame(stage)) {
     stage_label <- as.character(stage_sbs)[-1]
-    stage_label <- sapply(stage_label, function(X){
-      if(exists(X)){
-        X
-      }else{
-        ""
-      }
-    })
-  }else{
-    ## Other
-    if(is.symbol(stage_sbs)){
-      stage_label <- deparse(stage_sbs)
-    }else{
-      stage_label <- "stage"
-    }
+    stage_label <- sapply(stage_label, function(x) {
+      if (exists(x, inherits = TRUE)) x else ""
+    }, USE.NAMES = FALSE)
+  } else {
+    stage_label <- if (is.symbol(stage_sbs)) deparse(stage_sbs) else "stage"
   }
 
-  # Convert the input into list
-  if(!is.list(stage)|is.data.frame(stage)){
-    stage_list <- list(stage)
-  }else{
-    stage_list <- stage
-  }
+  # Normalize stage to list (avoid data.frame ambiguity)
+  stage_list <- if (is.list(stage) && !is.data.frame(stage)) stage else list(stage)
 
-  # Check each element
-  stage_formatted <- lapply(stage_list, function(X){
-    if(is.function(X)){
-      stop("Do not assign a function directly to a stage. If you intend to create an active binding field, use the 'active_binding' argument instead.")
+  # Check for unsupported function values
+  stage_formatted <- lapply(stage_list, function(x) {
+    if (is.function(x)) {
+      stop("Do not assign a function directly to a stage. Use 'active_binding' instead.")
     }
-    X
+    x
   })
 
-  # Format the names
-  # if there is no name
-  if(is.null(names(stage_formatted))){
-    if(length(stage_formatted)==1|length(stage_formatted)==length(stage_label)){
+  # Name assignment
+  if (is.null(names(stage_formatted))) {
+    if (length(stage_formatted) == 1 || length(stage_formatted) == length(stage_label)) {
       names(stage_formatted) <- stage_label
-    }else{
-      names(stage_formatted) <- paste0(stage_label, 1:length(stage_formatted))
+    } else {
+      names(stage_formatted) <- paste0(stage_label, seq_along(stage_formatted))
     }
   }
 
-  # Check if only a part of the elements has a name
-  if(any(names(stage_formatted)=="")){
-    if(length(names(stage_formatted)[names(stage_formatted)==""])==1){
-      names(stage_formatted)[names(stage_formatted)==""] <- "Y"
-    }else{
-      names(stage_formatted)[names(stage_formatted)==""] <- paste0("stage", 1:length(names(stage_formatted)==""))
-    }
+  # Fill in empty names
+  empty_idx <- which(names(stage_formatted) == "")
+  if (length(empty_idx) > 0) {
+    fill_names <- if (length(empty_idx) == 1) "Y" else paste0("stage", seq_along(empty_idx))
+    names(stage_formatted)[empty_idx] <- fill_names
   }
 
-  # define field_category
-  field_category <- rep("stage", length(stage_formatted))
-  names(field_category) <- names(stage_formatted)
+  # Category vector
+  field_category <- setNames(rep("stage", length(stage_formatted)), names(stage_formatted))
 
-  # return
-  stage_formatted <- list(value = stage_formatted, category = field_category)
-  stage_formatted
+  # Return structured output
+  list(value = stage_formatted, category = field_category)
 }
 
 

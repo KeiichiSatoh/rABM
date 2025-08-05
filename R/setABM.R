@@ -79,6 +79,17 @@
 #' @examples
 #' G <- setABM(agents = 3, stage = matrix(0, 3, 3))
 
+#' @title Construct an `ABM_G` Class Object
+#' @description
+#' The `setABM` function constructs a `G` object (short for 'game') for
+#' agent-based model (ABM) simulations.
+#' The created `G` object serves as the foundation for running simulations
+#' using the `runABM` function.
+#'
+#' @param agents,stage,... See details.
+#' @return An object of class `ABM_G` representing the initialized ABM.
+#' @seealso [runABM], [init_agents], [ABM_G]
+#' @export
 setABM <- function(
     agents = NULL,
     stage = NULL,
@@ -92,189 +103,177 @@ setABM <- function(
     log = NULL,
     time = NULL,
     notes = NULL,
-    init = list(agents = NULL,
-                stage = NULL,
-                active_binding = NULL,
-                global_FUN = NULL, select_FUN = NULL, stop_FUN = NULL, update_FUN = NULL,
-                summary_FUN = NULL, plot_FUN = NULL,
-                log = NULL, time = NULL, notes = NULL)){
-  # agent----------
-  if(!is.null(init$agents)){
+    init = list(
+      agents = NULL, stage = NULL, active_binding = NULL,
+      global_FUN = NULL, select_FUN = NULL, stop_FUN = NULL, update_FUN = NULL,
+      summary_FUN = NULL, plot_FUN = NULL,
+      log = NULL, time = NULL, notes = NULL
+    )
+) {
+
+  # --- agents ---
+  if (!is.null(init$agents)) {
     agents <- init$agents
-    agents_sbs <- substitute(agents)
-  }else{
+    agents_sbs <- substitute(init$agents)
+  } else {
     agents_sbs <- substitute(agents)
   }
-  agents_formatted <- .shape_agent(agents = agents,
-                                   agents_sbs = agents_sbs)
-  # agent deep_clone
+  agents_formatted <- .shape_agent(agents, agents_sbs)
 
-  # stage------------
-  if(!is.null(init$stage)){
+  # --- stage ---
+  if (!is.null(init$stage)) {
     stage <- init$stage
-    stage_sbs <- substitute(stage)
-  }else{
+    stage_sbs <- substitute(init$stage)
+  } else {
     stage_sbs <- substitute(stage)
   }
-  stage_formatted <- .shape_stage(stage = stage,
-                                  stage_sbs = stage_sbs)
+  stage_formatted <- .shape_stage(stage, stage_sbs)
 
-
-  # active_binding---
-  if(!is.null(init$active_binding)){
+  # --- active_binding ---
+  if (!is.null(init$active_binding)) {
     active_binding <- init$active_binding
-    active_binding_sbs <- substitute(active_binding)
-  }else{
+    active_binding_sbs <- substitute(init$active_binding)
+  } else {
     active_binding_sbs <- substitute(active_binding)
   }
-  active_binding_formatted <- .shape_active_binding(
-    active_binding = active_binding,
-    active_binding_sbs = active_binding_sbs)
+  active_binding_formatted <- .shape_active_binding(active_binding, active_binding_sbs)
 
-  # global_FUN----
-  if(!is.null(init$global_FUN)){
+  # --- global_FUN ---
+  if (!is.null(init$global_FUN)) {
     global_FUN <- init$global_FUN
-    global_FUN_sbs <- substitute(global_FUN)
-  }else{
+    global_FUN_sbs <- substitute(init$global_FUN)
+  } else {
     global_FUN_sbs <- substitute(global_FUN)
   }
-  global_FUN_formatted <- .shape_G_FUN(FUN = global_FUN,
-                                       FUN_sbs = global_FUN_sbs,
-                                       FUN_category = "global_FUN")
+  global_FUN_formatted <- .shape_G_FUN(global_FUN, global_FUN_sbs, "global_FUN")
 
-  # select_FUN----
-  if(!is.null(init$select_FUN)){
+  # --- select_FUN ---
+  if (!is.null(init$select_FUN)) {
     select_FUN <- init$select_FUN
-    select_FUN_sbs <- substitute(select_FUN)
-  }else{
+    select_FUN_sbs <- substitute(init$select_FUN)
+  } else {
     select_FUN_sbs <- substitute(select_FUN)
   }
-  select_FUN_formatted <- .shape_G_FUN(FUN = select_FUN,
-                                       FUN_sbs = select_FUN_sbs,
-                                       FUN_category = "select_FUN")
+  select_FUN_formatted <- .shape_G_FUN(select_FUN, select_FUN_sbs, "select_FUN")
 
-  # stop_FUN----
-  if(!is.null(init$stop_FUN)){
+  # --- stop_FUN ---
+  if (!is.null(init$stop_FUN)) {
     stop_FUN <- init$stop_FUN
-    stop_FUN_sbs <- substitute(stop_FUN)
-  }else{
+    stop_FUN_sbs <- substitute(init$stop_FUN)
+  } else {
     stop_FUN_sbs <- substitute(stop_FUN)
   }
-  stop_FUN_formatted <- .shape_G_FUN(FUN = stop_FUN,
-                                     FUN_sbs = stop_FUN_sbs,
-                                     FUN_category = "stop_FUN")
+  stop_FUN_formatted <- .shape_G_FUN(stop_FUN, stop_FUN_sbs, "stop_FUN")
 
-  # update_FUN----
-  if(!is.null(init$update_FUN)){
+  # --- update_FUN ---
+  if (!is.null(init$update_FUN)) {
     update_FUN <- init$update_FUN
-    update_FUN_sbs <- substitute(update_FUN)
-  }else{
+    update_FUN_sbs <- substitute(init$update_FUN)
+  } else {
     update_FUN_sbs <- substitute(update_FUN)
   }
-  update_FUN_formatted <- .shape_G_FUN(FUN = update_FUN,
-                                       FUN_sbs = update_FUN_sbs,
-                                       FUN_category = "update_FUN")
+  update_FUN_formatted <- .shape_G_FUN(update_FUN, update_FUN_sbs, "update_FUN")
 
-  # summary_FUN---
-  if(!is.null(init$summary_FUN)){
+  # --- summary_FUN ---
+  if (!is.null(init$summary_FUN)) {
     summary_FUN <- init$summary_FUN
-    summary_FUN_sbs <- substitute(summary_FUN)
-  }else{
+    summary_FUN_sbs <- substitute(init$summary_FUN)
+  } else {
     summary_FUN_sbs <- substitute(summary_FUN)
   }
-  summary_FUN_formatted <- .shape_G_FUN(FUN = summary_FUN,
-                                        FUN_sbs = summary_FUN_sbs,
-                                        FUN_category = "summary_FUN")
+  summary_FUN_formatted <- .shape_G_FUN(summary_FUN, summary_FUN_sbs, "summary_FUN")
 
-  # plot_FUN------
-  if(!is.null(init$plot_FUN)){
+  # --- plot_FUN ---
+  if (!is.null(init$plot_FUN)) {
     plot_FUN <- init$plot_FUN
-    plot_FUN_sbs <- substitute(plot_FUN)
-  }else{
+    plot_FUN_sbs <- substitute(init$plot_FUN)
+  } else {
     plot_FUN_sbs <- substitute(plot_FUN)
   }
-  plot_FUN_formatted <- .shape_G_FUN(FUN = plot_FUN,
-                                     FUN_sbs = plot_FUN_sbs,
-                                     FUN_category = "plot_FUN")
+  plot_FUN_formatted <- .shape_G_FUN(plot_FUN, plot_FUN_sbs, "plot_FUN")
 
-  ## log---------
-  if(!is.null(init$log)){log <- init$log}
-  if(is.null(log)){
+  # --- log ---
+  if (!is.null(init$log)) log <- init$log
+  if (is.null(log)) {
     log <- list(log = NULL)
-  }else if(is.list(log)){
-    log <- log
-  }else{
+  } else if (!is.list(log)) {
     stop("log must be NULL or list.")
   }
 
-  ## time--------
-  if(!is.null(init$time)){time <- init$time}
-  if(is.null(time)){
+  # --- time ---
+  if (!is.null(init$time)) time <- init$time
+  if (is.null(time)) {
     time <- list(time = 1)
-  }else if(rlang::is_scalar_atomic(time) && time >= 1){
+  } else if (rlang::is_scalar_atomic(time) && time >= 1) {
     time <- list(time = time)
-  }else{
+  } else {
     stop("time must be integer greater than or equal to 1.")
   }
 
-  ## notes------
-  if(!is.null(init$notes)){notes <- init$notes}
-  if(is.null(notes)){
-    notes <- NULL
-  }else{
-    if(is.data.frame(notes)){
-      notes <- as.list(notes)
-    }else if(!is.list(notes)){
-      notes <- as.list(notes)
-    }
+  # --- notes ---
+  if (!is.null(init$notes)) notes <- init$notes
+  if (!is.null(notes) && !is.list(notes)) {
+    notes <- as.list(notes)
   }
 
-  ## field_category
-  field_category <- c(agents_formatted$category,
-                      stage_formatted$category,
-                      active_binding_formatted$category,
-                      global_FUN_formatted$category,
-                      select_FUN_formatted$category,
-                      stop_FUN_formatted$category,
-                      update_FUN_formatted$category,
-                      summary_FUN_formatted$category,
-                      plot_FUN_formatted$category)
+  # --- combine field_category ---
+  field_category <- c(
+    agents_formatted$category,
+    stage_formatted$category,
+    active_binding_formatted$category,
+    global_FUN_formatted$category,
+    select_FUN_formatted$category,
+    stop_FUN_formatted$category,
+    update_FUN_formatted$category,
+    summary_FUN_formatted$category,
+    plot_FUN_formatted$category
+  )
 
-  ## generate G
-  G <- ABM_G$new(fields = c(agents_formatted$value,
-                            stage_formatted$value,
-                            time),
-                 methods = c(global_FUN_formatted$value,
-                             select_FUN_formatted$value,
-                             stop_FUN_formatted$value,
-                             update_FUN_formatted$value,
-                             summary_FUN_formatted$value,
-                             plot_FUN_formatted$value),
-                 field_category = field_category,
-                 log = log, notes = notes)
+  # --- create G ---
+  G <- ABM_G$new(
+    fields = c(
+      agents_formatted$value,
+      stage_formatted$value,
+      time
+    ),
+    methods = c(
+      global_FUN_formatted$value,
+      select_FUN_formatted$value,
+      stop_FUN_formatted$value,
+      update_FUN_formatted$value,
+      summary_FUN_formatted$value,
+      plot_FUN_formatted$value
+    ),
+    field_category = field_category,
+    log = log,
+    notes = notes
+  )
 
-  # attach active_binding(if NOT NULL)
-  if(!is.null(active_binding_formatted$value)){
+  # --- active binding ---
+  if (!is.null(active_binding_formatted$value)) {
     active <- assign_func_envs(active_binding_formatted$value, G$.__enclos_env__)
-    for(name in names(active)){
+    for (name in names(active)) {
       makeActiveBinding(name, active[[name]], G$.__enclos_env__$self)
     }
     G$.__enclos_env__$.__active__ <- active
   }
 
-  # if log = NULL: attach the initial values
-  if(is.null(G$log)){
-    G$.save()}
-
-  # check if there is no duplicated field names
-  check_name_tb <- table(ls(G))>1
-  if(any(check_name_tb)){
-    stop(paste0("The following field has a duplicated name. Please give each field a unique name: ", names(check_name_tb[check_name_tb])))
+  # --- log initialization ---
+  if (is.null(G$log)) {
+    G$.save()
   }
 
-  # deep clone G, in order to avoid any unexpected shallow copy
+  # --- duplicate name check ---
+  check_name_tb <- table(ls(G)) > 1
+  if (any(check_name_tb)) {
+    stop(paste0("The following field has a duplicated name. Please give each field a unique name: ",
+                names(check_name_tb[check_name_tb])))
+  }
+
+  # --- deep clone ---
   G <- G$clone(deep = TRUE)
 
-  # Return G
+  # --- return ---
   G
 }
+
