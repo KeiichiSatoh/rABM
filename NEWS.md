@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 0.1.7
+2025-08-07
+* [new] runABM_repl: an interactive version of runABM.
+
 # rABM 0.1.6
 2025-08-05
 * [new] ask_gpt: a function to ask questions about rABM to GPT utilizing RAG.
