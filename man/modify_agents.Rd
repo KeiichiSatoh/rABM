@@ -55,7 +55,7 @@ use \code{\link[=modify_G]{modify_G()}} instead.
 \details{
 This function is intended to modify the internal structure of agents (objects of class \code{ABM_Agent}). It can be used either directly on a list of agents or via a field (typically \code{"agents"}) stored inside an \code{ABM_G} object.
 
-\strong{Important distinction from \code{modify_G()}:}
+\strong{Important distinction from \code{modify_G()}}
 While \code{modify_G()} operates on the structure of the \code{ABM_G} object itself—including adding or removing fields like \code{stage}, \code{global_FUN}, or even the entire \code{agents} field—\code{modify_agents()} assumes that the \code{agents} field already exists and focuses on modifying its contents.
 
 Use \code{modify_agents()} when you want to:
@@ -87,7 +87,7 @@ For a detailed explanation of operations available via the \code{method} argumen
 \item{\code{"delete_field"}}{Removes a field from all agents.}
 }
 
-** Notes on \code{add_act_FUN}
+** Notes on \code{add_act_FUN}**
 This accepts several format of \code{new_obj} depending on the intention of the users.
 \itemize{
 \item set a single act_FUN to all agents: set \code{new_obj = act_x}
@@ -96,7 +96,7 @@ This accepts several format of \code{new_obj} depending on the intention of the 
 \item set multiple act_FUNs that differ for each agent: set \code{new_obj = list(act_x = list(act_x1, act_x2, ...), act_y = list(act_y1, act_y2, act_y3))}
 }
 
-#' \strong{Note on \code{new_obj} when adding or replacing a single agent}
+\strong{Note on \code{new_obj} when adding or replacing a single agent}
 When adding or replacing a single agent, be sure to wrap the agent in a list.
 For example, if you want to replace the second agent with the first agent:
 \itemize{

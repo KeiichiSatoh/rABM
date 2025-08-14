@@ -11,7 +11,7 @@
 #' @details
 #' This function is intended to modify the internal structure of agents (objects of class `ABM_Agent`). It can be used either directly on a list of agents or via a field (typically `"agents"`) stored inside an `ABM_G` object.
 #'
-#' **Important distinction from `modify_G()`:**
+#' **Important distinction from `modify_G()`**
 #' While `modify_G()` operates on the structure of the `ABM_G` object itself—including adding or removing fields like `stage`, `global_FUN`, or even the entire `agents` field—`modify_agents()` assumes that the `agents` field already exists and focuses on modifying its contents.
 #'
 #' Use `modify_agents()` when you want to:
@@ -43,14 +43,14 @@
 #'   \item{\code{"delete_field"}}{Removes a field from all agents.}
 #' }
 #'
-#' ** Notes on `add_act_FUN`
+#' ** Notes on `add_act_FUN`**
 #' This accepts several format of `new_obj` depending on the intention of the users.
 #' - set a single act_FUN to all agents: set \code{new_obj = act_x}
 #' - set multiple act_FUNs to all agents: set \code{new_obj = list(act_x = act_x, act_y = act_y, ...)}
 #' - set a single act_FUN that differ for each agent: set \code{new_obj = list(act_x = list(act_x1, act_x2, ...))}
 #' - set multiple act_FUNs that differ for each agent: set \code{new_obj = list(act_x = list(act_x1, act_x2, ...), act_y = list(act_y1, act_y2, act_y3))}
 #'
-#'#' **Note on `new_obj` when adding or replacing a single agent**
+#' **Note on `new_obj` when adding or replacing a single agent**
 #' When adding or replacing a single agent, be sure to wrap the agent in a list.
 #' For example, if you want to replace the second agent with the first agent:
 #' - This does NOT work: `new_obj = G$agents[[1]]`

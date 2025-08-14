@@ -49,12 +49,12 @@ This ensures that logically corresponding agents are matched.
 \examples{
 agents1 <- init_agents(3, attr_df = data.frame(age = 1:3, sex = c("m","m","f")))
 agents2 <- init_agents(3, attr_df = data.frame(age = 1:3, sex = c("m","f","f")))
-G1 <- setABM(agents = agents1)
-G2 <- setABM(agents = agents2)
+G1 <- setABM(agents = list(agents = agents1))
+G2 <- setABM(agents = list(agents = agents2))
 compare_G(G1, G2)
 
-# Use time slices within G1
-G1$time <- list(G1, G2)
-compare_G(G1, time1 = 1, time2 = 2)
-
+# Use time slices within G
+G <- setABM(stage = list(y = 1), global_FUN = list(increase_y = function(){self$y <- self$y + 1}))
+G <- runABM(G, plan = "increase_y", times = 1)
+compare_G(G, time1 = 1, time2 = 2)
 }

@@ -65,7 +65,7 @@ G <- setABM(agents = 2, stage = data.frame(age = c(1, 2)),
             select_FUN = function(){NULL},
             update_FUN = function(){NULL},
             stop_FUN = function(){TRUE},
-            active_binding_field = function(){1})
+            active_binding = function(){1})
 
 # Add a new stage
 G2 <- modify_G(G, field_name = "stage2", method = "add_stage", new_obj = matrix(0, 2, 2))

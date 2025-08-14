@@ -1,5 +1,10 @@
 # rABM (development version)
 
+# rABM 0.1.8
+2025-08-14
+* [new] test_FUN: an interactive test function of a new function for the ABM. 
+* [revised] compare_G: the output now shows G1 and G2 as column name.
+
 # rABM 0.1.7
 2025-08-07
 * [new] runABM_repl: an interactive version of runABM.

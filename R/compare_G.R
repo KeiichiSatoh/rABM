@@ -36,26 +36,28 @@
 #' @examples
 #' agents1 <- init_agents(3, attr_df = data.frame(age = 1:3, sex = c("m","m","f")))
 #' agents2 <- init_agents(3, attr_df = data.frame(age = 1:3, sex = c("m","f","f")))
-#' G1 <- setABM(agents = agents1)
-#' G2 <- setABM(agents = agents2)
+#' G1 <- setABM(agents = list(agents = agents1))
+#' G2 <- setABM(agents = list(agents = agents2))
 #' compare_G(G1, G2)
 #'
-#' # Use time slices within G1
-#' G1$time <- list(G1, G2)
-#' compare_G(G1, time1 = 1, time2 = 2)
-#'
+#' # Use time slices within G
+#' G <- setABM(stage = list(y = 1), global_FUN = list(increase_y = function(){self$y <- self$y + 1}))
+#' G <- runABM(G, plan = "increase_y", times = 1)
+#' compare_G(G, time1 = 1, time2 = 2)
 #' @export
 
 compare_G <- function(G, G2 = NULL, time1 = NULL, time2 = NULL) {
   # Check G is ABM_G object
-  stopifnot("G must be of class 'ABM_G'." = inherits(G, "ABM_G"))
+  stopifnot("'G' must be of class 'ABM_G'." = inherits(G, "ABM_G"))
 
   # If time1 is provided
   if (!is.null(time1)) {
     # validation is made within log_to_G function
     G1 <- log_to_G(G = G, which_time = time1)
+    message("G at time 1 has been set as 'G1'.\n\n")
   }else{
     G1 <- copy_G(G)
+    message("'G' has been set as 'G1'.\n\n")
   }
   G1_field_list <- G1$.field_list()
 
@@ -65,8 +67,9 @@ compare_G <- function(G, G2 = NULL, time1 = NULL, time2 = NULL) {
       stop("Specify either 'G2' or 'time2', not both.")
     }
     G2 <- log_to_G(G = G, which_time = time2)
+    message("G at time 2 has been set as 'G2'.\n\n")
   } else {
-    stopifnot("G2 must be of class 'ABM_G'." = inherits(G2, "ABM_G"))
+    stopifnot("'G2' must be of class 'ABM_G'." = inherits(G2, "ABM_G"))
     G2 <- copy_G(G2)
   }
   G2_field_list <- G2$.field_list()
@@ -93,7 +96,7 @@ compare_G <- function(G, G2 = NULL, time1 = NULL, time2 = NULL) {
 
   stage_compare_df <- data.frame(field_name = character(),
                                  idx = character(),
-                                 G = character(),
+                                 G1 = character(),
                                  G2 = character(),
                                  stringsAsFactors = FALSE)
 
@@ -134,7 +137,7 @@ compare_G <- function(G, G2 = NULL, time1 = NULL, time2 = NULL) {
         if (!is.null(idx_diff) && length(idx_diff) > 0) {
           temp_stage <- data.frame(field_name = name,
                                    idx = idx_diff,
-                                   G = as.character(G1_value[idx_diff]),
+                                   G1 = as.character(G1_value[idx_diff]),
                                    G2 = as.character(G2_value[idx_diff]))
         } else {
           temp_stage <- NULL
@@ -152,7 +155,7 @@ compare_G <- function(G, G2 = NULL, time1 = NULL, time2 = NULL) {
   } else {
     data.frame(field_name = character(),
                idx = character(),
-               G = character(),
+               G1 = character(),
                G2 = character(),
                stringsAsFactors = FALSE)
   }
@@ -190,11 +193,11 @@ compare_G <- function(G, G2 = NULL, time1 = NULL, time2 = NULL) {
         if (is.null(G1_value)) {
           temp <- data.frame(agents_name = agents_name, agent_ID = ID,
                              field_name = name, idx = "NULL",
-                             G = "NULL", G2 = as.character(G2_value))
+                             G1 = "NULL", G2 = as.character(G2_value))
         } else if (is.null(G2_value)) {
           temp <- data.frame(agents_name = agents_name, agent_ID = ID,
                              field_name = name, idx = "NULL",
-                             G = as.character(G1_value), G2 = "NULL")
+                             G1 = as.character(G1_value), G2 = "NULL")
         } else {
           if (any(is.na(G1_value))) warning("G1 has NA in: ", agents_name, " ID=", ID, " attr=", name)
           if (any(is.na(G2_value))) warning("G2 has NA in: ", agents_name, " ID=", ID, " attr=", name)
@@ -214,7 +217,7 @@ compare_G <- function(G, G2 = NULL, time1 = NULL, time2 = NULL) {
             temp <- data.frame(agents_name = agents_name, agent_ID = ID,
                                field_name = name,
                                idx = idx_diff,
-                               G = as.character(G1_value[idx_diff]),
+                               G1 = as.character(G1_value[idx_diff]),
                                G2 = as.character(G2_value[idx_diff]))
           } else {
             temp <- NULL
@@ -233,7 +236,7 @@ compare_G <- function(G, G2 = NULL, time1 = NULL, time2 = NULL) {
   } else {
     data.frame(agents_name = character(), agent_ID = integer(),
                field_name = character(), idx = character(),
-               G = character(), G2 = character(), stringsAsFactors = FALSE)
+               G1 = character(), G2 = character(), stringsAsFactors = FALSE)
   }
 
   # return the results as a list

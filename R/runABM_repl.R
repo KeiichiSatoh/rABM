@@ -362,11 +362,23 @@ runABM_repl <- function(G,
     }else{
       # update time
       G$time <- G$time + 1
-
       # Other FUN
       g_fun_args <- .tc(.parse_call(prompt))
       # execute
-      .tc(do.call(G[[g_fun_args$fun_name]], args = c(g_fun_args$args, G = G, E = E)))
+      error_occurred <- FALSE
+      tryCatch(
+        {
+          do.call(G[[g_fun_args$fun_name]], args = c(g_fun_args$args, G = G, E = E))
+        },
+        error = function(e){
+          message("[ERROR] ", e$message)
+          G$time <- G$time - 1
+          error_occurred <<- TRUE
+          NULL
+        }
+      )
+      # do not proceed to update if an error occurs
+      if (error_occurred) next
     }
 
     #---------------------------------------------
