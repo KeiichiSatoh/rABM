@@ -119,7 +119,7 @@
 #' @family rABM developer tools
 #'
 #' @importFrom rlang new_environment
-#' @importFrom cli cli_h1 cli_h2 cli_text cli_ul cli_end cli_alert_info
+#' @importFrom cli cli_h1 cli_h2 cli_text cli_ul cli_end cli_alert_info cli_par
 #' @importFrom utils edit
 #'
 #' @export
@@ -144,8 +144,12 @@ test_FUN <- function(
   G_new <- copy_G(G)
   # new_FUN
   stopifnot("new_FUN_name should be a character of length 1." = is.character(new_FUN_name) && length(new_FUN_name) == 1)
-  stopifnot("'new_FUN' must be a function or a list of functions."
-            = all(unlist(lapply(new_FUNs, function(FUN){is.function(FUN)}))))
+  if(length(new_FUN) > 1){
+    stopifnot("'new_FUN' must be a function or a list of functions."
+              = all(unlist(lapply(new_FUN, function(FUN){is.function(FUN)}))))
+  }else{
+    stopifnot("'new_FUN' must be a function." = is.function(new_FUN))
+  }
   # FUN_type
   FUN_type <- match.arg(FUN_type)
   # agents_name

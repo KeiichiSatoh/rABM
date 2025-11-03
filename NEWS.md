@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 0.1.9
+2025-11-03
+* [revised] test_FUN: amended some bugs.
+
 # rABM 0.1.8
 2025-08-14
 * [new] test_FUN: an interactive test function of a new function for the ABM. 
