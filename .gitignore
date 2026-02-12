@@ -1,7 +1,29 @@
+# R
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 notes/
-rABM_ragnar_openai_duckdb
-rABM_ragnar_openai_duckdb.wal
+*.duckdb
+*.duckdb.wal
+*.Rproj
+
+# =========================
+# R CMD check
+# =========================
+*.Rcheck/
+*.tar.gz
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Quarto (cache only)
+# =========================
+**/.quarto/
+**/*_cache/
+**/*_files/
+**/*.quarto_ipynb

@@ -1,0 +1,22 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "rABM ドキュメント（日本語）",
+    "section": "",
+    "text": "1 rABMとは\nrABM は R 上で動くエージェントベース・モデリング（ABM）フレームワークです。",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>はじめに</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#このドキュメントの構成",
+    "href": "index.html#このドキュメントの構成",
+    "title": "rABM ドキュメント（日本語）",
+    "section": "1.1 このドキュメントの構成",
+    "text": "1.1 このドキュメントの構成\n\nGetting Started（最短で動かす）\nCore Concepts（クラス構造とデータモデル）",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>はじめに</span>"
+    ]
+  }
+]
