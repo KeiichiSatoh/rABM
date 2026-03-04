@@ -20,7 +20,7 @@ test_FUN(
 \item{G}{An \code{ABM_G} object. The target ABM environment to which the new
 function will be attached and tested. Must inherit from class \code{"ABM_G"}.}
 
-\item{new_FUN_name}{A length‑1 character string. The \strong{new} field/method
+\item{new_FUN_name}{A length‑1 character string. The new field/method
 name to create. Must not already exist in the target location (checked).}
 
 \item{new_FUN}{A function object (or a list of functions if you extend this
@@ -41,7 +41,7 @@ bounds.}
 Determines where and how the function is attached.}
 
 \item{with_repl}{Logical (default \code{TRUE}). If \code{FALSE}, the function is added,
-run once, and the (possibly normalized) function is returned \strong{without}
+run once, and the function is returned \strong{without}
 entering the interactive REPL.}
 
 \item{print_changes}{Logical (default \code{TRUE}). If \code{TRUE}, prints the result
@@ -55,11 +55,11 @@ Side effects occur only on \strong{cloned} \code{G} objects within the session; 
 original \code{G} passed in is not mutated.
 }
 \description{
-\code{test_FUN()} adds a \strong{new function} (agent action or global function) to an
-existing ABM environment \code{G}, runs it once, \strong{diffs the changes} with
-\code{\link[=compare_G]{compare_G()}}, and optionally opens an \strong{interactive REPL} to debug, edit,
+\code{test_FUN()} adds a new function (agent action or global function) to an
+existing ABM environment \code{G}, runs it once, diffs the changes with
+\code{\link[=compare_G]{compare_G()}}, and optionally opens an interactive REPL to debug, edit,
 re‑run, or reset the function and/or \code{G}. When you end the REPL, the function
-(possibly edited during the session) is \strong{returned} as a plain function with
+(possibly edited during the session) is returned as a plain function with
 a cleaned environment, ready to be stored or reused.
 }
 \details{
@@ -72,7 +72,7 @@ The workflow is:
 \itemize{
 \item Running the function again,
 \item One‑shot debugging (\code{DEBUG}) via \code{utils::debugonce()},
-\item In‑place editing of the function body (\code{EDIT}) via \code{utils::edit()},
+\item In‑place editing of the function body (\code{EDIT}) via \code{edit()},
 \item Resetting \code{G} or the function to original state,
 \item Printing the current function, or arbitrary R evaluation.
 }

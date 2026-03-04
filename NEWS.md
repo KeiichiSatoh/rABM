@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 1.0.0
+2025-03-04
+* Completely overhauled the structure of major classes. 
+
 # rABM 0.1.9
 2025-11-03
 * [revised] test_FUN: amended some bugs.

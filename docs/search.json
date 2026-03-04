@@ -18,5 +18,15 @@
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>はじめに</span>"
     ]
+  },
+  {
+    "objectID": "index.html#目次",
+    "href": "index.html#目次",
+    "title": "rABM ドキュメント（日本語）",
+    "section": "1.1 目次（",
+    "text": "1.1 目次（\n\nGetting Started\nデフォルトモデルの回し方\nrABMのクラスの構成\nStage & active_stage: フィールドの作り方\nglobal_FUN & stop_FUN: 各種FUNの作り方\nGame: ABMの実行\nSeries: 設定から実行までを一気に行う\nget：値の取得方法\nPlot：作図と動画\nAgent：ローカルレベルのモデリング\nオペレーター：各種の操作\nask_gpt：GPTにrABMを学習させる\n実践例：Schellingの分居モデル\nテクニカル・ノート",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>はじめに</span>"
+    ]
   }
 ]

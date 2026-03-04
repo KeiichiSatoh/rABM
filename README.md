@@ -16,30 +16,62 @@ You can install the development version of rABM from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("remotes")
-library(remotes)
-remotes::install_github("KeiichiSatoh/rABM")
+# install.packages("pak")
+pak::pak("KeiichiSatoh/rABM")
 ```
-
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+The basic procedure of implementing simulation with rABM is following the three steps:
+1) Create an object about the agents' state object and the functions to update it.
+2) Put all the objects into the 'Game' class object.
+3) Run the simulations with 'run_Game' function. 
 
-``` r
+The following code shows the simplest example of this procedure.
+```
 # read package
 library(rABM)
 
-# setup agents
-agent_attr <- data.frame(age = c(0, 1, 2))
-get_older <- function() { self$age <- self$age + 1 }
-agents <- init_agent(attr_df = agent_attr, act_FUN = get_older)
+# Step 1: define the agent's state and functions to update it.
+age <- c(A1 = 1, A2 = 2, A3 = 3)   # the age agent A1, A2, and A3
+get_older <- function(){self$age <- self$age + 1} # functions to update
 
-# Initialize the ABM environment
-G <- setABM(agents = agents)
+# Step 2: put them into Game object with defining the each fields with State(...) and Act(...)
+G_init <- Game(State(age), Act(get_older))
 
-# Run simulation for 5 steps
-result <- runABM(G = G, schedule = "get_older", times = 5)
+# Step 3: run the simulation
+G_finished <- run_Game(G = G_init,         # the initial Game object 
+                       plan = "get_older",  # the name of the function to update 
+                       times = 3)          # how many times the update should be called.
+```
 
-# Check each agent's age
-result$agents
+To see the content of the Game object, just print it.
+
+```
+G_finished
+```
+
+Other than 'State' and 'Act' field, there are 'Active'
+ (i.e., active bindings), 'Stop' (defining the condition to stop the simulation), 'Plot' (plot function), and 'Summary' (summary function) fields to be used. 
+ 
+The package also contains several predefined models, with which users can play with. (still updating now...)
+```
+# Let's use a famous toy model of NetLogo "heros and cowards": 
+G_hero <- model_hero_coward(n = 30,
+                            sim_time = 30)         # just run 30 times here
+
+# G_finished is the Game object that has already simulated
+G <- G_hero$G_finished
+
+# Examine the current position of each agents
+G$posit
+
+# Or plot the current position
+G$plot_space()
+
+# The previous states are saved in 'log' field
+G$log
+
+# if you have "gifski" package, you can also create a gif-movie easily
+library(gifski)
+animate_log(G = G, name = "plot_space", delay = 0.2)
 ```
