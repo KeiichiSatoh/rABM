@@ -22,8 +22,8 @@ pak::pak("KeiichiSatoh/rABM")
 ## Example
 
 The basic procedure of implementing simulation with rABM is following the three steps:
-1) Create an object about the agents' state object and the functions to update it.
-2) Put all the objects into the 'Game' class object.
+1) Create objects about the agents' state and functions to update them.
+2) Put all the objects into a 'Game' class object.
 3) Run the simulations with 'run_Game' function. 
 
 The following code shows the simplest example of this procedure.
