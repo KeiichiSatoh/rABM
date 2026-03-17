@@ -12,7 +12,7 @@
 #' Missing values (`NA`) are treated as unavailable choices. In the returned
 #' probabilities, such entries are assigned zero.
 #'
-#' @name prob_rules
+#' @name prob_score
 #' @aliases prob_linprop
 #' @aliases prob_power
 #' @aliases prob_softmax
@@ -136,7 +136,6 @@
 #' prob_rank(m2)
 #' prob_eps_greedy(m2, eps = 0.1)
 #'
-#' @export
 NULL
 
 
@@ -144,7 +143,7 @@ NULL
 # linear proportion
 #===============================================================================
 
-#' @rdname prob_rules
+#' @rdname prob_score
 #' @export
 prob_linprop <- function(x) {
   if (is.matrix(x)) {
@@ -176,7 +175,7 @@ prob_linprop <- function(x) {
 # prob_power
 #===============================================================================
 
-#' @rdname prob_rules
+#' @rdname prob_score
 #' @export
 
 prob_power <- function(x, alpha = 1) {
@@ -205,7 +204,7 @@ prob_power <- function(x, alpha = 1) {
 # softmax
 #===============================================================================
 
-#' @rdname prob_rules
+#' @rdname prob_score
 #' @export
 prob_softmax <- function(x, beta = 1) {
   if (is.matrix(x)) {
@@ -231,7 +230,7 @@ prob_softmax <- function(x, beta = 1) {
 # prob_rank
 #===============================================================================
 
-#' @rdname prob_rules
+#' @rdname prob_score
 #' @export
 prob_rank <- function(x, ties.method = c("max", "average", "first", "last", "random", "min")) {
   ties.method <- match.arg(ties.method)
@@ -258,7 +257,7 @@ prob_rank <- function(x, ties.method = c("max", "average", "first", "last", "ran
 # Epsilon-Greedy
 #===============================================================================
 
-#' @rdname prob_rules
+#' @rdname prob_score
 #' @export
 
 prob_eps_greedy <- function(x, eps = 0.1) {

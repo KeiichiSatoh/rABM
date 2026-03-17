@@ -1,6 +1,12 @@
 # rABM (development version)
 
+# rABM 1.1.1
+2025-03-17
+* [new] Added a tutorial page (JP): using model library
+* [new] prob_score: various basic transformation rules from score to probability
+
 # rABM 1.1.0
+2025-03-04
 * [new] Added a tutorial page (JP): quick start guide 
 
 # rABM 1.0.0

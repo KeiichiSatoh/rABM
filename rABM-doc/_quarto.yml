@@ -7,6 +7,7 @@ book:
   chapters:
     - index.qmd
     - quick_start_JP.qmd
+    - model_library_JP.qmd
 
 format:
   html:

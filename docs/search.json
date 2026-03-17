@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "rABM tutorial",
     "section": "",
-    "text": "日本語版解説ページ\n\nQuick start guide\n\n\nデフォルトモデルの回し方\nrABMのクラスの構成\nstage & active Stage\nplot_FUN\nact_FUN\nGameの実行\nstop_FUN\nsummary_FUN\nSeries\nその他の有用な関数\n事例: Heros and cowards\n事例: Schellingの分居モデル\nAppendix A: 関数の作り方\nAppendix B: テクニカル・ノート\n\n\n\nEnglish Version\nComing soon…",
+    "text": "日本語版解説ページ\n\nQuick start guide\nモデルライブラリの使い方\n\n\nrABMのクラスの構成\nstage & active Stage\nplot_FUN\nact_FUN\nGameの実行\nstop_FUN\nsummary_FUN\nSeries\nその他の有用な関数\n事例: Heros and cowards\n事例: Schellingの分居モデル\nAppendix A: 関数の作り方\nAppendix B: テクニカル・ノート\n\n\n\nEnglish Version\nComing soon…",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>はじめに</span>"
     ]
@@ -52,61 +52,131 @@
   {
     "objectID": "quick_start_JP.html",
     "href": "quick_start_JP.html",
-    "title": "クイック・スタート・ガイド",
+    "title": "Quick Start Guide",
     "section": "",
     "text": "rABMのインストール",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Quick Start Guide</span>"
     ]
   },
   {
     "objectID": "quick_start_JP.html#rabmのダウンロード",
     "href": "quick_start_JP.html#rabmのダウンロード",
-    "title": "クイック・スタート・ガイド",
+    "title": "Quick Start Guide",
     "section": "rABMのダウンロード",
     "text": "rABMのダウンロード\nrABMは、この文書の執筆時点（2026年3月）では、佐藤圭一（一橋大学）のGitHubリポジトリからダウンロードすることで利用できます（今後CRANにも投稿予定です）。\n\nはじめに、ダウンロード用のパッケージである`pak`パッケージを自身のRにインストールします（すでにインストール済みの場合、この手順は省略できます）。\n\nlibrary(pak)\npak::pak(\"KeiichiSatoh/rABM\")",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Quick Start Guide</span>"
     ]
   },
   {
     "objectID": "quick_start_JP.html#rabmの読み込み",
     "href": "quick_start_JP.html#rabmの読み込み",
-    "title": "クイック・スタート・ガイド",
+    "title": "Quick Start Guide",
     "section": "rABMの読み込み",
     "text": "rABMの読み込み\n使用時には毎回rABMを読み込みます。\n\nlibrary(rABM)\n\n\nAttaching package: 'rABM'\n\n\nThe following object is masked from 'package:methods':\n\n    Summary",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Quick Start Guide</span>"
     ]
   },
   {
     "objectID": "quick_start_JP.html#ステップ1-状態と更新を表現するオブジェクトを作成する",
     "href": "quick_start_JP.html#ステップ1-状態と更新を表現するオブジェクトを作成する",
-    "title": "クイック・スタート・ガイド",
+    "title": "Quick Start Guide",
     "section": "ステップ1: 状態と更新を表現するオブジェクトを作成する",
     "text": "ステップ1: 状態と更新を表現するオブジェクトを作成する\nまず各エージェントの年齢をageというベクトルで表現します。\n\nage &lt;- c(1, 2, 3, 4, 5)\n\n次に「更新のたびに年齢が1増える」という処理を関数として定義します。ここでは元のオブジェクトに1を加える処理をget_olderとして定義します。\nなお、Gameオブジェクトを自己参照する場合には、selfを使用します。この点に関してはあとの章で詳しく説明します。\n\nget_older &lt;- function(){\n  self$age &lt;- self$age + 1\n  }",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Quick Start Guide</span>"
     ]
   },
   {
     "objectID": "quick_start_JP.html#ステップ2-gameオブジェクトに格納する",
     "href": "quick_start_JP.html#ステップ2-gameオブジェクトに格納する",
-    "title": "クイック・スタート・ガイド",
+    "title": "Quick Start Guide",
     "section": "ステップ2: Gameオブジェクトに格納する",
     "text": "ステップ2: Gameオブジェクトに格納する\n次にageとget_olderを、rABMでシミュレーションを実行するためのオブジェクトであるGameに格納します。Gameオブジェクトを作る際には、それぞれのオブジェクトがどのタイプのフィールドかを指定する必要があります。\n\nage：状態を表すstateフィールド\nget_older：更新を行うact_FUNフィールド\n\n\nG &lt;- Game(State(age), Act(get_older))\n\nなお、ここではフィールドをまとめて追加しましたが、以下のように一つずつ追加することも可能です。\n\n# 空のGameオブジェクトを作成\nG &lt;- Game()\n\n# ageを追加\nadd_field(G, State(age))\n\n# get_olderを追加\nadd_field(G, Act(get_older))\n\n作成されたGameオブジェクトを表示すると、オブジェクトの内容と、メタデータが確認できます。\n\nG\n\n&lt;Game&gt;\n$age(state)\n[1] 1 2 3 4 5\n\n$get_older(act_FUN)\nfunction (E = E) \n{\n    self$age &lt;- self$age + 1\n}\n\n------------------- \ntime       : 1 \nn of logs  : 0 \nn of notes : 0 \nn of fields: 2 \n  state: age\n  act_FUN: get_older\n-------------------",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Quick Start Guide</span>"
     ]
   },
   {
     "objectID": "quick_start_JP.html#ステップ3-シミュレーションの実行",
     "href": "quick_start_JP.html#ステップ3-シミュレーションの実行",
-    "title": "クイック・スタート・ガイド",
+    "title": "Quick Start Guide",
     "section": "ステップ3: シミュレーションの実行",
-    "text": "ステップ3: シミュレーションの実行\nGameオブジェクトに設定したシミュレーションは、run_Game()関数で実行できます。実際に使用する更新関数（act_FUN）の名前をplan引数に設定します。\n以下では、1回分の更新をtimes引数で指定しています。\n\nG2 &lt;- run_Game(G = G, plan = \"get_older\", times = 1)\n\n[plan] \nget_older\n \n[stop_FUN] \nstop times at 2\n\nThe initial values at time 1 were saved.\n\nReady to run......\n   start time  : 1\n   current time: 2\nFinished at time 2 \n\nSimulation took 00:00:00.009 (hh:mm:ss.mmm)\n\n\n結果が保存されたオブジェクトG2のageフィールドを確認します。\n\nG2$age\n\n[1] 2 3 4 5 6\n\n\n1回分の更新が反映されていることが確認できます。たとえば、1番目のエージェントの年齢は初期値の1歳から2歳に変化しています。\nなお、Rではインデックスは１から始まります。このため、Gameにおいても初期状態の時刻はtime = 1とカウントされ、1回更新後はtime = 2となります。\nこのようにrABMでは、更新用の関数をact_FUNとして定義し、それをrun_Game()`で実行することでシミュレーションを行います。",
+    "text": "ステップ3: シミュレーションの実行\nGameオブジェクトに設定したシミュレーションは、run_Game()関数で実行できます。実際に使用する更新関数（act_FUN）の名前をplan引数に設定します。\n以下では、1回分の更新をtimes引数で指定しています。\n\nG2 &lt;- run_Game(G = G, plan = \"get_older\", times = 1)\n\n[plan] \nget_older\n \n[stop_FUN] \nstop times at 2\n\nThe initial values at time 1 were saved.\n\nReady to run......\n   start time  : 1\n   current time: 2\nFinished at time 2 \n\nSimulation took 00:00:00.010 (hh:mm:ss.mmm)\n\n\n結果が保存されたオブジェクトG2のageフィールドを確認します。\n\nG2$age\n\n[1] 2 3 4 5 6\n\n\n1回分の更新が反映されていることが確認できます。たとえば、1番目のエージェントの年齢は初期値の1歳から2歳に変化しています。\nなお、Rではインデックスは１から始まります。このため、Gameにおいても初期状態の時刻はtime = 1とカウントされ、1回更新後はtime = 2となります。\nこのようにrABMでは、更新用の関数をact_FUNとして定義し、それをrun_Game()`で実行することでシミュレーションを行います。",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Quick Start Guide</span>"
+    ]
+  },
+  {
+    "objectID": "model_library_JP.html",
+    "href": "model_library_JP.html",
+    "title": "Using Model Library",
+    "section": "",
+    "text": "モデル・ライブラリの使い方\nrABMには、ABMに関する代表的なモデルを実装したモデル・ライブラリがいくつか用意されています。これらのモデルは、rABMの機能を確かめたり、簡単な実験を行ったり、独自の修正を加えて新たなオリジナルモデルを作成するためのテンプレートとして利用することができます。\n\nこれらのモデルは model_XXXX という名称で統一されているため、簡単に検索することができます。本章では、NetLogoで有名な Heros and Cowards をrABMに移植したモデルを例に、モデルライブラリの実行方法と、rABMの基本的な機能を概観します。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Using Model Library</span>"
+    ]
+  },
+  {
+    "objectID": "model_library_JP.html#heros-and-cowardsモデルの概要",
+    "href": "model_library_JP.html#heros-and-cowardsモデルの概要",
+    "title": "Using Model Library",
+    "section": "Heros and Cowardsモデルの概要",
+    "text": "Heros and Cowardsモデルの概要\nこのモデルには3つのタイプのエージェントがおり、タイプ（agent_type）ごとに行動が変わります。\n\n英雄 hero（type = 1)：味方と敵の間に割って入るように行動する（具体的には敵と味方の中間点を目標地点とする）\n臆病者 coward（type = 0)：敵に対して味方の後ろにから身を隠すように行動する（具体的には敵と味方の中間地点を味方の方向に折り返した地点を目標点とする）\n変わり者 mixed（type = 9）：毎回の更新ごとに英雄と臆病者のいずれかの行動パターンにランダムに変化する。\n\nなおそれぞれのエージェントが他のどのエージェントをそれぞれ「友人」「敵」とみなすかは、モデルのセットアップ時点でランダムに定められます。たとえば、たとえば、エージェント1にとっての味方はエージェント3、敵はエージェント6といった具合です。\nユーザーが主に設定できるパラメーターは以下の通りです。\n\nエージェントの数（n)\n各エージェントの動きの速度（speed)\nエージェントが動きまわる空間の最大値（x_max & y_max）\nシミュレーションの長さ（sim_time）\n\nこのように、きわめて単純なシミュレーションでありながら毎回ランダムに設定される初期値ごとに、エージェントが極めて多様な動きをすることがから、複雑系シミュレーションを体験するためのよい教材として知られています。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Using Model Library</span>"
+    ]
+  },
+  {
+    "objectID": "model_library_JP.html#モデルを回す",
+    "href": "model_library_JP.html#モデルを回す",
+    "title": "Using Model Library",
+    "section": "モデルを回す",
+    "text": "モデルを回す\nはじめにrABMを読み込みます。\nそれでは実際にモデルを回してみましょう。シミュレーションの長さ以外は、いったんデフォルトの値のままモデルを回してみたいと思います。なおヘルプファイルを確認していただければ明らかですが（?model_hero_cowardとコンソールでタイプする）、デフォルト値は以下の通りです。\n\nエージェント数（n)：30\n速度（speed)：0.1\nX軸の境界値（x_max)：1\ny軸の境界値（y_max)：1\nシミュレーションの長さ（sim_time）: 300\n\nなお、それ以外の以下の設定はデフォルトでは自動的に定められます（カッコ内は引数を示します）。後で説明するように、ユーザーはこれらの値も任意で設定することができます。\n\nエージェントのタイプ（agent_type)：英雄と臆病者の割合が半々\nエージェントの初期の位置（init_posit）：0以上、X軸・Y軸それぞれの最大値以内の範囲でランダムに配置\nそれぞれのエージェントにとっての味方と敵（relationship）：初期にランダムに設定\nシード値（seed）：ランダム変数のシード値\n\n実際にモデルを回してみます。\nこのように、モデル・ライブラリではデフォルト設定のままでもモデルが実行できるよう設計されています。まずは動作を確認し、その後でパラメーターを変更して挙動を観察するのが基本的な使い方です。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Using Model Library</span>"
+    ]
+  },
+  {
+    "objectID": "model_library_JP.html#結果を確認する",
+    "href": "model_library_JP.html#結果を確認する",
+    "title": "Using Model Library",
+    "section": "結果を確認する",
+    "text": "結果を確認する\nモデル・ライブラリの出力は、通常2つのGameオブジェクトを含むリストです。$G_initはシミュレーションを回す前、$G_finishedは実行後の状態を示します。\nここでは、実行後のオブジェクトを G としてコピーし、中身を確認します。\n\nG &lt;- copy_obj(G2$G_finished)\n\n結果の確認では、まずオブジェクトを表示し、利用可能な plot_FUN と summary_FUN を確認するのが有効です（出力省略）\nこのモデルでは、\n\nplot_FUN：plot_spce, plot_relationship\nsummary_FUN：trace_posit_mean, trace_posit_sd\n\nが用意されています。\nまず、現在のエージェント位置を可視化してみます。\n\nG$plot_space()\n\n\n\n\n\n\n\n\nまたエージェント間の平均距離がどのように変化してきたのかをtrace_posit_meanで見てみましょう。\n\nposit_mean &lt;- G$trace_posit_mean()\n\n\n\n\n\n\n\n\nなお、今回呼び出したsummary_FUNには、プロットだけではなく、何らかのオブジェクトの出力を伴うように設定することが想定されています。この出力結果は、その後のさらなる分析に使用することができます。今回の場合、出力を付加したposit_meanには、各時点におけるエージェントの位置の中間地点の記録されています。\n\nposit_mean\n\n            x         y\nt1  0.5282159 0.4791633\nt2  0.5553828 0.4827979\nt3  0.5832051 0.4846887\nt4  0.6106222 0.4771212\nt5  0.6479719 0.4721448\nt6  0.6911099 0.4743299\nt7  0.7262455 0.4844540\nt8  0.7555758 0.4817300\nt9  0.7950732 0.4740653\nt10 0.8055964 0.4574923\nt11 0.7964363 0.4353171",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Using Model Library</span>"
+    ]
+  },
+  {
+    "objectID": "model_library_JP.html#動画でプロットを見る",
+    "href": "model_library_JP.html#動画でプロットを見る",
+    "title": "Using Model Library",
+    "section": "動画でプロットを見る",
+    "text": "動画でプロットを見る\nシミュレーション後のGameオブジェクトには、それぞれの時点におけるstate（および後の章で解説するactive state）フィールドの結果が、$logの下にネストされる形で保存されています。各時点のstateをプロットしたい場合には、下記のようにnameにplot_FUNの名前、logに見たい時点を指定することで呼び出せます。\n\nplot(G, name = \"plot_space\", log = 5)\n\nprinting: 1/1\n\n\n\n\n\n\n\n\n\nけれども、これらを一つ一つ確認するのは大変です。そこで、プロットをGIFファイルとして出力し動画としてみることが考えられます。ここではgifskiというパッケージの関数を内部で用いますので、まだ手元のRにインストールされていない場合には、下記の手順で先にインストールしてください。\n\ninstall.packages(\"gifski\")\n\n動画を作成するには、animate_log関数を用います。なお、各画像の表示の速度はdelayパラメーターで調整します。また、出力されたGIFファイルは、デフォルトでは、temp.gifという名前でディレクトリに保存されますが、file引数で変更できます。\n\nanimate_log(G = G, name = \"plot_space\", delay = 0.3)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Using Model Library</span>"
+    ]
+  },
+  {
+    "objectID": "model_library_JP.html#設定を変える",
+    "href": "model_library_JP.html#設定を変える",
+    "title": "Using Model Library",
+    "section": "設定を変える",
+    "text": "設定を変える\nここまで読んだユーザーの方は、さまざまなほかの設定を試してみたくなることでしょう。たとえば、エージェントのタイプの割合を変えたらどうなるのだろうか、シード値を変えてみたら、関係を任意のものに変えてみたならば・・・などなど。\n前述の通り、これらの値は引数で変えることができます。ただしモデルで想定されている投入値の形式とずれてしまわないように、いったん出力されたモデルで、操作したいフィールドの値がどのようになっているのかを確認することをお勧めします。たとえば、エージェントのタイプに関しては、現状のモデルではこのようになっています。\n\nG$agent_type\n\n 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 \n 1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  0  0  0  0  0  0  0  0  0  0  0 \n27 28 29 30 \n 0  0  0  0 \n\n\nしたがって、エージェントのタイプを任意のものに変えたい場合には、1と0の数を変えればよいことが分かります。以下では、英雄の数を20、臆病者の数を10に変更してみます。\n\nagent_type_new &lt;- c(rep(1, 20), rep(0, 10))\n\nそのうえで、この新たなタイプの割合でシミュレーションを回してみましょう。\n\nG3 &lt;- model_hero_coward(n = 30, \n                        agent_type = agent_type_new, \n                        sim_time = 10)\n\nあとはここまで見たように、シミュレーションの結果がどのように変わるのかを観察してみてください。",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Using Model Library</span>"
+    ]
+  },
+  {
+    "objectID": "model_library_JP.html#補遺mixedタイプを加える",
+    "href": "model_library_JP.html#補遺mixedタイプを加える",
+    "title": "Using Model Library",
+    "section": "補遺：mixedタイプを加える",
+    "text": "補遺：mixedタイプを加える\n前述の通り、このモデルでは特殊なタイプとして変わり者 （=9）を加えることができます。その設定の方法は以下の例のようになります。ここでは、英雄、臆病者、変わり者を1/3ずつ設定しました。\n\n# mixedタイプを設定\nagent_type_mixed &lt;- c(rep(1, 10), rep(0, 10), rep(9, 10))\n\n# モデルに組み込む\nG4 &lt;- model_hero_coward(n = 30, \n                        agent_type = agent_type_mixed, \n                        sim_time = 10)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Using Model Library</span>"
     ]
   }
 ]

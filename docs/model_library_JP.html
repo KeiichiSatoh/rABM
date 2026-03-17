@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Quick Start Guide – rABM tutorial</title>
+<title>Using Model Library – rABM tutorial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./model_library_JP.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./quick_start_JP.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -118,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./quick_start_JP.html"><span class="chapter-title">Quick Start Guide</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./model_library_JP.html"><span class="chapter-title">Using Model Library</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -150,12 +149,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Quick Start Guide</span></a>
+  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quick Start Guide</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Using Model Library</span></a>
+  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Using Model Library</span></a>
   </div>
 </li>
     </ul>
@@ -168,16 +167,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#rabmのインストール" id="toc-rabmのインストール" class="nav-link active" data-scroll-target="#rabmのインストール">rABMのインストール</a>
+  <li><a href="#モデルライブラリの使い方" id="toc-モデルライブラリの使い方" class="nav-link active" data-scroll-target="#モデルライブラリの使い方">モデル・ライブラリの使い方</a>
   <ul class="collapse">
-  <li><a href="#rabmのダウンロード" id="toc-rabmのダウンロード" class="nav-link" data-scroll-target="#rabmのダウンロード">rABMのダウンロード</a></li>
-  <li><a href="#rabmの読み込み" id="toc-rabmの読み込み" class="nav-link" data-scroll-target="#rabmの読み込み">rABMの読み込み</a></li>
-  </ul></li>
-  <li><a href="#rabmの使用の基礎" id="toc-rabmの使用の基礎" class="nav-link" data-scroll-target="#rabmの使用の基礎">rABMの使用の基礎</a>
-  <ul class="collapse">
-  <li><a href="#ステップ1-状態と更新を表現するオブジェクトを作成する" id="toc-ステップ1-状態と更新を表現するオブジェクトを作成する" class="nav-link" data-scroll-target="#ステップ1-状態と更新を表現するオブジェクトを作成する">ステップ1: 状態と更新を表現するオブジェクトを作成する</a></li>
-  <li><a href="#ステップ2-gameオブジェクトに格納する" id="toc-ステップ2-gameオブジェクトに格納する" class="nav-link" data-scroll-target="#ステップ2-gameオブジェクトに格納する">ステップ2: Gameオブジェクトに格納する</a></li>
-  <li><a href="#ステップ3-シミュレーションの実行" id="toc-ステップ3-シミュレーションの実行" class="nav-link" data-scroll-target="#ステップ3-シミュレーションの実行">ステップ3: シミュレーションの実行</a></li>
+  <li><a href="#heros-and-cowardsモデルの概要" id="toc-heros-and-cowardsモデルの概要" class="nav-link" data-scroll-target="#heros-and-cowardsモデルの概要">Heros and Cowardsモデルの概要</a></li>
+  <li><a href="#モデルを回す" id="toc-モデルを回す" class="nav-link" data-scroll-target="#モデルを回す">モデルを回す</a></li>
+  <li><a href="#結果を確認する" id="toc-結果を確認する" class="nav-link" data-scroll-target="#結果を確認する">結果を確認する</a></li>
+  <li><a href="#動画でプロットを見る" id="toc-動画でプロットを見る" class="nav-link" data-scroll-target="#動画でプロットを見る">動画でプロットを見る</a></li>
+  <li><a href="#設定を変える" id="toc-設定を変える" class="nav-link" data-scroll-target="#設定を変える">設定を変える</a></li>
+  <li><a href="#補遺mixedタイプを加える" id="toc-補遺mixedタイプを加える" class="nav-link" data-scroll-target="#補遺mixedタイプを加える">補遺：mixedタイプを加える</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -187,7 +184,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Quick Start Guide</span></h1>
+<h1 class="title"><span class="chapter-title">Using Model Library</span></h1>
 </div>
 
 
@@ -204,142 +201,167 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="rabmのインストール" class="level1">
-<h1>rABMのインストール</h1>
-<section id="rabmのダウンロード" class="level2">
-<h2 class="anchored" data-anchor-id="rabmのダウンロード">rABMのダウンロード</h2>
-<p>rABMは、この文書の執筆時点（2026年3月）では、佐藤圭一（一橋大学）のGitHubリポジトリからダウンロードすることで利用できます（今後CRANにも投稿予定です）。<br>
+<section id="モデルライブラリの使い方" class="level1">
+<h1>モデル・ライブラリの使い方</h1>
+<p>rABMには、ABMに関する代表的なモデルを実装したモデル・ライブラリがいくつか用意されています。これらのモデルは、rABMの機能を確かめたり、簡単な実験を行ったり、独自の修正を加えて新たなオリジナルモデルを作成するためのテンプレートとして利用することができます。<br>
 <br>
-はじめに、ダウンロード用のパッケージである`pak`パッケージを自身のRにインストールします（すでにインストール済みの場合、この手順は省略できます）。</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pak)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pak</span>(<span class="st">"KeiichiSatoh/rABM"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="rabmの読み込み" class="level2">
-<h2 class="anchored" data-anchor-id="rabmの読み込み">rABMの読み込み</h2>
-<p>使用時には毎回rABMを読み込みます。</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rABM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'rABM'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:methods':
-
-    Summary</code></pre>
-</div>
-</div>
-</section>
-</section>
-<section id="rabmの使用の基礎" class="level1">
-<h1>rABMの使用の基礎</h1>
-<p>rABMを用いたシミュレーションの実行は、以下の3つのステップからなると理解できます。</p>
-<ol type="1">
-<li><p>エージェントの状態と、その更新を行うためのオブジェクトを設定する</p></li>
-<li><p>それらのオブジェクトをGameオブジェクトに格納する</p></li>
-<li><p>シミュレーションを実行する</p></li>
-</ol>
-<p>ただし、ステップ1とステップ2は、各オブジェクトごとに順に行うことも可能です。複雑なABMを実装する場合には、そのように段階的に実装するほうが理解しやすいでしょう。</p>
-<p>以下では、このステップに従い、基本的な手順を理解するために、簡単な例を実装します。</p>
+これらのモデルは <strong>model_XXXX</strong> という名称で統一されているため、簡単に検索することができます。本章では、NetLogoで有名な <strong>Heros and Cowards</strong> をrABMに移植したモデルを例に、モデルライブラリの実行方法と、rABMの基本的な機能を概観します。</p>
+<section id="heros-and-cowardsモデルの概要" class="level2">
+<h2 class="anchored" data-anchor-id="heros-and-cowardsモデルの概要">Heros and Cowardsモデルの概要</h2>
+<p>このモデルには3つのタイプのエージェントがおり、タイプ（<code>agent_type</code>）ごとに行動が変わります。</p>
 <ul>
-<li><p>年齢がそれぞれ{1, 2, 3, 4, 5}歳の5人のエージェントがいる</p></li>
-<li><p>エージェントは更新のたびに1歳ずつ年齢が増加する</p></li>
+<li><p>英雄 hero（type = 1)：味方と敵の間に割って入るように行動する（具体的には敵と味方の中間点を目標地点とする）</p></li>
+<li><p>臆病者 coward（type = 0)：敵に対して味方の後ろにから身を隠すように行動する（具体的には敵と味方の中間地点を味方の方向に折り返した地点を目標点とする）</p></li>
+<li><p>変わり者 mixed（type = 9）：毎回の更新ごとに英雄と臆病者のいずれかの行動パターンにランダムに変化する。</p></li>
 </ul>
-<section id="ステップ1-状態と更新を表現するオブジェクトを作成する" class="level2">
-<h2 class="anchored" data-anchor-id="ステップ1-状態と更新を表現するオブジェクトを作成する">ステップ1: 状態と更新を表現するオブジェクトを作成する</h2>
-<p>まず各エージェントの年齢を<code>age</code>というベクトルで表現します。</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>次に「更新のたびに年齢が1増える」という処理を関数として定義します。ここでは元のオブジェクトに1を加える処理を<code>get_older</code>として定義します。</p>
-<p>なお、<code>Game</code>オブジェクトを自己参照する場合には、<code>self</code>を使用します。この点に関してはあとの章で詳しく説明します。</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>get_older <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  self<span class="sc">$</span>age <span class="ot">&lt;-</span> self<span class="sc">$</span>age <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="ステップ2-gameオブジェクトに格納する" class="level2">
-<h2 class="anchored" data-anchor-id="ステップ2-gameオブジェクトに格納する">ステップ2: Gameオブジェクトに格納する</h2>
-<p>次に<code>age</code>と<code>get_older</code>を、rABMでシミュレーションを実行するためのオブジェクトである<code>Game</code>に格納します。Gameオブジェクトを作る際には、それぞれのオブジェクトがどのタイプのフィールドかを指定する必要があります。</p>
+<p>なおそれぞれのエージェントが他のどのエージェントをそれぞれ「友人」「敵」とみなすかは、モデルのセットアップ時点でランダムに定められます。たとえば、たとえば、エージェント1にとっての味方はエージェント3、敵はエージェント6といった具合です。</p>
+<p>ユーザーが主に設定できるパラメーターは以下の通りです。</p>
 <ul>
-<li><p><code>age</code>：状態を表す<strong>state</strong>フィールド</p></li>
-<li><p><code>get_older</code>：更新を行う<strong>act_FUN</strong>フィールド</p></li>
+<li><p>エージェントの数（<strong>n</strong>)</p></li>
+<li><p>各エージェントの動きの速度（<strong>speed</strong>)</p></li>
+<li><p>エージェントが動きまわる空間の最大値（<strong>x_max &amp; y_max</strong>）</p></li>
+<li><p>シミュレーションの長さ（<strong>sim_time</strong>）</p></li>
 </ul>
+<p>このように、きわめて単純なシミュレーションでありながら毎回ランダムに設定される初期値ごとに、エージェントが極めて多様な動きをすることがから、複雑系シミュレーションを体験するためのよい教材として知られています。</p>
+</section>
+<section id="モデルを回す" class="level2">
+<h2 class="anchored" data-anchor-id="モデルを回す">モデルを回す</h2>
+<p>はじめにrABMを読み込みます。</p>
+<p>それでは実際にモデルを回してみましょう。シミュレーションの長さ以外は、いったんデフォルトの値のままモデルを回してみたいと思います。なおヘルプファイルを確認していただければ明らかですが（<code>?model_hero_coward</code>とコンソールでタイプする）、デフォルト値は以下の通りです。</p>
+<ul>
+<li><p>エージェント数（<strong>n</strong>)：30</p></li>
+<li><p>速度（<strong>speed</strong>)：0.1</p></li>
+<li><p>X軸の境界値（<strong>x_max</strong>)：1</p></li>
+<li><p>y軸の境界値（<strong>y_max</strong>)：1</p></li>
+<li><p>シミュレーションの長さ（<strong>sim_time</strong>）: 300</p></li>
+</ul>
+<p>なお、それ以外の以下の設定はデフォルトでは自動的に定められます（カッコ内は引数を示します）。後で説明するように、ユーザーはこれらの値も任意で設定することができます。</p>
+<ul>
+<li><p>エージェントのタイプ（<strong>agent_type</strong>)：英雄と臆病者の割合が半々</p></li>
+<li><p>エージェントの初期の位置（<strong>init_posit</strong>）：0以上、X軸・Y軸それぞれの最大値以内の範囲でランダムに配置</p></li>
+<li><p>それぞれのエージェントにとっての味方と敵（<strong>relationship</strong>）：初期にランダムに設定</p></li>
+<li><p>シード値（<strong>seed</strong>）：ランダム変数のシード値</p></li>
+</ul>
+<p>実際にモデルを回してみます。</p>
+<p>このように、モデル・ライブラリではデフォルト設定のままでもモデルが実行できるよう設計されています。まずは動作を確認し、その後でパラメーターを変更して挙動を観察するのが基本的な使い方です。</p>
+</section>
+<section id="結果を確認する" class="level2">
+<h2 class="anchored" data-anchor-id="結果を確認する">結果を確認する</h2>
+<p>モデル・ライブラリの出力は、通常2つのGameオブジェクトを含むリストです。<code>$G_init</code>はシミュレーションを回す前、<code>$G_finished</code>は実行後の状態を示します。</p>
+<p>ここでは、実行後のオブジェクトを <code>G</code> としてコピーし、中身を確認します。</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">Game</span>(<span class="fu">State</span>(age), <span class="fu">Act</span>(get_older))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">copy_obj</span>(G2<span class="sc">$</span>G_finished)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>なお、ここではフィールドをまとめて追加しましたが、以下のように一つずつ追加することも可能です。</p>
+<p>結果の確認では、まずオブジェクトを表示し、利用可能な <code>plot_FUN</code> と <code>summary_FUN</code> を確認するのが有効です（出力省略）</p>
+<p>このモデルでは、</p>
+<ul>
+<li><p><strong>plot_FUN</strong>：plot_spce, plot_relationship</p></li>
+<li><p><strong>summary_FUN</strong>：trace_posit_mean, trace_posit_sd</p></li>
+</ul>
+<p>が用意されています。</p>
+<p>まず、現在のエージェント位置を可視化してみます。</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 空のGameオブジェクトを作成</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">Game</span>()</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ageを追加</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">State</span>(age))</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># get_olderを追加</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">Act</span>(get_older))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>G<span class="sc">$</span><span class="fu">plot_space</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model_library_JP_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<p>作成された<code>Game</code>オブジェクトを表示すると、オブジェクトの内容と、メタデータが確認できます。</p>
+</div>
+</div>
+<p>またエージェント間の平均距離がどのように変化してきたのかをtrace_posit_meanで見てみましょう。</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>G</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>posit_mean <span class="ot">&lt;-</span> G<span class="sc">$</span><span class="fu">trace_posit_mean</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model_library_JP_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>なお、今回呼び出した<code>summary_FUN</code>には、プロットだけではなく、何らかのオブジェクトの出力を伴うように設定することが想定されています。この出力結果は、その後のさらなる分析に使用することができます。今回の場合、出力を付加した<code>posit_mean</code>には、各時点におけるエージェントの位置の中間地点の記録されています。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>posit_mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;Game&gt;
-$age(state)
-[1] 1 2 3 4 5
-
-$get_older(act_FUN)
-function (E = E) 
-{
-    self$age &lt;- self$age + 1
-}
-
-------------------- 
-time       : 1 
-n of logs  : 0 
-n of notes : 0 
-n of fields: 2 
-  state: age
-  act_FUN: get_older
-------------------- </code></pre>
+<pre><code>            x         y
+t1  0.5282159 0.4791633
+t2  0.5553828 0.4827979
+t3  0.5832051 0.4846887
+t4  0.6106222 0.4771212
+t5  0.6479719 0.4721448
+t6  0.6911099 0.4743299
+t7  0.7262455 0.4844540
+t8  0.7555758 0.4817300
+t9  0.7950732 0.4740653
+t10 0.8055964 0.4574923
+t11 0.7964363 0.4353171</code></pre>
 </div>
 </div>
 </section>
-<section id="ステップ3-シミュレーションの実行" class="level2">
-<h2 class="anchored" data-anchor-id="ステップ3-シミュレーションの実行">ステップ3: シミュレーションの実行</h2>
-<p><code>Game</code>オブジェクトに設定したシミュレーションは、<code>run_Game()</code>関数で実行できます。実際に使用する更新関数（<strong>act_FUN</strong>）の名前を<code>plan</code>引数に設定します。</p>
-<p>以下では、1回分の更新を<code>times</code>引数で指定しています。</p>
+<section id="動画でプロットを見る" class="level2">
+<h2 class="anchored" data-anchor-id="動画でプロットを見る">動画でプロットを見る</h2>
+<p>シミュレーション後の<code>Game</code>オブジェクトには、それぞれの時点における<strong>state</strong>（および後の章で解説する<strong>active state</strong>）フィールドの結果が、<code>$log</code>の下にネストされる形で保存されています。各時点のstateをプロットしたい場合には、下記のように<code>name</code>に<strong>plot_FUN</strong>の名前、<code>log</code>に見たい時点を指定することで呼び出せます。</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>G2 <span class="ot">&lt;-</span> <span class="fu">run_Game</span>(<span class="at">G =</span> G, <span class="at">plan =</span> <span class="st">"get_older"</span>, <span class="at">times =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G, <span class="at">name =</span> <span class="st">"plot_space"</span>, <span class="at">log =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[plan] 
-get_older
- 
-[stop_FUN] 
-stop times at 2
-
-The initial values at time 1 were saved.
-
-Ready to run......
-   start time  : 1
-   current time: 2
-Finished at time 2 
-
-Simulation took 00:00:00.010 (hh:mm:ss.mmm)</code></pre>
+<pre><code>printing: 1/1</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="model_library_JP_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<p>結果が保存されたオブジェクト<code>G2</code>の<code>age</code>フィールドを確認します。</p>
+</div>
+<p>けれども、これらを一つ一つ確認するのは大変です。そこで、プロットをGIFファイルとして出力し動画としてみることが考えられます。ここではgifskiというパッケージの関数を内部で用いますので、まだ手元のRにインストールされていない場合には、下記の手順で先にインストールしてください。</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>G2<span class="sc">$</span>age</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gifski"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>動画を作成するには、<code>animate_log</code>関数を用います。なお、各画像の表示の速度は<code>delay</code>パラメーターで調整します。また、出力されたGIFファイルは、デフォルトでは、<code>temp.gif</code>という名前でディレクトリに保存されますが、<code>file</code>引数で変更できます。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">animate_log</span>(<span class="at">G =</span> G, <span class="at">name =</span> <span class="st">"plot_space"</span>, <span class="at">delay =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="設定を変える" class="level2">
+<h2 class="anchored" data-anchor-id="設定を変える">設定を変える</h2>
+<p>ここまで読んだユーザーの方は、さまざまなほかの設定を試してみたくなることでしょう。たとえば、エージェントのタイプの割合を変えたらどうなるのだろうか、シード値を変えてみたら、関係を任意のものに変えてみたならば・・・などなど。</p>
+<p>前述の通り、これらの値は引数で変えることができます。ただしモデルで想定されている投入値の形式とずれてしまわないように、いったん出力されたモデルで、操作したいフィールドの値がどのようになっているのかを確認することをお勧めします。たとえば、エージェントのタイプに関しては、現状のモデルではこのようになっています。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>G<span class="sc">$</span>agent_type</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2 3 4 5 6</code></pre>
+<pre><code> 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 
+ 1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  0  0  0  0  0  0  0  0  0  0  0 
+27 28 29 30 
+ 0  0  0  0 </code></pre>
 </div>
 </div>
-<p>1回分の更新が反映されていることが確認できます。たとえば、1番目のエージェントの年齢は初期値の1歳から2歳に変化しています。</p>
-<p>なお、Rではインデックスは１から始まります。このため、Gameにおいても初期状態の時刻は<code>time = 1</code>とカウントされ、1回更新後は<code>time = 2</code>となります。</p>
-<p>このようにrABMでは、更新用の関数を<code>act_FUN</code>として定義し、それを<code>run_Game()`</code>で実行することでシミュレーションを行います。</p>
+<p>したがって、エージェントのタイプを任意のものに変えたい場合には、1と0の数を変えればよいことが分かります。以下では、英雄の数を20、臆病者の数を10に変更してみます。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>agent_type_new <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">20</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>そのうえで、この新たなタイプの割合でシミュレーションを回してみましょう。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>G3 <span class="ot">&lt;-</span> <span class="fu">model_hero_coward</span>(<span class="at">n =</span> <span class="dv">30</span>, </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">agent_type =</span> agent_type_new, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sim_time =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>あとはここまで見たように、シミュレーションの結果がどのように変わるのかを観察してみてください。</p>
+</section>
+<section id="補遺mixedタイプを加える" class="level2">
+<h2 class="anchored" data-anchor-id="補遺mixedタイプを加える">補遺：mixedタイプを加える</h2>
+<p>前述の通り、このモデルでは特殊なタイプとして変わり者 （=9）を加えることができます。その設定の方法は以下の例のようになります。ここでは、英雄、臆病者、変わり者を1/3ずつ設定しました。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mixedタイプを設定</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>agent_type_mixed <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">10</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="fu">rep</span>(<span class="dv">9</span>, <span class="dv">10</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># モデルに組み込む</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>G4 <span class="ot">&lt;-</span> <span class="fu">model_hero_coward</span>(<span class="at">n =</span> <span class="dv">30</span>, </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">agent_type =</span> agent_type_mixed, </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sim_time =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 
 
 </section>
@@ -748,14 +770,11 @@ Simulation took 00:00:00.010 (hh:mm:ss.mmm)</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="はじめに">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">はじめに</span></span>
+      <a href="./quick_start_JP.html" class="pagination-link" aria-label="Quick Start Guide">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Quick Start Guide</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./model_library_JP.html" class="pagination-link" aria-label="Using Model Library">
-        <span class="nav-page-text"><span class="chapter-title">Using Model Library</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

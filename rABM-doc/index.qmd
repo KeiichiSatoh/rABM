@@ -4,7 +4,7 @@ title: "はじめに"
 
 # 日本語版解説ページ
 1. [Quick start guide](quick_start_JP.qmd)
-- デフォルトモデルの回し方
+2. [モデルライブラリの使い方](model_library_JP.qmd)
 - rABMのクラスの構成
 - stage & active Stage
 - plot_FUN
