@@ -433,14 +433,21 @@ ABM_Game <- R6::R6Class(
       }
 
       cat("-------------------", "\n")
-      cat("time       :", self$time, "\n")
-      cat("n of logs  :", length(self$log), "\n")
-      cat("n of notes :", length(self$notes), "\n")
-      cat("n of fields:", length(fc), "\n")
+      cat("time         :", self$time, "\n")
+      cat("n of logs    :", length(self$log), "\n")
+      cat("n of notes   :", length(self$notes), "\n")
+      cat("n of fields  :", length(fc), "\n")
+
+      cat_label <- c(state        = "state       : ",
+                     active_state = "active_state: ",
+                     act_FUN      = "act_FUN     : ",
+                     stop_FUN     = "stop_FUN    : ",
+                     plot_FUN     = "plot_FUN    : ",
+                     summary_FUN  = "summary_FUN : ")
 
       for(category in c("state","active_state","act_FUN","stop_FUN","plot_FUN","summary_FUN")){
         if(any(fc == category)){
-          cat("  ", category, ": ", paste0(names(fc[fc==category]), collapse = ", "), "\n", sep = "")
+          cat(" ", unname(cat_label[category]), paste0(names(fc[fc==category]), collapse = ", "), "\n", sep = "")
         }
       }
       cat("-------------------", "\n")

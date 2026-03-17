@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "rABM ドキュメント（日本語）",
+    "title": "rABM tutorial",
     "section": "",
-    "text": "1 rABMとは\nrABM は R 上で動くエージェントベース・モデリング（ABM）フレームワークです。",
+    "text": "日本語版解説ページ\n\nQuick start guide\n\n\nデフォルトモデルの回し方\nrABMのクラスの構成\nstage & active Stage\nplot_FUN\nact_FUN\nGameの実行\nstop_FUN\nsummary_FUN\nSeries\nその他の有用な関数\n事例: Heros and cowards\n事例: Schellingの分居モデル\nAppendix A: 関数の作り方\nAppendix B: テクニカル・ノート\n\n\n\nEnglish Version\nComing soon…",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>はじめに</span>"
     ]
@@ -23,10 +23,90 @@
     "objectID": "index.html#目次",
     "href": "index.html#目次",
     "title": "rABM ドキュメント（日本語）",
-    "section": "1.1 目次（",
-    "text": "1.1 目次（\n\nGetting Started\nデフォルトモデルの回し方\nrABMのクラスの構成\nStage & active_stage: フィールドの作り方\nglobal_FUN & stop_FUN: 各種FUNの作り方\nGame: ABMの実行\nSeries: 設定から実行までを一気に行う\nget：値の取得方法\nPlot：作図と動画\nAgent：ローカルレベルのモデリング\nオペレーター：各種の操作\nask_gpt：GPTにrABMを学習させる\n実践例：Schellingの分居モデル\nテクニカル・ノート",
+    "section": "1.3 目次（",
+    "text": "1.3 目次（\n\nQuick start guide\nデフォルトモデルの回し方\nrABMのクラスの構成\nstage & active Stage\nplot_FUN\nact_FUN\nGameの実行\nstop_FUN\nsummary_FUN\nSeries\nその他の有用な関数\n事例: Heros and cowards\n事例: Schellingの分居モデル\nAppendix A: 関数の作り方\nAppendix B: テクニカル・ノート",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>はじめに</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#日本語版解説ページ",
+    "href": "index.html#日本語版解説ページ",
+    "title": "rABM ドキュメント（日本語）",
+    "section": "1.1 日本語版解説ページ",
+    "text": "1.1 日本語版解説ページ\n\ngetting started\nデフォルトモデルの回し方",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>はじめに</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#english-version",
+    "href": "index.html#english-version",
+    "title": "rABM ドキュメント（日本語）",
+    "section": "1.2 English Version",
+    "text": "1.2 English Version\nComing soon…\n\n目的：複雑な ABM を「体系的に」「拡張しやすく」構築する\n設計：コアは R6（内部）、ユーザー体験はシンプルに",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>はじめに</span>"
+    ]
+  },
+  {
+    "objectID": "quick_start_JP.html",
+    "href": "quick_start_JP.html",
+    "title": "クイック・スタート・ガイド",
+    "section": "",
+    "text": "rABMのインストール",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
+    ]
+  },
+  {
+    "objectID": "quick_start_JP.html#rabmのダウンロード",
+    "href": "quick_start_JP.html#rabmのダウンロード",
+    "title": "クイック・スタート・ガイド",
+    "section": "rABMのダウンロード",
+    "text": "rABMのダウンロード\nrABMは、この文書の執筆時点（2026年3月）では、佐藤圭一（一橋大学）のGitHubリポジトリからダウンロードすることで利用できます（今後CRANにも投稿予定です）。\n\nはじめに、ダウンロード用のパッケージである`pak`パッケージを自身のRにインストールします（すでにインストール済みの場合、この手順は省略できます）。\n\nlibrary(pak)\npak::pak(\"KeiichiSatoh/rABM\")",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
+    ]
+  },
+  {
+    "objectID": "quick_start_JP.html#rabmの読み込み",
+    "href": "quick_start_JP.html#rabmの読み込み",
+    "title": "クイック・スタート・ガイド",
+    "section": "rABMの読み込み",
+    "text": "rABMの読み込み\n使用時には毎回rABMを読み込みます。\n\nlibrary(rABM)\n\n\nAttaching package: 'rABM'\n\n\nThe following object is masked from 'package:methods':\n\n    Summary",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
+    ]
+  },
+  {
+    "objectID": "quick_start_JP.html#ステップ1-状態と更新を表現するオブジェクトを作成する",
+    "href": "quick_start_JP.html#ステップ1-状態と更新を表現するオブジェクトを作成する",
+    "title": "クイック・スタート・ガイド",
+    "section": "ステップ1: 状態と更新を表現するオブジェクトを作成する",
+    "text": "ステップ1: 状態と更新を表現するオブジェクトを作成する\nまず各エージェントの年齢をageというベクトルで表現します。\n\nage &lt;- c(1, 2, 3, 4, 5)\n\n次に「更新のたびに年齢が1増える」という処理を関数として定義します。ここでは元のオブジェクトに1を加える処理をget_olderとして定義します。\nなお、Gameオブジェクトを自己参照する場合には、selfを使用します。この点に関してはあとの章で詳しく説明します。\n\nget_older &lt;- function(){\n  self$age &lt;- self$age + 1\n  }",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
+    ]
+  },
+  {
+    "objectID": "quick_start_JP.html#ステップ2-gameオブジェクトに格納する",
+    "href": "quick_start_JP.html#ステップ2-gameオブジェクトに格納する",
+    "title": "クイック・スタート・ガイド",
+    "section": "ステップ2: Gameオブジェクトに格納する",
+    "text": "ステップ2: Gameオブジェクトに格納する\n次にageとget_olderを、rABMでシミュレーションを実行するためのオブジェクトであるGameに格納します。Gameオブジェクトを作る際には、それぞれのオブジェクトがどのタイプのフィールドかを指定する必要があります。\n\nage：状態を表すstateフィールド\nget_older：更新を行うact_FUNフィールド\n\n\nG &lt;- Game(State(age), Act(get_older))\n\nなお、ここではフィールドをまとめて追加しましたが、以下のように一つずつ追加することも可能です。\n\n# 空のGameオブジェクトを作成\nG &lt;- Game()\n\n# ageを追加\nadd_field(G, State(age))\n\n# get_olderを追加\nadd_field(G, Act(get_older))\n\n作成されたGameオブジェクトを表示すると、オブジェクトの内容と、メタデータが確認できます。\n\nG\n\n&lt;Game&gt;\n$age(state)\n[1] 1 2 3 4 5\n\n$get_older(act_FUN)\nfunction (E = E) \n{\n    self$age &lt;- self$age + 1\n}\n\n------------------- \ntime       : 1 \nn of logs  : 0 \nn of notes : 0 \nn of fields: 2 \n  state: age\n  act_FUN: get_older\n-------------------",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
+    ]
+  },
+  {
+    "objectID": "quick_start_JP.html#ステップ3-シミュレーションの実行",
+    "href": "quick_start_JP.html#ステップ3-シミュレーションの実行",
+    "title": "クイック・スタート・ガイド",
+    "section": "ステップ3: シミュレーションの実行",
+    "text": "ステップ3: シミュレーションの実行\nGameオブジェクトに設定したシミュレーションは、run_Game()関数で実行できます。実際に使用する更新関数（act_FUN）の名前をplan引数に設定します。\n以下では、1回分の更新をtimes引数で指定しています。\n\nG2 &lt;- run_Game(G = G, plan = \"get_older\", times = 1)\n\n[plan] \nget_older\n \n[stop_FUN] \nstop times at 2\n\nThe initial values at time 1 were saved.\n\nReady to run......\n   start time  : 1\n   current time: 2\nFinished at time 2 \n\nSimulation took 00:00:00.009 (hh:mm:ss.mmm)\n\n\n結果が保存されたオブジェクトG2のageフィールドを確認します。\n\nG2$age\n\n[1] 2 3 4 5 6\n\n\n1回分の更新が反映されていることが確認できます。たとえば、1番目のエージェントの年齢は初期値の1歳から2歳に変化しています。\nなお、Rではインデックスは１から始まります。このため、Gameにおいても初期状態の時刻はtime = 1とカウントされ、1回更新後はtime = 2となります。\nこのようにrABMでは、更新用の関数をact_FUNとして定義し、それをrun_Game()`で実行することでシミュレーションを行います。",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>クイック・スタート・ガイド</span>"
     ]
   }
 ]

@@ -2,6 +2,10 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom matrixStats colMaxs
+#' @importFrom matrixStats colMins
+#' @importFrom matrixStats colSds
+#' @importFrom matrixStats rowRanks
 #' @importFrom Rcpp sourceCpp
 #' @useDynLib rABM, .registration = TRUE
 ## usethis namespace: end

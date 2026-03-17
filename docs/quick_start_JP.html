@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>rABM tutorial</title>
+<title>クイック・スタート・ガイド – rABM tutorial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +65,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./quick_start_JP.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -82,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">はじめに</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./quick_start_JP.html"><span class="chapter-title">クイック・スタート・ガイド</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -109,12 +144,12 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">はじめに</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">はじめに</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quick Start Guide</span></a>
+  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">クイック・スタート・ガイド</span></a>
   </div>
 </li>
     </ul>
@@ -127,8 +162,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#日本語版解説ページ" id="toc-日本語版解説ページ" class="nav-link active" data-scroll-target="#日本語版解説ページ">日本語版解説ページ</a></li>
-  <li><a href="#english-version" id="toc-english-version" class="nav-link" data-scroll-target="#english-version">English Version</a></li>
+  <li><a href="#rabmのインストール" id="toc-rabmのインストール" class="nav-link active" data-scroll-target="#rabmのインストール">rABMのインストール</a>
+  <ul class="collapse">
+  <li><a href="#rabmのダウンロード" id="toc-rabmのダウンロード" class="nav-link" data-scroll-target="#rabmのダウンロード">rABMのダウンロード</a></li>
+  <li><a href="#rabmの読み込み" id="toc-rabmの読み込み" class="nav-link" data-scroll-target="#rabmの読み込み">rABMの読み込み</a></li>
+  </ul></li>
+  <li><a href="#rabmの使用の基礎" id="toc-rabmの使用の基礎" class="nav-link" data-scroll-target="#rabmの使用の基礎">rABMの使用の基礎</a>
+  <ul class="collapse">
+  <li><a href="#ステップ1-状態と更新を表現するオブジェクトを作成する" id="toc-ステップ1-状態と更新を表現するオブジェクトを作成する" class="nav-link" data-scroll-target="#ステップ1-状態と更新を表現するオブジェクトを作成する">ステップ1: 状態と更新を表現するオブジェクトを作成する</a></li>
+  <li><a href="#ステップ2-gameオブジェクトに格納する" id="toc-ステップ2-gameオブジェクトに格納する" class="nav-link" data-scroll-target="#ステップ2-gameオブジェクトに格納する">ステップ2: Gameオブジェクトに格納する</a></li>
+  <li><a href="#ステップ3-シミュレーションの実行" id="toc-ステップ3-シミュレーションの実行" class="nav-link" data-scroll-target="#ステップ3-シミュレーションの実行">ステップ3: シミュレーションの実行</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -137,7 +181,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">rABM tutorial</h1>
+<h1 class="title"><span class="chapter-title">クイック・スタート・ガイド</span></h1>
 </div>
 
 
@@ -154,33 +198,145 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="日本語版解説ページ" class="level1">
-<h1>日本語版解説ページ</h1>
-<ol type="1">
-<li><a href="./quick_start_JP.html">Quick start guide</a></li>
-</ol>
-<ul>
-<li>デフォルトモデルの回し方</li>
-<li>rABMのクラスの構成</li>
-<li>stage &amp; active Stage</li>
-<li>plot_FUN</li>
-<li>act_FUN</li>
-<li>Gameの実行</li>
-<li>stop_FUN</li>
-<li>summary_FUN</li>
-<li>Series</li>
-<li>その他の有用な関数</li>
-<li>事例: Heros and cowards</li>
-<li>事例: Schellingの分居モデル</li>
-<li>Appendix A: 関数の作り方</li>
-<li>Appendix B: テクニカル・ノート</li>
-</ul>
+<section id="rabmのインストール" class="level1">
+<h1>rABMのインストール</h1>
+<section id="rabmのダウンロード" class="level2">
+<h2 class="anchored" data-anchor-id="rabmのダウンロード">rABMのダウンロード</h2>
+<p>rABMは、この文書の執筆時点（2026年3月）では、佐藤圭一（一橋大学）のGitHubリポジトリからダウンロードすることで利用できます（今後CRANにも投稿予定です）。<br>
+<br>
+はじめに、ダウンロード用のパッケージである`pak`パッケージを自身のRにインストールします（すでにインストール済みの場合、この手順は省略できます）。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pak)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pak</span>(<span class="st">"KeiichiSatoh/rABM"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
-<section id="english-version" class="level1">
-<h1>English Version</h1>
-<p>Coming soon…</p>
+<section id="rabmの読み込み" class="level2">
+<h2 class="anchored" data-anchor-id="rabmの読み込み">rABMの読み込み</h2>
+<p>使用時には毎回rABMを読み込みます。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rABM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'rABM'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:methods':
+
+    Summary</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="rabmの使用の基礎" class="level1">
+<h1>rABMの使用の基礎</h1>
+<p>rABMを用いたシミュレーションの実行は、以下の3つのステップからなると理解できます。</p>
+<ol type="1">
+<li><p>エージェントの状態と、その更新を行うためのオブジェクトを設定する</p></li>
+<li><p>それらのオブジェクトをGameオブジェクトに格納する</p></li>
+<li><p>シミュレーションを実行する</p></li>
+</ol>
+<p>ただし、ステップ1とステップ2は、各オブジェクトごとに順に行うことも可能です。複雑なABMを実装する場合には、そのように段階的に実装するほうが理解しやすいでしょう。</p>
+<p>以下では、このステップに従い、基本的な手順を理解するために、簡単な例を実装します。</p>
+<ul>
+<li><p>年齢がそれぞれ{1, 2, 3, 4, 5}歳の5人のエージェントがいる</p></li>
+<li><p>エージェントは更新のたびに1歳ずつ年齢が増加する</p></li>
+</ul>
+<section id="ステップ1-状態と更新を表現するオブジェクトを作成する" class="level2">
+<h2 class="anchored" data-anchor-id="ステップ1-状態と更新を表現するオブジェクトを作成する">ステップ1: 状態と更新を表現するオブジェクトを作成する</h2>
+<p>まず各エージェントの年齢を<code>age</code>というベクトルで表現します。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>次に「更新のたびに年齢が1増える」という処理を関数として定義します。ここでは元のオブジェクトに1を加える処理を<code>get_older</code>として定義します。</p>
+<p>なお、<code>Game</code>オブジェクトを自己参照する場合には、<code>self</code>を使用します。この点に関してはあとの章で詳しく説明します。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>get_older <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  self<span class="sc">$</span>age <span class="ot">&lt;-</span> self<span class="sc">$</span>age <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="ステップ2-gameオブジェクトに格納する" class="level2">
+<h2 class="anchored" data-anchor-id="ステップ2-gameオブジェクトに格納する">ステップ2: Gameオブジェクトに格納する</h2>
+<p>次に<code>age</code>と<code>get_older</code>を、rABMでシミュレーションを実行するためのオブジェクトである<code>Game</code>に格納します。Gameオブジェクトを作る際には、それぞれのオブジェクトがどのタイプのフィールドかを指定する必要があります。</p>
+<ul>
+<li><p><code>age</code>：状態を表す<strong>state</strong>フィールド</p></li>
+<li><p><code>get_older</code>：更新を行う<strong>act_FUN</strong>フィールド</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">Game</span>(<span class="fu">State</span>(age), <span class="fu">Act</span>(get_older))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>なお、ここではフィールドをまとめて追加しましたが、以下のように一つずつ追加することも可能です。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 空のGameオブジェクトを作成</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">Game</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ageを追加</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">State</span>(age))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># get_olderを追加</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">Act</span>(get_older))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>作成された<code>Game</code>オブジェクトを表示すると、オブジェクトの内容と、メタデータが確認できます。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>G</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;Game&gt;
+$age(state)
+[1] 1 2 3 4 5
+
+$get_older(act_FUN)
+function (E = E) 
+{
+    self$age &lt;- self$age + 1
+}
+
+------------------- 
+time       : 1 
+n of logs  : 0 
+n of notes : 0 
+n of fields: 2 
+  state: age
+  act_FUN: get_older
+------------------- </code></pre>
+</div>
+</div>
+</section>
+<section id="ステップ3-シミュレーションの実行" class="level2">
+<h2 class="anchored" data-anchor-id="ステップ3-シミュレーションの実行">ステップ3: シミュレーションの実行</h2>
+<p><code>Game</code>オブジェクトに設定したシミュレーションは、<code>run_Game()</code>関数で実行できます。実際に使用する更新関数（<strong>act_FUN</strong>）の名前を<code>plan</code>引数に設定します。</p>
+<p>以下では、1回分の更新を<code>times</code>引数で指定しています。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>G2 <span class="ot">&lt;-</span> <span class="fu">run_Game</span>(<span class="at">G =</span> G, <span class="at">plan =</span> <span class="st">"get_older"</span>, <span class="at">times =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[plan] 
+get_older
+ 
+[stop_FUN] 
+stop times at 2
+
+The initial values at time 1 were saved.
+
+Ready to run......
+   start time  : 1
+   current time: 2
+Finished at time 2 
+
+Simulation took 00:00:00.009 (hh:mm:ss.mmm)</code></pre>
+</div>
+</div>
+<p>結果が保存されたオブジェクト<code>G2</code>の<code>age</code>フィールドを確認します。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>G2<span class="sc">$</span>age</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 3 4 5 6</code></pre>
+</div>
+</div>
+<p>1回分の更新が反映されていることが確認できます。たとえば、1番目のエージェントの年齢は初期値の1歳から2歳に変化しています。</p>
+<p>なお、Rではインデックスは１から始まります。このため、Gameにおいても初期状態の時刻は<code>time = 1</code>とカウントされ、1回更新後は<code>time = 2</code>となります。</p>
+<p>このようにrABMでは、更新用の関数を<code>act_FUN</code>として定義し、それを<code>run_Game()`</code>で実行することでシミュレーションを行います。</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -586,11 +742,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="はじめに">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">はじめに</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./quick_start_JP.html" class="pagination-link" aria-label="Quick Start Guide">
-        <span class="nav-page-text"><span class="chapter-title">Quick Start Guide</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

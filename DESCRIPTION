@@ -24,6 +24,7 @@ Imports:
     jsonlite,
     purrr,
     emoji,
-    cli
+    cli,
+    matrixStats
 LinkingTo:
     Rcpp

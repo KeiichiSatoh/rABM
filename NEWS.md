@@ -1,5 +1,8 @@
 # rABM (development version)
 
+# rABM 1.1.0
+* [new] Added a tutorial page (JP): quick start guide 
+
 # rABM 1.0.0
 2025-03-04
 * Completely overhauled the structure of major classes. 
