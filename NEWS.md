@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 1.1.3
+2025-03-18
+* [new] Added a tutorial page (JP): state and active state
+
 # rABM 1.1.2
 2025-03-18
 * [new] Added a tutorial page (JP): rABM classes

@@ -9,6 +9,7 @@ book:
     - quick_start_JP.qmd
     - model_library_JP.qmd
     - rABM_classes_JP.qmd
+    - state_JP.qmd
 
 format:
   html:

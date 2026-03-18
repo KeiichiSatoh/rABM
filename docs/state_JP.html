@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>rABM tutorial</title>
+<title>State &amp; Active State – rABM tutorial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +65,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./quick_start_JP.html" rel="next">
+<link href="./rABM_classes_JP.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -70,6 +105,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -82,7 +146,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./state_JP.html"><span class="chapter-title">State &amp; Active State</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -109,7 +173,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Introduction</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -129,7 +193,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">State &amp; Active State</span></a>
+  <a href="./state_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">State &amp; Active State</span></a>
   </div>
 </li>
     </ul>
@@ -142,8 +206,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#日本語版" id="toc-日本語版" class="nav-link active" data-scroll-target="#日本語版">日本語版</a></li>
-  <li><a href="#english-version" id="toc-english-version" class="nav-link" data-scroll-target="#english-version">English Version</a></li>
+  <li><a href="#はじめに" id="toc-はじめに" class="nav-link active" data-scroll-target="#はじめに">はじめに</a></li>
+  <li><a href="#state" id="toc-state" class="nav-link" data-scroll-target="#state">State</a></li>
+  <li><a href="#active-state" id="toc-active-state" class="nav-link" data-scroll-target="#active-state">Active State</a>
+  <ul class="collapse">
+  <li><a href="#active-stateとはなにか" id="toc-active-stateとはなにか" class="nav-link" data-scroll-target="#active-stateとはなにか">Active Stateとはなにか</a></li>
+  <li><a href="#参考active-stateの実行速度に関して" id="toc-参考active-stateの実行速度に関して" class="nav-link" data-scroll-target="#参考active-stateの実行速度に関して">【参考】Active stateの実行速度に関して</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -152,7 +221,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">rABM tutorial</h1>
+<h1 class="title"><span class="chapter-title">State &amp; Active State</span></h1>
 </div>
 
 
@@ -169,44 +238,65 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><strong>rABM</strong>はRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。<strong>R</strong>はABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、<strong>rABM</strong>では次の三つの設計思想を大切にして作られています。</p>
-<ul>
-<li><p><strong>探索的な操作性</strong>: 試行錯誤がしやすいこと</p></li>
-<li><p><strong>柔軟な拡張性</strong>: さまざまな拡張を自由にできること</p></li>
-<li><p><strong>総合的な効率性</strong>：ABMの構想から、実行、分析までをトータルで見た場合に、速く効率的に分析作業が行えること</p></li>
-</ul>
-<p>rABMがぜひとも皆様の研究のお役に立てることを祈っています。</p>
-<div style="text-align: right;">
-rABM開発チーム
-</div>
-<p>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</p>
-<section id="日本語版" class="level1">
-<h1>日本語版</h1>
-<ol type="1">
-<li><a href="./quick_start_JP.html">Quick start guide</a></li>
-<li><a href="./model_library_JP.html">モデルライブラリの使い方</a></li>
-<li><a href="./rABM_classes_JP.html">rABMオブジェクトの構成</a></li>
-<li><a href="./state_JP.html">state &amp; active state</a></li>
-</ol>
-<ul>
-<li>plot_FUN</li>
-<li>act_FUN</li>
-<li>Gameの実行</li>
-<li>stop_FUN</li>
-<li>summary_FUN</li>
-<li>Series</li>
-<li>その他の有用な関数</li>
-<li>事例: Heros and cowards</li>
-<li>事例: Schellingの分居モデル</li>
-<li>Appendix A: 関数の作り方</li>
-<li>Appendix B: テクニカル・ノート</li>
-</ul>
+<section id="はじめに" class="level1">
+<h1>はじめに</h1>
+<p>この章であつかう<strong>state</strong>と<strong>active state</strong>は、エージェントの状態を表現するためのフィールド・カテゴリーです。ABMを自作で作る場合には、通常この二つをはじめに作成します。この章では、Stateについて概観したうえで、特にactive stateについて説明します。active stateはうまく使用すれば、ABMを作成するうえで非常に強力な手法となります。</p>
 </section>
-<section id="english-version" class="level1">
-<h1>English Version</h1>
-<p>Coming soon…</p>
+<section id="state" class="level1">
+<h1>State</h1>
+<p>stateフィールドは、<code>State()</code>でくくることによって定義します。stateフィールドには、関数以外の任意のRオブジェクトを取れます。以下の例は、エージェントの伸長と体重を表現するstateを作成するものです。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rABM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 10人のエージェント</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 身長(m)と体重(kg)のオブジェクトを作成</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>height <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> <span class="dv">170</span>, <span class="at">sd =</span> <span class="dv">10</span>)<span class="sc">/</span><span class="dv">100</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> <span class="dv">60</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Gameに格納する</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">Game</span>(<span class="fu">State</span>(height), <span class="fu">State</span>(weight))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>ここで、エージェントの数は同じなのだから、<code>height</code>と<code>weight</code>というように、それぞれ別のオブジェクトを作らず、<code>data.frame</code>にまとめればよいのではないかという疑問も出てくるのではないかと思います。実際、stateフィールドには<code>data.frame</code>も使用できます。判断はユーザーに任されますが、私自身の考えでは、ABMを回すには、stateは可能な限り<code>vector</code>で表現されるほうが、他の関数での扱いが容易になります。というのは、たとえば1番目のエージェントの体重にアクセスする場合、ベクトルであれば<code>self$weight[1]</code>で直接アクセスできますが、data.frameの場合には、データフレームのさらに対象とする列を指定する必要が出てくるからです（e.g.&nbsp;<code>self$df$weight[1]</code>）。このようにアクセスが一段深くなってしまうことは、スクリプトを書くうえでも厄介になり得ます。このことは、次のactive stateについて理解すると、実感がわくでしょう。</p>
+</section>
+<section id="active-state" class="level1">
+<h1>Active State</h1>
+<section id="active-stateとはなにか" class="level2">
+<h2 class="anchored" data-anchor-id="active-stateとはなにか">Active Stateとはなにか</h2>
+<p><strong>Active state</strong>は、外部からはstateのようにアクセスできますが、定義上は関数を持っています。つまり参照されるたびに、内部で関数が走りその結果が返される仕組みです。</p>
+<p>具体例として、Body Mass Index (BMI)について考えてみましょう。BMIは、体重と身長から計算される肥満度を示す指数です。BMIの式は以下の通りです。</p>
+<p><span class="math display">\[
+BMI = \frac{weight (kg)}{height (m)^2}
+\]</span></p>
+<p>つまりBMIは身長と体重さえわかれば、自動的に計算が可能な指数です。BMIをactive stateとして実装してみましょう。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BMIを関数で表現する</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>bmi <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  self<span class="sc">$</span>weight<span class="sc">/</span>self<span class="sc">$</span>height<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># bmiをactive stateとして追加する</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">Active</span>(bmi))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># BMIを見てみる</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>G<span class="sc">$</span>bmi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 19.04732 11.61538 12.69423 14.85145 16.86182 20.97835 21.02799 24.22270
+ [9] 20.23028 29.97393</code></pre>
+</div>
+</div>
+<p>このようにBMIを関数として表現してあることによって、もしもエージェントの伸長や体重が変化した場合に、それに連動してBMIも変動するという実装が可能になります。つまり、たとえばシミュレーションの更新する対象のフィールドは、身長と体重に絞ればよく、BMIまで更新する必要がなくなるということになります。</p>
+</section>
+<section id="参考active-stateの実行速度に関して" class="level2">
+<h2 class="anchored" data-anchor-id="参考active-stateの実行速度に関して">【参考】Active stateの実行速度に関して</h2>
+<p><strong>Active state</strong>は非常に便利ですが、特に計算速度を重視する場合には、その仕組みをきちんと理解しておく必要があります。つまりactive stateは参照されるたび（例：<code>G$bmi</code>）新たに計算がしなおされます。もしも実行が非常に重い関数を設定し、かつactive stateを何度も呼ぶと計算負荷がそれだけ大きくなります。つまり更新をする対象の値がごく一部であるならば、毎回計算をし直すよりも、更新する対象の値を直接変化させてしまったほうが実行速度が速くなります。</p>
+<p>他方でactive stateそのものはただの関数オブジェクトなので、容量そおのもはさほど大きくありません。大規模だが、ごく単純で実行速度が速いオブジェクトを表現するうえでは、大規模なstateオブジェクトを持つよりも、active stateの方が速くなる場合もあります。</p>
+<p>なお、<code>run_Game</code>で実行された各回の<strong>active state</strong>フィールドは、<code>log</code>には際には、関数ではなく値として保存されます。つまり、その時点でのactive fieldの値が「固められた」状態で保存されることも覚えておいてください。</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -612,11 +702,11 @@ rABM開発チーム
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./rABM_classes_JP.html" class="pagination-link" aria-label="rABMオブジェクトの構成">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">rABMオブジェクトの構成</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./quick_start_JP.html" class="pagination-link" aria-label="Quick Start Guide">
-        <span class="nav-page-text"><span class="chapter-title">Quick Start Guide</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

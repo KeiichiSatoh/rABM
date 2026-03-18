@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "rABM tutorial",
     "section": "",
-    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n探索的な操作性: 試行錯誤がしやすいこと\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、速く効率的に分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　rAB開発チーム\n\n日本語版\n\nQuick start guide\nモデルライブラリの使い方\nrABMオブジェクトの構成\n\n\nstage & active Stage\nplot_FUN\nact_FUN\nGameの実行\nstop_FUN\nsummary_FUN\nSeries\nその他の有用な関数\n事例: Heros and cowards\n事例: Schellingの分居モデル\nAppendix A: 関数の作り方\nAppendix B: テクニカル・ノート\n\n\n\nEnglish Version\nComing soon…",
+    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n探索的な操作性: 試行錯誤がしやすいこと\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、速く効率的に分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n\nrABM開発チーム\n\n　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　\n\n日本語版\n\nQuick start guide\nモデルライブラリの使い方\nrABMオブジェクトの構成\nstate & active state\n\n\nplot_FUN\nact_FUN\nGameの実行\nstop_FUN\nsummary_FUN\nSeries\nその他の有用な関数\n事例: Heros and cowards\n事例: Schellingの分居モデル\nAppendix A: 関数の作り方\nAppendix B: テクニカル・ノート\n\n\n\nEnglish Version\nComing soon…",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -237,6 +237,36 @@
     "text": "【参考】R6オブジェクト\nここでは、rABMを使用するうえで必要な知識に絞って概説的にselfについて説明しましたが、より原理的に知りたい人は、RのR6クラスについて調べてみてください（https://r6.r-lib.org/articles/Introduction.html）。Gameオブジェクトは実はこのR6クラスオブジェクトそのものです。rABMはR6クラスの仕組みをABMに応用することで、フレームワークを作っています。",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>rABMオブジェクトの構成</span>"
+    ]
+  },
+  {
+    "objectID": "state_JP.html",
+    "href": "state_JP.html",
+    "title": "State & Active State",
+    "section": "",
+    "text": "はじめに\nこの章であつかうstateとactive stateは、エージェントの状態を表現するためのフィールド・カテゴリーです。ABMを自作で作る場合には、通常この二つをはじめに作成します。この章では、Stateについて概観したうえで、特にactive stateについて説明します。active stateはうまく使用すれば、ABMを作成するうえで非常に強力な手法となります。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>State & Active State</span>"
+    ]
+  },
+  {
+    "objectID": "state_JP.html#active-stateとはなにか",
+    "href": "state_JP.html#active-stateとはなにか",
+    "title": "State & Active State",
+    "section": "Active Stateとはなにか",
+    "text": "Active Stateとはなにか\nActive stateは、外部からはstateのようにアクセスできますが、定義上は関数を持っています。つまり参照されるたびに、内部で関数が走りその結果が返される仕組みです。\n具体例として、Body Mass Index (BMI)について考えてみましょう。BMIは、体重と身長から計算される肥満度を示す指数です。BMIの式は以下の通りです。\n\\[\nBMI = \\frac{weight (kg)}{height (m)^2}\n\\]\nつまりBMIは身長と体重さえわかれば、自動的に計算が可能な指数です。BMIをactive stateとして実装してみましょう。\n\n# BMIを関数で表現する\nbmi &lt;- function(){\n  self$weight/self$height^2\n}\n\n# bmiをactive stateとして追加する\nadd_field(G, Active(bmi))\n\n# BMIを見てみる\nG$bmi\n\n [1] 19.04732 11.61538 12.69423 14.85145 16.86182 20.97835 21.02799 24.22270\n [9] 20.23028 29.97393\n\n\nこのようにBMIを関数として表現してあることによって、もしもエージェントの伸長や体重が変化した場合に、それに連動してBMIも変動するという実装が可能になります。つまり、たとえばシミュレーションの更新する対象のフィールドは、身長と体重に絞ればよく、BMIまで更新する必要がなくなるということになります。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>State & Active State</span>"
+    ]
+  },
+  {
+    "objectID": "state_JP.html#参考active-stateの実行速度に関して",
+    "href": "state_JP.html#参考active-stateの実行速度に関して",
+    "title": "State & Active State",
+    "section": "【参考】Active stateの実行速度に関して",
+    "text": "【参考】Active stateの実行速度に関して\nActive stateは非常に便利ですが、特に計算速度を重視する場合には、その仕組みをきちんと理解しておく必要があります。つまりactive stateは参照されるたび（例：G$bmi）新たに計算がしなおされます。もしも実行が非常に重い関数を設定し、かつactive stateを何度も呼ぶと計算負荷がそれだけ大きくなります。つまり更新をする対象の値がごく一部であるならば、毎回計算をし直すよりも、更新する対象の値を直接変化させてしまったほうが実行速度が速くなります。\n他方でactive stateそのものはただの関数オブジェクトなので、容量そおのもはさほど大きくありません。大規模だが、ごく単純で実行速度が速いオブジェクトを表現するうえでは、大規模なstateオブジェクトを持つよりも、active stateの方が速くなる場合もあります。\nなお、run_Gameで実行された各回のactive stateフィールドは、logには際には、関数ではなく値として保存されます。つまり、その時点でのactive fieldの値が「固められた」状態で保存されることも覚えておいてください。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>State & Active State</span>"
     ]
   }
 ]

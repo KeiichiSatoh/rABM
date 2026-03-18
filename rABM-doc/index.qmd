@@ -13,15 +13,16 @@ editor: visual
 
 rABMがぜひとも皆様の研究のお役に立てることを祈っています。
 
-　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　rAB開発チーム
+<div style="text-align: right;">rABM開発チーム</div>
+　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
 
 # 日本語版
 
 1.  [Quick start guide](quick_start_JP.qmd)
 2.  [モデルライブラリの使い方](model_library_JP.qmd)
 3.  [rABMオブジェクトの構成](rABM_classes_JP.qmd)
+4.  [state & active state](state_JP.qmd)
 
--   stage & active Stage
 -   plot_FUN
 -   act_FUN
 -   Gameの実行
