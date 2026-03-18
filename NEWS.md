@@ -1,5 +1,10 @@
 # rABM (development version)
 
+# rABM 1.1.2
+2025-03-18
+* [new] Added a tutorial page (JP): rABM classes
+
+
 # rABM 1.1.1
 2025-03-17
 * [new] Added a tutorial page (JP): using model library

@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">はじめに</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">Introduction</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">はじめに</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Introduction</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -119,7 +119,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Using Model Library</span></a>
+  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">モデルライブラリの使い方</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABMオブジェクトの構成</span></a>
   </div>
 </li>
     </ul>
@@ -132,7 +137,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#日本語版解説ページ" id="toc-日本語版解説ページ" class="nav-link active" data-scroll-target="#日本語版解説ページ">日本語版解説ページ</a></li>
+  <li><a href="#日本語版" id="toc-日本語版" class="nav-link active" data-scroll-target="#日本語版">日本語版</a></li>
   <li><a href="#english-version" id="toc-english-version" class="nav-link" data-scroll-target="#english-version">English Version</a></li>
   </ul>
 </nav>
@@ -159,14 +164,22 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="日本語版解説ページ" class="level1">
-<h1>日本語版解説ページ</h1>
+<p><strong>rABM</strong>はRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。<strong>R</strong>はABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、<strong>rABM</strong>では次の三つの設計思想を大切にして作られています。</p>
+<ul>
+<li><p><strong>探索的な操作性</strong>: 試行錯誤がしやすいこと</p></li>
+<li><p><strong>柔軟な拡張性</strong>: さまざまな拡張を自由にできること</p></li>
+<li><p><strong>総合的な効率性</strong>：ABMの構想から、実行、分析までをトータルで見た場合に、速く効率的に分析作業が行えること</p></li>
+</ul>
+<p>rABMがぜひとも皆様の研究のお役に立てることを祈っています。</p>
+<p>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　rAB開発チーム</p>
+<section id="日本語版" class="level1">
+<h1>日本語版</h1>
 <ol type="1">
 <li><a href="./quick_start_JP.html">Quick start guide</a></li>
 <li><a href="./model_library_JP.html">モデルライブラリの使い方</a></li>
+<li><a href="./rABM_classes_JP.html">rABMオブジェクトの構成</a></li>
 </ol>
 <ul>
-<li>rABMのクラスの構成</li>
 <li>stage &amp; active Stage</li>
 <li>plot_FUN</li>
 <li>act_FUN</li>
