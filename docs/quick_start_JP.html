@@ -145,7 +145,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">はじめに</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -156,6 +156,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">モデルライブラリの使い方</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABMオブジェクトの構成</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">State &amp; Active State</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">plot_FUNについて</span></a>
   </div>
 </li>
     </ul>
@@ -178,6 +193,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#ステップ1-状態と更新を表現するオブジェクトを作成する" id="toc-ステップ1-状態と更新を表現するオブジェクトを作成する" class="nav-link" data-scroll-target="#ステップ1-状態と更新を表現するオブジェクトを作成する">ステップ1: 状態と更新を表現するオブジェクトを作成する</a></li>
   <li><a href="#ステップ2-gameオブジェクトに格納する" id="toc-ステップ2-gameオブジェクトに格納する" class="nav-link" data-scroll-target="#ステップ2-gameオブジェクトに格納する">ステップ2: Gameオブジェクトに格納する</a></li>
   <li><a href="#ステップ3-シミュレーションの実行" id="toc-ステップ3-シミュレーションの実行" class="nav-link" data-scroll-target="#ステップ3-シミュレーションの実行">ステップ3: シミュレーションの実行</a></li>
+  <li><a href="#重要gオブジェクトのコピーについて" id="toc-重要gオブジェクトのコピーについて" class="nav-link" data-scroll-target="#重要gオブジェクトのコピーについて">【重要】Gオブジェクトのコピーについて</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -327,7 +343,7 @@ Ready to run......
    current time: 2
 Finished at time 2 
 
-Simulation took 00:00:00.010 (hh:mm:ss.mmm)</code></pre>
+Simulation took 00:00:00.009 (hh:mm:ss.mmm)</code></pre>
 </div>
 </div>
 <p>結果が保存されたオブジェクト<code>G2</code>の<code>age</code>フィールドを確認します。</p>
@@ -340,6 +356,45 @@ Simulation took 00:00:00.010 (hh:mm:ss.mmm)</code></pre>
 <p>1回分の更新が反映されていることが確認できます。たとえば、1番目のエージェントの年齢は初期値の1歳から2歳に変化しています。</p>
 <p>なお、Rではインデックスは１から始まります。このため、Gameにおいても初期状態の時刻は<code>time = 1</code>とカウントされ、1回更新後は<code>time = 2</code>となります。</p>
 <p>このようにrABMでは、更新用の関数を<code>act_FUN</code>として定義し、それを<code>run_Game()`</code>で実行することでシミュレーションを行います。</p>
+</section>
+<section id="重要gオブジェクトのコピーについて" class="level2">
+<h2 class="anchored" data-anchor-id="重要gオブジェクトのコピーについて">【重要】Gオブジェクトのコピーについて</h2>
+<p><strong>rABM</strong>の<code>Game</code>オブジェクトは、<code>R6</code>というクラスを使用しています。このクラスのオブジェクトは、通常の方法でコピーしてもその内部で参照先が共通となります。具体的には、通常の方法でコピーをすると以下のような動作が起こります。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># G1を作成する</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>G1 <span class="ot">&lt;-</span> <span class="fu">Game</span>(<span class="fu">State</span>(x))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># G1をG2に通常の方法でコピーする</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>G2 <span class="ot">&lt;-</span> G1</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># G2のxを2に変更する</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>G2<span class="sc">$</span>x <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># すると共通の参照先をもつG1$xの値も2に変わってしまう。</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>G2<span class="sc">$</span>x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<p>このような動作は、多くの通常のRユーザーにとって直感に反するものとなります。問題を避けるために、コピーをする際には、<code>Game</code>を<strong>deep copy</strong>（すなわち参照先を切り離したコピー）する<code>copy_obj</code>関数を使用してください。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># G1を作成する</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>G1 <span class="ot">&lt;-</span> <span class="fu">Game</span>(<span class="fu">State</span>(x))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># copy_objを用いてコピーする</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>G2 <span class="ot">&lt;-</span> <span class="fu">copy_obj</span>(G1)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># G2のxを2にする</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>G2<span class="sc">$</span>x <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># G1$xは元のまま1</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>G1<span class="sc">$</span>x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
 
 
 </section>
@@ -748,8 +803,8 @@ Simulation took 00:00:00.010 (hh:mm:ss.mmm)</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="はじめに">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">はじめに</span></span>
+      <a href="./index.html" class="pagination-link" aria-label="Introduction">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Introduction</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

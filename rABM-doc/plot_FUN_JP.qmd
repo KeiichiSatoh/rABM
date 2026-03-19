@@ -1,0 +1,136 @@
+---
+title: "plot_FUNについて"
+format: html
+number-sections: False
+editor: visual
+---
+
+## はじめに
+
+自身でABMを作成する際に、**state**と**active state**の次の手順として作ることをお勧めするのが描画に関するフィールドカテゴリー（**plot_FUN**）です。**plot_FUN**を早い段階でつくっておくことで、自身のstateがどのような状況か、更新を行ったあとstateが適切に変化しているのかを把握しやすくなります。この章では、plot_FUNの作成、作成上の注意について解説します。
+
+## plot_FUNの作り方
+
+### baseパッケージを用いたplot
+
+**plot_FUN**は、`Plot()`で関数をくくったうえで、`Game`オブジェクトに格納することで実装できます。以下は、100人のエージェントの正規分布に従った得点`x`のヒストグラムをプロットするplot_FUNを作成する例です。なお、ABMにおいて、プロットしている時間がどの時点なのかは特に重要なことが多いため、plot_FUNを作る際には時点を同時に表記できるように関数を組むことがお勧めします。当該時点は`$time`でアクセスできますので、関数上は`self$time`と参照させるようにすればよいです。
+
+```{r}
+#| message: false
+library(rABM)
+```
+
+```{r}
+# xを作成し、Gameに格納する
+n <- 100
+x <- rnorm(n = n)
+G <- Game(State(x))
+
+# ヒストグラムを出力する関数plot_xを作成する
+plot_x <- function(){
+  hist(self$x, 
+       main = paste("time =", self$time),
+       xlab = "x")
+}
+
+# Gに追加する
+add_field(G, Plot(plot_x))
+```
+
+プリントすることで、`Game`オブジェクトに適切に格納されていることをいったん確認します。末尾のメタデータ欄に`plot_FUN: plot_x`という表示が入っていることが分かります。
+
+```{r}
+G
+```
+
+さっそく実際に図示してみましょう。適切に図示できてることが分かります。
+
+```{r}
+G$plot_x()
+```
+
+### ggplot2パッケージを用いたプロット
+
+なお、ここでは`base`パッケージのプロット機能を用いていますが、`ggplot`を使用することももちろんできます。ただしggplotはbaseパッケージよりも描画に時間がかかることが多いことに留意しておいてください。また、**関数末尾において、明示的にggplotのオブジェクトをprint()で呼び出す必要\*\***があることに注意してください。
+
+```{r}
+#| message: false
+
+# ggplot2を読み込む
+library(ggplot2)
+
+# ggplot2を用いた図示用の関数を作成する
+plot_x_ggp <- function(){
+  # ggplotで扱えるようdata.frameに変換する
+  df <- data.frame(x = self$x)
+  
+  # plot用の設定をgに付加する
+  g <- ggplot(aes(x = x), data = df) + geom_histogram() + 
+    ggtitle(paste("time =", self$time))
+  
+  # 描画には明示的にprintで呼び出す
+  print(g)
+  }
+
+# Gに格納する
+add_field(G, Plot(plot_x_ggp))
+```
+
+実際に図示してみます。
+
+```{r}
+# 図示する
+G$plot_x_ggp()
+```
+
+## 定義されたすべてのplotを順にみる
+
+`Game`オブジェクトに定義されたすべての**plot_FUN**は、`plot()`で`Game`オブジェクトを呼び出すことによって、順に呼び出すことができます。以下の関数を実行すると、インテラクティブモードになり、\<ENTER\>を推すたびに、定義されているplot_FUNが順に呼び出されます（出力省略）。
+
+```{r}
+#| eval: false
+
+plot(G)
+```
+
+個別に呼び出すことも可能です。その場合には、nameで呼び出したいplot_FUNのフィールド名を指定します。
+
+```{r}
+#| results: false
+plot(G, name = c("plot_x"))
+```
+
+使っているエディターによっては、plotはジェネリックのため引数候補を見にくい場合があるかもしれません。その場合には`plot_Game`関数を用いていください。この関数は、`plot`関数のラッパーとなっており、結果的に同じ出力がなされます。
+
+## logをプロットする
+
+`Game`オブジェクトに保存されている`log`をプロットしたい場合には、`plot`関数の引数のlog指定をしてください。`log`はインデックス(i.e., 1, 2, 3,...）もしくは、時点の文字列（i.e., `"t1"`,`"t2"`）のいずれかで指定できます。
+
+```{r}
+#| message: false
+#| results: "hide"
+
+# 例示のための簡単なxの更新関数を作成する。
+update_x <- function(){self$x <- self$x + rnorm(n = 100)}
+
+# Gameに付加する
+add_field(G, Act(update_x))
+
+# 3回更新する
+G2 <- run_Game(G, plan = "update_x", times = 3)
+```
+
+```{r}
+# インデックスで指定してlogをプロットする
+plot(G2, name = "plot_x", log = 3)
+```
+
+```{r}
+# 時点を文字列でしてlogをプロットする
+plot(G2, name = "plot_x", log = "t3")
+```
+
+```{r}
+# 複数の時点を表示する
+plot(G2, name = "plot_x", log = c(1,3))
+```

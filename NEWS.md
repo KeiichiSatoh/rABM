@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 1.1.4
+2025-03-19
+* [new] Added a tutorial page (JP): plot_FUN
+
 # rABM 1.1.3
 2025-03-18
 * [new] Added a tutorial page (JP): state and active state

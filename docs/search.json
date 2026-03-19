@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "rABM tutorial",
     "section": "",
-    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n探索的な操作性: 試行錯誤がしやすいこと\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、速く効率的に分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n\nrABM開発チーム\n\n　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　\n\n日本語版\n\nQuick start guide\nモデルライブラリの使い方\nrABMオブジェクトの構成\nstate & active state\n\n\nplot_FUN\nact_FUN\nGameの実行\nstop_FUN\nsummary_FUN\nSeries\nその他の有用な関数\n事例: Heros and cowards\n事例: Schellingの分居モデル\nAppendix A: 関数の作り方\nAppendix B: テクニカル・ノート\n\n\n\nEnglish Version\nComing soon…",
+    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n探索的な操作性: 試行錯誤がしやすいこと\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、速く効率的に分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n\nrABM開発チーム\n\n　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　\n\n日本語版\n\nQuick start guide\nモデルライブラリの使い方\nrABMオブジェクトの構成\nstate & active state\nplot_FUNについて\n\n\nact_FUN\nGameの実行\nstop_FUN\nsummary_FUN\nSeries\nその他の有用な関数\n事例: Heros and cowards\n事例: Schellingの分居モデル\nAppendix A: 関数の作り方\nAppendix B: テクニカル・ノート\n\n\n\nEnglish Version\nComing soon…",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -104,7 +104,7 @@
     "href": "quick_start_JP.html#ステップ3-シミュレーションの実行",
     "title": "Quick Start Guide",
     "section": "ステップ3: シミュレーションの実行",
-    "text": "ステップ3: シミュレーションの実行\nGameオブジェクトに設定したシミュレーションは、run_Game()関数で実行できます。実際に使用する更新関数（act_FUN）の名前をplan引数に設定します。\n以下では、1回分の更新をtimes引数で指定しています。\n\nG2 &lt;- run_Game(G = G, plan = \"get_older\", times = 1)\n\n[plan] \nget_older\n \n[stop_FUN] \nstop times at 2\n\nThe initial values at time 1 were saved.\n\nReady to run......\n   start time  : 1\n   current time: 2\nFinished at time 2 \n\nSimulation took 00:00:00.010 (hh:mm:ss.mmm)\n\n\n結果が保存されたオブジェクトG2のageフィールドを確認します。\n\nG2$age\n\n[1] 2 3 4 5 6\n\n\n1回分の更新が反映されていることが確認できます。たとえば、1番目のエージェントの年齢は初期値の1歳から2歳に変化しています。\nなお、Rではインデックスは１から始まります。このため、Gameにおいても初期状態の時刻はtime = 1とカウントされ、1回更新後はtime = 2となります。\nこのようにrABMでは、更新用の関数をact_FUNとして定義し、それをrun_Game()`で実行することでシミュレーションを行います。",
+    "text": "ステップ3: シミュレーションの実行\nGameオブジェクトに設定したシミュレーションは、run_Game()関数で実行できます。実際に使用する更新関数（act_FUN）の名前をplan引数に設定します。\n以下では、1回分の更新をtimes引数で指定しています。\n\nG2 &lt;- run_Game(G = G, plan = \"get_older\", times = 1)\n\n[plan] \nget_older\n \n[stop_FUN] \nstop times at 2\n\nThe initial values at time 1 were saved.\n\nReady to run......\n   start time  : 1\n   current time: 2\nFinished at time 2 \n\nSimulation took 00:00:00.009 (hh:mm:ss.mmm)\n\n\n結果が保存されたオブジェクトG2のageフィールドを確認します。\n\nG2$age\n\n[1] 2 3 4 5 6\n\n\n1回分の更新が反映されていることが確認できます。たとえば、1番目のエージェントの年齢は初期値の1歳から2歳に変化しています。\nなお、Rではインデックスは１から始まります。このため、Gameにおいても初期状態の時刻はtime = 1とカウントされ、1回更新後はtime = 2となります。\nこのようにrABMでは、更新用の関数をact_FUNとして定義し、それをrun_Game()`で実行することでシミュレーションを行います。",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Quick Start Guide</span>"
     ]
@@ -254,7 +254,7 @@
     "href": "state_JP.html#active-stateとはなにか",
     "title": "State & Active State",
     "section": "Active Stateとはなにか",
-    "text": "Active Stateとはなにか\nActive stateは、外部からはstateのようにアクセスできますが、定義上は関数を持っています。つまり参照されるたびに、内部で関数が走りその結果が返される仕組みです。\n具体例として、Body Mass Index (BMI)について考えてみましょう。BMIは、体重と身長から計算される肥満度を示す指数です。BMIの式は以下の通りです。\n\\[\nBMI = \\frac{weight (kg)}{height (m)^2}\n\\]\nつまりBMIは身長と体重さえわかれば、自動的に計算が可能な指数です。BMIをactive stateとして実装してみましょう。\n\n# BMIを関数で表現する\nbmi &lt;- function(){\n  self$weight/self$height^2\n}\n\n# bmiをactive stateとして追加する\nadd_field(G, Active(bmi))\n\n# BMIを見てみる\nG$bmi\n\n [1] 19.04732 11.61538 12.69423 14.85145 16.86182 20.97835 21.02799 24.22270\n [9] 20.23028 29.97393\n\n\nこのようにBMIを関数として表現してあることによって、もしもエージェントの伸長や体重が変化した場合に、それに連動してBMIも変動するという実装が可能になります。つまり、たとえばシミュレーションの更新する対象のフィールドは、身長と体重に絞ればよく、BMIまで更新する必要がなくなるということになります。",
+    "text": "Active Stateとはなにか\nActive stateは、外部からはstateのようにアクセスできますが、定義上は関数を持っています。つまり参照されるたびに、内部で関数が走りその結果が返される仕組みです。\n具体例として、Body Mass Index (BMI)について考えてみましょう。BMIは、体重と身長から計算される肥満度を示す指数です。BMIの式は以下の通りです。\n\\[\nBMI = \\frac{weight (kg)}{height (m)^2}\n\\]\nつまりBMIは身長と体重さえわかれば、自動的に計算が可能な指数です。BMIをactive stateとして実装してみましょう。\n\n# BMIを関数で表現する\nbmi &lt;- function(){\n  self$weight/self$height^2\n}\n\n# bmiをactive stateとして追加する\nadd_field(G, Active(bmi))\n\n# BMIを見てみる\nG$bmi\n\n [1] 16.47237 15.47669 24.85787 18.55239 28.09434 20.67652 17.78474 24.03802\n [9] 21.12519 23.81948\n\n\nこのようにBMIを関数として表現してあることによって、もしもエージェントの伸長や体重が変化した場合に、それに連動してBMIも変動するという実装が可能になります。つまり、たとえばシミュレーションの更新する対象のフィールドは、身長と体重に絞ればよく、BMIまで更新する必要がなくなるということになります。",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>State & Active State</span>"
     ]
@@ -267,6 +267,76 @@
     "text": "【参考】Active stateの実行速度に関して\nActive stateは非常に便利ですが、特に計算速度を重視する場合には、その仕組みをきちんと理解しておく必要があります。つまりactive stateは参照されるたび（例：G$bmi）新たに計算がしなおされます。もしも実行が非常に重い関数を設定し、かつactive stateを何度も呼ぶと計算負荷がそれだけ大きくなります。つまり更新をする対象の値がごく一部であるならば、毎回計算をし直すよりも、更新する対象の値を直接変化させてしまったほうが実行速度が速くなります。\n他方でactive stateそのものはただの関数オブジェクトなので、容量そおのもはさほど大きくありません。大規模だが、ごく単純で実行速度が速いオブジェクトを表現するうえでは、大規模なstateオブジェクトを持つよりも、active stateの方が速くなる場合もあります。\nなお、run_Gameで実行された各回のactive stateフィールドは、logには際には、関数ではなく値として保存されます。つまり、その時点でのactive fieldの値が「固められた」状態で保存されることも覚えておいてください。",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>State & Active State</span>"
+    ]
+  },
+  {
+    "objectID": "plot_FUN_JP.html",
+    "href": "plot_FUN_JP.html",
+    "title": "plot_FUNについて",
+    "section": "",
+    "text": "はじめに\n自身でABMを作成する際に、stateとactive stateの次の手順として作ることをお勧めするのが描画に関するフィールドカテゴリー（plot_FUN）です。plot_FUNを早い段階でつくっておくことで、自身のstateがどのような状況か、更新を行ったあとstateが適切に変化しているのかを把握しやすくなります。この章では、plot_FUNの作成、作成上の注意について解説します。",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>plot_FUNについて</span>"
+    ]
+  },
+  {
+    "objectID": "plot_FUN_JP.html#plot_funの作り方",
+    "href": "plot_FUN_JP.html#plot_funの作り方",
+    "title": "plot_FUNについて",
+    "section": "plot_FUNの作り方",
+    "text": "plot_FUNの作り方\n\nbaseパッケージを用いたplot\nplot_FUNは、Plot()で関数をくくったうえで、Gameオブジェクトに格納することで実装できます。以下は、100人のエージェントの正規分布に従った得点xのヒストグラムをプロットするplot_FUNを作成する例です。なお、ABMにおいて、プロットしている時間がどの時点なのかは特に重要なことが多いため、plot_FUNを作る際には時点を同時に表記できるように関数を組むことがお勧めします。当該時点は$timeでアクセスできますので、関数上はself$timeと参照させるようにすればよいです。\n\nlibrary(rABM)\n\n\n# xを作成し、Gameに格納する\nn &lt;- 100\nx &lt;- rnorm(n = n)\nG &lt;- Game(State(x))\n\n# ヒストグラムを出力する関数plot_xを作成する\nplot_x &lt;- function(){\n  hist(self$x, \n       main = paste(\"time =\", self$time),\n       xlab = \"x\")\n}\n\n# Gに追加する\nadd_field(G, Plot(plot_x))\n\nプリントすることで、Gameオブジェクトに適切に格納されていることをいったん確認します。末尾のメタデータ欄にplot_FUN: plot_xという表示が入っていることが分かります。\n\nG\n\n&lt;Game&gt;\n$x(state)\n  [1]  0.756870595 -0.147444014  0.714630200 -1.283199968  1.679667091\n  [6] -0.380927315 -0.699519458  0.533097048 -2.089019667 -0.363241121\n [11]  0.585237512  0.116406128  0.502537785  1.066209045 -0.672112692\n [16]  0.848643884 -1.468030704 -0.439423170 -1.261828581 -0.537948137\n [21]  0.345303347  0.235454515  0.525358003  0.989738452 -0.101065928\n [26] -0.041810065 -0.606803069  1.217669765  0.643800410 -0.676872304\n  ---- (truncated) ----\n\n$plot_x(plot_FUN)\nfunction (E = E) \n{\n    hist(self$x, main = paste(\"time =\", self$time), xlab = \"x\")\n}\n\n------------------- \ntime       : 1 \nn of logs  : 0 \nn of notes : 0 \nn of fields: 2 \n  state: x\n  plot_FUN: plot_x\n------------------- \n*Some fields are truncated. Increase 'max_lines' to display more.\n\n\nさっそく実際に図示してみましょう。適切に図示できてることが分かります。\n\nG$plot_x()\n\n\n\n\n\n\n\n\n\n\nggplot2パッケージを用いたプロット\nなお、ここではbaseパッケージのプロット機能を用いていますが、ggplotを使用することももちろんできます。ただしggplotはbaseパッケージよりも描画に時間がかかることが多いことに留意しておいてください。また、関数末尾において、明示的にggplotのオブジェクトをprint()で呼び出す必要**があることに注意してください。\n\n# ggplot2を読み込む\nlibrary(ggplot2)\n\nWarning: package 'ggplot2' was built under R version 4.4.3\n\n# ggplot2を用いた図示用の関数を作成する\nplot_x_ggp &lt;- function(){\n  # ggplotで扱えるようdata.frameに変換する\n  df &lt;- data.frame(x = self$x)\n  \n  # plot用の設定をgに付加する\n  g &lt;- ggplot(aes(x = x), data = df) + geom_histogram() + \n    ggtitle(paste(\"time =\", self$time))\n  \n  # 描画には明示的にprintで呼び出す\n  print(g)\n  }\n\n# Gに格納する\nadd_field(G, Plot(plot_x_ggp))\n\n実際に図示してみます。\n\n# 図示する\nG$plot_x_ggp()\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>plot_FUNについて</span>"
+    ]
+  },
+  {
+    "objectID": "plot_FUN_JP.html#定義されたすべてのplotを順にみる",
+    "href": "plot_FUN_JP.html#定義されたすべてのplotを順にみる",
+    "title": "plot_FUNについて",
+    "section": "定義されたすべてのplotを順にみる",
+    "text": "定義されたすべてのplotを順にみる\nGameオブジェクトに定義されたすべてのplot_FUNは、plot()でGameオブジェクトを呼び出すことによって、順に呼び出すことができます。以下の関数を実行すると、インテラクティブモードになり、&lt;ENTER&gt;を推すたびに、定義されているplot_FUNが順に呼び出されます（出力省略）。\n\nplot(G)\n\n個別に呼び出すことも可能です。その場合には、nameで呼び出したいplot_FUNのフィールド名を指定します。\n\nplot(G, name = c(\"plot_x\"))\n\n\n\n\n\n\n\n\n使っているエディターによっては、plotはジェネリックのため引数候補を見にくい場合があるかもしれません。その場合にはplot_Game関数を用いていください。この関数は、plot関数のラッパーとなっており、結果的に同じ出力がなされます。",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>plot_FUNについて</span>"
+    ]
+  },
+  {
+    "objectID": "plot_FUN_JP.html#logをプロットする",
+    "href": "plot_FUN_JP.html#logをプロットする",
+    "title": "plot_FUNについて",
+    "section": "logをプロットする",
+    "text": "logをプロットする\nGameオブジェクトに保存されているlogをプロットしたい場合には、plot関数の引数のlog指定をしてください。logはインデックス(i.e., 1, 2, 3,…）もしくは、時点の文字列（i.e., \"t1\",\"t2\"）のいずれかで指定できます。\n\n# 例示のための簡単なxの更新関数を作成する。\nupdate_x &lt;- function(){self$x &lt;- self$x + rnorm(n = 100)}\n\n# Gameに付加する\nadd_field(G, Act(update_x))\n\n# 3回更新する\nG2 &lt;- run_Game(G, plan = \"update_x\", times = 3)\n\n\n# インデックスで指定してlogをプロットする\nplot(G2, name = \"plot_x\", log = 3)\n\nprinting: 1/1\n\n\n\n\n\n\n\n\n\n\n# 時点を文字列でしてlogをプロットする\nplot(G2, name = \"plot_x\", log = \"t3\")\n\nprinting: 1/1\n\n\n\n\n\n\n\n\n\n\n# 複数の時点を表示する\nplot(G2, name = \"plot_x\", log = c(1,3))\n\nprinting: 1/2\n\n\n\n\n\n\n\n\n\nprinting: 2/2",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>plot_FUNについて</span>"
+    ]
+  },
+  {
+    "objectID": "state_JP.html#フィールドの追加",
+    "href": "state_JP.html#フィールドの追加",
+    "title": "State & Active State",
+    "section": "フィールドの追加",
+    "text": "フィールドの追加\n\nx &lt;- 1\ny &lt;- 2\nz &lt;- 3\n\n# xを追加する\nadd_field(G, State(x))\n\n# yとzをまとめて追加する\nadd_field(G, State(y), State(z))\n\nなおすでに存在するフィールドと同じ名前のフィールドを追加することはできません。その場合には、次の例のようにいったんすでに存在しているフィールドを削除してから、新しいフィールドを追加しなおしてください。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>State & Active State</span>"
+    ]
+  },
+  {
+    "objectID": "state_JP.html#フィールドの削除",
+    "href": "state_JP.html#フィールドの削除",
+    "title": "State & Active State",
+    "section": "フィールドの削除",
+    "text": "フィールドの削除\n\n# xを削除する\nremove_field(G, \"x\")\n\n# yとzをまとめて削除する\nremove_field(G, \"y\", \"z\")",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>State & Active State</span>"
+    ]
+  },
+  {
+    "objectID": "quick_start_JP.html#重要gオブジェクトのコピーについて",
+    "href": "quick_start_JP.html#重要gオブジェクトのコピーについて",
+    "title": "Quick Start Guide",
+    "section": "【重要】Gオブジェクトのコピーについて",
+    "text": "【重要】Gオブジェクトのコピーについて\nrABMのGameオブジェクトは、R6というクラスを使用しています。このクラスのオブジェクトは、通常の方法でコピーしてもその内部で参照先が共通となります。具体的には、通常の方法でコピーをすると以下のような動作が起こります。\n\n# G1を作成する\nx &lt;- 1\nG1 &lt;- Game(State(x))\n\n# G1をG2に通常の方法でコピーする\nG2 &lt;- G1\n\n# G2のxを2に変更する\nG2$x &lt;- 2\n\n# すると共通の参照先をもつG1$xの値も2に変わってしまう。\nG2$x\n\n[1] 2\n\n\nこのような動作は、多くの通常のRユーザーにとって直感に反するものとなります。問題を避けるために、コピーをする際には、Gameをdeep copy（すなわち参照先を切り離したコピー）するcopy_obj関数を使用してください。\n\n# G1を作成する\nx &lt;- 1\nG1 &lt;- Game(State(x))\n\n# copy_objを用いてコピーする\nG2 &lt;- copy_obj(G1)\n\n# G2のxを2にする\nG2$x &lt;- 2\n\n# G1$xは元のまま1\nG1$x\n\n[1] 1",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Quick Start Guide</span>"
     ]
   }
 ]

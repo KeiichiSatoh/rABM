@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>State &amp; Active State – rABM tutorial</title>
+<title>plot_FUNについて – rABM tutorial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./plot_FUN_JP.html" rel="next">
-<link href="./rABM_classes_JP.html" rel="prev">
+<link href="./state_JP.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -106,35 +105,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -147,7 +117,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./state_JP.html"><span class="chapter-title">State &amp; Active State</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./plot_FUN_JP.html"><span class="chapter-title">plot_FUNについて</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -194,12 +164,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./state_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">State &amp; Active State</span></a>
+  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">State &amp; Active State</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">plot_FUNについて</span></a>
+  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">plot_FUNについて</span></a>
   </div>
 </li>
     </ul>
@@ -213,17 +183,13 @@ window.Quarto = {
    
   <ul>
   <li><a href="#はじめに" id="toc-はじめに" class="nav-link active" data-scroll-target="#はじめに">はじめに</a></li>
-  <li><a href="#state" id="toc-state" class="nav-link" data-scroll-target="#state">State</a></li>
-  <li><a href="#active-state" id="toc-active-state" class="nav-link" data-scroll-target="#active-state">Active State</a>
+  <li><a href="#plot_funの作り方" id="toc-plot_funの作り方" class="nav-link" data-scroll-target="#plot_funの作り方">plot_FUNの作り方</a>
   <ul class="collapse">
-  <li><a href="#active-stateとはなにか" id="toc-active-stateとはなにか" class="nav-link" data-scroll-target="#active-stateとはなにか">Active Stateとはなにか</a></li>
-  <li><a href="#参考active-stateの実行速度に関して" id="toc-参考active-stateの実行速度に関して" class="nav-link" data-scroll-target="#参考active-stateの実行速度に関して">【参考】Active stateの実行速度に関して</a></li>
+  <li><a href="#baseパッケージを用いたplot" id="toc-baseパッケージを用いたplot" class="nav-link" data-scroll-target="#baseパッケージを用いたplot">baseパッケージを用いたplot</a></li>
+  <li><a href="#ggplot2パッケージを用いたプロット" id="toc-ggplot2パッケージを用いたプロット" class="nav-link" data-scroll-target="#ggplot2パッケージを用いたプロット">ggplot2パッケージを用いたプロット</a></li>
   </ul></li>
-  <li><a href="#フィールドの追加と削除" id="toc-フィールドの追加と削除" class="nav-link" data-scroll-target="#フィールドの追加と削除">フィールドの追加と削除</a>
-  <ul class="collapse">
-  <li><a href="#フィールドの追加" id="toc-フィールドの追加" class="nav-link" data-scroll-target="#フィールドの追加">フィールドの追加</a></li>
-  <li><a href="#フィールドの削除" id="toc-フィールドの削除" class="nav-link" data-scroll-target="#フィールドの削除">フィールドの削除</a></li>
-  </ul></li>
+  <li><a href="#定義されたすべてのplotを順にみる" id="toc-定義されたすべてのplotを順にみる" class="nav-link" data-scroll-target="#定義されたすべてのplotを順にみる">定義されたすべてのplotを順にみる</a></li>
+  <li><a href="#logをプロットする" id="toc-logをプロットする" class="nav-link" data-scroll-target="#logをプロットする">logをプロットする</a></li>
   </ul>
 </nav>
     </div>
@@ -232,7 +198,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">State &amp; Active State</span></h1>
+<h1 class="title"><span class="chapter-title">plot_FUNについて</span></h1>
 </div>
 
 
@@ -249,94 +215,205 @@ window.Quarto = {
 </header>
 
 
-<section id="はじめに" class="level1">
-<h1>はじめに</h1>
-<p>この章であつかう<strong>state</strong>と<strong>active state</strong>は、エージェントの状態を表現するためのフィールド・カテゴリーです。ABMを自作で作る場合には、通常この二つをはじめに作成します。この章では、Stateについて概観したうえで、特にactive stateについて説明します。active stateはうまく使用すれば、ABMを作成するうえで非常に強力な手法となります。</p>
+<section id="はじめに" class="level2">
+<h2 class="anchored" data-anchor-id="はじめに">はじめに</h2>
+<p>自身でABMを作成する際に、<strong>state</strong>と<strong>active state</strong>の次の手順として作ることをお勧めするのが描画に関するフィールドカテゴリー（<strong>plot_FUN</strong>）です。<strong>plot_FUN</strong>を早い段階でつくっておくことで、自身のstateがどのような状況か、更新を行ったあとstateが適切に変化しているのかを把握しやすくなります。この章では、plot_FUNの作成、作成上の注意について解説します。</p>
 </section>
-<section id="state" class="level1">
-<h1>State</h1>
-<p>stateフィールドは、<code>State()</code>でくくることによって定義します。stateフィールドには、関数以外の任意のRオブジェクトを取れます。以下の例は、エージェントの伸長と体重を表現するstateを作成するものです。</p>
+<section id="plot_funの作り方" class="level2">
+<h2 class="anchored" data-anchor-id="plot_funの作り方">plot_FUNの作り方</h2>
+<section id="baseパッケージを用いたplot" class="level3">
+<h3 class="anchored" data-anchor-id="baseパッケージを用いたplot">baseパッケージを用いたplot</h3>
+<p><strong>plot_FUN</strong>は、<code>Plot()</code>で関数をくくったうえで、<code>Game</code>オブジェクトに格納することで実装できます。以下は、100人のエージェントの正規分布に従った得点<code>x</code>のヒストグラムをプロットするplot_FUNを作成する例です。なお、ABMにおいて、プロットしている時間がどの時点なのかは特に重要なことが多いため、plot_FUNを作る際には時点を同時に表記できるように関数を組むことがお勧めします。当該時点は<code>$time</code>でアクセスできますので、関数上は<code>self$time</code>と参照させるようにすればよいです。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rABM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 10人のエージェント</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 身長(m)と体重(kg)のオブジェクトを作成</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>height <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> <span class="dv">170</span>, <span class="at">sd =</span> <span class="dv">10</span>)<span class="sc">/</span><span class="dv">100</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>weight <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> <span class="dv">60</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Gameに格納する</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">Game</span>(<span class="fu">State</span>(height), <span class="fu">State</span>(weight))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># xを作成し、Gameに格納する</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> n)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">Game</span>(<span class="fu">State</span>(x))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ヒストグラムを出力する関数plot_xを作成する</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>plot_x <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hist</span>(self<span class="sc">$</span>x, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">"time ="</span>, self<span class="sc">$</span>time),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">xlab =</span> <span class="st">"x"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Gに追加する</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">Plot</span>(plot_x))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>ここで、エージェントの数は同じなのだから、<code>height</code>と<code>weight</code>というように、それぞれ別のオブジェクトを作らず、<code>data.frame</code>にまとめればよいのではないかという疑問も出てくるのではないかと思います。実際、stateフィールドには<code>data.frame</code>も使用できます。判断はユーザーに任されますが、私自身の考えでは、ABMを回すには、stateは可能な限り<code>vector</code>で表現されるほうが、他の関数での扱いが容易になります。というのは、たとえば1番目のエージェントの体重にアクセスする場合、ベクトルであれば<code>self$weight[1]</code>で直接アクセスできますが、data.frameの場合には、データフレームのさらに対象とする列を指定する必要が出てくるからです（e.g.&nbsp;<code>self$df$weight[1]</code>）。このようにアクセスが一段深くなってしまうことは、スクリプトを書くうえでも厄介になり得ます。このことは、次のactive stateについて理解すると、実感がわくでしょう。</p>
-</section>
-<section id="active-state" class="level1">
-<h1>Active State</h1>
-<section id="active-stateとはなにか" class="level2">
-<h2 class="anchored" data-anchor-id="active-stateとはなにか">Active Stateとはなにか</h2>
-<p><strong>Active state</strong>は、外部からはstateのようにアクセスできますが、定義上は関数を持っています。つまり参照されるたびに、内部で関数が走りその結果が返される仕組みです。</p>
-<p>具体例として、Body Mass Index (BMI)について考えてみましょう。BMIは、体重と身長から計算される肥満度を示す指数です。BMIの式は以下の通りです。</p>
-<p><span class="math display">\[
-BMI = \frac{weight (kg)}{height (m)^2}
-\]</span></p>
-<p>つまりBMIは身長と体重さえわかれば、自動的に計算が可能な指数です。BMIをactive stateとして実装してみましょう。</p>
+<p>プリントすることで、<code>Game</code>オブジェクトに適切に格納されていることをいったん確認します。末尾のメタデータ欄に<code>plot_FUN: plot_x</code>という表示が入っていることが分かります。</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BMIを関数で表現する</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>bmi <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  self<span class="sc">$</span>weight<span class="sc">/</span>self<span class="sc">$</span>height<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># bmiをactive stateとして追加する</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">Active</span>(bmi))</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># BMIを見てみる</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>G<span class="sc">$</span>bmi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>G</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 16.47237 15.47669 24.85787 18.55239 28.09434 20.67652 17.78474 24.03802
- [9] 21.12519 23.81948</code></pre>
+<pre><code>&lt;Game&gt;
+$x(state)
+  [1]  0.756870595 -0.147444014  0.714630200 -1.283199968  1.679667091
+  [6] -0.380927315 -0.699519458  0.533097048 -2.089019667 -0.363241121
+ [11]  0.585237512  0.116406128  0.502537785  1.066209045 -0.672112692
+ [16]  0.848643884 -1.468030704 -0.439423170 -1.261828581 -0.537948137
+ [21]  0.345303347  0.235454515  0.525358003  0.989738452 -0.101065928
+ [26] -0.041810065 -0.606803069  1.217669765  0.643800410 -0.676872304
+  ---- (truncated) ----
+
+$plot_x(plot_FUN)
+function (E = E) 
+{
+    hist(self$x, main = paste("time =", self$time), xlab = "x")
+}
+
+------------------- 
+time       : 1 
+n of logs  : 0 
+n of notes : 0 
+n of fields: 2 
+  state: x
+  plot_FUN: plot_x
+------------------- 
+*Some fields are truncated. Increase 'max_lines' to display more.</code></pre>
 </div>
 </div>
-<p>このようにBMIを関数として表現してあることによって、もしもエージェントの伸長や体重が変化した場合に、それに連動してBMIも変動するという実装が可能になります。つまり、たとえばシミュレーションの更新する対象のフィールドは、身長と体重に絞ればよく、BMIまで更新する必要がなくなるということになります。</p>
-</section>
-<section id="参考active-stateの実行速度に関して" class="level2">
-<h2 class="anchored" data-anchor-id="参考active-stateの実行速度に関して">【参考】Active stateの実行速度に関して</h2>
-<p><strong>Active state</strong>は非常に便利ですが、特に計算速度を重視する場合には、その仕組みをきちんと理解しておく必要があります。つまりactive stateは参照されるたび（例：<code>G$bmi</code>）新たに計算がしなおされます。もしも実行が非常に重い関数を設定し、かつactive stateを何度も呼ぶと計算負荷がそれだけ大きくなります。つまり更新をする対象の値がごく一部であるならば、毎回計算をし直すよりも、更新する対象の値を直接変化させてしまったほうが実行速度が速くなります。</p>
-<p>他方でactive stateそのものはただの関数オブジェクトなので、容量そおのもはさほど大きくありません。大規模だが、ごく単純で実行速度が速いオブジェクトを表現するうえでは、大規模なstateオブジェクトを持つよりも、active stateの方が速くなる場合もあります。</p>
-<p>なお、<code>run_Game</code>で実行された各回の<strong>active state</strong>フィールドは、<code>log</code>には際には、関数ではなく値として保存されます。つまり、その時点でのactive fieldの値が「固められた」状態で保存されることも覚えておいてください。</p>
-</section>
-</section>
-<section id="フィールドの追加と削除" class="level1">
-<h1>フィールドの追加と削除</h1>
-<p>ABMを作成する際には、<code>Game</code>オブジェクトに新たにオブジェクトを追加したり、削除したりする操作をよく行います。すでに追加に関しては例として出してありますが、関連する操作について以下改めて例とともにまとめます。</p>
-<section id="フィールドの追加" class="level2">
-<h2 class="anchored" data-anchor-id="フィールドの追加">フィールドの追加</h2>
+<p>さっそく実際に図示してみましょう。適切に図示できてることが分かります。</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># xを追加する</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">State</span>(x))</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># yとzをまとめて追加する</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">State</span>(y), <span class="fu">State</span>(z))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>G<span class="sc">$</span><span class="fu">plot_x</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="plot_FUN_JP_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<p>なおすでに存在するフィールドと同じ名前のフィールドを追加することはできません。その場合には、次の例のようにいったんすでに存在しているフィールドを削除してから、新しいフィールドを追加しなおしてください。</p>
+</div>
+</div>
 </section>
-<section id="フィールドの削除" class="level2">
-<h2 class="anchored" data-anchor-id="フィールドの削除">フィールドの削除</h2>
+<section id="ggplot2パッケージを用いたプロット" class="level3">
+<h3 class="anchored" data-anchor-id="ggplot2パッケージを用いたプロット">ggplot2パッケージを用いたプロット</h3>
+<p>なお、ここでは<code>base</code>パッケージのプロット機能を用いていますが、<code>ggplot</code>を使用することももちろんできます。ただしggplotはbaseパッケージよりも描画に時間がかかることが多いことに留意しておいてください。また、<strong>関数末尾において、明示的にggplotのオブジェクトをprint()で呼び出す必要**</strong>があることに注意してください。</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># xを削除する</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove_field</span>(G, <span class="st">"x"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># yとzをまとめて削除する</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">remove_field</span>(G, <span class="st">"y"</span>, <span class="st">"z"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot2を読み込む</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot2を用いた図示用の関数を作成する</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plot_x_ggp <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ggplotで扱えるようdata.frameに変換する</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> self<span class="sc">$</span>x)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># plot用の設定をgに付加する</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  g <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x), <span class="at">data =</span> df) <span class="sc">+</span> <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">"time ="</span>, self<span class="sc">$</span>time))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 描画には明示的にprintで呼び出す</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(g)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Gに格納する</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">Plot</span>(plot_x_ggp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>実際に図示してみます。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 図示する</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>G<span class="sc">$</span><span class="fu">plot_x_ggp</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="plot_FUN_JP_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="定義されたすべてのplotを順にみる" class="level2">
+<h2 class="anchored" data-anchor-id="定義されたすべてのplotを順にみる">定義されたすべてのplotを順にみる</h2>
+<p><code>Game</code>オブジェクトに定義されたすべての<strong>plot_FUN</strong>は、<code>plot()</code>で<code>Game</code>オブジェクトを呼び出すことによって、順に呼び出すことができます。以下の関数を実行すると、インテラクティブモードになり、&lt;ENTER&gt;を推すたびに、定義されているplot_FUNが順に呼び出されます（出力省略）。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>個別に呼び出すことも可能です。その場合には、nameで呼び出したいplot_FUNのフィールド名を指定します。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G, <span class="at">name =</span> <span class="fu">c</span>(<span class="st">"plot_x"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="plot_FUN_JP_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>使っているエディターによっては、plotはジェネリックのため引数候補を見にくい場合があるかもしれません。その場合には<code>plot_Game</code>関数を用いていください。この関数は、<code>plot</code>関数のラッパーとなっており、結果的に同じ出力がなされます。</p>
+</section>
+<section id="logをプロットする" class="level2">
+<h2 class="anchored" data-anchor-id="logをプロットする">logをプロットする</h2>
+<p><code>Game</code>オブジェクトに保存されている<code>log</code>をプロットしたい場合には、<code>plot</code>関数の引数のlog指定をしてください。<code>log</code>はインデックス(i.e., 1, 2, 3,…）もしくは、時点の文字列（i.e., <code>"t1"</code>,<code>"t2"</code>）のいずれかで指定できます。</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 例示のための簡単なxの更新関数を作成する。</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>update_x <span class="ot">&lt;-</span> <span class="cf">function</span>(){self<span class="sc">$</span>x <span class="ot">&lt;-</span> self<span class="sc">$</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">100</span>)}</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Gameに付加する</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">Act</span>(update_x))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3回更新する</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>G2 <span class="ot">&lt;-</span> <span class="fu">run_Game</span>(G, <span class="at">plan =</span> <span class="st">"update_x"</span>, <span class="at">times =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># インデックスで指定してlogをプロットする</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G2, <span class="at">name =</span> <span class="st">"plot_x"</span>, <span class="at">log =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>printing: 1/1</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="plot_FUN_JP_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 時点を文字列でしてlogをプロットする</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G2, <span class="at">name =</span> <span class="st">"plot_x"</span>, <span class="at">log =</span> <span class="st">"t3"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>printing: 1/1</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="plot_FUN_JP_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 複数の時点を表示する</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G2, <span class="at">name =</span> <span class="st">"plot_x"</span>, <span class="at">log =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>printing: 1/2</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="plot_FUN_JP_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>printing: 2/2</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="plot_FUN_JP_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -742,14 +819,11 @@ BMI = \frac{weight (kg)}{height (m)^2}
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./rABM_classes_JP.html" class="pagination-link" aria-label="rABMオブジェクトの構成">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">rABMオブジェクトの構成</span></span>
+      <a href="./state_JP.html" class="pagination-link" aria-label="State &amp; Active State">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">State &amp; Active State</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./plot_FUN_JP.html" class="pagination-link" aria-label="plot_FUNについて">
-        <span class="nav-page-text"><span class="chapter-title">plot_FUNについて</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
