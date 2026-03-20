@@ -17,7 +17,7 @@
 
 \item{stop_FUN}{Functions registered as model-level methods.}
 
-\item{summary_FUN}{Functions registered as model-level methods.}
+\item{report_FUN}{Functions registered as model-level methods.}
 
 \item{plot_FUN}{Functions registered as model-level methods.}
 
@@ -66,7 +66,7 @@ R6 methods directly.
 
 The object manages multiple field categories:
 \code{"state"}, \code{"active_state"}, \code{"act_FUN"}, \code{"stop_FUN"},
-\code{"summary_FUN"}, and \code{"plot_FUN"}. Field names must be unique across categories.
+\code{"report_FUN"}, and \code{"plot_FUN"}. Field names must be unique across categories.
 
 A key internal operation is taking snapshots of the current state.
 The \code{.snapshot()} method retrieves only user-selected non-function fields

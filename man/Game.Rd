@@ -22,7 +22,7 @@ Functions are not allowed.}
 
 \item{stop_FUN}{Functions registered as model-level methods (\code{"stop_FUN"}).}
 
-\item{summary_FUN}{Functions registered as model-level methods (\code{"summary_FUN"}).}
+\item{report_FUN}{Functions registered as model-level methods (\code{"report_FUN"}).}
 
 \item{plot_FUN}{Functions registered as model-level methods (\code{"plot_FUN"}).}
 }
@@ -40,7 +40,7 @@ The \code{ABM_Game} object manages several field categories:
 \itemize{
 \item \code{"state"}: non-function global fields (e.g., parameters, data objects)
 \item \code{"active_state"}: active bindings (functions evaluated on access)
-\item \code{"act_FUN"}, \code{"stop_FUN"}, \code{"summary_FUN"}, \code{"plot_FUN"}:
+\item \code{"act_FUN"}, \code{"stop_FUN"}, \code{"report_FUN"}, \code{"plot_FUN"}:
 functions registered as model-level methods
 }
 

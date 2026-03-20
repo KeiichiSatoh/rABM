@@ -5,7 +5,7 @@
 #' Field constructors for rABM objects
 #'
 #' \code{Field()} and the helper constructors (\code{State()}, \code{Active()},
-#' \code{Act()}, \code{Stop()}, \code{Summary()}, \code{Plot()}) create an
+#' \code{Act()}, \code{Stop()}, \code{Report()}, \code{Plot()}) create an
 #' \code{"ABM_Field"} object that stores a value, its name, and a category label.
 #'
 #' \code{ABM_Field()} and the internal helpers are intended for internal use.
@@ -16,12 +16,12 @@
 #'   \item \code{Field()} is a general constructor where you provide \code{name}
 #'   explicitly.
 #'   \item \code{State()}, \code{Active()}, \code{Act()}, \code{Stop()},
-#'   \code{Summary()}, and \code{Plot()} are convenience constructors that accept
+#'   \code{Report()}, and \code{Plot()} are convenience constructors that accept
 #'   \code{name = NULL}.
 #'   \item For helper constructors, if \code{name} is \code{NULL}, the field name
 #'   is inferred from the expression passed to \code{x} (via \code{substitute(x)})
 #'   at the top-level helper (so it works for \code{State(y)} etc.).
-#'   \item For function categories (Active/Act/Stop/Summary/Plot), a call input
+#'   \item For function categories (Active/Act/Stop/Report/Plot), a call input
 #'   like \code{fun(a = 3)} is allowed: it is converted into a new function whose
 #'   default arguments are updated according to the call (partial application by
 #'   updating defaults, not by fixing values).
@@ -30,7 +30,7 @@
 #'
 #' The category labels are currently:
 #' \code{"state"}, \code{"active_state"}, \code{"act_FUN"}, \code{"stop_FUN"},
-#' \code{"plot_FUN"}, and \code{"summary_FUN"}.
+#' \code{"plot_FUN"}, and \code{"report_FUN"}.
 #'
 #' @param x A value or a function to be stored in the field.
 #' @param name A single character string giving the field name.
@@ -71,7 +71,7 @@ NULL
 #' @keywords internal
 ABM_Field <- function(x, name, category = c("state", "active_state",
                                             "act_FUN", "stop_FUN",
-                                            "plot_FUN", "summary_FUN")) {
+                                            "plot_FUN", "report_FUN")) {
   category <- match.arg(category)
 
   structure(
@@ -236,7 +236,7 @@ ABM_Field <- function(x, name, category = c("state", "active_state",
 #' @export
 Field <- function(x, name, category = c("state", "active_state",
                                         "act_FUN", "stop_FUN",
-                                        "plot_FUN", "summary_FUN")) {
+                                        "plot_FUN", "report_FUN")) {
   ABM_Field(x = x, name = .validate_name1(name), category = category)
 }
 
@@ -287,9 +287,9 @@ Stop <- function(x, name = NULL) {
 
 #' @rdname Field
 #' @export
-Summary <- function(x, name = NULL) {
+Report <- function(x, name = NULL) {
   x_sbs <- substitute(x)
-  .make_FUN_field(x, x_sbs, name = name, category = "summary_FUN", label = "summary_FUN",
+  .make_FUN_field(x, x_sbs, name = name, category = "report_FUN", label = "report_FUN",
                   envir = parent.frame())
 }
 

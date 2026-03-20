@@ -1,5 +1,11 @@
 # rABM (development version)
 
+# rABM 1.1.5
+2025-03-20
+* [fixed] changed `summary_FUN` and `Summary` to `report_FUN` and `Report` due to 
+the potential conflicting names.
+
+
 # rABM 1.1.4
 2025-03-19
 * [new] Added a tutorial page (JP): plot_FUN

@@ -7,7 +7,7 @@
 ABM_Field(
   x,
   name,
-  category = c("state", "active_state", "act_FUN", "stop_FUN", "plot_FUN", "summary_FUN")
+  category = c("state", "active_state", "act_FUN", "stop_FUN", "plot_FUN", "report_FUN")
 )
 }
 \arguments{

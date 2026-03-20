@@ -6,14 +6,14 @@
 \alias{Active}
 \alias{Act}
 \alias{Stop}
-\alias{Summary}
+\alias{Report}
 \alias{Plot}
 \title{Field constructors for rABM objects}
 \usage{
 Field(
   x,
   name,
-  category = c("state", "active_state", "act_FUN", "stop_FUN", "plot_FUN", "summary_FUN")
+  category = c("state", "active_state", "act_FUN", "stop_FUN", "plot_FUN", "report_FUN")
 )
 
 State(x, name = NULL)
@@ -24,7 +24,7 @@ Act(x, name = NULL)
 
 Stop(x, name = NULL)
 
-Summary(x, name = NULL)
+Report(x, name = NULL)
 
 Plot(x, name = NULL)
 }
@@ -43,7 +43,7 @@ An object of class \code{"ABM_Field"} (a list with elements
 }
 \description{
 \code{Field()} and the helper constructors (\code{State()}, \code{Active()},
-\code{Act()}, \code{Stop()}, \code{Summary()}, \code{Plot()}) create an
+\code{Act()}, \code{Stop()}, \code{Report()}, \code{Plot()}) create an
 \code{"ABM_Field"} object that stores a value, its name, and a category label.
 }
 \details{
@@ -54,12 +54,12 @@ Most users should use \code{Field()} or one of the helper constructors.
 \item \code{Field()} is a general constructor where you provide \code{name}
 explicitly.
 \item \code{State()}, \code{Active()}, \code{Act()}, \code{Stop()},
-\code{Summary()}, and \code{Plot()} are convenience constructors that accept
+\code{Report()}, and \code{Plot()} are convenience constructors that accept
 \code{name = NULL}.
 \item For helper constructors, if \code{name} is \code{NULL}, the field name
 is inferred from the expression passed to \code{x} (via \code{substitute(x)})
 at the top-level helper (so it works for \code{State(y)} etc.).
-\item For function categories (Active/Act/Stop/Summary/Plot), a call input
+\item For function categories (Active/Act/Stop/Report/Plot), a call input
 like \code{fun(a = 3)} is allowed: it is converted into a new function whose
 default arguments are updated according to the call (partial application by
 updating defaults, not by fixing values).
@@ -68,7 +68,7 @@ updating defaults, not by fixing values).
 
 The category labels are currently:
 \code{"state"}, \code{"active_state"}, \code{"act_FUN"}, \code{"stop_FUN"},
-\code{"plot_FUN"}, and \code{"summary_FUN"}.
+\code{"plot_FUN"}, and \code{"report_FUN"}.
 }
 \examples{
 # State (name inferred from the object name)

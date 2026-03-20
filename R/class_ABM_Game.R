@@ -15,7 +15,7 @@
 #'
 #' The object manages multiple field categories:
 #' `"state"`, `"active_state"`, `"act_FUN"`, `"stop_FUN"`,
-#' `"summary_FUN"`, and `"plot_FUN"`. Field names must be unique across categories.
+#' `"report_FUN"`, and `"plot_FUN"`. Field names must be unique across categories.
 #'
 #' A key internal operation is taking snapshots of the current state.
 #' The `.snapshot()` method retrieves only user-selected non-function fields
@@ -65,7 +65,7 @@
 #' @param global_FUN Functions registered as model-level methods.
 #' @param select_FUN Functions registered as model-level methods.
 #' @param stop_FUN Functions registered as model-level methods.
-#' @param summary_FUN Functions registered as model-level methods.
+#' @param report_FUN Functions registered as model-level methods.
 #' @param plot_FUN Functions registered as model-level methods.
 #' @param time A positive integer time step. If `NULL`, the default (`1`) is used.
 #' @param log A list of saved snapshots (default: `NULL`).
@@ -170,7 +170,7 @@ ABM_Game <- R6::R6Class(
         private$.add_active(name = nm, x = x_values[[nm]])
       }
 
-      for (nm in x_names[x_category %in% c("act_FUN", "stop_FUN", "summary_FUN", "plot_FUN")]) {
+      for (nm in x_names[x_category %in% c("act_FUN", "stop_FUN", "report_FUN", "plot_FUN")]) {
         private$.add_method(name = nm, x = x_values[[nm]])
       }
 
@@ -240,7 +240,7 @@ ABM_Game <- R6::R6Class(
         private$.add_active(name = nm, x = x_values[[nm]])
       }
 
-      for (nm in x_names[x_category %in% c("act_FUN", "stop_FUN", "summary_FUN", "plot_FUN")]) {
+      for (nm in x_names[x_category %in% c("act_FUN", "stop_FUN", "report_FUN", "plot_FUN")]) {
         private$.add_method(name = nm, x = x_values[[nm]])
       }
 
@@ -300,11 +300,11 @@ ABM_Game <- R6::R6Class(
       cat_i <- unname(fc[idx])
       if (is.na(cat_i) || !cat_i %in% c("state", "active_stage",
                                         "act_FUN", "stop_FUN",
-                                        "plot_FUN", "summary_FUN")) {
+                                        "plot_FUN", "report_FUN")) {
         stop("Unknown field category: ", cat_i)
       }
 
-      if (cat_i %in% c("act_FUN", "stop_FUN", "plot_FUN", "summary_FUN")) {
+      if (cat_i %in% c("act_FUN", "stop_FUN", "plot_FUN", "report_FUN")) {
         stopifnot("Put a function to the '*_FUN' category field." = is.function(x))
         unlockBinding(name, self)
         on.exit(lockBinding(name, self), add = TRUE)
@@ -443,9 +443,9 @@ ABM_Game <- R6::R6Class(
                      act_FUN      = "act_FUN     : ",
                      stop_FUN     = "stop_FUN    : ",
                      plot_FUN     = "plot_FUN    : ",
-                     summary_FUN  = "summary_FUN : ")
+                     report_FUN   = "report_FUN  : ")
 
-      for(category in c("state","active_state","act_FUN","stop_FUN","plot_FUN","summary_FUN")){
+      for(category in c("state","active_state","act_FUN","stop_FUN","plot_FUN","report_FUN")){
         if(any(fc == category)){
           cat(" ", unname(cat_label[category]), paste0(names(fc[fc==category]), collapse = ", "), "\n", sep = "")
         }
@@ -470,7 +470,7 @@ ABM_Game <- R6::R6Class(
       field_table <- table(factor(fl$category,
                                   c("state", "active_state",
                                     "act_FUN", "stop_FUN",
-                                    "summary_FUN", "plot_FUN")),
+                                    "report_FUN", "plot_FUN")),
                                   useNA = "always")
 
       # output

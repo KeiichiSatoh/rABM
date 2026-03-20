@@ -24,7 +24,7 @@
   all <- names(x)
   hidden <- c("initialize", "clone", "print")
   shown <- setdiff(all, hidden)
-  shown <- grep("^\\.", shown, invert = TRUE, value = TRUE)  # "."始まりも除外
+  shown <- grep("^\\.", shown, invert = TRUE, value = TRUE)  # exclude field with starting "."
   grep(pattern, shown, value = TRUE)
 }
 

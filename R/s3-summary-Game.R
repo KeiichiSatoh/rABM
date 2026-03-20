@@ -59,13 +59,13 @@ print.summary.ABM_Game <- function(x, ...) {
 
   # [FUN]
   is.exist.FUN <- any(x$field_table[c("act_FUN", "stop_FUN",
-                                      "summary_FUN", "plot_FUN")] > 0)
+                                      "report_FUN", "plot_FUN")] > 0)
 
   if(is.exist.FUN > 0){
     cat("[FUN]\n")
     show("act_FUN",  ft = x$field_table, fl = x$field_list)
     show("stop_FUN", ft = x$field_table, fl = x$field_list)
-    show("summary_FUN", ft = x$field_table, fl = x$field_list)
+    show("report_FUN", ft = x$field_table, fl = x$field_list)
     show("plot_FUN", ft = x$field_table, fl = x$field_list)
     cat("\n")
   }

@@ -9,7 +9,7 @@
 #' The `ABM_Game` object manages several field categories:
 #' - `"state"`: non-function global fields (e.g., parameters, data objects)
 #' - `"active_state"`: active bindings (functions evaluated on access)
-#' - `"act_FUN"`, `"stop_FUN"`, `"summary_FUN"`, `"plot_FUN"`:
+#' - `"act_FUN"`, `"stop_FUN"`, `"report_FUN"`, `"plot_FUN"`:
 #'   functions registered as model-level methods
 #'
 #' Field names must be unique across all categories.
@@ -29,7 +29,7 @@
 #' @param active_state Functions registered as active bindings (`"active_state"`).
 #' @param act_FUN Functions registered as model-level methods (`"act_FUN"`).
 #' @param stop_FUN Functions registered as model-level methods (`"stop_FUN"`).
-#' @param summary_FUN Functions registered as model-level methods (`"summary_FUN"`).
+#' @param report_FUN Functions registered as model-level methods (`"report_FUN"`).
 #' @param plot_FUN Functions registered as model-level methods (`"plot_FUN"`).
 #' @param time A positive integer time step. If `NULL`, the default (`1`) is used.
 #' @param log A list of saved snapshots (default: `NULL`).
@@ -126,7 +126,7 @@ as.Game.default <- function(
     active_state = NULL,
     act_FUN = NULL,
     stop_FUN = NULL,
-    summary_FUN = NULL,
+    report_FUN = NULL,
     plot_FUN = NULL,
     time = NULL,
     log = NULL,
@@ -161,7 +161,7 @@ as.Game.default <- function(
     .fields_from_named_list(active_state, "active_state"),
     .fields_from_named_list(act_FUN, "act_FUN"),
     .fields_from_named_list(stop_FUN, "stop_FUN"),
-    .fields_from_named_list(summary_FUN, "summary_FUN"),
+    .fields_from_named_list(report_FUN, "report_FUN"),
     .fields_from_named_list(plot_FUN, "plot_FUN"),
     .collect_fields_from_dots(...)
   )
