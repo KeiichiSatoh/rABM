@@ -4,6 +4,7 @@
 .RData
 .Ruserdata
 notes/
+papers/
 *.duckdb
 *.duckdb.wal
 *.Rproj

@@ -1,35 +1,39 @@
 # rABM (development version)
 
+# rABM 1.1.6
+2026-03-30
+* [removed] deleted mal-functioning `ask_gpt`. 
+
 # rABM 1.1.5
-2025-03-20
+2026-03-20
 * [fixed] changed `summary_FUN` and `Summary` to `report_FUN` and `Report` due to 
 the potential conflicting names.
 
 
 # rABM 1.1.4
-2025-03-19
+2026-03-19
 * [new] Added a tutorial page (JP): plot_FUN
 
 # rABM 1.1.3
-2025-03-18
+2026-03-18
 * [new] Added a tutorial page (JP): state and active state
 
 # rABM 1.1.2
-2025-03-18
+2026-03-18
 * [new] Added a tutorial page (JP): rABM classes
 
 
 # rABM 1.1.1
-2025-03-17
+2026-03-17
 * [new] Added a tutorial page (JP): using model library
 * [new] prob_score: various basic transformation rules from score to probability
 
 # rABM 1.1.0
-2025-03-04
+2026-03-04
 * [new] Added a tutorial page (JP): quick start guide 
 
 # rABM 1.0.0
-2025-03-04
+2026-03-04
 * Completely overhauled the structure of major classes. 
 
 # rABM 0.1.9
