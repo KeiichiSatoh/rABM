@@ -39,15 +39,10 @@
   # include self?
   if(isTRUE(include_self)){
     if (!is.null(nms)) {
-      f <- f[!nms %in% c("E", "self")]
+      f <- f[!nms %in% c("self")]
     }
-    formals(fun) <- c(alist(E = E), f)
-    formals(fun) <- c(alist(E = E, self = self), f)
-  }else{
-    if (!is.null(nms)) {
-      f <- f[!nms %in% c("E")]
-    }
-    formals(fun) <- c(alist(E = E), f)
+    formals(fun) <- c(alist(self = self), f)
   }
+
   fun
 }

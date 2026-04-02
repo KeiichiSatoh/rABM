@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom beepr beep
 #' @importFrom matrixStats colMaxs
 #' @importFrom matrixStats colMins
 #' @importFrom matrixStats colSds

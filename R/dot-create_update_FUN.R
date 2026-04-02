@@ -12,7 +12,7 @@
 #' @param add_tryCatch Logical; if \code{TRUE}, wrap function calls by \code{tryCatch()}
 #'   so that errors do not stop the update cycle.
 #'
-#' @return A function \code{update_FUN(E)} whose body executes the plan.
+#' @return A function \code{update_FUN()} whose body executes the plan.
 #'
 #' @keywords internal
 
@@ -20,7 +20,7 @@
 .create_update_FUN <- function(plan_list, add_tryCatch = TRUE) {
   stopifnot(is.data.frame(plan_list))
   if (!nrow(plan_list)) {
-    f <- function(E) {}
+    f <- function() {}
     body(f) <- quote({})
     return(f)
   }
@@ -40,9 +40,9 @@
     call("tryCatch", expr, error = handler_fun)
   }
 
-  # global_FUN expression: G[[fname]](E) (optionally tryCatch)
+  # global_FUN expression: G[[fname]]() (optionally tryCatch)
   build_global_expr <- function(fname) {
-    expr <- substitute(G[[FUN]](E = E), list(FUN = fname))
+    expr <- substitute(G[[FUN]](), list(FUN = fname))
     if (add_tryCatch) {
       wrap_tryCatch(expr, msg_prefix = paste0("error occured for ", shQuote(fname), ": "))
     } else {
@@ -74,7 +74,7 @@
   # Assemble update_FUN
   #===========================================================================
 
-  update_FUN <- function(G = G, E = E) {}
+  update_FUN <- function(G = G) {}
   body(update_FUN) <- as.call(c(list(as.name("{")), parts))
   update_FUN
 }

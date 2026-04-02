@@ -1,0 +1,174 @@
+---
+title: "8. Stop_FUN"
+format: 
+  html:
+    theme: pulse
+number-sections: False
+editor: visual
+---
+
+前章では`run_Game`を一定のシミュレーション回数を回すことで終了していましたが、この他の条件でシミュレーションを終了させることができます。そのような意図で用いられるのが**stop_FUN**です。この章では、**stop_FUN**の代表的な条件の作成の仕方を紹介します。
+
+## 1. stop_FUNの基礎
+
+**stop_FUN**は、何らかの終了条件が出た場合に`TRUE`を返すように関数を組みます。次の例は、毎回ランダムにコイントスを行い、表が出たら終了という条件を作成してみました。
+
+```{r}
+#| message: false
+# ライブラリを読み込む
+library(rABM)
+```
+
+```{r}
+stop_if_TRUE <- function(){sample(c(TRUE, FALSE), size = 1)}
+```
+
+作成した`stop_FUN`は`Stop()`で括ったうえで、`Game`に格納します。なお、Actにはあまり意味のある動きではありませんが、ひとまず毎回Helloとプリントする関数をダミーとして組み込みました。
+
+```{r}
+# act_FUN()
+say_hello <- function(){print("Hello!")}
+
+# Gameに格納する
+G <- Game(Stop(stop_if_TRUE), Act(say_hello))
+```
+
+使用する際には、`rum_Game`の`nm_stop_FUN`で指定します（結果省略）
+
+```{r}
+#| eval: false
+G2 <- run_Game(G, plan = "say_hello", nm_stop_FUN = "stop_if_TRUE")
+```
+
+## 2. さまざまな停止条件の作り方
+
+ここでは、実際の場面でよくつかわれると思われる二つの条件の作り方を紹介します。
+
+## 2.1 一定の値に達した時
+
+以下は、5人のうちランダムに選んだ一人のエージェントに1を毎回足していき、一人が10に達したときに更新を止めるように`stop_FUN`を設定する例です。
+
+```{r}
+# 5人のエージェントの値のベクトルxを設定する
+x <- rep(0, 5)
+
+# 毎回ランダムに選んだエージェント一人に1を足す
+add_1_randomly <- function(){
+  # エージェントを選択
+  idx <- sample(1:5, size = 1)
+  # 選ばれたエージェントに1を足す
+  self$x[idx] <- self$x[idx] + 1
+}
+
+# 一人でも10に達した場合に更新を停止する
+is_x_10 <- function(){any(self$x >= 10)}
+
+# Gameに格納
+G <- Game(State(x), Act(add_1_randomly), Stop(is_x_10))
+```
+
+実際に回してみます（結果省略）。
+
+```{r}
+#| eval: false
+
+G2 <- run_Game(G = G, plan = "add_1_randomly", nm_stop_FUN = "is_x_10")
+```
+
+## 2.2 一定の値に収束した時
+
+### （1）一定の範囲内に値が収まった場合
+
+次の例は各回１名分選ばれたエージェントの持つ値に全体平均からの差分を足すことで、最終的に収束へ導く**act_FUN**を実装しています。
+
+```{r}
+# State
+x <- runif(n = 10, min = 0, max = 1)
+
+# act_FUN
+move_toward_mean <- function(mu = 0.2){
+  idx <- sample(seq_along(self$x), size = 1)
+  m <- mean(self$x)
+  self$x[idx] <- self$x[idx] + mu * (m - self$x[idx])
+}
+
+# Gに格納する
+G <- Game(State(x), Act(move_toward_mean))
+```
+
+ここで例としてすべてのエージェントの値が平均から`alpha`以内になった場合に停止するような条件を作成します。なお`alpha`のデフォルト値は`0.25`とします。なお今回のような単純な例では本来不要ですが、実際のABMでは収束しない場合もありえます。無限に更新が続くことを防ぐために、最大の更新時間に対する制約も一緒に入れておく方が安全です。ここでは300以上は回らないような制約を入れました。
+
+```{r}
+# stop_FUN
+all_within_alpha <- function(alpha = 0.25){
+  diff(range(self$x)) < alpha || self$time >= 300
+}
+
+# Gに格納
+add_field(G, Stop(all_within_alpha))
+```
+
+なお、`plan`と同様に`nm_within_alpha`についても`()`内にその時々の条件を指定することができます（結果省略）
+
+```{r}
+#| eval: false
+G2 <- run_Game(
+  G,
+  plan = "move_toward_mean(mu = 0.2)",
+  nm_stop_FUN = "all_within_alpha(alpha = 0.25)"
+)
+
+```
+
+### （2）一定の範囲内に値が収まる状況が一定以上続いたとき
+
+先ほどの例を少し発展させると、値が一度だけ一定範囲内に入った場合ではなく、その状態が一定期間続いたときにはじめて収束と判定したい場合があります。\
+
+このような場合には、**act_FUN** の中で各時点の状態が条件を満たしているかどうかを評価し、その結果を満たした回数を **State** に記録しておきます。そして **stop_FUN** では、その条件が連続回数があらかじめ定めた閾値に達した時にシミュレーションを停止させます。
+
+```{r}
+# State
+x <- runif(n = 10, min = 0, max = 1)
+
+# 条件を連続して満たした回数を記録するカウンタ
+within_alpha_count <- 0
+
+# act_FUN
+move_toward_mean <- function(mu = 0.2){
+  idx <- sample(seq_along(self$x), size = 1)
+  m <- mean(self$x)
+  self$x[idx] <- self$x[idx] + mu * (m - self$x[idx])
+}
+
+# 条件を満たした回数を更新する act_FUN
+eval_within_alpha <- function(alpha = 0.25){
+  if(diff(range(self$x)) < alpha){
+    self$within_alpha_count <- self$within_alpha_count + 1
+  } else {
+    self$within_alpha_count <- 0
+  }
+}
+
+# stop_FUN
+should_stop <- function(tol = 10){
+  self$within_alpha_count >= tol || self$time >= 300
+}
+
+# Gに格納する
+G <- Game(
+  State(x),
+  State(within_alpha_count),
+  Act(move_toward_mean),
+  Act(eval_within_alpha),
+  Stop(should_stop)
+)
+```
+
+実際に回してみます（結果省略）
+
+```{r}
+#| eval: false
+G2 <- run_Game(G = G, 
+               plan = c("move_toward_mean", "eval_within_alpha"), 
+               nm_stop_FUN = "should_stop")
+```

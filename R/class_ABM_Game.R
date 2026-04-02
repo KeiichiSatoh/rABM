@@ -497,10 +497,6 @@ ABM_Game <- R6::R6Class(
     # add_method
     #=====================================
     .add_method = function(name, x) {
-      # format the formals
-      f <- formals(x)
-      f[names(f)=="E"] <- NULL
-      formals(x) <- c(alist(E = E), f)
       # input
       environment(x) <- self$.__enclos_env__
       self[[name]] <- x
@@ -509,10 +505,6 @@ ABM_Game <- R6::R6Class(
     # add_active
     #=====================================
     .add_active = function(name, x) {
-      # format the formals
-      f <- formals(x)
-      f[names(f)=="E"] <- NULL
-      formals(x) <- c(alist(E = E), f)
       # input
       environment(x) <- self$.__enclos_env__
       makeActiveBinding(name, x, self)

@@ -11,6 +11,10 @@ book:
     - rABM_classes_JP.qmd
     - state_JP.qmd
     - plot_FUN_JP.qmd
+    - act_FUN_JP.qmd
+    - run_Game_JP.qmd
+    - stop_FUN_JP.qmd
+    - report_FUN_JP.qmd
 
 format:
   html:

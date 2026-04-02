@@ -71,7 +71,8 @@ run_Game <- function(G,
                    return_update_FUN = FALSE,
                    saveRDS_inbetween = FALSE,
                    verbose = TRUE,
-                   RDS_file_name = "G_temp.rds") {
+                   RDS_file_name = "G_temp.rds",
+                   beep = FALSE) {
   # deep clone the G
   stopifnot(inherits(G, "ABM_Game"))
   G <- G$clone(deep = TRUE)
@@ -101,9 +102,6 @@ run_Game <- function(G,
 
   # ensure notes exists
   if (is.null(G$notes)) G$notes <- list()
-
-  # create E (temporal environment)
-  E <- new.env(parent = emptyenv())
 
   # Retrieve the field_list
   field_list <- G$.get_flist()
@@ -157,7 +155,7 @@ run_Game <- function(G,
     )
     times <- as.integer(times)
     sim_time <- G$time + times
-    stop_FUN <- function(E = NULL, self = self) { self$time >= sim_time }
+    stop_FUN <- function(self = self) { self$time >= sim_time }
 
     cat("[stop_FUN]","\n")
 
@@ -211,14 +209,14 @@ run_Game <- function(G,
   # implement the update (CORE PART!!)
   repeat {
     # check the end condition(put here to prepare for the case where initial condition already meet the stop-condition)
-    if (isTRUE(stop_FUN(E = E, self = G))) break
+    if (isTRUE(stop_FUN(self = G))) break
 
     # update time
     G$time <- G$time + 1L
 
     if(isTRUE(verbose)) cat(paste0("   current time: ", G$time, "\n"))
 
-    update_FUN(G = G, E = E)
+    update_FUN(G = G)
 
     # save by interval
     if (isTRUE(save_log)) {
@@ -278,6 +276,11 @@ run_Game <- function(G,
   # record update_FUN if requested
   if (isTRUE(return_update_FUN)) {
     G$notes$update_FUN_used <- deparse(body(update_FUN))
+  }
+
+  # beep?
+  if(isTRUE(beep)){
+    beepr::beep()
   }
 
   G

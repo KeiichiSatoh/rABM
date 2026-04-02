@@ -2,76 +2,74 @@
 % Please edit documentation in R/value_of.R
 \name{value_of}
 \alias{value_of}
-\title{Extract field values from ABM objects}
+\title{Retrieve a field value from an ABM object}
 \usage{
-value_of(
-  G,
-  field_name,
-  return_as = c("list", "vec", "df"),
-  log = NULL,
-  fast = FALSE,
-  return_FUN = NULL,
-  ...
-)
+value_of(G, field_name, log = NULL, return_FUN = NULL, ...)
 }
 \arguments{
-\item{G}{an \code{ABM_Game} object.}
+\item{G}{An \code{ABM_Game} object.}
 
-\item{field_name}{A single non-empty character string. The name of the field
-to extract.}
+\item{field_name}{A single character string naming the field to retrieve.
+Must be a valid field recognised by \code{G$.get_category()}.}
 
-\item{return_as}{Output format. One of \code{"list"}, \code{"vec"}, or
-\code{"df"}.}
+\item{log}{A specification of the log entries to retrieve. Either
+\code{NULL} (default, returns the current state), \code{"all"} (all log
+entries), a character vector matching names of \code{G$log}, or a numeric
+vector of positions within \code{G$log}. See \code{.resolve_log_idx()} for
+details.}
 
-\item{log}{Optional. Which log entry/entries to extract from.
-Can be a character vector of log names (i.e., \code{names(G$log)}) or a
-numeric vector of indices. If \code{NULL}, extraction uses the current
-state (not the log).}
-
-\item{return_FUN}{An optional function applied to the extracted output.
-If provided, it is applied after \code{return_as} conversion.}
+\item{return_FUN}{An optional function applied to the extracted value(s)
+before returning. When \code{log} is \code{NULL} it is called once as
+\code{return_FUN(value, ...)}; otherwise it is applied to each log entry
+individually via \code{lapply()}. The output type depends entirely on this
+function and is the caller's responsibility. Defaults to \code{NULL}
+(no transformation).}
 
 \item{...}{Additional arguments passed to \code{return_FUN}.}
 }
 \value{
-Depends on the value of \code{return_as}:
-
 \itemize{
-\item \code{"list"}: a value or a named list.
-\item \code{"vec"}: a (named) atomic vector (or a list of such vectors for
-group-log extraction in \code{ABM_Game}).
-\item \code{"df"}: a \code{data.frame}.
+\item If \code{log} is \code{NULL}: the value of \code{field_name} in the
+current state of \code{G}, optionally transformed by \code{return_FUN}.
+The type matches that of the field (or the output of \code{return_FUN}).
+\item If \code{log} is specified: a named list of values, one element per
+selected log entry, optionally transformed by \code{return_FUN}. Names
+correspond to the names of the selected entries in \code{G$log}.
 }
 }
 \description{
-Extract the value(s) of a specified field from ABM objects.
-The output format is controlled by \code{return_as}. Optionally, apply a
-post-processing function via \code{return_FUN}.
+Extract the value of a named field from an \code{ABM_Game} object, either
+from its current state or from stored log entries. An optional
+transformation function can be applied to the extracted value(s).
 }
 \details{
-The meaning of \code{return_as} is standardized across ABM classes:
-
+The function dispatches on whether log entries are requested:
 \itemize{
-\item \code{"list"}: returns the extracted value(s) as a value or a named list.
-\item \code{"vec"}: returns a (named) atomic vector only when all extracted
-values are length-1 atomic. Otherwise, an error is thrown.
-\item \code{"df"}: returns a \code{data.frame}. For single-object extraction,
-a one-row \code{data.frame} is returned. For group/log extraction, a
-long-format \code{data.frame} with identifier columns is returned.
+\item \strong{Current state} (\code{log = NULL}): returns
+\code{G[[field_name]]} directly.
+\item \strong{Log entries}: extracts \code{field_name} from each selected
+entry in \code{G$log} and returns the results as a named list.
 }
-
-Class-specific behavior:
-\itemize{
-\item \code{ABM_Game}: extracts from one of the following contexts depending on
-\code{group_name} and \code{log}:
-\enumerate{
-\item current state (\code{group_name = NULL}, \code{log = NULL})
-\item state log (\code{group_name = NULL}, \code{log != NULL})
-}
-}
+Input validation is performed by \code{.validate_field_name()},
+\code{.validate_return_FUN()}, and \code{.resolve_log_idx()} before any
+extraction takes place.
 }
 \examples{
-# G <- Game()
-# value_of(G, "time", return_as = "vec")
-# value_of(G, "a", group_name = "group1", return_as = "df")
+\dontrun{
+# Current state
+value_of(G, "agent_wealth")
+
+# All log entries
+value_of(G, "agent_wealth", log = "all")
+
+# Specific log entries by name
+value_of(G, "agent_wealth", log = c(1,3))
+
+# With a transformation function
+value_of(G, "agent_wealth", log = "all", return_FUN = mean)
+}
+
+}
+\seealso{
+\code{\link{.resolve_log_idx}}
 }

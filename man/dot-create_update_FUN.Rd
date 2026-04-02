@@ -14,7 +14,7 @@ and \code{group}, ordered by execution.}
 so that errors do not stop the update cycle.}
 }
 \value{
-A function \code{update_FUN(E)} whose body executes the plan.
+A function \code{update_FUN()} whose body executes the plan.
 }
 \description{
 This internal helper constructs an \code{update_FUN} function from a flattened

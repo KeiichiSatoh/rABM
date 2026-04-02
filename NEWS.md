@@ -1,5 +1,12 @@
 # rABM (development version)
 
+# rABM 1.1.7
+2026-04-02
+* [improved] `run_Game`: added beep function after running.
+* [deleted] `E = E` argument formatting and the related functions are now removed.
+* [fixed] mal-functioned `value_of`.
+* [new] Added a tutorial page (JP): act_FUN, run_Game, report_FUN
+
 # rABM 1.1.6
 2026-03-30
 * [removed] deleted mal-functioning `ask_gpt`. 

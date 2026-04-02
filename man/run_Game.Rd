@@ -17,7 +17,8 @@ run_Game(
   return_update_FUN = FALSE,
   saveRDS_inbetween = FALSE,
   verbose = TRUE,
-  RDS_file_name = "G_temp.rds"
+  RDS_file_name = "G_temp.rds",
+  beep = FALSE
 )
 }
 \arguments{
