@@ -72,7 +72,7 @@ The function returns a list with two \code{ABM_Game} objects:
 \item \strong{Active states}: \code{friend_posit}, \code{enemy_posit}
 \item \strong{Act functions}: \code{move_agent}, \code{change_mixed_type}
 \item \strong{Plot functions}: \code{plot_space}, \code{plot_relationship}
-\item \strong{Summary functions}: \code{trace_posit_mean}, \code{trace_posit_sd}
+\item \strong{Report functions}: \code{trace_posit_mean}, \code{trace_posit_sd}
 }
 }
 
@@ -100,6 +100,6 @@ animate_log(SIM$G_finished, name = "plot_space", delay = 0.2, check = FALSE)
 }
 \seealso{
 \code{\link{Game}}, \code{\link{State}}, \code{\link{Active}}, \code{\link{Act}},
-\code{\link{Plot}}, \code{\link{Summary}}, \code{\link{add_field}},
+\code{\link{Plot}}, \code{\link{Report}}, \code{\link{add_field}},
 \code{\link{run_Game}}, \code{\link{act_coord_move}}, \code{\link{animate_log}}
 }

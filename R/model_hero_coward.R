@@ -33,7 +33,7 @@
 #'   \item \strong{Active states}: \code{friend_posit}, \code{enemy_posit}
 #'   \item \strong{Act functions}: \code{move_agent}, \code{change_mixed_type}
 #'   \item \strong{Plot functions}: \code{plot_space}, \code{plot_relationship}
-#'   \item \strong{Summary functions}: \code{trace_posit_mean}, \code{trace_posit_sd}
+#'   \item \strong{Report functions}: \code{trace_posit_mean}, \code{trace_posit_sd}
 #' }
 #'
 #' ## Friend/enemy relationship
@@ -69,7 +69,7 @@
 #'
 #' @seealso
 #' \code{\link{Game}}, \code{\link{State}}, \code{\link{Active}}, \code{\link{Act}},
-#' \code{\link{Plot}}, \code{\link{Summary}}, \code{\link{add_field}},
+#' \code{\link{Plot}}, \code{\link{Report}}, \code{\link{add_field}},
 #' \code{\link{run_Game}}, \code{\link{act_coord_move}}, \code{\link{animate_log}}
 #'
 #' @export
@@ -262,7 +262,7 @@ model_hero_coward <- function(n = 30,
   G <- add_field(G = G, Act(move_agent), Act(change_mixed_type))
 
   # ============================================================
-  # Summary FUNs
+  # Report FUNs
   # ============================================================
   trace_posit_mean <- function() {
     posit_log <- value_of(G = self, field_name = "posit", log = seq_len(length(self$log)))
@@ -310,7 +310,7 @@ model_hero_coward <- function(n = 30,
     posit_sd
   }
 
-  G <- add_field(G, Summary(trace_posit_mean), Summary(trace_posit_sd))
+  G <- add_field(G, Report(trace_posit_mean), Report(trace_posit_sd))
 
   # ============================================================
   # Save initial state and run
