@@ -1,0 +1,512 @@
+}
+# 範囲判定をし、もしもそれが満たされていたら、is_within_alphaにTRUEを足すact_FUN
+eval_within_alpha <- function(alpha = 0.25){
+if(diff(range(self$x)) < alpha){
+self$is_within_alpha <- c(self$is_within_alpha, TRUE)
+}else{
+self$is_within_alpha <- c()
+}
+}
+# stop_FUN
+should_shop <- function(tol = 10){
+length(self$is_within_alpha) >= tol | self$time >= 300
+}
+# Gに格納する
+G <- Game(State(x), State(is_within_alpha), Act(move_toward_mean), Act(eval_within_alpha), Stop(should_shop))
+G2 <- run_Game(G = G, plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop")
+# State
+x <- runif(n = 10, min = 0, max = 1)
+# 範囲判定の格納箱(初期値では空にしておく)
+is_within_alpha <- c()
+# act_FUN
+move_toward_mean <- function(mu = 0.2){
+idx <- sample(seq_along(self$x), size = 1)
+m <- mean(self$x)
+self$x[idx] <- self$x[idx] + mu * (m - self$x[idx])
+}
+# 範囲判定をし、もしもそれが満たされていたら、is_within_alphaにTRUEを足すact_FUN
+eval_within_alpha <- function(alpha = 0.25){
+if(diff(range(self$x)) < alpha){
+self$is_within_alpha <- c(self$is_within_alpha, TRUE)
+}else{
+self$is_within_alpha <- c()
+}
+}
+# stop_FUN
+should_shop <- function(tol = 10){
+length(self$is_within_alpha) >= tol | self$time >= 300
+}
+# Gに格納する
+G <- Game(State(x), State(is_within_alpha), Act(move_toward_mean), Act(eval_within_alpha), Stop(should_shop))
+# State
+x <- runif(n = 10, min = 0, max = 1)
+# 範囲判定の格納箱(初期値では空にしておく)
+is_within_alpha <- c()
+# act_FUN
+move_toward_mean <- function(mu = 0.2){
+idx <- sample(seq_along(self$x), size = 1)
+m <- mean(self$x)
+self$x[idx] <- self$x[idx] + mu * (m - self$x[idx])
+}
+# 範囲判定をし、もしもそれが満たされていたら、is_within_alphaにTRUEを足すact_FUN
+eval_within_alpha <- function(alpha = 0.25){
+if(diff(range(self$x)) < alpha){
+self$is_within_alpha <- c(self$is_within_alpha, TRUE)
+}else{
+self$is_within_alpha <- c()
+}
+}
+# stop_FUN
+should_stop <- function(tol = 10){
+length(self$is_within_alpha) >= tol | self$time >= 300
+}
+# Gに格納する
+G <- Game(State(x), State(is_within_alpha), Act(move_toward_mean), Act(eval_within_alpha), Stop(should_shop))
+G2 <- run_Game(G = G, plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop")
+# State
+x <- runif(n = 10, min = 0, max = 1)
+# 範囲判定の格納箱(初期値では空にしておく)
+is_within_alpha <- c()
+# act_FUN
+move_toward_mean <- function(mu = 0.2){
+idx <- sample(seq_along(self$x), size = 1)
+m <- mean(self$x)
+self$x[idx] <- self$x[idx] + mu * (m - self$x[idx])
+}
+# 範囲判定をし、もしもそれが満たされていたら、is_within_alphaにTRUEを足すact_FUN
+eval_within_alpha <- function(alpha = 0.25){
+if(diff(range(self$x)) < alpha){
+self$is_within_alpha <- c(self$is_within_alpha, TRUE)
+}else{
+self$is_within_alpha <- c()
+}
+}
+# stop_FUN
+should_stop <- function(tol = 10){
+length(self$is_within_alpha) >= tol | self$time >= 300
+}
+# Gに格納する
+G <- Game(State(x), State(is_within_alpha), Act(move_toward_mean), Act(eval_within_alpha), Stop(should_stop))
+G2 <- run_Game(G = G, plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop")
+G2
+library(devtools)
+load_all()
+#| message: false
+# ライブラリを読み込む
+library(rABM)
+#|eval: false
+G2 <- run_Game(G = G, plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop")
+#|eval: false
+#|message: false
+G2 <- run_Game(G = G, plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop")
+#| eval: false
+G2 <- run_Game(G = G,
+plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop")
+#| eval: false
+#| echo: false
+G2 <- run_Game(G = G,
+plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop")
+#| message: false
+# シード値を定める（任意）
+set.seed(seed = 123)
+# State
+x <- runif(n = 10, min = 0, max = 1)
+# 条件を連続して満たした回数を記録するカウンタ
+within_alpha_count <- 0
+# act_FUN
+move_toward_mean <- function(mu = 0.2){
+idx <- sample(seq_along(self$x), size = 1)
+m <- mean(self$x)
+self$x[idx] <- self$x[idx] + mu * (m - self$x[idx])
+}
+# 条件を満たした回数を更新する act_FUN
+eval_within_alpha <- function(alpha = 0.25){
+if(diff(range(self$x)) < alpha){
+self$within_alpha_count <- self$within_alpha_count + 1
+} else {
+self$within_alpha_count <- 0
+}
+}
+# stop_FUN
+should_stop <- function(tol = 10){
+self$within_alpha_count >= tol || self$time >= 300
+}
+# Gに格納する
+G <- Game(
+State(x),
+State(within_alpha_count),
+Act(move_toward_mean),
+Act(eval_within_alpha),
+Stop(should_stop)
+)
+# 回してみる
+G2 <- run_Game(G = G,
+plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop", seed = 123)
+#| message: false
+#| echo: false
+# シード値を定める（任意）
+set.seed(seed = 123)
+# State
+x <- runif(n = 10, min = 0, max = 1)
+# 条件を連続して満たした回数を記録するカウンタ
+within_alpha_count <- 0
+# act_FUN
+move_toward_mean <- function(mu = 0.2){
+idx <- sample(seq_along(self$x), size = 1)
+m <- mean(self$x)
+self$x[idx] <- self$x[idx] + mu * (m - self$x[idx])
+}
+# 条件を満たした回数を更新する act_FUN
+eval_within_alpha <- function(alpha = 0.25){
+if(diff(range(self$x)) < alpha){
+self$within_alpha_count <- self$within_alpha_count + 1
+} else {
+self$within_alpha_count <- 0
+}
+}
+# stop_FUN
+should_stop <- function(tol = 10){
+self$within_alpha_count >= tol || self$time >= 300
+}
+# Gに格納する
+G <- Game(
+State(x),
+State(within_alpha_count),
+Act(move_toward_mean),
+Act(eval_within_alpha),
+Stop(should_stop)
+)
+# 回してみる
+G2 <- run_Game(G = G,
+plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop", seed = 123)
+#| message: false
+#| output: false
+# シード値を定める（任意）
+set.seed(seed = 123)
+# State
+x <- runif(n = 10, min = 0, max = 1)
+# 条件を連続して満たした回数を記録するカウンタ
+within_alpha_count <- 0
+# act_FUN
+move_toward_mean <- function(mu = 0.2){
+idx <- sample(seq_along(self$x), size = 1)
+m <- mean(self$x)
+self$x[idx] <- self$x[idx] + mu * (m - self$x[idx])
+}
+# 条件を満たした回数を更新する act_FUN
+eval_within_alpha <- function(alpha = 0.25){
+if(diff(range(self$x)) < alpha){
+self$within_alpha_count <- self$within_alpha_count + 1
+} else {
+self$within_alpha_count <- 0
+}
+}
+# stop_FUN
+should_stop <- function(tol = 10){
+self$within_alpha_count >= tol || self$time >= 300
+}
+# Gに格納する
+G <- Game(
+State(x),
+State(within_alpha_count),
+Act(move_toward_mean),
+Act(eval_within_alpha),
+Stop(should_stop)
+)
+# 回してみる
+G2 <- run_Game(G = G,
+plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop", seed = 123)
+#| message: false
+#| output: false
+# シード値を定める（任意）
+set.seed(seed = 123)
+# State
+x <- runif(n = 10, min = 0, max = 1)
+# 条件を連続して満たした回数を記録するカウンタ
+within_alpha_count <- 0
+# act_FUN
+move_toward_mean <- function(mu = 0.2){
+idx <- sample(seq_along(self$x), size = 1)
+m <- mean(self$x)
+self$x[idx] <- self$x[idx] + mu * (m - self$x[idx])
+}
+# 条件を満たした回数を更新する act_FUN
+eval_within_alpha <- function(alpha = 0.25){
+if(diff(range(self$x)) < alpha){
+self$within_alpha_count <- self$within_alpha_count + 1
+} else {
+self$within_alpha_count <- 0
+}
+}
+# stop_FUN
+should_stop <- function(tol = 10){
+self$within_alpha_count >= tol || self$time >= 300
+}
+# Gに格納する
+G <- Game(
+State(x),
+State(within_alpha_count),
+Act(move_toward_mean),
+Act(eval_within_alpha),
+Stop(should_stop)
+)
+# 回してみる
+G2 <- run_Game(G = G,
+plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop", seed = 123, verbose = FALSE)
+# report_FUN
+report_sd <- function(){sd(self$x)}
+# 計算が終わっているG2オブジェクトに付加する
+add_field(G2, Report(report_sd))
+# 実行してみる
+G2$report_sd()
+G2$x
+# 現状のヒストグラムを表示する。
+hist(self$x, main = paste0("time = ", self$time))
+self <- G2
+# 現状のヒストグラムを表示する。
+hist(self$x, main = paste0("time = ", self$time))
+# 現状のヒストグラムを表示する。
+hist(self$x, main = paste0("time = ", self$time), xlim = c(0, 1))
+# report_FUN
+report_dist <- function(){
+# 現状のヒストグラムを表示する。
+hist(self$x, main = paste0("time = ", self$time), xlim = c(0, 1))
+# 平均と標準偏差を出力する
+list(mean = mean(self$x),
+sd = sd(self$x))
+}
+# G2に付加する
+add_field(G2, Report(report_dist))
+# 実行する
+G2$report_dist()
+?value_of
+value_of(G = G2, field_name = "x", log = 1:length(G2$log))
+value_of(G = G2, field_name = "x", log = 1:length(G2$log), return_as = "df")
+value_of(G = G2, field_name = "x", log = 1:length(G2$log), return_as = "list")
+value_of(G = G2, field_name = "x", log = 1:length(G2$log))
+value_of(G = G2, field_name = "x", log = 1:3)
+value_of(G = G2, field_name = "x", log = 1:3, return_FUN = sd)
+value_of(G = G2, field_name = "x", log = 1:3)
+.validate_field_name
+field_name <- "x"
+return_as <- "list"
+log <- NULL
+.validate_return_FUN
+.resolve_log_idx
+document()
+G2
+G
+G <- G2
+field_name <- "x"
+return_as <- "list"
+log <- NULL
+.validate_field_name(nm_field)
+.validate_return_FUN(return_FUN)
+return_FUN <- NULL
+# log index
+log_idx <- .resolve_log_idx(G, log)
+log_idx
+# validate the fieldname
+fc <- G$.get_category()
+fc
+stopifnot("'field_name' does not exist in 'G'." = field_name %in% names(fc))
+value <- G[[field_name]]
+value
+.as_vec1(value)
+.df_one(value, field_name)
+.as_vec1
+.df_one
+as.vector(value)
+as.data.frame(value)
+as.data.frame(value, nm = "x")
+as.data.frame(value, nm = field_name)
+as.data.frame(value, nm = field_name)
+value <- 1
+as.vector(value)
+as.data.frame(value, nm = field_name)
+value <- matrix(1:9, 3, 3)
+as.data.frame(value, nm = field_name)
+as.vector(value)
+value
+log <- "all"
+G <- G2
+field_name <- "x"
+return_as <- "list"
+return_FUN <- NULL
+log_idx
+# log index
+log_idx <- .resolve_log_idx(G, log)
+log_idx
+value <- lapply(log_idx, function(t) G$log[[t]][[field_name]])
+value
+names(value) <- names(G$log)[log_idx]
+value
+time <- vapply(log_idx, function(t) G$log[[t]]$time, FUN.VALUE = numeric(1))
+time
+return_FUN <- sd
+value
+lapply(value, function(x){return_FUN(value, ...)})
+... <- NULL
+lapply(value, function(x){return_FUN(value, ...)})
+value
+return_FUN
+x <- value[[1]]
+return_FUN(value, ...)
+lapply(value, function(x){return_FUN(x, ...)})
+as.vector(value)
+as.vector(value)
+?as.vector
+as.vector(value, mode = "numeric")
+as.vector(value, mode = "list")
+as.data.frame(value)
+data.frame(
+time = time,
+setNames(list(I(value)), field_name),
+stringsAsFactors = FALSE,
+row.names = NULL
+)
+value
+lapply(value, function(x){return_FUN(x, ...)})
+value <- lapply(value, function(x){return_FUN(x, ...)})
+data.frame(
+time = time,
+setNames(list(I(value)), field_name),
+stringsAsFactors = FALSE,
+row.names = NULL
+)
+as.data.frame(value)
+data.frame(time = time, as.data.frame(value))
+cbind(time = time, as.data.frame(value))
+value
+as.data.frame(value)
+cbind(as.data.frame(value))
+cbind(as.data.frame(value), time = time)
+data.frame(value)
+value
+as.data.frame(value)
+as.vector(vlaue)
+as.vector(value)
+document()
+load_all()
+#| message: false
+#| output: false
+# シード値を定める（任意）
+set.seed(seed = 123)
+# State
+x <- runif(n = 10, min = 0, max = 1)
+# 条件を連続して満たした回数を記録するカウンタ
+within_alpha_count <- 0
+# act_FUN
+move_toward_mean <- function(mu = 0.2){
+idx <- sample(seq_along(self$x), size = 1)
+m <- mean(self$x)
+self$x[idx] <- self$x[idx] + mu * (m - self$x[idx])
+}
+# 条件を満たした回数を更新する act_FUN
+eval_within_alpha <- function(alpha = 0.25){
+if(diff(range(self$x)) < alpha){
+self$within_alpha_count <- self$within_alpha_count + 1
+} else {
+self$within_alpha_count <- 0
+}
+}
+# stop_FUN
+should_stop <- function(tol = 10){
+self$within_alpha_count >= tol || self$time >= 300
+}
+# Gに格納する
+G <- Game(
+State(x),
+State(within_alpha_count),
+Act(move_toward_mean),
+Act(eval_within_alpha),
+Stop(should_stop)
+)
+# 回してみる
+G2 <- run_Game(G = G,
+plan = c("move_toward_mean", "eval_within_alpha"),
+nm_stop_FUN = "should_stop", seed = 123, verbose = FALSE)
+value_of(G = G2, field_name = "x", log = "all", return_FUN = sd, na.rm = TRUE)
+unlist(value_of(G = G2, field_name = "x", log = "all", return_FUN = sd, na.rm = TRUE))
+as.vector(value_of(G = G2, field_name = "x", log = "all", return_FUN = sd, na.rm = TRUE))
+#| eval: false
+value_of(G = G2, field_name = "x", log = "all", return_FUN = sd, na.rm = TRUE))
+#| eval: false
+value_of(G = G2, field_name = "x", log = "all", return_FUN = sd, na.rm = TRUE)
+#| eval: false
+value_of(G = G2, field_name = "x", log = "all", return_FUN = sd, na.rm = TRUE)
+# ログの値を取得する
+x_log <- value_of(G = self, field_name = "x", log = "all", return_FUN = sd)
+x_log
+unlist(x_log)
+plot(y = unlist(x_log), x = seq_len(length(self$log)), type = "l",
+ylab = "SD(x)")
+plot(y = unlist(x_log), x = seq_len(length(self$log)), type = "l",
+ylab = "SD(x)", xlab = "time")
+plot(y = unlist(x_log), x = seq_len(length(self$log)), type = "l",
+ylab = "SD(x)", xlab = "time", main = "x")
+plot(y = unlist(x_log), x = seq_len(length(self$log)), type = "l",
+ylab = "SD", xlab = "time", main = "x")
+seq_len(length(self$log))
+value_of(G = self, field_name = "time", log = "all")
+self$time
+G <- self
+field_name <- "time"
+log <- "all"
+.validate_field_name(field_name)
+.validate_return_FUN(return_FUN)
+log_idx <- .resolve_log_idx(G, log)
+log_idx
+fc <- G$.get_category()
+stopifnot("'field_name' does not exist in 'G'." = field_name %in% names(fc))
+# (A) current stage
+if (is.null(log_idx)) {
+value <- G[[field_name]]
+if (!is.null(return_FUN)) value <- return_FUN(value, ...)
+return(value)
+}
+# (B) log
+value <- lapply(log_idx, function(t) G$log[[t]][[field_name]])
+names(value) <- names(G$log)[log_idx]
+if (!is.null(return_FUN)) value <- lapply(value, function(x) return_FUN(x, ...))
+return(value)
+value
+G$log[[t]][[field_name]]
+t <- 1
+G$log[[t]][[field_name]]
+log_idx
+lapply(log_idx, function(t) G$log[[t]][[field_name]])
+names(G$log)[log_idx]
+names(value) <- names(G$log)[log_idx]
+value_of(G = self, field_name = "time", log = "all")
+document()
+load_all()
+value_of(G = self, field_name = "time", log = "all")
+# ログの値を取得する
+x_log <- value_of(G = self, field_name = "x", log = "all", return_FUN = sd)
+# ベクトル化する
+x_log_vect <- unlist(x_log)
+# プロット
+plot(y = x_log_vect, x = time, type = "l",
+ylab = "SD", xlab = "time", main = "x")
+# ログの値を取得する
+x_sd <- value_of(G = self, field_name = "x", log = "all", return_FUN = sd)
+# ベクトル化する
+x_sd_vect <- unlist(x_log)
+# プロット
+plot(y = x_sd_vect, x = time, type = "l",
+ylab = "SD", xlab = "time", main = "x")
+# 取得した標準偏差を出力する
+data.frame(time = time,
+sd = x_sd_vect)

@@ -24,7 +24,7 @@ editor: visual
 SeriesはABMに関するものだけではなく、通常のスクリプトに関しても使用することができます。概要を掴むうえでは、こちらの方が分かりやすいため、以下の例では、通常の簡単なスクリプトを**Series**として実行しています。
 
 ```{r}
-#| eval: false
+#| message: false
 library(rABM)
 ```
 

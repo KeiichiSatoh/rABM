@@ -20,21 +20,17 @@ rABM開発チーム
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
 
 # 日本語版
- - [Quick start guide](quick_start_JP.qmd)
- - [model library](model_library_JP.qmd)
- - [rABMオブジェクトの構成](rABM_classes_JP.qmd)
- - [state & active state](state_JP.qmd)
- - [plot_FUN](plot_FUN_JP.qmd)
- - [act_FUN](act_FUN_JP.qmd)
- - [run_Game](run_Game_JP.qmd)
- - [8. stop_FUN](stop_FUN_JP.qmd)
- - [9. report_FUN](report_FUN_JP.qmd)
--   Series
--   その他の有用な関数
--   事例: Heros and cowards
--   事例: Schellingの分居モデル
--   Appendix A: 関数の作り方
--   Appendix B: テクニカル・ノート
+
+-   [Quick start guide](quick_start_JP.qmd)
+-   [model library](model_library_JP.qmd)
+-   [rABMオブジェクトの構成](rABM_classes_JP.qmd)
+-   [state & active state](state_JP.qmd)
+-   [plot_FUN](plot_FUN_JP.qmd)
+-   [act_FUN](act_FUN_JP.qmd)
+-   [run_Game](run_Game_JP.qmd)
+-   [8. stop_FUN](stop_FUN_JP.qmd)
+-   [9. report_FUN](report_FUN_JP.qmd)
+-   [10. Series](Series_JP.qmd)
 
 # English Version
 

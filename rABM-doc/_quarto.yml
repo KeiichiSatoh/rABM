@@ -15,6 +15,7 @@ book:
     - run_Game_JP.qmd
     - stop_FUN_JP.qmd
     - report_FUN_JP.qmd
+    - Series_JP.qmd
 
 format:
   html:

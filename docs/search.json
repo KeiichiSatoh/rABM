@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "rABM tutorial",
     "section": "",
-    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n探索的な操作性: 試行錯誤がしやすいこと\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、速く効率的に分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n\nrABM開発チーム\n\n　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　\n\n日本語版\n\nQuick start guide\nmodel library\nrABMオブジェクトの構成\nstate & active state\nplot_FUN\nact_FUN\nrun_Game\n8. stop_FUN\n9. report_FUN\nSeries\nその他の有用な関数\n事例: Heros and cowards\n事例: Schellingの分居モデル\nAppendix A: 関数の作り方\nAppendix B: テクニカル・ノート\n\n\n\nEnglish Version\nComing soon…",
+    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n探索的な操作性: 試行錯誤がしやすいこと\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、速く効率的に分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n\nrABM開発チーム\n\n　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　\n\n日本語版\n\nQuick start guide\nmodel library\nrABMオブジェクトの構成\nstate & active state\nplot_FUN\nact_FUN\nrun_Game\n8. stop_FUN\n9. report_FUN\n10. Series\n\n\n\nEnglish Version\nComing soon…",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -577,6 +577,66 @@
     "text": "9.2.3 logと組み合わせる\nABMにおいては、StateやActive Stateの値が時系列的にどのような変化をするのかは、重要な観察ポイントとなります。logからそれぞれの値をapply関数などを使って取得することは可能ですが、rABMにはよりユーザーが簡便に使いやすいvalue_ofという関数を用意しています。引数logには取得したいlogのインデックスを書けばその値、allと書けばすべてのログを取得します。return_FUNはデフォルトではNULLですが、何らかの関数を書けば、それぞれのlogから取得した各時点のデータにreturn_FUNを適用します（出力省略）。\n\nvalue_of(G = G2, field_name = \"x\", log = \"all\", return_FUN = sd)\n\nこの関数を用いて、xの標準偏差の時系列的な変化を出力するreport_FUNを作ってみましょう（出力省略）\n\nreport_sd_log &lt;- function(){\n  # ログの値を取得する\n  x_sd &lt;- value_of(G = self, field_name = \"x\", log = \"all\", return_FUN = sd)\n  time_log  &lt;- value_of(G = self, field_name = \"time\", log = \"all\")\n  # ベクトル化する\n  x_sd_vect &lt;- unlist(x_log)\n  time &lt;- unlist(time_log)\n  \n  # プロット\n  plot(y = x_sd_vect, x = time, type = \"l\", \n       ylab = \"SD\", xlab = \"time\", main = \"x\")\n  \n  # 取得した標準偏差を出力する\n  data.frame(time = time,\n             sd = x_sd_vect)\n}\n\n# G2に格納する\nadd_field(G2, Report(report_sd_log))\n\n# 実行する\nG2$report_sd_log()\n\nなお、ここまで説明の都合上更新後のG2に作成したreport_FUNを格納してきましたが、言うまでもなく、実際の使用時には、更新前のGの方にあらかじめ格納しておく方が便利です。",
     "crumbs": [
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>9. report_FUN</span>"
+    ]
+  },
+  {
+    "objectID": "Series_JP.html",
+    "href": "Series_JP.html",
+    "title": "10. Series",
+    "section": "",
+    "text": "1. Seriesについて",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>10. Series</span>"
+    ]
+  },
+  {
+    "objectID": "Series_JP.html#目的",
+    "href": "Series_JP.html#目的",
+    "title": "10. Series",
+    "section": "1.1 目的",
+    "text": "1.1 目的\nSeriesはここまで解説した一連のrABMの設定や実行に関するスクリプトをchunkとして保存し、任意のchunkを組み合わせて実行する機能です。この機能は大きく二つの目的で使用することができます。\n\nGameオブジェクトをrun_Gameによって回すだけではなく、変数やフィールドの設定からの一連の流れで毎回のシミュレーションを回す場合\nABMの実行が一度のrun_Gameを実行するだけでは終了せず、複数のrun_Gameを組み合わせる必要がある場合（たとえばいったん収束値に至ったうえで、そこに何らかのランダムな変化を**State**フィールドに与えて、さらにrun_Gameを実行する場合など）",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>10. Series</span>"
+    ]
+  },
+  {
+    "objectID": "Series_JP.html#基礎的な使用方法",
+    "href": "Series_JP.html#基礎的な使用方法",
+    "title": "10. Series",
+    "section": "1.2 基礎的な使用方法",
+    "text": "1.2 基礎的な使用方法\nSeriesはABMに関するものだけではなく、通常のスクリプトに関しても使用することができます。概要を掴むうえでは、こちらの方が分かりやすいため、以下の例では、通常の簡単なスクリプトをSeriesとして実行しています。\n\nlibrary(rABM)\n\nはじめに各スクリプトをChunk({...})としてくくります。なお1行のみのスクリプトはChunk(x &lt;- 1)のように書いても内部で処理されますが2行以上の場合にはエラーになります。したがって、常に{ }でくくる癖をつけたほうが無難です。\n\n# チャンクを\nstep1 &lt;- Chunk({\n  x &lt;- 1\n})\n\nstep2 &lt;- Chunk({\n  y &lt;- x + 1\n})\n\nstep3 &lt;- Chunk({\n  z &lt;- y + 1\n})\n\nこれらの各ChunkをSeries()として定義することで、Seriesオブジェクトが作成されます。\n\nS &lt;- Series(step1, step2, step3)\n\nこのSeriesオブジェクトの中身は、通常通りプリントすることで確認できます。\n\nS\n\n&lt;Series&gt;\n[chunks]\n$step1\n{\n    x &lt;- 1\n}\n\n$step2\n{\n    y &lt;- x + 1\n}\n\n$step3\n{\n    z &lt;- y + 1\n}\n\n[default]\n  (none)\n-------------------\nn of chunks  : 3 \n  chunks     : step1, step2, step3 \nn of defaults: 0 \n  defaults   :  \n-------------------\n\n\nSeriesオブジェクトは、run_Series()関数で、実行することができます。\n\nS2 &lt;- run_Series(Series = S)\n\n[Series plan]\nstep1 -&gt; step2 -&gt; step3 \n\nSeries implementing...\n  Step 1: step1\n  Step 2: step2\n  Step 3: step3\nSeries implementation DONE!\n\n\nアウトプットが格納されたS2オブジェクトには、run_Seriesが実行された環境下での値が$valuesという中に格納されています。\n\nS2\n\n$values\n$values$z\n[1] 3\n\n$values$y\n[1] 2\n\n$values$x\n[1] 1\n\n\n$series_plan\n[1] \"step1\" \"step2\" \"step3\"\n\n$series_seed\n[1] 1775195139\n\n$error_log\nlist()\n\n$implementation_took\n[1] \"00:00:00.000\"",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>10. Series</span>"
+    ]
+  },
+  {
+    "objectID": "Series_JP.html#複数のchunkを用意しておきrunごとに変える",
+    "href": "Series_JP.html#複数のchunkを用意しておきrunごとに変える",
+    "title": "10. Series",
+    "section": "2.1 複数のChunkを用意しておき、runごとに変える",
+    "text": "2.1 複数のChunkを用意しておき、runごとに変える\nrun_Seriesでは実際に利用するChunkをseries_planで指定することができます。このことを利用して、あらかじめ複数のchunkを用意することで、分析ごとに簡単に変えることができます。\n\n# step1_1とstep1_2を両方用意しておく\nstep1_1 &lt;- Chunk({x &lt;- 1})\nstep1_2 &lt;- Chunk({x &lt;- 10})\nstep2   &lt;- Chunk({y &lt;- x^2})\n\n# Series\nS &lt;- Series(step1_1, step1_2, step2)\n\n# step1_1の方を利用して計算する\nS2 &lt;- run_Series(S, series_plan = c(\"step1_1\", \"step2\"))\n\n[Series plan]\nstep1_1 -&gt; step2 \n\nSeries implementing...\n  Step 1: step1_1\n  Step 2: step2\nSeries implementation DONE!\n\n\n上記の例と同様に、step1_2の方を指定することで結果を変えられます。",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>10. Series</span>"
+    ]
+  },
+  {
+    "objectID": "Series_JP.html#default値を指定しておく",
+    "href": "Series_JP.html#default値を指定しておく",
+    "title": "10. Series",
+    "section": "2.2 default値を指定しておく",
+    "text": "2.2 default値を指定しておく\nあらかじめdefault値を指定しておくことで、run_Seriesの実行時に、その値が環境に存在することを前提に計算がなされます。\n\n# x = 2というdefault値を入れておく\nstep2 &lt;- Chunk({y &lt;- x^2})\nS &lt;- Series(step2, default = list(x = 2))\n\n# step2だけ回しても、x = 2が環境に存在するため、計算が可能となる\nS2 &lt;- run_Series(S, series_plan = \"step2\")\n\n[Series plan]\nstep2 \n\nSeries implementing...\n  Step 1: step2\nSeries implementation DONE!\n\nS2\n\n$values\n$values$y\n[1] 4\n\n$values$x\n[1] 2\n\n\n$series_plan\n[1] \"step2\"\n\n$series_seed\n[1] 1775195139\n\n$error_log\nlist()\n\n$implementation_took\n[1] \"00:00:00.000\"\n\n\nDefault値をrun_Seriesの引数inputを変えることで変更できる。\n\nS3 &lt;- run_Series(S, series_plan = \"step2\", input = list(x = 3))\n\n[Series plan]\nstep2 \n\nSeries implementing...\n  Step 1: step2\nSeries implementation DONE!\n\nS3\n\n$values\n$values$y\n[1] 9\n\n$values$x\n[1] 3\n\n\n$series_plan\n[1] \"step2\"\n\n$series_seed\n[1] 1775195139\n\n$error_log\nlist()\n\n$implementation_took\n[1] \"00:00:00.000\"",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>10. Series</span>"
+    ]
+  },
+  {
+    "objectID": "Series_JP.html#結果変数のみ取得する",
+    "href": "Series_JP.html#結果変数のみ取得する",
+    "title": "10. Series",
+    "section": "2.3 結果変数のみ取得する",
+    "text": "2.3 結果変数のみ取得する\nrun_Series関数のsimplify_output引数をTRUEにすると、シミュレーションに変数のみアウトプットで返します。\n\nS4 &lt;- run_Series(S, series_plan = \"step2\", simplify_output = TRUE, verbose = FALSE)\nS4\n\n$y\n[1] 4\n\n$x\n[1] 2",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>10. Series</span>"
     ]
   }
 ]
