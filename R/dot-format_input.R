@@ -1,7 +1,7 @@
 #' Normalize user input into a named list
 #'
 #' Internal utility function used to normalize user inputs for API functions
-#' such as [`Game()`] and [`Agent()`].
+#' such as [`Game()`].
 #'
 #' - A single object is wrapped into a list.
 #' - Unnamed single objects may have their name inferred from the call.

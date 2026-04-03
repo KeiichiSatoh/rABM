@@ -1,7 +1,7 @@
 #' Run an ABM Series
 #'
 #' @description
-#' `run_Series()` executes stored code chunks in an [`ABM_Series`] object
+#' `run_Series()` executes stored code chunks in an [Series()] object
 #' in a specified order. Chunks are evaluated sequentially in a dedicated
 #' environment, so objects created in earlier chunks (e.g., `x <- 1`) can be
 #' referenced by later chunks (e.g., `y <- x * 2`).
@@ -59,14 +59,13 @@
 #' Errors in individual chunks are handled according to `on_error`.
 #'
 #' @examples
-#' S <- ABM_Series(
-#'   chunk_expr = list(
-#'     init = chunk({ x <- 1; y <- 2 }),
-#'     calc = chunk({ z <- add2(x, y) })
-#'   ),
-#'   default = list(
-#'     add2 = function(a, b) a + b
-#'   )
+#' step1 <- Chunk({ x <- 1; y <- 2 })
+#' step2 <- Chunk({ z <- add2(x, y) })
+#'
+#' S <- Series(
+#'   step1,
+#'   step2,
+#'   default = list(add2 = function(a, b) a + b)
 #' )
 #'
 #' # Run the series
@@ -74,14 +73,10 @@
 #' out$values$z
 #'
 #' # Run only a subset by chunk name
-#' out2 <- run_Series(S, series_plan = c("init"), verbose = FALSE)
+#' out2 <- run_Series(S, series_plan = "step1", verbose = FALSE)
 #'
 #' # Inject objects before running
-#' out3 <- run_Series(
-#'   S,
-#'   input = list(x = 10),
-#'   verbose = FALSE
-#' )
+#' out3 <- run_Series(S, input = list(x = 10), verbose = FALSE)
 #' out3$values$z
 #'
 #' # Stop on the first error
@@ -91,7 +86,7 @@
 #' out5 <- run_Series(S, keep = c("x", "z"), verbose = FALSE)
 #' names(out5$values)
 #'
-#' @seealso [ABM_Series()], [chunk()]
+#' @seealso [Series()], [Chunk()]
 #' @export
 run_Series <- function(Series,
                        series_plan = NULL,
@@ -101,7 +96,7 @@ run_Series <- function(Series,
                        verbose = TRUE,
                        parent = parent.frame(),
                        on_error = c("continue", "stop"),
-                       keep = NULL){
+                       keep = NULL) {
 
   # ----- match args -----
   on_error <- match.arg(on_error)
@@ -194,7 +189,7 @@ run_Series <- function(Series,
       eval(Series$chunks[[nm]], envir = V),
       error = function(e) {
         key <- paste0("step", i, "_", nm)
-        error_log[[key]] <- e
+        error_log[[key]] <<- e  # Fixed: <<- to assign to outer scope
 
         if (isTRUE(verbose)) {
           cat("    ERROR: ", conditionMessage(e), "\n", sep = "")
@@ -233,18 +228,19 @@ run_Series <- function(Series,
   if (isTRUE(simplify_output)) {
     out <- values_out
   } else {
-    time_taken <- as.numeric(difftime(end_time, start_time, units = "secs"))
-    hours <- floor(time_taken / 3600)
-    minutes <- floor((time_taken %% 3600) / 60)
-    seconds <- floor(time_taken %% 60)
-    milliseconds <- round((time_taken %% 1) * 1000)
-    time_hms <- sprintf("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliseconds)
+    time_taken   <- as.numeric(difftime(end_time, start_time, units = "secs"))
+    total_ms     <- floor(time_taken * 1000)
+    hours        <- total_ms %/% 3600000L
+    minutes      <- (total_ms %% 3600000L) %/% 60000L
+    seconds      <- (total_ms %% 60000L) %/% 1000L
+    milliseconds <- total_ms %% 1000L
+    time_hms     <- sprintf("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliseconds)
 
     out <- list(
-      values = values_out,
-      series_plan = series_plan_formatted,
-      series_seed = series_seed,
-      error_log = error_log,
+      values             = values_out,
+      series_plan        = series_plan_formatted,
+      series_seed        = series_seed,
+      error_log          = error_log,
       implementation_took = time_hms
     )
   }

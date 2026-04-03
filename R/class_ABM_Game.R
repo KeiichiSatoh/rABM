@@ -3,98 +3,43 @@
 #' @docType class
 #'
 #' @description
-#' Internal R6 class used by **rABM** to represent a game (global state, groups,
-#' and model-level functions) during ABM execution.
+#' Internal R6 class representing a game object during ABM execution.
+#' For user-facing workflows, use [`Game()`] as the constructor.
 #'
 #' @details
-#' This class is implemented using the `R6` class system and is primarily intended
-#' for internal infrastructure. For user-facing workflows, use [`Game()`] as the
-#' recommended constructor and interact with objects through the public API
-#' functions (e.g., add/remove/get/save/summary wrappers), rather than calling
-#' R6 methods directly.
-#'
-#' The object manages multiple field categories:
+#' Manages fields across the following categories:
 #' `"state"`, `"active_state"`, `"act_FUN"`, `"stop_FUN"`,
-#' `"report_FUN"`, and `"plot_FUN"`. Field names must be unique across categories.
-#'
-#' A key internal operation is taking snapshots of the current state.
-#' The `.snapshot()` method retrieves only user-selected non-function fields
-#' (global fields and/or group-level agent fields) in a lightweight manner.
-#' To maximize speed during simulation, name validation and consistency checks
-#' are expected to be performed in `run_Game()` (or an equivalent runner) before
-#' simulation starts; `.snapshot()` itself avoids expensive checks.
+#' `"report_FUN"`, and `"plot_FUN"`. Field names must be unique across
+#' all categories.
 #'
 #' @section Public fields:
-#' @field time Integer time step (default: `1`).
-#' @field log List of saved snapshots (default: `NULL`).
-#' @field notes List of notes (default: `NULL`).
-#'
-#' @section Public methods (internal):
-#' - `initialize(...)`: Initialize an `ABM_Game` object.
-#' - `.add(name, x, category)`: Register a field/method/active binding.
-#' - `.remove(name)`: Remove a field and deactivate an active binding if needed.
-#' - `.replace(name, x)`: Replace a field with x.
-#' - `.get_category()`: Return the named vector of field categories.
-#' - `.get_flist()`: Return a flattened data.frame of fields (including group fields).
-#' - `.snapshot(global_field_names = NULL, group_names = NULL, group_field_names = NULL, add_tryCatch = FALSE)`:
-#'   Retrieve a snapshot of selected non-function fields.
-#' - `print(max_lines = 6, ...)`: Print a preview of fields with truncation.
-#' - `.summary()`: Create a `summary.ABM_Game` object.
-#'
-#' @section `.snapshot()` (internal) details:
-#' `.snapshot()` is designed to be called repeatedly during simulation.
-#' It returns a list that combines:
-#' \itemize{
-#'   \item Selected global fields (named list).
-#'   \item Selected group fields (nested as group -> agent -> field).
-#'   \item `time` (current time step).
+#' \describe{
+#'   \item{time}{Integer time step (default: `1`).}
+#'   \item{log}{List of saved snapshots (default: `NULL`).}
+#'   \item{notes}{List of notes (default: `NULL`).}
 #' }
 #'
-#' The group snapshot is structured as:
-#' `snapshot[[<group_name>]][[<agent_id>]][[<field_name>]]`.
+#' @section Public methods:
+#' \describe{
+#'   \item{`initialize(..., time, log, notes)`}{Initialize an `ABM_Game` object.
+#'   `...` accepts `ABM_Field` objects.}
+#'   \item{`.add(...)`}{Add `ABM_Field` objects to the game.}
+#'   \item{`.remove(...)`}{Remove fields by name.}
+#'   \item{`.replace(name, x)`}{Replace a field value or function.}
+#'   \item{`.get_category()`}{Return the named character vector of field categories.}
+#'   \item{`.get_flist()`}{Return a `data.frame` of field names and categories.}
+#'   \item{`.snapshot(field_names, add_tryCatch)`}{Retrieve a snapshot of selected
+#'   fields as a named list, appended with `time`. If `add_tryCatch = TRUE`,
+#'   errors during field access are captured as `structure(NULL, class = "error")`.}
+#'   \item{`print(max_lines, ...)`}{Print a preview of fields with truncation.}
+#'   \item{`.summary()`}{Return a `summary.ABM_Game` object.}
+#' }
 #'
-#' When `add_tryCatch = TRUE`, field access is wrapped in `tryCatch()`. If an error
-#' occurs while retrieving a field, the corresponding value becomes
-#' `structure(NULL, class = "error")`. This option is intended for debugging or
-#' robust logging; for maximum performance, keep it `FALSE`.
-#'
-#' @section Parameters (for internal methods):
-#' @param stage Global (non-function) fields to be stored as `"stage"`. Functions are not allowed.
-#' @param active_stage Functions registered as active bindings (`"active_stage"`).
-#' @param group A list of [`ABM_Group`] objects registered as `"group"`.
-#' @param global_FUN Functions registered as model-level methods.
-#' @param select_FUN Functions registered as model-level methods.
-#' @param stop_FUN Functions registered as model-level methods.
-#' @param report_FUN Functions registered as model-level methods.
-#' @param plot_FUN Functions registered as model-level methods.
-#' @param time A positive integer time step. If `NULL`, the default (`1`) is used.
-#' @param log A list of saved snapshots (default: `NULL`).
-#' @param notes A list of notes (default: `NULL`).
-#' @param name A single field/method name (used in `.add()` / `.remove()`).
-#' @param x An object to be registered (used in `.add()`).
-#' @param category Field category to register `x` under (used in `.add()`).
-#' @param max_lines Maximum number of lines to print per field (used in `print()`).
-#' @param global_field_names Character vector of global field names to snapshot
-#' (names in `"stage"` or other non-function global fields).
-#' If `NULL`, no global fields are included.
-#' @param group_names Character vector of group field names (i.e., names of groups
-#' registered under category `"group"`). If `NULL`, no group fields are included.
-#' @param group_field_names Named list of character vectors specifying, for each group,
-#' which agent fields to snapshot. Must be keyed by `group_names`.
-#' @param add_tryCatch Logical; if `TRUE`, wrap field access in `tryCatch()` and store
-#' `structure(NULL, class = "error")` on error. Default is `FALSE` for performance.
-#' @param ... Additional arguments (used in `print()`).
-#'
-#' @return
-#' An `ABM_Game` object (R6).
-#'
-#' @seealso
-#' [`Game()`], [`as.Game()`], [`summary.ABM_Game`]
+#' @seealso [`Game()`], [`as.Game()`], [`summary.ABM_Game`]
 #'
 #' @keywords internal
 #' @import R6
 NULL
-
 
 ABM_Game <- R6::R6Class(
   "ABM_Game", lock_objects = FALSE, cloneable = TRUE,

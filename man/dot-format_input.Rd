@@ -19,7 +19,7 @@ A named list.
 }
 \description{
 Internal utility function used to normalize user inputs for API functions
-such as \code{\link[=Game]{Game()}} and \code{\link[=Agent]{Agent()}}.
+such as \code{\link[=Game]{Game()}}.
 }
 \details{
 \itemize{

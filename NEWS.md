@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 1.1.8
+2026-04-02
+* [improved] Logic of `Series`, `Chunk` and `run_Series`
+
 # rABM 1.1.7
 2026-04-02
 * [improved] `run_Game`: added beep function after running.

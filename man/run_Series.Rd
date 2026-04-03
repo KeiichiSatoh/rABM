@@ -73,7 +73,7 @@ If \code{simplify_output = FALSE}, a list with:
 }
 }
 \description{
-\code{run_Series()} executes stored code chunks in an \code{\link{ABM_Series}} object
+\code{run_Series()} executes stored code chunks in an \code{\link[=Series]{Series()}} object
 in a specified order. Chunks are evaluated sequentially in a dedicated
 environment, so objects created in earlier chunks (e.g., \code{x <- 1}) can be
 referenced by later chunks (e.g., \code{y <- x * 2}).
@@ -88,14 +88,13 @@ Chunks are evaluated using \code{eval()} in a dedicated environment \code{V} cre
 Errors in individual chunks are handled according to \code{on_error}.
 }
 \examples{
-S <- ABM_Series(
-  chunk_expr = list(
-    init = chunk({ x <- 1; y <- 2 }),
-    calc = chunk({ z <- add2(x, y) })
-  ),
-  default = list(
-    add2 = function(a, b) a + b
-  )
+step1 <- Chunk({ x <- 1; y <- 2 })
+step2 <- Chunk({ z <- add2(x, y) })
+
+S <- Series(
+  step1,
+  step2,
+  default = list(add2 = function(a, b) a + b)
 )
 
 # Run the series
@@ -103,14 +102,10 @@ out <- run_Series(S, verbose = FALSE)
 out$values$z
 
 # Run only a subset by chunk name
-out2 <- run_Series(S, series_plan = c("init"), verbose = FALSE)
+out2 <- run_Series(S, series_plan = "step1", verbose = FALSE)
 
 # Inject objects before running
-out3 <- run_Series(
-  S,
-  input = list(x = 10),
-  verbose = FALSE
-)
+out3 <- run_Series(S, input = list(x = 10), verbose = FALSE)
 out3$values$z
 
 # Stop on the first error
@@ -122,5 +117,5 @@ names(out5$values)
 
 }
 \seealso{
-\code{\link[=ABM_Series]{ABM_Series()}}, \code{\link[=chunk]{chunk()}}
+\code{\link[=Series]{Series()}}, \code{\link[=Chunk]{Chunk()}}
 }

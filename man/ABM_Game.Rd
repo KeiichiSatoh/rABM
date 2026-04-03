@@ -4,128 +4,41 @@
 \name{ABM_Game}
 \alias{ABM_Game}
 \title{ABM_Game (internal R6 class)}
-\arguments{
-\item{stage}{Global (non-function) fields to be stored as \code{"stage"}. Functions are not allowed.}
-
-\item{active_stage}{Functions registered as active bindings (\code{"active_stage"}).}
-
-\item{group}{A list of \code{\link{ABM_Group}} objects registered as \code{"group"}.}
-
-\item{global_FUN}{Functions registered as model-level methods.}
-
-\item{select_FUN}{Functions registered as model-level methods.}
-
-\item{stop_FUN}{Functions registered as model-level methods.}
-
-\item{report_FUN}{Functions registered as model-level methods.}
-
-\item{plot_FUN}{Functions registered as model-level methods.}
-
-\item{time}{A positive integer time step. If \code{NULL}, the default (\code{1}) is used.}
-
-\item{log}{A list of saved snapshots (default: \code{NULL}).}
-
-\item{notes}{A list of notes (default: \code{NULL}).}
-
-\item{name}{A single field/method name (used in \code{.add()} / \code{.remove()}).}
-
-\item{x}{An object to be registered (used in \code{.add()}).}
-
-\item{category}{Field category to register \code{x} under (used in \code{.add()}).}
-
-\item{max_lines}{Maximum number of lines to print per field (used in \code{print()}).}
-
-\item{global_field_names}{Character vector of global field names to snapshot
-(names in \code{"stage"} or other non-function global fields).
-If \code{NULL}, no global fields are included.}
-
-\item{group_names}{Character vector of group field names (i.e., names of groups
-registered under category \code{"group"}). If \code{NULL}, no group fields are included.}
-
-\item{group_field_names}{Named list of character vectors specifying, for each group,
-which agent fields to snapshot. Must be keyed by \code{group_names}.}
-
-\item{add_tryCatch}{Logical; if \code{TRUE}, wrap field access in \code{tryCatch()} and store
-\code{structure(NULL, class = "error")} on error. Default is \code{FALSE} for performance.}
-
-\item{...}{Additional arguments (used in \code{print()}).}
-}
-\value{
-An \code{ABM_Game} object (R6).
-}
 \description{
-Internal R6 class used by \strong{rABM} to represent a game (global state, groups,
-and model-level functions) during ABM execution.
+Internal R6 class representing a game object during ABM execution.
+For user-facing workflows, use \code{\link[=Game]{Game()}} as the constructor.
 }
 \details{
-This class is implemented using the \code{R6} class system and is primarily intended
-for internal infrastructure. For user-facing workflows, use \code{\link[=Game]{Game()}} as the
-recommended constructor and interact with objects through the public API
-functions (e.g., add/remove/get/save/summary wrappers), rather than calling
-R6 methods directly.
-
-The object manages multiple field categories:
+Manages fields across the following categories:
 \code{"state"}, \code{"active_state"}, \code{"act_FUN"}, \code{"stop_FUN"},
-\code{"report_FUN"}, and \code{"plot_FUN"}. Field names must be unique across categories.
-
-A key internal operation is taking snapshots of the current state.
-The \code{.snapshot()} method retrieves only user-selected non-function fields
-(global fields and/or group-level agent fields) in a lightweight manner.
-To maximize speed during simulation, name validation and consistency checks
-are expected to be performed in \code{run_Game()} (or an equivalent runner) before
-simulation starts; \code{.snapshot()} itself avoids expensive checks.
+\code{"report_FUN"}, and \code{"plot_FUN"}. Field names must be unique across
+all categories.
 }
-\section{Fields}{
-
-\describe{
-\item{\code{time}}{Integer time step (default: \code{1}).}
-
-\item{\code{log}}{List of saved snapshots (default: \code{NULL}).}
-
-\item{\code{notes}}{List of notes (default: \code{NULL}).}
-}}
-
 \section{Public fields}{
 
-}
-
-\section{Public methods (internal)}{
-
-\itemize{
-\item \code{initialize(...)}: Initialize an \code{ABM_Game} object.
-\item \code{.add(name, x, category)}: Register a field/method/active binding.
-\item \code{.remove(name)}: Remove a field and deactivate an active binding if needed.
-\item \code{.replace(name, x)}: Replace a field with x.
-\item \code{.get_category()}: Return the named vector of field categories.
-\item \code{.get_flist()}: Return a flattened data.frame of fields (including group fields).
-\item \code{.snapshot(global_field_names = NULL, group_names = NULL, group_field_names = NULL, add_tryCatch = FALSE)}:
-Retrieve a snapshot of selected non-function fields.
-\item \code{print(max_lines = 6, ...)}: Print a preview of fields with truncation.
-\item \code{.summary()}: Create a \code{summary.ABM_Game} object.
+\describe{
+\item{time}{Integer time step (default: \code{1}).}
+\item{log}{List of saved snapshots (default: \code{NULL}).}
+\item{notes}{List of notes (default: \code{NULL}).}
 }
 }
 
-\section{\code{.snapshot()} (internal) details}{
+\section{Public methods}{
 
-\code{.snapshot()} is designed to be called repeatedly during simulation.
-It returns a list that combines:
-\itemize{
-\item Selected global fields (named list).
-\item Selected group fields (nested as group -> agent -> field).
-\item \code{time} (current time step).
+\describe{
+\item{\code{initialize(..., time, log, notes)}}{Initialize an \code{ABM_Game} object.
+\code{...} accepts \code{ABM_Field} objects.}
+\item{\code{.add(...)}}{Add \code{ABM_Field} objects to the game.}
+\item{\code{.remove(...)}}{Remove fields by name.}
+\item{\code{.replace(name, x)}}{Replace a field value or function.}
+\item{\code{.get_category()}}{Return the named character vector of field categories.}
+\item{\code{.get_flist()}}{Return a \code{data.frame} of field names and categories.}
+\item{\code{.snapshot(field_names, add_tryCatch)}}{Retrieve a snapshot of selected
+fields as a named list, appended with \code{time}. If \code{add_tryCatch = TRUE},
+errors during field access are captured as \code{structure(NULL, class = "error")}.}
+\item{\code{print(max_lines, ...)}}{Print a preview of fields with truncation.}
+\item{\code{.summary()}}{Return a \code{summary.ABM_Game} object.}
 }
-
-The group snapshot is structured as:
-\verb{snapshot[[<group_name>]][[<agent_id>]][[<field_name>]]}.
-
-When \code{add_tryCatch = TRUE}, field access is wrapped in \code{tryCatch()}. If an error
-occurs while retrieving a field, the corresponding value becomes
-\code{structure(NULL, class = "error")}. This option is intended for debugging or
-robust logging; for maximum performance, keep it \code{FALSE}.
-}
-
-\section{Parameters (for internal methods)}{
-
 }
 
 \seealso{
