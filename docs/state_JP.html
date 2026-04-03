@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>State &amp; Active State – rABM tutorial</title>
+<title>4. State &amp; Active State – rABM tutorial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./state_JP.html"><span class="chapter-title">State &amp; Active State</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./state_JP.html"><span class="chapter-title">4. State &amp; Active State</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -160,7 +160,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">rABM tutorial</a> 
     </div>
@@ -174,32 +176,57 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABM Tutorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quick Start Guide</span></a>
+  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Quick Start Guide</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">モデルライブラリの使い方</span></a>
+  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. モデルライブラリの使い方</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABMオブジェクトの構成</span></a>
+  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. rABMオブジェクトの構成</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./state_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">State &amp; Active State</span></a>
+  <a href="./state_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">4. State &amp; Active State</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">plot_FUNについて</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./act_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">6. act_FUN</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./run_Game_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7. run_Game</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./stop_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">8. Stop_FUN</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./report_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">9. report_FUN</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Series_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10. Series</span></a>
   </div>
 </li>
     </ul>
@@ -212,17 +239,16 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#はじめに" id="toc-はじめに" class="nav-link active" data-scroll-target="#はじめに">はじめに</a></li>
-  <li><a href="#state" id="toc-state" class="nav-link" data-scroll-target="#state">State</a></li>
-  <li><a href="#active-state" id="toc-active-state" class="nav-link" data-scroll-target="#active-state">Active State</a>
+  <li><a href="#state" id="toc-state" class="nav-link active" data-scroll-target="#state">4.1 State</a></li>
+  <li><a href="#active-state" id="toc-active-state" class="nav-link" data-scroll-target="#active-state">4.2 Active State</a>
   <ul class="collapse">
-  <li><a href="#active-stateとはなにか" id="toc-active-stateとはなにか" class="nav-link" data-scroll-target="#active-stateとはなにか">Active Stateとはなにか</a></li>
-  <li><a href="#参考active-stateの実行速度に関して" id="toc-参考active-stateの実行速度に関して" class="nav-link" data-scroll-target="#参考active-stateの実行速度に関して">【参考】Active stateの実行速度に関して</a></li>
+  <li><a href="#active-stateとはなにか" id="toc-active-stateとはなにか" class="nav-link" data-scroll-target="#active-stateとはなにか">(1) Active Stateとはなにか</a></li>
+  <li><a href="#active-stateの実行速度に関して" id="toc-active-stateの実行速度に関して" class="nav-link" data-scroll-target="#active-stateの実行速度に関して">(2) Active stateの実行速度に関して</a></li>
   </ul></li>
-  <li><a href="#フィールドの追加と削除" id="toc-フィールドの追加と削除" class="nav-link" data-scroll-target="#フィールドの追加と削除">フィールドの追加と削除</a>
+  <li><a href="#フィールドの追加と削除" id="toc-フィールドの追加と削除" class="nav-link" data-scroll-target="#フィールドの追加と削除">4.3 フィールドの追加と削除</a>
   <ul class="collapse">
-  <li><a href="#フィールドの追加" id="toc-フィールドの追加" class="nav-link" data-scroll-target="#フィールドの追加">フィールドの追加</a></li>
-  <li><a href="#フィールドの削除" id="toc-フィールドの削除" class="nav-link" data-scroll-target="#フィールドの削除">フィールドの削除</a></li>
+  <li><a href="#フィールドの追加" id="toc-フィールドの追加" class="nav-link" data-scroll-target="#フィールドの追加">(1) フィールドの追加</a></li>
+  <li><a href="#フィールドの削除" id="toc-フィールドの削除" class="nav-link" data-scroll-target="#フィールドの削除">(2) フィールドの削除</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -232,7 +258,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">State &amp; Active State</span></h1>
+<h1 class="title"><span class="chapter-title">4. State &amp; Active State</span></h1>
 </div>
 
 
@@ -249,12 +275,21 @@ window.Quarto = {
 </header>
 
 
-<section id="はじめに" class="level1">
-<h1>はじめに</h1>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>この章であつかう<strong>state</strong>と<strong>active state</strong>は、エージェントの状態を表現するためのフィールド・カテゴリーです。ABMを自作で作る場合には、通常この二つをはじめに作成します。この章では、Stateについて概観したうえで、特にactive stateについて説明します。active stateはうまく使用すれば、ABMを作成するうえで非常に強力な手法となります。</p>
-</section>
-<section id="state" class="level1">
-<h1>State</h1>
+</div>
+</div>
+<section id="state" class="level2">
+<h2 class="anchored" data-anchor-id="state">4.1 State</h2>
 <p>stateフィールドは、<code>State()</code>でくくることによって定義します。stateフィールドには、関数以外の任意のRオブジェクトを取れます。以下の例は、エージェントの伸長と体重を表現するstateを作成するものです。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rABM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -272,10 +307,10 @@ window.Quarto = {
 </div>
 <p>ここで、エージェントの数は同じなのだから、<code>height</code>と<code>weight</code>というように、それぞれ別のオブジェクトを作らず、<code>data.frame</code>にまとめればよいのではないかという疑問も出てくるのではないかと思います。実際、stateフィールドには<code>data.frame</code>も使用できます。判断はユーザーに任されますが、私自身の考えでは、ABMを回すには、stateは可能な限り<code>vector</code>で表現されるほうが、他の関数での扱いが容易になります。というのは、たとえば1番目のエージェントの体重にアクセスする場合、ベクトルであれば<code>self$weight[1]</code>で直接アクセスできますが、data.frameの場合には、データフレームのさらに対象とする列を指定する必要が出てくるからです（e.g.&nbsp;<code>self$df$weight[1]</code>）。このようにアクセスが一段深くなってしまうことは、スクリプトを書くうえでも厄介になり得ます。このことは、次のactive stateについて理解すると、実感がわくでしょう。</p>
 </section>
-<section id="active-state" class="level1">
-<h1>Active State</h1>
-<section id="active-stateとはなにか" class="level2">
-<h2 class="anchored" data-anchor-id="active-stateとはなにか">Active Stateとはなにか</h2>
+<section id="active-state" class="level2">
+<h2 class="anchored" data-anchor-id="active-state">4.2 Active State</h2>
+<section id="active-stateとはなにか" class="level3">
+<h3 class="anchored" data-anchor-id="active-stateとはなにか">(1) Active Stateとはなにか</h3>
 <p><strong>Active state</strong>は、外部からはstateのようにアクセスできますが、定義上は関数を持っています。つまり参照されるたびに、内部で関数が走りその結果が返される仕組みです。</p>
 <p>具体例として、Body Mass Index (BMI)について考えてみましょう。BMIは、体重と身長から計算される肥満度を示す指数です。BMIの式は以下の通りです。</p>
 <p><span class="math display">\[
@@ -294,24 +329,24 @@ BMI = \frac{weight (kg)}{height (m)^2}
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># BMIを見てみる</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>G<span class="sc">$</span>bmi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 16.47237 15.47669 24.85787 18.55239 28.09434 20.67652 17.78474 24.03802
- [9] 21.12519 23.81948</code></pre>
+<pre><code> [1] 26.50276 21.65032 26.46634 23.13305 24.40561 20.95027 22.73042 17.28472
+ [9] 17.09904 11.59473</code></pre>
 </div>
 </div>
 <p>このようにBMIを関数として表現してあることによって、もしもエージェントの伸長や体重が変化した場合に、それに連動してBMIも変動するという実装が可能になります。つまり、たとえばシミュレーションの更新する対象のフィールドは、身長と体重に絞ればよく、BMIまで更新する必要がなくなるということになります。</p>
 </section>
-<section id="参考active-stateの実行速度に関して" class="level2">
-<h2 class="anchored" data-anchor-id="参考active-stateの実行速度に関して">【参考】Active stateの実行速度に関して</h2>
+<section id="active-stateの実行速度に関して" class="level3">
+<h3 class="anchored" data-anchor-id="active-stateの実行速度に関して">(2) Active stateの実行速度に関して</h3>
 <p><strong>Active state</strong>は非常に便利ですが、特に計算速度を重視する場合には、その仕組みをきちんと理解しておく必要があります。つまりactive stateは参照されるたび（例：<code>G$bmi</code>）新たに計算がしなおされます。もしも実行が非常に重い関数を設定し、かつactive stateを何度も呼ぶと計算負荷がそれだけ大きくなります。つまり更新をする対象の値がごく一部であるならば、毎回計算をし直すよりも、更新する対象の値を直接変化させてしまったほうが実行速度が速くなります。</p>
 <p>他方でactive stateそのものはただの関数オブジェクトなので、容量そおのもはさほど大きくありません。大規模だが、ごく単純で実行速度が速いオブジェクトを表現するうえでは、大規模なstateオブジェクトを持つよりも、active stateの方が速くなる場合もあります。</p>
 <p>なお、<code>run_Game</code>で実行された各回の<strong>active state</strong>フィールドは、<code>log</code>には際には、関数ではなく値として保存されます。つまり、その時点でのactive fieldの値が「固められた」状態で保存されることも覚えておいてください。</p>
 </section>
 </section>
-<section id="フィールドの追加と削除" class="level1">
-<h1>フィールドの追加と削除</h1>
+<section id="フィールドの追加と削除" class="level2">
+<h2 class="anchored" data-anchor-id="フィールドの追加と削除">4.3 フィールドの追加と削除</h2>
 <p>ABMを作成する際には、<code>Game</code>オブジェクトに新たにオブジェクトを追加したり、削除したりする操作をよく行います。すでに追加に関しては例として出してありますが、関連する操作について以下改めて例とともにまとめます。</p>
-<section id="フィールドの追加" class="level2">
-<h2 class="anchored" data-anchor-id="フィールドの追加">フィールドの追加</h2>
+<section id="フィールドの追加" class="level3">
+<h3 class="anchored" data-anchor-id="フィールドの追加">(1) フィールドの追加</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span></span>
@@ -325,8 +360,8 @@ BMI = \frac{weight (kg)}{height (m)^2}
 </div>
 <p>なおすでに存在するフィールドと同じ名前のフィールドを追加することはできません。その場合には、次の例のようにいったんすでに存在しているフィールドを削除してから、新しいフィールドを追加しなおしてください。</p>
 </section>
-<section id="フィールドの削除" class="level2">
-<h2 class="anchored" data-anchor-id="フィールドの削除">フィールドの削除</h2>
+<section id="フィールドの削除" class="level3">
+<h3 class="anchored" data-anchor-id="フィールドの削除">(2) フィールドの削除</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># xを削除する</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">remove_field</span>(G, <span class="st">"x"</span>)</span>
@@ -742,8 +777,8 @@ BMI = \frac{weight (kg)}{height (m)^2}
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./rABM_classes_JP.html" class="pagination-link" aria-label="rABMオブジェクトの構成">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">rABMオブジェクトの構成</span></span>
+      <a href="./rABM_classes_JP.html" class="pagination-link" aria-label="3. rABMオブジェクトの構成">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">3. rABMオブジェクトの構成</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

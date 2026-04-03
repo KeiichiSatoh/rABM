@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "rABM tutorial",
     "section": "",
-    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n探索的な操作性: 試行錯誤がしやすいこと\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、速く効率的に分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n\nrABM開発チーム\n\n　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　\n\n日本語版\n\n1. Quick start guide\nmodel library\nrABMオブジェクトの構成\nstate & active state\nplot_FUN\nact_FUN\nrun_Game\n8. stop_FUN\n9. report_FUN\n10. Series\n\n\n\nEnglish Version\nComing soon…",
+    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n探索的な操作性: 試行錯誤がしやすいこと\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、速く効率的に分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n\nrABM開発チーム\n\n　　　　　　　\n\n日本語版\n\n1. Quick start guide\n2. model library\n3. rABMオブジェクトの構成\n4. state & active state\n5. plot_FUN\n6. act_FUN\n7. run_Game\n8. stop_FUN\n9. report_FUN\n10. Series\n\n\n\nEnglish Version\nComing soon…",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>rABM Tutorial</span>"
     ]
@@ -112,11 +112,11 @@
   {
     "objectID": "model_library_JP.html",
     "href": "model_library_JP.html",
-    "title": "モデルライブラリの使い方",
+    "title": "2. モデルライブラリの使い方",
     "section": "",
-    "text": "はじめに\nrABMには、ABMに関する代表的なモデルを実装したモデル・ライブラリがいくつか用意されています。これらのモデルは、rABMの機能を確かめたり、簡単な実験を行ったり、独自の修正を加えて新たなオリジナルモデルを作成するためのテンプレートとして利用することができます。\n\nこれらのモデルは model_XXXX という名称で統一されているため、簡単に検索することができます。本章では、NetLogoで有名な Heros and Cowards をrABMに移植したモデルを例に、モデルライブラリの実行方法と、rABMの基本的な機能を概観します。",
+    "text": "Heros and Cowardsモデル",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>モデルライブラリの使い方</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>2. モデルライブラリの使い方</span>"
     ]
   },
   {
@@ -192,11 +192,11 @@
   {
     "objectID": "rABM_classes_JP.html",
     "href": "rABM_classes_JP.html",
-    "title": "rABMオブジェクトの構成",
+    "title": "3. rABMオブジェクトの構成",
     "section": "",
-    "text": "はじめに\nこの章では、rABMで用いられている様々なオブジェクトの種類について概観します。rABMのオブジェクトには大きく二つのタイプのオブジェクトがあります。\nこれらのオブジェクトはすでにここまでのチュートリアルで用いられてきたものですが、この章ではあらためてその仕組みを概観します。さらにこれらのオブジェクトを使用するうえで欠かせない概念である自己参照selfについても解説します。なお【参考】の項目はややテクニカルな説明となりますので、読み飛ばしていただいても構いません。この章で解説した各種のオブジェクトの使用法は、あとの章で詳述します。つまりこの章は後の各オブジェクトの役割に関する各論に入る前の総論として位置づけられます。",
+    "text": "3.1 フィールドの定義に関するオブジェクト",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>rABMオブジェクトの構成</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>3. rABMオブジェクトの構成</span>"
     ]
   },
   {
@@ -242,11 +242,11 @@
   {
     "objectID": "state_JP.html",
     "href": "state_JP.html",
-    "title": "State & Active State",
+    "title": "4. State & Active State",
     "section": "",
-    "text": "はじめに\nこの章であつかうstateとactive stateは、エージェントの状態を表現するためのフィールド・カテゴリーです。ABMを自作で作る場合には、通常この二つをはじめに作成します。この章では、Stateについて概観したうえで、特にactive stateについて説明します。active stateはうまく使用すれば、ABMを作成するうえで非常に強力な手法となります。",
+    "text": "4.1 State\nstateフィールドは、State()でくくることによって定義します。stateフィールドには、関数以外の任意のRオブジェクトを取れます。以下の例は、エージェントの伸長と体重を表現するstateを作成するものです。\nlibrary(rABM)\n# 10人のエージェント\nn &lt;- 10\n\n# 身長(m)と体重(kg)のオブジェクトを作成\nheight &lt;- rnorm(n = n, mean = 170, sd = 10)/100\nweight &lt;- rnorm(n = n, mean = 60, sd = 10)\n\n# Gameに格納する\nG &lt;- Game(State(height), State(weight))\nここで、エージェントの数は同じなのだから、heightとweightというように、それぞれ別のオブジェクトを作らず、data.frameにまとめればよいのではないかという疑問も出てくるのではないかと思います。実際、stateフィールドにはdata.frameも使用できます。判断はユーザーに任されますが、私自身の考えでは、ABMを回すには、stateは可能な限りvectorで表現されるほうが、他の関数での扱いが容易になります。というのは、たとえば1番目のエージェントの体重にアクセスする場合、ベクトルであればself$weight[1]で直接アクセスできますが、data.frameの場合には、データフレームのさらに対象とする列を指定する必要が出てくるからです（e.g. self$df$weight[1]）。このようにアクセスが一段深くなってしまうことは、スクリプトを書くうえでも厄介になり得ます。このことは、次のactive stateについて理解すると、実感がわくでしょう。",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>State & Active State</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>4. State & Active State</span>"
     ]
   },
   {
@@ -272,41 +272,41 @@
   {
     "objectID": "plot_FUN_JP.html",
     "href": "plot_FUN_JP.html",
-    "title": "plot_FUNについて",
+    "title": "5. plot_FUNについて",
     "section": "",
-    "text": "はじめに\n自身でABMを作成する際に、stateとactive stateの次の手順として作ることをお勧めするのが描画に関するフィールドカテゴリー（plot_FUN）です。plot_FUNを早い段階でつくっておくことで、自身のstateがどのような状況か、更新を行ったあとstateが適切に変化しているのかを把握しやすくなります。この章では、plot_FUNの作成、作成上の注意について解説します。",
+    "text": "5.1 plot_FUNの作り方",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>plot_FUNについて</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>5. plot_FUNについて</span>"
     ]
   },
   {
     "objectID": "plot_FUN_JP.html#plot_funの作り方",
     "href": "plot_FUN_JP.html#plot_funの作り方",
-    "title": "plot_FUNについて",
-    "section": "plot_FUNの作り方",
-    "text": "plot_FUNの作り方\n\nbaseパッケージを用いたplot\nplot_FUNは、Plot()で関数をくくったうえで、Gameオブジェクトに格納することで実装できます。以下は、100人のエージェントの正規分布に従った得点xのヒストグラムをプロットするplot_FUNを作成する例です。なお、ABMにおいて、プロットしている時間がどの時点なのかは特に重要なことが多いため、plot_FUNを作る際には時点を同時に表記できるように関数を組むことがお勧めします。当該時点は$timeでアクセスできますので、関数上はself$timeと参照させるようにすればよいです。\n\nlibrary(rABM)\n\n\n# xを作成し、Gameに格納する\nn &lt;- 100\nx &lt;- rnorm(n = n)\nG &lt;- Game(State(x))\n\n# ヒストグラムを出力する関数plot_xを作成する\nplot_x &lt;- function(){\n  hist(self$x, \n       main = paste(\"time =\", self$time),\n       xlab = \"x\")\n}\n\n# Gに追加する\nadd_field(G, Plot(plot_x))\n\nプリントすることで、Gameオブジェクトに適切に格納されていることをいったん確認します。末尾のメタデータ欄にplot_FUN: plot_xという表示が入っていることが分かります。\n\nG\n\n&lt;Game&gt;\n$x(state)\n  [1]  0.756870595 -0.147444014  0.714630200 -1.283199968  1.679667091\n  [6] -0.380927315 -0.699519458  0.533097048 -2.089019667 -0.363241121\n [11]  0.585237512  0.116406128  0.502537785  1.066209045 -0.672112692\n [16]  0.848643884 -1.468030704 -0.439423170 -1.261828581 -0.537948137\n [21]  0.345303347  0.235454515  0.525358003  0.989738452 -0.101065928\n [26] -0.041810065 -0.606803069  1.217669765  0.643800410 -0.676872304\n  ---- (truncated) ----\n\n$plot_x(plot_FUN)\nfunction (E = E) \n{\n    hist(self$x, main = paste(\"time =\", self$time), xlab = \"x\")\n}\n\n------------------- \ntime       : 1 \nn of logs  : 0 \nn of notes : 0 \nn of fields: 2 \n  state: x\n  plot_FUN: plot_x\n------------------- \n*Some fields are truncated. Increase 'max_lines' to display more.\n\n\nさっそく実際に図示してみましょう。適切に図示できてることが分かります。\n\nG$plot_x()\n\n\n\n\n\n\n\n\n\n\nggplot2パッケージを用いたプロット\nなお、ここではbaseパッケージのプロット機能を用いていますが、ggplotを使用することももちろんできます。ただしggplotはbaseパッケージよりも描画に時間がかかることが多いことに留意しておいてください。また、関数末尾において、明示的にggplotのオブジェクトをprint()で呼び出す必要**があることに注意してください。\n\n# ggplot2を読み込む\nlibrary(ggplot2)\n\nWarning: package 'ggplot2' was built under R version 4.4.3\n\n# ggplot2を用いた図示用の関数を作成する\nplot_x_ggp &lt;- function(){\n  # ggplotで扱えるようdata.frameに変換する\n  df &lt;- data.frame(x = self$x)\n  \n  # plot用の設定をgに付加する\n  g &lt;- ggplot(aes(x = x), data = df) + geom_histogram() + \n    ggtitle(paste(\"time =\", self$time))\n  \n  # 描画には明示的にprintで呼び出す\n  print(g)\n  }\n\n# Gに格納する\nadd_field(G, Plot(plot_x_ggp))\n\n実際に図示してみます。\n\n# 図示する\nG$plot_x_ggp()\n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.",
+    "title": "5. plot_FUNについて",
+    "section": "",
+    "text": "(1) baseパッケージを用いたplot\nplot_FUNは、Plot()で関数をくくったうえで、Gameオブジェクトに格納することで実装できます。以下は、100人のエージェントの正規分布に従った得点xのヒストグラムをプロットするplot_FUNを作成する例です。なお、ABMにおいて、プロットしている時間がどの時点なのかは特に重要なことが多いため、plot_FUNを作る際には時点を同時に表記できるように関数を組むことがお勧めします。当該時点は$timeでアクセスできますので、関数上はself$timeと参照させるようにすればよいです。\n\nlibrary(rABM)\n\n\n# xを作成し、Gameに格納する\nn &lt;- 100\nx &lt;- rnorm(n = n)\nG &lt;- Game(State(x))\n\n# ヒストグラムを出力する関数plot_xを作成する\nplot_x &lt;- function(){\n  hist(self$x, \n       main = paste(\"time =\", self$time),\n       xlab = \"x\")\n}\n\n# Gに追加する\nadd_field(G, Plot(plot_x))\n\nプリントすることで、Gameオブジェクトに適切に格納されていることをいったん確認します。末尾のメタデータ欄にplot_FUN: plot_xという表示が入っていることが分かります。\n\nG\n\n&lt;Game&gt;\n$x(state)\n  [1]  0.378473849  0.097873167 -0.342488064 -0.175056328 -1.054047941\n  [6]  0.425224134 -0.575651866 -0.628467056 -0.536051587 -0.602213661\n [11] -0.515536695  0.187918477  1.540957498 -0.676046146 -0.568634605\n [16]  0.101851729  0.999183150 -0.530184170 -1.647724912  1.550487013\n [21] -0.739287529  0.942165610  0.012674254  0.867070679 -0.122140260\n [26] -0.110102313 -0.181250555  0.997137498  0.316022328 -1.145035170\n  ---- (truncated) ----\n\n$plot_x(plot_FUN)\nfunction () \n{\n    hist(self$x, main = paste(\"time =\", self$time), xlab = \"x\")\n}\n\n------------------- \ntime         : 1 \nn of logs    : 0 \nn of notes   : 0 \nn of fields  : 2 \n state       : x\n plot_FUN    : plot_x\n------------------- \n*Some fields are truncated. Increase 'max_lines' to display more.\n\n\nさっそく実際に図示してみましょう。適切に図示できてることが分かります。\n\nG$plot_x()\n\n\n\n\n\n\n\n\n\n\n(2) ggplot2パッケージを用いたプロット\nなお、ここではbaseパッケージのプロット機能を用いていますが、ggplotを使用することももちろんできます。ただしggplotはbaseパッケージよりも描画に時間がかかることが多いことに留意しておいてください。また、関数末尾において、明示的にggplotのオブジェクトをprint()で呼び出す必要**があることに注意してください。\n\n# ggplot2を読み込む\nlibrary(ggplot2)\n\nWarning: package 'ggplot2' was built under R version 4.5.2\n\n# ggplot2を用いた図示用の関数を作成する\nplot_x_ggp &lt;- function(){\n  # ggplotで扱えるようdata.frameに変換する\n  df &lt;- data.frame(x = self$x)\n  \n  # plot用の設定をgに付加する\n  g &lt;- ggplot(aes(x = x), data = df) + geom_histogram() + \n    ggtitle(paste(\"time =\", self$time))\n  \n  # 描画には明示的にprintで呼び出す\n  print(g)\n  }\n\n# Gに格納する\nadd_field(G, Plot(plot_x_ggp))\n\n実際に図示してみます。\n\n# 図示する\nG$plot_x_ggp()\n\n`stat_bin()` using `bins = 30`. Pick better value `binwidth`.\n\n\n\n\n\n\n\n\n\n\n\n(3) 定義されたすべてのplotを順にみる\nGameオブジェクトに定義されたすべてのplot_FUNは、plot()でGameオブジェクトを呼び出すことによって、順に呼び出すことができます。以下の関数を実行すると、インテラクティブモードになり、&lt;ENTER&gt;を推すたびに、定義されているplot_FUNが順に呼び出されます（出力省略）。\n\nplot(G)\n\n個別に呼び出すことも可能です。その場合には、nameで呼び出したいplot_FUNのフィールド名を指定します。\n\nplot(G, name = c(\"plot_x\"))\n\n\n\n\n\n\n\n\n使っているエディターによっては、plotはジェネリックのため引数候補を見にくい場合があるかもしれません。その場合にはplot_Game関数を用いていください。この関数は、plot関数のラッパーとなっており、結果的に同じ出力がなされます。",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>plot_FUNについて</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>5. plot_FUNについて</span>"
     ]
   },
   {
     "objectID": "plot_FUN_JP.html#定義されたすべてのplotを順にみる",
     "href": "plot_FUN_JP.html#定義されたすべてのplotを順にみる",
-    "title": "plot_FUNについて",
-    "section": "定義されたすべてのplotを順にみる",
-    "text": "定義されたすべてのplotを順にみる\nGameオブジェクトに定義されたすべてのplot_FUNは、plot()でGameオブジェクトを呼び出すことによって、順に呼び出すことができます。以下の関数を実行すると、インテラクティブモードになり、&lt;ENTER&gt;を推すたびに、定義されているplot_FUNが順に呼び出されます（出力省略）。\n\nplot(G)\n\n個別に呼び出すことも可能です。その場合には、nameで呼び出したいplot_FUNのフィールド名を指定します。\n\nplot(G, name = c(\"plot_x\"))\n\n\n\n\n\n\n\n\n使っているエディターによっては、plotはジェネリックのため引数候補を見にくい場合があるかもしれません。その場合にはplot_Game関数を用いていください。この関数は、plot関数のラッパーとなっており、結果的に同じ出力がなされます。",
+    "title": "5. plot_FUNについて",
+    "section": "(3) 定義されたすべてのplotを順にみる",
+    "text": "(3) 定義されたすべてのplotを順にみる\nGameオブジェクトに定義されたすべてのplot_FUNは、plot()でGameオブジェクトを呼び出すことによって、順に呼び出すことができます。以下の関数を実行すると、インテラクティブモードになり、&lt;ENTER&gt;を推すたびに、定義されているplot_FUNが順に呼び出されます（出力省略）。\n\nplot(G)\n\n個別に呼び出すことも可能です。その場合には、nameで呼び出したいplot_FUNのフィールド名を指定します。\n\nplot(G, name = c(\"plot_x\"))\n\n\n\n\n\n\n\n\n使っているエディターによっては、plotはジェネリックのため引数候補を見にくい場合があるかもしれません。その場合にはplot_Game関数を用いていください。この関数は、plot関数のラッパーとなっており、結果的に同じ出力がなされます。",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>plot_FUNについて</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>5. plot_FUNについて</span>"
     ]
   },
   {
     "objectID": "plot_FUN_JP.html#logをプロットする",
     "href": "plot_FUN_JP.html#logをプロットする",
-    "title": "plot_FUNについて",
-    "section": "logをプロットする",
-    "text": "logをプロットする\nGameオブジェクトに保存されているlogをプロットしたい場合には、plot関数の引数のlog指定をしてください。logはインデックス(i.e., 1, 2, 3,…）もしくは、時点の文字列（i.e., \"t1\",\"t2\"）のいずれかで指定できます。\n\n# 例示のための簡単なxの更新関数を作成する。\nupdate_x &lt;- function(){self$x &lt;- self$x + rnorm(n = 100)}\n\n# Gameに付加する\nadd_field(G, Act(update_x))\n\n# 3回更新する\nG2 &lt;- run_Game(G, plan = \"update_x\", times = 3)\n\n\n# インデックスで指定してlogをプロットする\nplot(G2, name = \"plot_x\", log = 3)\n\nprinting: 1/1\n\n\n\n\n\n\n\n\n\n\n# 時点を文字列でしてlogをプロットする\nplot(G2, name = \"plot_x\", log = \"t3\")\n\nprinting: 1/1\n\n\n\n\n\n\n\n\n\n\n# 複数の時点を表示する\nplot(G2, name = \"plot_x\", log = c(1,3))\n\nprinting: 1/2\n\n\n\n\n\n\n\n\n\nprinting: 2/2",
+    "title": "5. plot_FUNについて",
+    "section": "5.2 logをプロットする",
+    "text": "5.2 logをプロットする\nGameオブジェクトに保存されているlogをプロットしたい場合には、plot関数の引数のlog指定をしてください。logはインデックス(i.e., 1, 2, 3,…）もしくは、時点の文字列（i.e., \"t1\",\"t2\"）のいずれかで指定できます。\n\n# 例示のための簡単なxの更新関数を作成する。\nupdate_x &lt;- function(){self$x &lt;- self$x + rnorm(n = 100)}\n\n# Gameに付加する\nadd_field(G, Act(update_x))\n\n# 3回更新する\nG2 &lt;- run_Game(G, plan = \"update_x\", times = 3)\n\n\n# インデックスで指定してlogをプロットする\nplot(G2, name = \"plot_x\", log = 3)\n\nprinting: 1/1\n\n\n\n\n\n\n\n\n\n\n# 時点を文字列でしてlogをプロットする\nplot(G2, name = \"plot_x\", log = \"t3\")\n\nprinting: 1/1\n\n\n\n\n\n\n\n\n\n\n# 複数の時点を表示する\nplot(G2, name = \"plot_x\", log = c(1,3))\n\nprinting: 1/2\n\n\n\n\n\n\n\n\n\nprinting: 2/2",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>plot_FUNについて</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>5. plot_FUNについて</span>"
     ]
   },
   {
@@ -344,7 +344,7 @@
     "href": "act_FUN_JP.html",
     "title": "6. act_FUN",
     "section": "",
-    "text": "はじめに\nact_FUNはエージェントの更新に関わる関数で、rABMの中核をなすコンポーネントです。\nこの章では、はじめにact_FUNの基本的な作り方を復習します。次に、関数の引数を変化させられるように設定する二つの方法について学びます。最後に更新を行ううえで速度を上げるためのいくつかのアイデアについて紹介します。",
+    "text": "6.1 act_FUNの作り方\nact_FUNは、（１）Stateの更新に関わる関数、（２）更新を行うエージェントの選択に関する関数の二つに区分して考えることができます。",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>6. act_FUN</span>"
     ]
@@ -433,8 +433,8 @@
     "objectID": "act_FUN_JP.html#act_funの作り方",
     "href": "act_FUN_JP.html#act_funの作り方",
     "title": "6. act_FUN",
-    "section": "1 act_FUNの作り方",
-    "text": "1 act_FUNの作り方\nact_FUNは、（１）Stateの更新に関わる関数、（２）更新を行うエージェントの選択に関する関数の二つに区分して考えることができます。\n\n1.1 Stateの更新に関わる関数\nact_FUNのもっとも基本的な使い方は、エージェントの状態を表現するStateフィールドの更新を行うことです。以下の例は、エージェントの所持金額が各回ごとに1ずつ増加する更新を行う関数の作成例です。\n\n# ライブラリを読み込む\nlibrary(rABM)\n\n\n# エージェントの所持金を示すmoneyフィールドを作成し、Gameオブジェクトに格納する\n\n# 5人のエージェントのそれぞれの所持金\nmoney &lt;- 1:5\n\n# Gameオブジェクトに格納する\nG &lt;- Game(State(money))\n\n# 状態をプリントする\nG\n\n&lt;Game&gt;\n$money(state)\n[1] 1 2 3 4 5\n\n------------------- \ntime         : 1 \nn of logs    : 0 \nn of notes   : 0 \nn of fields  : 1 \n state       : money\n------------------- \n\n\n\n# エージェントの所持金を更新する\nget_money &lt;- function(){self$money &lt;- self$money + 1}\n\n# Gに格納する\nadd_field(G, Act(get_money))\n\n\n作成の際のアドバイス\n前章で紹介したように実際の作成においては、先にStateのみを作成したGオブジェクトを作成し、それをselfに付け替えたうえで、確認しながら関数を作成するほうが行いやすいです。\n\n# いったんStateだけのGameオブジェクトを作成する\nmoney &lt;- 1:5\nG &lt;- Game(State(money))\n\n# Gをselfとして代入する\nself &lt;- G\n\n# act_FUNを作成する\nget_money &lt;- function(){self$money &lt;- self$money + 1}\n\n# Gに格納する\nadd_field(G, Act(get_money))\n\n\n\nact_FUNのテスト\nact_FUNは、通常通り呼び出すことで関数を実行します。ただし関数名()のように（）をつけることで実行できることに注意してください。こちらを用いて、きちんと関数が機能しているのかを確認することができます。\n\n# 現状の所持金を確認\nG$money\n\n[1] 1 2 3 4 5\n\n\n\n# 更新し、所持金を確認\nG$get_money()\n\n# 更新後の所持金を確認\nG$money\n\n[1] 2 3 4 5 6\n\n\n\n\n\n1.2 エージェントの選択に関わる関数\n上記の例ではすべてのエージェントの所持金が更新されていましたが、もしも特定のエージェントのみを選択したい場合にはどうしたらよいでしょうか。この場合には、更新対象のエージェントを選択する別の関数を用意し、選択されたエージェントのインデックスをStateに格納したうえで、更新の際にそのStateを参照するということが考えられます。\n\n# エージェントの初期所持金\nmoney &lt;- 1:5\n\n# 更新対象のエージェントを保存するstate\nselected_agent &lt;- c()\n\n# 更新対象のエージェントをランダムに2つ選択\nselect_agent &lt;- function(){sample(1:5, 2)}\n\n# 対象のエージェントの所持金を更新\nadd_money &lt;- function(){\n  self$money[self$selected_agent] &lt;- self$money[self$selected_agent] + 1}\n\n# すべてのフィールドを格納\nG &lt;- Game(State(money), State(selected_agent), Act(select_agent), Act(add_money))",
+    "section": "",
+    "text": "(1) Stateの更新に関わる関数\nact_FUNのもっとも基本的な使い方は、エージェントの状態を表現するStateフィールドの更新を行うことです。以下の例は、エージェントの所持金額が各回ごとに1ずつ増加する更新を行う関数の作成例です。\n\n# ライブラリを読み込む\nlibrary(rABM)\n\n\n# エージェントの所持金を示すmoneyフィールドを作成し、Gameオブジェクトに格納する\n\n# 5人のエージェントのそれぞれの所持金\nmoney &lt;- 1:5\n\n# Gameオブジェクトに格納する\nG &lt;- Game(State(money))\n\n# 状態をプリントする\nG\n\n&lt;Game&gt;\n$money(state)\n[1] 1 2 3 4 5\n\n------------------- \ntime         : 1 \nn of logs    : 0 \nn of notes   : 0 \nn of fields  : 1 \n state       : money\n------------------- \n\n\n\n# エージェントの所持金を更新する\nget_money &lt;- function(){self$money &lt;- self$money + 1}\n\n# Gに格納する\nadd_field(G, Act(get_money))\n\n\n\n(2) 作成の際のアドバイス\n前章で紹介したように実際の作成においては、先にStateのみを作成したGオブジェクトを作成し、それをselfに付け替えたうえで、確認しながら関数を作成するほうが行いやすいです。\n\n# いったんStateだけのGameオブジェクトを作成する\nmoney &lt;- 1:5\nG &lt;- Game(State(money))\n\n# Gをselfとして代入する\nself &lt;- G\n\n# act_FUNを作成する\nget_money &lt;- function(){self$money &lt;- self$money + 1}\n\n# Gに格納する\nadd_field(G, Act(get_money))\n\n\n\n(3) act_FUNのテスト\nact_FUNは、通常通り呼び出すことで関数を実行します。ただし関数名()のように（）をつけることで実行できることに注意してください。こちらを用いて、きちんと関数が機能しているのかを確認することができます。\n\n# 現状の所持金を確認\nG$money\n\n[1] 1 2 3 4 5\n\n\n\n# 更新し、所持金を確認\nG$get_money()\n\n# 更新後の所持金を確認\nG$money\n\n[1] 2 3 4 5 6\n\n\n\n\n(4) エージェントの選択に関わる関数\n上記の例ではすべてのエージェントの所持金が更新されていましたが、もしも特定のエージェントのみを選択したい場合にはどうしたらよいでしょうか。この場合には、更新対象のエージェントを選択する別の関数を用意し、選択されたエージェントのインデックスをStateに格納したうえで、更新の際にそのStateを参照するということが考えられます。\n\n# エージェントの初期所持金\nmoney &lt;- 1:5\n\n# 更新対象のエージェントを保存するstate\nselected_agent &lt;- c()\n\n# 更新対象のエージェントをランダムに2つ選択\nselect_agent &lt;- function(){sample(1:5, 2)}\n\n# 対象のエージェントの所持金を更新\nadd_money &lt;- function(){\n  self$money[self$selected_agent] &lt;- self$money[self$selected_agent] + 1}\n\n# すべてのフィールドを格納\nG &lt;- Game(State(money), State(selected_agent), Act(select_agent), Act(add_money))",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>6. act_FUN</span>"
     ]
@@ -443,8 +443,8 @@
     "objectID": "act_FUN_JP.html#引数を変えられるようにする",
     "href": "act_FUN_JP.html#引数を変えられるようにする",
     "title": "6. act_FUN",
-    "section": "2 引数を変えられるようにする",
-    "text": "2 引数を変えられるようにする\nABMにおいては、更新のルールを変更することによって、シミュレーションの結果がどのように変化するのかを検証する作業がしばしば行われます。このような機能をact_FUNに持たせるには、大きく二つの方法があります。すなわち（１）引数がほかのフィールドを参照するように設計する、（２）run_Gameの実行時に引数の指定を変えるというものです。以下順番に説明します。\n\n2.1 引数がほかのフィールドを参照するように設計する\n以下の例では、加えられる金額bが、別のフィールドbetaを参照するように設計することで、betaを変えることとadd_moneyの引数が変わることが連動するように設計しています。\n\n# 初期所持金\nmoney &lt;- 1:5\n\n# 加える額の引数\nbeta &lt;- 1\n\n# お金を加える関数\nadd_money &lt;- function(beta = self$beta){self$money &lt;- self$money + beta}\n\n# Gameに格納する\nG &lt;- Game(State(money), State(beta), Act(add_money))\n\nここで、いったんbetaの値をデフォルトの1のままいったん回してみましょう。\n\nG$add_money()\n\n# 資金の状態を確認\nG$money\n\n[1] 2 3 4 5 6\n\n\n次に、$betaの値を2に変え、更新時には+2がされるように設定を変えます。\n\n# betaを2に変える\nG$beta &lt;- 2\n\n# 新しいbetaの値でadd_moneyを実行する\nG$add_money()\n\n# 金額を確認する\nG$money\n\n[1] 4 5 6 7 8\n\n\n\n\n2.2 引数をあらかじめ設定し、run_Gameのplanで指定する\n次の例は、add_moneyにbetaという引数を設定するところまでは同じですが、betaの値をrun_Gameの実行時に、直接planの中で指定する方法です。\n\n# 初期所持金\nmoney &lt;- 1:5\n\n\n# お金を加える関数\nadd_money &lt;- function(beta = 1){self$money &lt;- self$money + beta}\n\n# Gameに格納する\nG &lt;- Game(State(money), Act(add_money))\n\nrun_Gameのプランでadd_moneyを呼び出す際に、beta = 2を引数内に記載します。\n\nG2 &lt;- run_Game(G = G, plan = c(\"add_money(beta = 2)\"), times = 1, verbose = FALSE)\n\n[stop_FUN] \nstop times at 2\n\nThe initial values at time 1 were saved.\n\n# 中身を確認する(money = {3, 4, 4, 6, 7}になる)\nG2$money\n\n[1] 3 4 5 6 7\n\n\nなぜこのような動作が起こるのかというと、run_Gameには、planで指定された引数を解釈し、当該関数の引数をあらかじめ更新する機能が備わっているからです。実際、結果が格納されたG2のadd_moneyの中身を見てみると引数のデフォルトがbeta = 2に書き換えられていることが確認できます。\n\nG2$add_money\n\nfunction (E = E, beta = 2) \n{\n    self$money &lt;- self$money + beta\n}\n&lt;environment: 0x0000020f87ba74d0&gt;",
+    "section": "6.2 引数を変えられるようにする",
+    "text": "6.2 引数を変えられるようにする\nABMにおいては、更新のルールを変更することによって、シミュレーションの結果がどのように変化するのかを検証する作業がしばしば行われます。このような機能をact_FUNに持たせるには、大きく二つの方法があります。すなわち（１）引数がほかのフィールドを参照するように設計する、（２）run_Gameの実行時に引数の指定を変えるというものです。以下順番に説明します。\n\n(1) 引数がほかのフィールドを参照するように設計する\n以下の例では、加えられる金額bが、別のフィールドbetaを参照するように設計することで、betaを変えることとadd_moneyの引数が変わることが連動するように設計しています。\n\n# 初期所持金\nmoney &lt;- 1:5\n\n# 加える額の引数\nbeta &lt;- 1\n\n# お金を加える関数\nadd_money &lt;- function(beta = self$beta){self$money &lt;- self$money + beta}\n\n# Gameに格納する\nG &lt;- Game(State(money), State(beta), Act(add_money))\n\nここで、いったんbetaの値をデフォルトの1のままいったん回してみましょう。\n\nG$add_money()\n\n# 資金の状態を確認\nG$money\n\n[1] 2 3 4 5 6\n\n\n次に、$betaの値を2に変え、更新時には+2がされるように設定を変えます。\n\n# betaを2に変える\nG$beta &lt;- 2\n\n# 新しいbetaの値でadd_moneyを実行する\nG$add_money()\n\n# 金額を確認する\nG$money\n\n[1] 4 5 6 7 8\n\n\n\n\n(2) 引数をあらかじめ設定し、run_Gameのplanで指定する\n次の例は、add_moneyにbetaという引数を設定するところまでは同じですが、betaの値をrun_Gameの実行時に、直接planの中で指定する方法です。\n\n# 初期所持金\nmoney &lt;- 1:5\n\n\n# お金を加える関数\nadd_money &lt;- function(beta = 1){self$money &lt;- self$money + beta}\n\n# Gameに格納する\nG &lt;- Game(State(money), Act(add_money))\n\nrun_Gameのプランでadd_moneyを呼び出す際に、beta = 2を引数内に記載します。\n\nG2 &lt;- run_Game(G = G, plan = c(\"add_money(beta = 2)\"), times = 1, verbose = FALSE)\n\n[stop_FUN] \nstop times at 2\n\nThe initial values at time 1 were saved.\n\n# 中身を確認する(money = {3, 4, 4, 6, 7}になる)\nG2$money\n\n[1] 3 4 5 6 7\n\n\nなぜこのような動作が起こるのかというと、run_Gameには、planで指定された引数を解釈し、当該関数の引数をあらかじめ更新する機能が備わっているからです。実際、結果が格納されたG2のadd_moneyの中身を見てみると引数のデフォルトがbeta = 2に書き換えられていることが確認できます。\n\nG2$add_money\n\nfunction (beta = 2) \n{\n    self$money &lt;- self$money + beta\n}\n&lt;environment: 0x000001e3eedaae40&gt;",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>6. act_FUN</span>"
     ]
@@ -453,8 +453,8 @@
     "objectID": "act_FUN_JP.html#速度を上げるためのアイデア",
     "href": "act_FUN_JP.html#速度を上げるためのアイデア",
     "title": "6. act_FUN",
-    "section": "3 速度を上げるためのアイデア",
-    "text": "3 速度を上げるためのアイデア\nact_FUNはシミュレーション中に何度も呼ばれる関数となるため、更新の速度が速い設計にしておく方が望ましいです。究極的にはRCPPパッケージを用いたC言語で書くという方法が考えられますが、ここではもう少し簡単にできる工夫を３つ紹介したいと思います。これらはいずれも、act_FUNに特有というよりも、Rでの計算を行う場合に一般的に当てはまるものです。\n\n3.1 ベクトル計算する\nRはベクトル計算の方が、個々の計算を行うよりも圧倒的に速くなります。例えば、ここまで用いてきたadd_money関数は、ベクトルmoneyに1を足すというベクトル計算を行っています。一方、同じadd_moneyは以下のようにも書くことができますが、セルごとにループ計算を行うため速度は遅くなります。\n\nadd_money2 &lt;- function(){\n  for(i in seq_len(length(self$money))){\n    self$money[i] &lt;- self$money[i] + 1\n  }\n}\n\n\n\n3.2 メモリをあらかじめ確保する\nもちろん、どうしてもループ処理をしなければならない場面も出てきます。そのような場合には、あらかじめ計算結果を格納する対象のオブジェクトを用意し、メモリを確保したうえでループを行うほうが、計算速度が速くなります。\n以下では、xにiを順に足していく単純な例で、あらかじめメモリを確保せずにループの途中で逐次的に追加していく遅い方法と、メモリを確保したうえで追加する速い方法を並べてみました。\n\n# 遅い例\nadd_i_1 &lt;- function(){\n  # 空のオブジェクトaをつくる\n  x &lt;- c()\n  \n  # xに順にiを足す\n  for(i in 1:5){\n    x &lt;- c(x, i)\n  }\n  \n  # xを更新する\n  self$x &lt;- x\n}\n\n\n# 速い例\nadd_i_2 &lt;- function(){\n  # 空のオブジェクトを格納する最終的な長さ分先に確保しておく\n  x &lt;- rep(0, 5)\n  \n  # xにiを順に足す\n  for(i in 1:5){\n    x[i] &lt;- i\n  }\n  \n  # xを更新する\n  self$x &lt;- x\n}\n\n\n\n3.3 キャッシュする\nシミュレーションの際にはしばしば結果が同じになる計算を何度も行う場面が出てきます。このようなものについては、あらかじめ計算結果を別のフィールドに保存しておくことによって、計算をスキップし、速度を上げることができます。\n以下の例は、毎回エージェントの数をlengthで計算するのではなく、settingsというフィールドに格納しておいて、そちらを参照することによって計算速度を（この例の場合にはごくわずかですが）上げています。\n\n# money\nmoney &lt;- 1:5\n\n# エージェントの数をsettingsというフィールドに格納しておく\nsettings &lt;- list()\nsettings$n_agent &lt;- 5\n\n# ループの際にはこのsettings内のn_agentを参照する\nadd_money &lt;- function(){\n  for(i in seq_len(self$settings$n_agent)){\n    self$money[i] &lt;- self$money[i] + 1\n  }\n}\n\n# Gameに格納\nG &lt;- Game(State(money), State(settings), Act(add_money))\n\n\n\n3.4 do.callでまとめて結合する\nlapply関数などを用いてリスト形式のものをまとめる場合には、do.callを用いると一括して結合を行うことができます。次の例は、個々に生成されたdata.frameをdo.callを用いて、一括してrbindするものです。\n\nact &lt;- function(){\n  # lapplyを用いた計算の例\n  dat_list &lt;- lapply(1:5, function(i){\n    data.frame(x = i, y = i^2)\n  })\n  \n  # do.callを用いて一括結合\n  do.call(rbind, dat_list)\n}\n\n\n【参考】並列計算に関する注意\nこのほか、並列計算を用いるという手法も考えられますが、あとの章で紹介するように、run_Gameにも複数のシミュレーションを並列計算をする機能が実装されており、それぞれの機能が衝突する可能性があるため、基本的にはお勧めしません。ただし、run_Gameをあくまで単体のシミュレーションを行うことしか予定していないならば、並列計算をact_FUNに組み込むことは理論上可能です。",
+    "section": "6.3 速度を上げるためのアイデア",
+    "text": "6.3 速度を上げるためのアイデア\nact_FUNはシミュレーション中に何度も呼ばれる関数となるため、更新の速度が速い設計にしておく方が望ましいです。究極的にはRCPPパッケージを用いたC言語で書くという方法が考えられますが、ここではもう少し簡単にできる工夫を３つ紹介したいと思います。これらはいずれも、act_FUNに特有というよりも、Rでの計算を行う場合に一般的に当てはまるものです。\n\n(1) ベクトル計算する\nRはベクトル計算の方が、個々の計算を行うよりも圧倒的に速くなります。例えば、ここまで用いてきたadd_money関数は、ベクトルmoneyに1を足すというベクトル計算を行っています。一方、同じadd_moneyは以下のようにも書くことができますが、セルごとにループ計算を行うため速度は遅くなります。\n\nadd_money2 &lt;- function(){\n  for(i in seq_len(length(self$money))){\n    self$money[i] &lt;- self$money[i] + 1\n  }\n}\n\n\n\n(2) メモリをあらかじめ確保する\nもちろん、どうしてもループ処理をしなければならない場面も出てきます。そのような場合には、あらかじめ計算結果を格納する対象のオブジェクトを用意し、メモリを確保したうえでループを行うほうが、計算速度が速くなります。\n以下では、xにiを順に足していく単純な例で、あらかじめメモリを確保せずにループの途中で逐次的に追加していく遅い方法と、メモリを確保したうえで追加する速い方法を並べてみました。\n\n# 遅い例\nadd_i_1 &lt;- function(){\n  # 空のオブジェクトaをつくる\n  x &lt;- c()\n  \n  # xに順にiを足す\n  for(i in 1:5){\n    x &lt;- c(x, i)\n  }\n  \n  # xを更新する\n  self$x &lt;- x\n}\n\n\n# 速い例\nadd_i_2 &lt;- function(){\n  # 空のオブジェクトを格納する最終的な長さ分先に確保しておく\n  x &lt;- rep(0, 5)\n  \n  # xにiを順に足す\n  for(i in 1:5){\n    x[i] &lt;- i\n  }\n  \n  # xを更新する\n  self$x &lt;- x\n}\n\n\n\n(3) キャッシュする\nシミュレーションの際にはしばしば結果が同じになる計算を何度も行う場面が出てきます。このようなものについては、あらかじめ計算結果を別のフィールドに保存しておくことによって、計算をスキップし、速度を上げることができます。\n以下の例は、毎回エージェントの数をlengthで計算するのではなく、settingsというフィールドに格納しておいて、そちらを参照することによって計算速度を（この例の場合にはごくわずかですが）上げています。\n\n# money\nmoney &lt;- 1:5\n\n# エージェントの数をsettingsというフィールドに格納しておく\nsettings &lt;- list()\nsettings$n_agent &lt;- 5\n\n# ループの際にはこのsettings内のn_agentを参照する\nadd_money &lt;- function(){\n  for(i in seq_len(self$settings$n_agent)){\n    self$money[i] &lt;- self$money[i] + 1\n  }\n}\n\n# Gameに格納\nG &lt;- Game(State(money), State(settings), Act(add_money))\n\n\n\n(4) do.callでまとめて結合する\nlapply関数などを用いてリスト形式のものをまとめる場合には、do.callを用いると一括して結合を行うことができます。次の例は、個々に生成されたdata.frameをdo.callを用いて、一括してrbindするものです。\n\nact &lt;- function(){\n  # lapplyを用いた計算の例\n  dat_list &lt;- lapply(1:5, function(i){\n    data.frame(x = i, y = i^2)\n  })\n  \n  # do.callを用いて一括結合\n  do.call(rbind, dat_list)\n}\n\n\n\n【参考】並列計算に関する注意\nこのほか、並列計算を用いるという手法も考えられますが、あとの章で紹介するように、run_Gameにも複数のシミュレーションを並列計算をする機能が実装されており、それぞれの機能が衝突する可能性があるため、基本的にはお勧めしません。ただし、run_Gameをあくまで単体のシミュレーションを行うことしか予定していないならば、並列計算をact_FUNに組み込むことは理論上可能です。",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>6. act_FUN</span>"
     ]
@@ -464,7 +464,7 @@
     "href": "run_Game_JP.html",
     "title": "7. run_Game",
     "section": "",
-    "text": "1. run_Gameの基礎とその仕組み",
+    "text": "7.1 run_Gameの基礎とその仕組み",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>7. run_Game</span>"
     ]
@@ -483,8 +483,8 @@
     "objectID": "run_Game_JP.html#速度を上げるための工夫",
     "href": "run_Game_JP.html#速度を上げるための工夫",
     "title": "7. run_Game",
-    "section": "2. 速度を上げるための工夫",
-    "text": "2. 速度を上げるための工夫\n前章ではact_FUNの設計を工夫することで実行速度をあげられることを述べましたが、run_ABMにおいても下記の設定を変えることで速度を上げることができます。\n\n(1)verbose引数をFALSEにする\nrun_Gameを回すと、コンソールにはさまざまな中間メッセージが出てきます。実はこのメッセージの生成そのものは実行を遅くする原因にもなります。verboseをFALSEに変更することで、速度を若干上げることができます。\n\n\n(2)save_log引数をFALSEにする\nデフォルトでは、各回の一連の更新が終わるたびに、すべてのStateおよびActive Stateフィールドは$logに保存されます。しかしもしもこのような中間生成物は分析上不要であり、最終時点での実行結果のみを利用するならば、save_logをFALSEにすることで劇的に更新速度を上げることができます。\n\n\n(3)保存対象を絞る\nもっとも、すべてではないが一部のlogは分析上利用したいという場合もあるでしょう。この場合には、保存対象のフィールド名をfields_to_save引数に文字列で指定することで、保存対象を絞ることができます。特に多くのActive Stateが設定されている場合、各回ごとに多くの計算が発生します。保存対象を絞ることで余分なactive stateを呼び出さないことにつながります。\n\n\n(4)保存のインターバルを指定する\n(3)と組み合わせて、特に長いシミュレーションを行う場合にできる工夫として、すべての時点のlogを取得するのではなく、一定の間隔でのみ保存をすることもできます。すなわち、save_interval引数に1以上の任意の自然数を指定することです。",
+    "section": "7.2 速度を上げるための工夫",
+    "text": "7.2 速度を上げるための工夫\n前章ではact_FUNの設計を工夫することで実行速度をあげられることを述べましたが、run_ABMにおいても下記の設定を変えることで速度を上げることができます。\n\n(1)verbose引数をFALSEにする\nrun_Gameを回すと、コンソールにはさまざまな中間メッセージが出てきます。実はこのメッセージの生成そのものは実行を遅くする原因にもなります。verboseをFALSEに変更することで、速度を若干上げることができます。\n\n\n(2) save_log引数をFALSEにする\nデフォルトでは、各回の一連の更新が終わるたびに、すべてのStateおよびActive Stateフィールドは$logに保存されます。しかしもしもこのような中間生成物は分析上不要であり、最終時点での実行結果のみを利用するならば、save_logをFALSEにすることで劇的に更新速度を上げることができます。\n\n\n(3) 保存対象を絞る\nもっとも、すべてではないが一部のlogは分析上利用したいという場合もあるでしょう。この場合には、保存対象のフィールド名をfields_to_save引数に文字列で指定することで、保存対象を絞ることができます。特に多くのActive Stateが設定されている場合、各回ごとに多くの計算が発生します。保存対象を絞ることで余分なactive stateを呼び出さないことにつながります。\n\n\n(4) 保存のインターバルを指定する\n(3)と組み合わせて、特に長いシミュレーションを行う場合にできる工夫として、すべての時点のlogを取得するのではなく、一定の間隔でのみ保存をすることもできます。すなわち、save_interval引数に1以上の任意の自然数を指定することです。",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>7. run_Game</span>"
     ]
@@ -493,8 +493,8 @@
     "objectID": "run_Game_JP.html#その他のさまざまな機能",
     "href": "run_Game_JP.html#その他のさまざまな機能",
     "title": "7. run_Game",
-    "section": "3. その他のさまざまな機能",
-    "text": "3. その他のさまざまな機能\nrun_ABMにはこのほかにもさまざまな機能が組み込まれています。以下では特にユーザーにとって有用と思われる機能を紹介します。\n\n(1) seed値\nact_FUNがなんらかのランダム性を持つ計算を伴う場合、run_Gameのたびに実行結果が変わります。もしもなんらかの実行結果を再現したい場合には、seedに正の整数値を設定することで、原則的に同じ実行結果を得ることができます。ただしこの機能は、set.seed()にseed値を渡すだけであり、この操作で制御できないランダム性を持つような関数の場合には望むような再現ができない可能性があることに注意してください。なおデフォルトでは、実行時点から任意の整数値を生成しています。ランダム生成されたseed値は、アウトプットのGameオブジェクトの$notes$seedで確認できます。\n\n\n(2) beep\nbeep引数をTRUEにすることで、シミュレーションが終わった時点で、ビープ音を鳴らすことができます。長いシミュレーションをさせている間に、コーヒーを飲んで休憩したい時などに便利です。\n\n\n(3) 中間保存\n特に長いシミュレーションを行う際に、コンピューターが途中でダウンしてしまった場合それまでの計算がすべて無駄になるという悲劇が起こります。このような事態を避ける保険として、その時点での最新版のG'オブジェクトをRDSファイルとして保存しておくことができます。この機能を利用したい場合には、saveRDS_inbetween引数をTRUEにしてください。なお保存するRDSファイル名はRDS_file_name引数で変更することができます。なお注意点として、RDSファイルの保存そのものにも時間がかかるため、この機能を用いる場合には、実行速度も遅くなるというトレードオフがあります。\nなお現状の版では実装されていませんが、近日中に以下の機能についても追加される予定です。\n\n複数のシミュレーションを実行する機能\n並列計算をする機能\nlogファイルをいったん外部退避し最後に結合する機能",
+    "section": "7.3 その他のさまざまな機能",
+    "text": "7.3 その他のさまざまな機能\nrun_ABMにはこのほかにもさまざまな機能が組み込まれています。以下では特にユーザーにとって有用と思われる機能を紹介します。\n\n(1) seed値\nact_FUNがなんらかのランダム性を持つ計算を伴う場合、run_Gameのたびに実行結果が変わります。もしもなんらかの実行結果を再現したい場合には、seedに正の整数値を設定することで、原則的に同じ実行結果を得ることができます。ただしこの機能は、set.seed()にseed値を渡すだけであり、この操作で制御できないランダム性を持つような関数の場合には望むような再現ができない可能性があることに注意してください。なおデフォルトでは、実行時点から任意の整数値を生成しています。ランダム生成されたseed値は、アウトプットのGameオブジェクトの$notes$seedで確認できます。\n\n\n(2) beep\nbeep引数をTRUEにすることで、シミュレーションが終わった時点で、ビープ音を鳴らすことができます。長いシミュレーションをさせている間に、コーヒーを飲んで休憩したい時などに便利です。\n\n\n(3) 中間保存\n特に長いシミュレーションを行う際に、コンピューターが途中でダウンしてしまった場合それまでの計算がすべて無駄になるという悲劇が起こります。このような事態を避ける保険として、その時点での最新版のG'オブジェクトをRDSファイルとして保存しておくことができます。この機能を利用したい場合には、saveRDS_inbetween引数をTRUEにしてください。なお保存するRDSファイル名はRDS_file_name引数で変更することができます。なお注意点として、RDSファイルの保存そのものにも時間がかかるため、この機能を用いる場合には、実行速度も遅くなるというトレードオフがあります。\nなお現状の版では実装されていませんが、近日中に以下の機能についても追加される予定です。\n\n複数のシミュレーションを実行する機能\n並列計算をする機能\nlogファイルをいったん外部退避し最後に結合する機能",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>7. run_Game</span>"
     ]
@@ -504,7 +504,7 @@
     "href": "stop_FUN_JP.html",
     "title": "8. Stop_FUN",
     "section": "",
-    "text": "1. stop_FUNの基礎\n前章ではrun_Gameを一定のシミュレーション回数を回すことで終了していましたが、この他の条件でシミュレーションを終了させることができます。そのような意図で用いられるのがstop_FUNです。この章では、stop_FUNの代表的な条件の作成の仕方を紹介します。\nstop_FUNは、何らかの終了条件が出た場合にTRUEを返すように関数を組みます。次の例は、毎回ランダムにコイントスを行い、表が出たら終了という条件を作成してみました。\n# ライブラリを読み込む\nlibrary(rABM)\nstop_if_TRUE &lt;- function(){sample(c(TRUE, FALSE), size = 1)}\n作成したstop_FUNはStop()で括ったうえで、Gameに格納します。なお、Actにはあまり意味のある動きではありませんが、ひとまず毎回Helloとプリントする関数をダミーとして組み込みました。\n# act_FUN()\nsay_hello &lt;- function(){print(\"Hello!\")}\n\n# Gameに格納する\nG &lt;- Game(Stop(stop_if_TRUE), Act(say_hello))\n使用する際には、rum_Gameのnm_stop_FUNで指定します（結果省略）\nG2 &lt;- run_Game(G, plan = \"say_hello\", nm_stop_FUN = \"stop_if_TRUE\")",
+    "text": "8.1 stop_FUNの基礎\n前章ではrun_Gameを一定のシミュレーション回数を回すことで終了していましたが、この他の条件でシミュレーションを終了させることができます。そのような意図で用いられるのがstop_FUNです。この章では、stop_FUNの代表的な条件の作成の仕方を紹介します。\nstop_FUNは、何らかの終了条件が出た場合にTRUEを返すように関数を組みます。次の例は、毎回ランダムにコイントスを行い、表が出たら終了という条件を作成してみました。\n# ライブラリを読み込む\nlibrary(rABM)\nstop_if_TRUE &lt;- function(){sample(c(TRUE, FALSE), size = 1)}\n作成したstop_FUNはStop()で括ったうえで、Gameに格納します。なお、Actにはあまり意味のある動きではありませんが、ひとまず毎回Helloとプリントする関数をダミーとして組み込みました。\n# act_FUN()\nsay_hello &lt;- function(){print(\"Hello!\")}\n\n# Gameに格納する\nG &lt;- Game(Stop(stop_if_TRUE), Act(say_hello))\n使用する際には、rum_Gameのnm_stop_FUNで指定します（結果省略）\nG2 &lt;- run_Game(G, plan = \"say_hello\", nm_stop_FUN = \"stop_if_TRUE\")",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>8. Stop_FUN</span>"
     ]
@@ -513,8 +513,8 @@
     "objectID": "stop_FUN_JP.html#さまざまな停止条件の作り方",
     "href": "stop_FUN_JP.html#さまざまな停止条件の作り方",
     "title": "8. Stop_FUN",
-    "section": "2. さまざまな停止条件の作り方",
-    "text": "2. さまざまな停止条件の作り方\nここでは、実際の場面でよくつかわれると思われる二つの条件の作り方を紹介します。",
+    "section": "8.2 さまざまな停止条件の作り方",
+    "text": "8.2 さまざまな停止条件の作り方\nここでは、実際の場面でよくつかわれると思われる二つの条件の作り方を紹介します。\n\n(1) 一定の値に達した時\n以下は、5人のうちランダムに選んだ一人のエージェントに1を毎回足していき、一人が10に達したときに更新を止めるようにstop_FUNを設定する例です。\n\n# 5人のエージェントの値のベクトルxを設定する\nx &lt;- rep(0, 5)\n\n# 毎回ランダムに選んだエージェント一人に1を足す\nadd_1_randomly &lt;- function(){\n  # エージェントを選択\n  idx &lt;- sample(1:5, size = 1)\n  # 選ばれたエージェントに1を足す\n  self$x[idx] &lt;- self$x[idx] + 1\n}\n\n# 一人でも10に達した場合に更新を停止する\nis_x_10 &lt;- function(){any(self$x &gt;= 10)}\n\n# Gameに格納\nG &lt;- Game(State(x), Act(add_1_randomly), Stop(is_x_10))\n\n実際に回してみます（結果省略）。\n\nG2 &lt;- run_Game(G = G, plan = \"add_1_randomly\", nm_stop_FUN = \"is_x_10\")\n\n\n\n(2) 一定の値に収束した時\n\n一定の範囲内に値が収まった場合\n次の例は各回１名分選ばれたエージェントの持つ値に全体平均からの差分を足すことで、最終的に収束へ導くact_FUNを実装しています。\n\n# State\nx &lt;- runif(n = 10, min = 0, max = 1)\n\n# act_FUN\nmove_toward_mean &lt;- function(mu = 0.2){\n  idx &lt;- sample(seq_along(self$x), size = 1)\n  m &lt;- mean(self$x)\n  self$x[idx] &lt;- self$x[idx] + mu * (m - self$x[idx])\n}\n\n# Gに格納する\nG &lt;- Game(State(x), Act(move_toward_mean))\n\nここで例としてすべてのエージェントの値が平均からalpha以内になった場合に停止するような条件を作成します。なおalphaのデフォルト値は0.25とします。なお今回のような単純な例では本来不要ですが、実際のABMでは収束しない場合もありえます。無限に更新が続くことを防ぐために、最大の更新時間に対する制約も一緒に入れておく方が安全です。ここでは300以上は回らないような制約を入れました。\n\n# stop_FUN\nall_within_alpha &lt;- function(alpha = 0.25){\n  diff(range(self$x)) &lt; alpha || self$time &gt;= 300\n}\n\n# Gに格納\nadd_field(G, Stop(all_within_alpha))\n\nなお、planと同様にnm_within_alphaについても()内にその時々の条件を指定することができます（結果省略）\n\nG2 &lt;- run_Game(\n  G,\n  plan = \"move_toward_mean(mu = 0.2)\",\n  nm_stop_FUN = \"all_within_alpha(alpha = 0.25)\"\n)\n\n\n\n一定の範囲内に値が収まる状況が一定以上続いたとき\n先ほどの例を少し発展させると、値が一度だけ一定範囲内に入った場合ではなく、その状態が一定期間続いたときにはじめて収束と判定したい場合があります。\n\nこのような場合には、act_FUN の中で各時点の状態が条件を満たしているかどうかを評価し、その結果を満たした回数を State に記録しておきます。そして stop_FUN では、その条件が連続回数があらかじめ定めた閾値に達した時にシミュレーションを停止させます。\n\n# State\nx &lt;- runif(n = 10, min = 0, max = 1)\n\n# 条件を連続して満たした回数を記録するカウンタ\nwithin_alpha_count &lt;- 0\n\n# act_FUN\nmove_toward_mean &lt;- function(mu = 0.2){\n  idx &lt;- sample(seq_along(self$x), size = 1)\n  m &lt;- mean(self$x)\n  self$x[idx] &lt;- self$x[idx] + mu * (m - self$x[idx])\n}\n\n# 条件を満たした回数を更新する act_FUN\neval_within_alpha &lt;- function(alpha = 0.25){\n  if(diff(range(self$x)) &lt; alpha){\n    self$within_alpha_count &lt;- self$within_alpha_count + 1\n  } else {\n    self$within_alpha_count &lt;- 0\n  }\n}\n\n# stop_FUN\nshould_stop &lt;- function(tol = 10){\n  self$within_alpha_count &gt;= tol || self$time &gt;= 300\n}\n\n# Gに格納する\nG &lt;- Game(\n  State(x),\n  State(within_alpha_count),\n  Act(move_toward_mean),\n  Act(eval_within_alpha),\n  Stop(should_stop)\n)\n\n実際に回してみます（結果省略）\n\nG2 &lt;- run_Game(G = G, \n               plan = c(\"move_toward_mean\", \"eval_within_alpha\"), \n               nm_stop_FUN = \"should_stop\")",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>8. Stop_FUN</span>"
     ]
@@ -564,7 +564,7 @@
     "href": "report_FUN_JP.html#三つの使い方",
     "title": "9. report_FUN",
     "section": "9.2 三つの使い方",
-    "text": "9.2 三つの使い方\n\n9.2.1. 計算結果を出力する\n今回のゲームの場合、シミュレーションの結果すべてのエージェントのスコアが平均値以下からalpha以上離れていないことが条件です。では現状の各アクターの標準編偏差はどのような値をとっているのでしょうか。現状のxの値の標準偏差を計算するreport_FUNを作成してみたいと思います。\n\n# report_FUN\nreport_sd &lt;- function(){sd(self$x)}\n\n# 計算が終わっているG2オブジェクトに付加する\nadd_field(G2, Report(report_sd))\n\n# 実行してみる\nG2$report_sd()\n\n[1] 0.07327834\n\n\nなお、この値はそのまま別のオブジェクトにも格納できるので、さらなる分析にも使用することができます。\n\n\n9.2.2 プロットを出力する\nreport_FUNにplotをする機能を組み込むことも可能です。以下の例は、xの分布をヒストグラムで出力する関数です。同時にxの平均と標準偏差を出力します。\nなお、このような使い方をする場合にはplot_FUNと事実上機能はほとんど同じになります。概念上、plot_FUNはプロットを主たる出力とするいっぽう、report_FUNは主な出力は要約統計であり、plotは補助的な位置づけとして関数を組んでおくと、実務上使いやすくなるのではないかと思います。\n\n# report_FUN\nreport_dist &lt;- function(){\n  # 現状のヒストグラムを表示する。\n  hist(self$x, main = paste0(\"time = \", self$time), xlim = c(0, 1))\n  \n  # 平均と標準偏差を出力する\n  list(mean = mean(self$x),\n       sd = sd(self$x))\n}\n\n# G2に付加する\nadd_field(G2, Report(report_dist))\n\n# 実行する\nG2$report_dist()\n\n\n\n\n\n\n\n\n$mean\n[1] 0.605386\n\n$sd\n[1] 0.07327834",
+    "text": "9.2 三つの使い方\n\n(1) 計算結果を出力する\n今回のゲームの場合、シミュレーションの結果すべてのエージェントのスコアが平均値以下からalpha以上離れていないことが条件です。では現状の各アクターの標準編偏差はどのような値をとっているのでしょうか。現状のxの値の標準偏差を計算するreport_FUNを作成してみたいと思います。\n\n# report_FUN\nreport_sd &lt;- function(){sd(self$x)}\n\n# 計算が終わっているG2オブジェクトに付加する\nadd_field(G2, Report(report_sd))\n\n# 実行してみる\nG2$report_sd()\n\n[1] 0.07327834\n\n\nなお、この値はそのまま別のオブジェクトにも格納できるので、さらなる分析にも使用することができます。\n\n\n(2) プロットを出力する\nreport_FUNにplotをする機能を組み込むことも可能です。以下の例は、xの分布をヒストグラムで出力する関数です。同時にxの平均と標準偏差を出力します。\nなお、このような使い方をする場合にはplot_FUNと事実上機能はほとんど同じになります。概念上、plot_FUNはプロットを主たる出力とするいっぽう、report_FUNは主な出力は要約統計であり、plotは補助的な位置づけとして関数を組んでおくと、実務上使いやすくなるのではないかと思います。\n\n# report_FUN\nreport_dist &lt;- function(){\n  # 現状のヒストグラムを表示する。\n  hist(self$x, main = paste0(\"time = \", self$time), xlim = c(0, 1))\n  \n  # 平均と標準偏差を出力する\n  list(mean = mean(self$x),\n       sd = sd(self$x))\n}\n\n# G2に付加する\nadd_field(G2, Report(report_dist))\n\n# 実行する\nG2$report_dist()\n\n\n\n\n\n\n\n\n$mean\n[1] 0.605386\n\n$sd\n[1] 0.07327834",
     "crumbs": [
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>9. report_FUN</span>"
     ]
@@ -573,8 +573,8 @@
     "objectID": "report_FUN_JP.html#logと組み合わせる",
     "href": "report_FUN_JP.html#logと組み合わせる",
     "title": "9. report_FUN",
-    "section": "9.2.3 logと組み合わせる",
-    "text": "9.2.3 logと組み合わせる\nABMにおいては、StateやActive Stateの値が時系列的にどのような変化をするのかは、重要な観察ポイントとなります。logからそれぞれの値をapply関数などを使って取得することは可能ですが、rABMにはよりユーザーが簡便に使いやすいvalue_ofという関数を用意しています。引数logには取得したいlogのインデックスを書けばその値、allと書けばすべてのログを取得します。return_FUNはデフォルトではNULLですが、何らかの関数を書けば、それぞれのlogから取得した各時点のデータにreturn_FUNを適用します（出力省略）。\n\nvalue_of(G = G2, field_name = \"x\", log = \"all\", return_FUN = sd)\n\nこの関数を用いて、xの標準偏差の時系列的な変化を出力するreport_FUNを作ってみましょう（出力省略）\n\nreport_sd_log &lt;- function(){\n  # ログの値を取得する\n  x_sd &lt;- value_of(G = self, field_name = \"x\", log = \"all\", return_FUN = sd)\n  time_log  &lt;- value_of(G = self, field_name = \"time\", log = \"all\")\n  # ベクトル化する\n  x_sd_vect &lt;- unlist(x_log)\n  time &lt;- unlist(time_log)\n  \n  # プロット\n  plot(y = x_sd_vect, x = time, type = \"l\", \n       ylab = \"SD\", xlab = \"time\", main = \"x\")\n  \n  # 取得した標準偏差を出力する\n  data.frame(time = time,\n             sd = x_sd_vect)\n}\n\n# G2に格納する\nadd_field(G2, Report(report_sd_log))\n\n# 実行する\nG2$report_sd_log()\n\nなお、ここまで説明の都合上更新後のG2に作成したreport_FUNを格納してきましたが、言うまでもなく、実際の使用時には、更新前のGの方にあらかじめ格納しておく方が便利です。",
+    "section": "(3) logと組み合わせる",
+    "text": "(3) logと組み合わせる\nABMにおいては、StateやActive Stateの値が時系列的にどのような変化をするのかは、重要な観察ポイントとなります。logからそれぞれの値をapply関数などを使って取得することは可能ですが、rABMにはよりユーザーが簡便に使いやすいvalue_ofという関数を用意しています。引数logには取得したいlogのインデックスを書けばその値、allと書けばすべてのログを取得します。return_FUNはデフォルトではNULLですが、何らかの関数を書けば、それぞれのlogから取得した各時点のデータにreturn_FUNを適用します（出力省略）。\n\nvalue_of(G = G2, field_name = \"x\", log = \"all\", return_FUN = sd)\n\nこの関数を用いて、xの標準偏差の時系列的な変化を出力するreport_FUNを作ってみましょう（出力省略）\n\nreport_sd_log &lt;- function(){\n  # ログの値を取得する\n  x_sd &lt;- value_of(G = self, field_name = \"x\", log = \"all\", return_FUN = sd)\n  time_log  &lt;- value_of(G = self, field_name = \"time\", log = \"all\")\n  # ベクトル化する\n  x_sd_vect &lt;- unlist(x_log)\n  time &lt;- unlist(time_log)\n  \n  # プロット\n  plot(y = x_sd_vect, x = time, type = \"l\", \n       ylab = \"SD\", xlab = \"time\", main = \"x\")\n  \n  # 取得した標準偏差を出力する\n  data.frame(time = time,\n             sd = x_sd_vect)\n}\n\n# G2に格納する\nadd_field(G2, Report(report_sd_log))\n\n# 実行する\nG2$report_sd_log()\n\nなお、ここまで説明の都合上更新後のG2に作成したreport_FUNを格納してきましたが、言うまでもなく、実際の使用時には、更新前のGの方にあらかじめ格納しておく方が便利です。",
     "crumbs": [
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>9. report_FUN</span>"
     ]
@@ -584,7 +584,7 @@
     "href": "Series_JP.html",
     "title": "10. Series",
     "section": "",
-    "text": "1. Seriesについて",
+    "text": "10.1 Seriesについて",
     "crumbs": [
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>10. Series</span>"
     ]
@@ -657,6 +657,106 @@
     "text": "1.2 rABMの使用の基礎\nrABMを用いたシミュレーションの実行は、以下の3つのステップからなると理解できます。\n\nエージェントの状態と、その更新を行うためのオブジェクトを設定する\nそれらのオブジェクトをGameオブジェクトに格納する\nシミュレーションを実行する\n\nただし、ステップ1とステップ2は、各オブジェクトごとに順に行うことも可能です。複雑なABMを実装する場合には、そのように段階的に実装するほうが理解しやすいでしょう。\n以下では、このステップに従い、基本的な手順を理解するために、簡単な例を実装します。\n\n年齢がそれぞれ{1, 2, 3, 4, 5}歳の5人のエージェントがいる\nエージェントは更新のたびに1歳ずつ年齢が増加する\n\n\nステップ1: 状態と更新を表現するオブジェクトを作成する\nまず各エージェントの年齢をageというベクトルで表現します。\n\nage &lt;- c(1, 2, 3, 4, 5)\n\n次に「更新のたびに年齢が1増える」という処理を関数として定義します。ここでは元のオブジェクトに1を加える処理をget_olderとして定義します。\nなお、Gameオブジェクトを自己参照する場合には、selfを使用します。この点に関してはあとの章で詳しく説明します。\n\nget_older &lt;- function(){\n  self$age &lt;- self$age + 1\n  }\n\n\n\nステップ2: Gameオブジェクトに格納する\n次にageとget_olderを、rABMでシミュレーションを実行するためのオブジェクトであるGameに格納します。Gameオブジェクトを作る際には、それぞれのオブジェクトがどのタイプのフィールドかを指定する必要があります。\n\nage：状態を表すstateフィールド\nget_older：更新を行うact_FUNフィールド\n\n\nG &lt;- Game(State(age), Act(get_older))\n\nなお、ここではフィールドをまとめて追加しましたが、以下のように一つずつ追加することも可能です。\n\n# 空のGameオブジェクトを作成\nG &lt;- Game()\n\n# ageを追加\nadd_field(G, State(age))\n\n# get_olderを追加\nadd_field(G, Act(get_older))\n\n作成されたGameオブジェクトを表示すると、オブジェクトの内容と、メタデータが確認できます。\n\nG\n\n&lt;Game&gt;\n$age(state)\n[1] 1 2 3 4 5\n\n$get_older(act_FUN)\nfunction (E = E) \n{\n    self$age &lt;- self$age + 1\n}\n\n------------------- \ntime         : 1 \nn of logs    : 0 \nn of notes   : 0 \nn of fields  : 2 \n state       : age\n act_FUN     : get_older\n------------------- \n\n\n\n\nステップ3: シミュレーションの実行\nGameオブジェクトに設定したシミュレーションは、run_Game()関数で実行できます。実際に使用する更新関数（act_FUN）の名前をplan引数に設定します。\n以下では、1回分の更新をtimes引数で指定しています。\n\nG2 &lt;- run_Game(G = G, plan = \"get_older\", times = 1)\n\n[plan] \nget_older\n \n[stop_FUN] \nstop times at 2\n\nThe initial values at time 1 were saved.\n\nReady to run......\n   start time  : 1\n   current time: 2\nFinished at time 2 \n\nSimulation took 00:00:00.009 (hh:mm:ss.mmm)\n\n\n結果が保存されたオブジェクトG2のageフィールドを確認します。\n\nG2$age\n\n[1] 2 3 4 5 6\n\n\n1回分の更新が反映されていることが確認できます。たとえば、1番目のエージェントの年齢は初期値の1歳から2歳に変化しています。\nなお、Rではインデックスは１から始まります。このため、Gameにおいても初期状態の時刻はtime = 1とカウントされ、1回更新後はtime = 2となります。\nこのようにrABMでは、更新用の関数をact_FUNとして定義し、それをrun_Game()`で実行することでシミュレーションを行います。\n\n\n【重要】Gオブジェクトのコピーについて\nrABMのGameオブジェクトは、R6というクラスを使用しています。このクラスのオブジェクトは、通常の方法でコピーしてもその内部で参照先が共通となります。具体的には、通常の方法でコピーをすると以下のような動作が起こります。\n\n# G1を作成する\nx &lt;- 1\nG1 &lt;- Game(State(x))\n\n# G1をG2に通常の方法でコピーする\nG2 &lt;- G1\n\n# G2のxを2に変更する\nG2$x &lt;- 2\n\n# すると共通の参照先をもつG1$xの値も2に変わってしまう。\nG2$x\n\n[1] 2\n\n\nこのような動作は、多くの通常のRユーザーにとって直感に反するものとなります。問題を避けるために、コピーをする際には、Gameをdeep copy（すなわち参照先を切り離したコピー）するcopy_obj関数を使用してください。\n\n# G1を作成する\nx &lt;- 1\nG1 &lt;- Game(State(x))\n\n# copy_objを用いてコピーする\nG2 &lt;- copy_obj(G1)\n\n# G2のxを2にする\nG2$x &lt;- 2\n\n# G1$xは元のまま1\nG1$x\n\n[1] 1",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>1. Quick Start Guide</span>"
+    ]
+  },
+  {
+    "objectID": "model_library_JP.html#heros-and-cowardsモデル",
+    "href": "model_library_JP.html#heros-and-cowardsモデル",
+    "title": "2. モデルライブラリの使い方",
+    "section": "",
+    "text": "(1) モデルの概要\nこのモデルには3つのタイプのエージェントがおり、タイプ（agent_type）ごとに行動が変わります。\n\n英雄 hero（type = 1)：味方と敵の間に割って入るように行動する（具体的には敵と味方の中間点を目標地点とする）\n臆病者 coward（type = 0)：敵に対して味方の後ろにから身を隠すように行動する（具体的には敵と味方の中間地点を味方の方向に折り返した地点を目標点とする）\n変わり者 mixed（type = 9）：毎回の更新ごとに英雄と臆病者のいずれかの行動パターンにランダムに変化する。\n\nなおそれぞれのエージェントが他のどのエージェントをそれぞれ「友人」「敵」とみなすかは、モデルのセットアップ時点でランダムに定められます。たとえば、たとえば、エージェント1にとっての味方はエージェント3、敵はエージェント6といった具合です。\nユーザーが主に設定できるパラメーターは以下の通りです。\n\nエージェントの数（n)\n各エージェントの動きの速度（speed)\nエージェントが動きまわる空間の最大値（x_max & y_max）\nシミュレーションの長さ（sim_time）\n\nこのように、きわめて単純なシミュレーションでありながら毎回ランダムに設定される初期値ごとに、エージェントが極めて多様な動きをすることがから、複雑系シミュレーションを体験するためのよい教材として知られています。\n\n\n(2) モデルを回す\nはじめにrABMを読み込みます。\n\nlibrary(rABM)\n\nそれでは実際にモデルを回してみましょう。シミュレーションの長さ以外は、いったんデフォルトの値のままモデルを回してみたいと思います。なおヘルプファイルを確認していただければ明らかですが（?model_hero_cowardとコンソールでタイプする）、デフォルト値は以下の通りです。\n\nエージェント数（n)：30\n速度（speed)：0.1\nX軸の境界値（x_max)：1\ny軸の境界値（y_max)：1\nシミュレーションの長さ（sim_time）: 300\n\nなお、それ以外の以下の設定はデフォルトでは自動的に定められます（カッコ内は引数を示します）。後で説明するように、ユーザーはこれらの値も任意で設定することができます。\n\nエージェントのタイプ（agent_type)：英雄と臆病者の割合が半々\nエージェントの初期の位置（init_posit）：0以上、X軸・Y軸それぞれの最大値以内の範囲でランダムに配置\nそれぞれのエージェントにとっての味方と敵（relationship）：初期にランダムに設定\nシード値（seed）：ランダム変数のシード値\n\n実際にモデルを回してみます。\n\nG2 &lt;- model_hero_coward(sim_time = 10)\n\nこのように、モデル・ライブラリではデフォルト設定のままでもモデルが実行できるよう設計されています。まずは動作を確認し、その後でパラメーターを変更して挙動を観察するのが基本的な使い方です。\n\n\n(3) 結果を確認する\nモデル・ライブラリの出力は、通常2つのGameオブジェクトを含むリストです。$G_initはシミュレーションを回す前、$G_finishedは実行後の状態を示します。\nここでは、実行後のオブジェクトを G としてコピーし、中身を確認します。\n\nG &lt;- copy_obj(G2$G_finished)\n\n結果の確認では、まずオブジェクトを表示し、利用可能な plot_FUN と summary_FUN を確認するのが有効です（出力省略）\n\nG\n\nこのモデルでは、\n\nplot_FUN：plot_spce, plot_relationship\nsummary_FUN：trace_posit_mean, trace_posit_sd\n\nが用意されています。\nまず、現在のエージェント位置を可視化してみます。\n\nG$plot_space()\n\n\n\n\n\n\n\n\nまたエージェント間の平均距離がどのように変化してきたのかをtrace_posit_meanで見てみましょう。\n\nposit_mean &lt;- G$trace_posit_mean()\n\n\n\n\n\n\n\n\nなお、今回呼び出したsummary_FUNには、プロットだけではなく、何らかのオブジェクトの出力を伴うように設定することが想定されています。この出力結果は、その後のさらなる分析に使用することができます。今回の場合、出力を付加したposit_meanには、各時点におけるエージェントの位置の中間地点の記録されています。\n\nposit_mean\n\n            x         y\nt1  0.5366394 0.5131643\nt2  0.5272327 0.5050073\nt3  0.5089099 0.5006822\nt4  0.4883705 0.4953143\nt5  0.4786521 0.4916636\nt6  0.4557584 0.4930384\nt7  0.4283791 0.4919579\nt8  0.4002341 0.5104515\nt9  0.4010746 0.5183030\nt10 0.3940397 0.5367430\nt11 0.3954333 0.5538190\n\n\n\n\n(4) 動画でプロットを見る\nシミュレーション後のGameオブジェクトには、それぞれの時点におけるstate（および後の章で解説するactive state）フィールドの結果が、$logの下にネストされる形で保存されています。各時点のstateをプロットしたい場合には、下記のようにnameにplot_FUNの名前、logに見たい時点を指定することで呼び出せます。\n\nplot(G, name = \"plot_space\", log = 5)\n\nprinting: 1/1\n\n\n\n\n\n\n\n\n\nけれども、これらを一つ一つ確認するのは大変です。そこで、プロットをGIFファイルとして出力し動画としてみることが考えられます。ここではgifskiというパッケージの関数を内部で用いますので、まだ手元のRにインストールされていない場合には、下記の手順で先にインストールしてください。\n\ninstall.packages(\"gifski\")\n\n動画を作成するには、animate_log関数を用います。なお、各画像の表示の速度はdelayパラメーターで調整します。また、出力されたGIFファイルは、デフォルトでは、temp.gifという名前でディレクトリに保存されますが、file引数で変更できます。\n\nanimate_log(G = G, name = \"plot_space\", delay = 0.3)\n\n\n\n(5) 設定を変える\nここまで読んだユーザーの方は、さまざまなほかの設定を試してみたくなることでしょう。たとえば、エージェントのタイプの割合を変えたらどうなるのだろうか、シード値を変えてみたら、関係を任意のものに変えてみたならば・・・などなど。\n前述の通り、これらの値は引数で変えることができます。ただしモデルで想定されている投入値の形式とずれてしまわないように、いったん出力されたモデルで、操作したいフィールドの値がどのようになっているのかを確認することをお勧めします。たとえば、エージェントのタイプに関しては、現状のモデルではこのようになっています。\n\nG$agent_type\n\n 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 \n 1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  0  0  0  0  0  0  0  0  0  0  0 \n27 28 29 30 \n 0  0  0  0 \n\n\nしたがって、エージェントのタイプを任意のものに変えたい場合には、1と0の数を変えればよいことが分かります。以下では、英雄の数を20、臆病者の数を10に変更してみます。\n\nagent_type_new &lt;- c(rep(1, 20), rep(0, 10))\n\nそのうえで、この新たなタイプの割合でシミュレーションを回してみましょう。\n\nG3 &lt;- model_hero_coward(n = 30, \n                        agent_type = agent_type_new, \n                        sim_time = 10)\n\nあとはここまで見たように、シミュレーションの結果がどのように変わるのかを観察してみてください。\n\n\n補遺：mixedタイプを加える\n前述の通り、このモデルでは特殊なタイプとして変わり者 （=9）を加えることができます。その設定の方法は以下の例のようになります。ここでは、英雄、臆病者、変わり者を1/3ずつ設定しました。\n\n# mixedタイプを設定\nagent_type_mixed &lt;- c(rep(1, 10), rep(0, 10), rep(9, 10))\n\n# モデルに組み込む\nG4 &lt;- model_hero_coward(n = 30, \n                        agent_type = agent_type_mixed, \n                        sim_time = 10)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>2. モデルライブラリの使い方</span>"
+    ]
+  },
+  {
+    "objectID": "rABM_classes_JP.html#フィールドの定義に関するオブジェクト",
+    "href": "rABM_classes_JP.html#フィールドの定義に関するオブジェクト",
+    "title": "3. rABMオブジェクトの構成",
+    "section": "",
+    "text": "フィールド・カテゴリーの一覧\nrABMではそれぞれのオブジェクトをGameオブジェクトのフィールドの構成要素として格納する際に、そのオブジェクトがどのような役割を果たす想定で作成されたものなのかを定義する必要があります。rABMで使用するフィールド・カテゴリーは以下の5つです。\n\n\n\n\n\n\n\n\n\nカテゴリー\n役割\n定義用関数\n投入可能な型\n\n\n\n\nstate\nエージェントの状態を示す\nState()\n関数以外\n\n\nactive state\nエージェントの状態を示す。ただし、他のstateやactive stateに応じて変化する\nActive()\n関数\n\n\nact_FUN\nエージェントの状態を更新する\nAct()\n関数\n\n\nstop_FUN\nシミュレーションを終了する\nStop()\n関数\n\n\nplot_FUN\nエージェントの状態をプロットする\nPlot()\n関数\n\n\nreport_FUN\n状態を要約する\nReport()\n関数\n\n\n\nこの一覧で明らかなように、stateフィールド以外は投入用のオブジェクトが関数となります。\n\n【参考】定義用の関数の役割\nここまでの事例では、それぞれのオブジェクトを定義用関数でくくってフィールドを定義し、Gameオブジェクトに格納してきました。この定義用関数が行っている作業は実際には非常に単純で、投入オブジェクトを、$name、$value、$categoryの三つの要素からなるリストに変換しているだけです。以下の例で実際に確認してみましょう。\n\n# ライブラリを読み込んでおく\nlibrary(rABM)\n\n\n# オブジェクトを作成する\nx &lt;- 1\n\n# xをstateフィールドとして定義し、オブジェクトyに付加する\ny &lt;- State(x)\n\n# yの構造を見てみる\nstr(y)\n\nList of 3\n $ value   : num 1\n $ name    : chr \"x\"\n $ category: chr \"state\"\n - attr(*, \"class\")= chr \"ABM_Field\"\n\n\nつまり、Gameには実際にはこのリスト化された形式のオブジェクトを投入し、さらにGameの内部で追加の処理がされるという仕組みとなっています。したがって原理上、上記の例の場合、Game(y)のように投入してもGame(State(x))と投入した場合と同じ効果が得られます。\nなお、オブジェクトの名前はデフォルトではもとのオブジェクト名が引き継がれるますが、別名を指定することもできます。これは何らかの理由で、元のオブジェクト名を使用したくない場合には便利です。\n\n# xではなく、wという名前を指定する\nz &lt;- State(x, name = \"w\")\n\n# zの中身をみてみると、$nameがwに変わっていることが分かる。\nstr(z)\n\nList of 3\n $ value   : num 1\n $ name    : chr \"w\"\n $ category: chr \"state\"\n - attr(*, \"class\")= chr \"ABM_Field\"\n\n\n\n\n【参考】特殊オブジェクトZip\n複数のフィールドオブジェクトをまとめて一つのオブジェクトとするような特殊なオブジェクトとしてZipが用意されています。これは通常は使用することはありませんが、何らかの一連のスクリプトを関数化する際には有用です。以下では、xとyをstateとして定義したオブジェクトをまとめてZipオブジェクト化する例です。\n\nx &lt;- 1\ny &lt;- 2\nz &lt;- Zip(State(x), State(y))\n\nこのZipオブジェクトは、Gameにそのまま格納できます。Game内部でZipをもとのオブジェクトに仕分ける仕組みがあるからです。つまり以下の二つの例は結果が同じになります。\n\n# xとyを定義する\nx &lt;- 1\ny &lt;- 2\n\n# 通常通りxとyをそれぞれstateとして格納する\nG1 &lt;- Game(State(x), State(y))\n\n# いったんZipオブジェクトを作成し、格納する\nz &lt;- Zip(State(x), State(y))\nG2 &lt;- Game(z)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>3. rABMオブジェクトの構成</span>"
+    ]
+  },
+  {
+    "objectID": "rABM_classes_JP.html#abmを実行するためのオブジェクト",
+    "href": "rABM_classes_JP.html#abmを実行するためのオブジェクト",
+    "title": "3. rABMオブジェクトの構成",
+    "section": "3.2 ABMを実行するためのオブジェクト",
+    "text": "3.2 ABMを実行するためのオブジェクト\nABMを実行するためのオブジェクトには、以下の二つがあります。\n\n\n\n\n\n\n\n\nオブジェクト\n役割\n定義用関数\n\n\n\n\nGame\nシミュレーションの実行\nGame()\n\n\nSeries\nGameオブジェクトの実行を含む一連のスクリプトをチャンク化し、まとめて実行する\nSeries()\n\n\nChunk\nSeriesオブジェクトを構成するスクリプトの単位\nChunk()\n\n\n\nGameはすでに何度も出てきていますが、シミュレーションを実行するための基本単位となるオブジェクトです。rABMの核となります。\nSeriesは、Chunkとして分割された一連のスクリプトを一括して実行します。たとえば、実際の分析では「フィールドを設定→シミュレーションの実行→実行結果の取得・分析」という一連の作業を行いますが、複数回のシミュレーションを行う際には、何度も同じスクリプトを書くのは面倒です。そこで、上記の操作をSeriesとして定義してしまうことで、一括して一連の作業をおこなえるようにできます。",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>3. rABMオブジェクトの構成</span>"
+    ]
+  },
+  {
+    "objectID": "rABM_classes_JP.html#自己参照selfの役割",
+    "href": "rABM_classes_JP.html#自己参照selfの役割",
+    "title": "3. rABMオブジェクトの構成",
+    "section": "3.3 自己参照selfの役割",
+    "text": "3.3 自己参照selfの役割\nrABMにおいてもっともわかりにくい概念があるとすれば、ここまでの関数でしばしば出てきた自己参照selfだと思います。この節ではselfについて、あまりテクニカルにはならず、rABMを実行する際に必要な限りにおいて必要な点について解説したいと思います。\n\n(1) 関数のイメージ\n通常のRの関数は、以下の例のように、外部オブジェクトをインプットとして投入し、何らかの加工を施し、アウトプットを外部に出すように定義されています。\n\n# 投入値に1を加える関数\nadd_1 &lt;- function(x){\n  x + 1\n}\n\n# 以下の答えは2\nadd_1(x = 1)\n\n[1] 2\n\n\n一方、rABMで使用する関数は、インプットとアウトプットの対象がGameの内部にあり、かつ関数そのものもGameに組み込まれています。\n\n# xの初期値\nx &lt;- 1\n\n# 自身のフィールドxに対して1を加える関数\nself_add_1 &lt;- function(){\n  self$x &lt;- self$x + 1\n}\n\n# Gameを定義\nG &lt;- Game(State(x), Act(self_add_1))\n\n# self_add_1を実行\nG$self_add_1()\n\n# xが2に更新されている\nG$x\n\n[1] 2\n\n\n図1　関数の動作イメージの違い\n以上の違いをあらためて図示すると図1のようになります。Gameに投入した関数はGameの内部のフィールドxに対して直接働きかけます。この時のGame自身のことがselfと表現されていることになります。\n\n\n(2) 実践的なアドバイス\n以上がrABMで用いる関数のイメージですが、これだけではなかなかどのタイミングでselfを書くべきなのか、なかなか感覚がつかみにくいと思います。そこで、より実践的に、もっとも単純な工夫をお伝えしたいと思います。それは、自身で関数を書く前に次のようなことを行うことです。\n\nいったんそこまで作成したGameオブジェクトをself &lt;- Gと代入したうえで関数を書く\n\nこうすることで、具体的なフィールドを参照しながら関数を書き、テストをすることができます。ごく簡単な例で、このことを順を追って説明します。\nはじめにstateに当たるオブジェクトを作成し、いったん含んだGameオブジェクトを作成してしまいます。rABMを実際に使用するにあたって、基本的にはstateから作り始めるのがもっとも容易です。\n\n# xを作成する\nx &lt;- 1\n\n# xをstateとしてもつGameオブジェクトを作成する\nG &lt;- Game(State(x))\n\nつぎに、このGを仮のオブジェクトself に代入します。こうすることで、selfがGと同じフィールドを内部で参照するようになります。\n\nself &lt;- G\n\nあとは、あらたにGに投入したい関数を作成し、Gに追加します。selfの中身を見れば、何をフィールドと持っているのか直接確認することができるため、関数を格段に作成しやすくなります。\n\n# Act用の関数を作成する\nself_add_1 &lt;- function(){\n  self$x &lt;- self$x + 1\n}\n\n# Gに追加する\nadd_field(G = G, Act(self_add_1))\n\n# 仮に作成しておいたselfを消しておく\nrm(self)\n\n\n\n【参考】R6オブジェクト\nここでは、rABMを使用するうえで必要な知識に絞って概説的にselfについて説明しましたが、より原理的に知りたい人は、RのR6クラスについて調べてみてください（https://r6.r-lib.org/articles/Introduction.html）。Gameオブジェクトは実はこのR6クラスオブジェクトそのものです。rABMはR6クラスの仕組みをABMに応用することで、フレームワークを作っています。",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>3. rABMオブジェクトの構成</span>"
+    ]
+  },
+  {
+    "objectID": "state_JP.html#active-state",
+    "href": "state_JP.html#active-state",
+    "title": "4. State & Active State",
+    "section": "4.2 Active State",
+    "text": "4.2 Active State\n\n(1) Active Stateとはなにか\nActive stateは、外部からはstateのようにアクセスできますが、定義上は関数を持っています。つまり参照されるたびに、内部で関数が走りその結果が返される仕組みです。\n具体例として、Body Mass Index (BMI)について考えてみましょう。BMIは、体重と身長から計算される肥満度を示す指数です。BMIの式は以下の通りです。\n\\[\nBMI = \\frac{weight (kg)}{height (m)^2}\n\\]\nつまりBMIは身長と体重さえわかれば、自動的に計算が可能な指数です。BMIをactive stateとして実装してみましょう。\n\n# BMIを関数で表現する\nbmi &lt;- function(){\n  self$weight/self$height^2\n}\n\n# bmiをactive stateとして追加する\nadd_field(G, Active(bmi))\n\n# BMIを見てみる\nG$bmi\n\n [1] 26.50276 21.65032 26.46634 23.13305 24.40561 20.95027 22.73042 17.28472\n [9] 17.09904 11.59473\n\n\nこのようにBMIを関数として表現してあることによって、もしもエージェントの伸長や体重が変化した場合に、それに連動してBMIも変動するという実装が可能になります。つまり、たとえばシミュレーションの更新する対象のフィールドは、身長と体重に絞ればよく、BMIまで更新する必要がなくなるということになります。\n\n\n(2) Active stateの実行速度に関して\nActive stateは非常に便利ですが、特に計算速度を重視する場合には、その仕組みをきちんと理解しておく必要があります。つまりactive stateは参照されるたび（例：G$bmi）新たに計算がしなおされます。もしも実行が非常に重い関数を設定し、かつactive stateを何度も呼ぶと計算負荷がそれだけ大きくなります。つまり更新をする対象の値がごく一部であるならば、毎回計算をし直すよりも、更新する対象の値を直接変化させてしまったほうが実行速度が速くなります。\n他方でactive stateそのものはただの関数オブジェクトなので、容量そおのもはさほど大きくありません。大規模だが、ごく単純で実行速度が速いオブジェクトを表現するうえでは、大規模なstateオブジェクトを持つよりも、active stateの方が速くなる場合もあります。\nなお、run_Gameで実行された各回のactive stateフィールドは、logには際には、関数ではなく値として保存されます。つまり、その時点でのactive fieldの値が「固められた」状態で保存されることも覚えておいてください。",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>4. State & Active State</span>"
+    ]
+  },
+  {
+    "objectID": "state_JP.html#フィールドの追加と削除",
+    "href": "state_JP.html#フィールドの追加と削除",
+    "title": "4. State & Active State",
+    "section": "4.3 フィールドの追加と削除",
+    "text": "4.3 フィールドの追加と削除\nABMを作成する際には、Gameオブジェクトに新たにオブジェクトを追加したり、削除したりする操作をよく行います。すでに追加に関しては例として出してありますが、関連する操作について以下改めて例とともにまとめます。\n\n(1) フィールドの追加\n\nx &lt;- 1\ny &lt;- 2\nz &lt;- 3\n\n# xを追加する\nadd_field(G, State(x))\n\n# yとzをまとめて追加する\nadd_field(G, State(y), State(z))\n\nなおすでに存在するフィールドと同じ名前のフィールドを追加することはできません。その場合には、次の例のようにいったんすでに存在しているフィールドを削除してから、新しいフィールドを追加しなおしてください。\n\n\n(2) フィールドの削除\n\n# xを削除する\nremove_field(G, \"x\")\n\n# yとzをまとめて削除する\nremove_field(G, \"y\", \"z\")",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>4. State & Active State</span>"
+    ]
+  },
+  {
+    "objectID": "run_Game_JP.html#run_gameの基礎とその仕組み",
+    "href": "run_Game_JP.html#run_gameの基礎とその仕組み",
+    "title": "7. run_Game",
+    "section": "",
+    "text": "(1) run_Gameの回し方\n\n# ライブラリを読み込む\nlibrary(rABM)\n\nrun_ABMの基本的な使い方は、あらかじめ作成しておいたGameオブジェクトを第一引数にし、plan引数に更新に使用するact_FUNのフィールド名を更新したい順番で並べます。times引数には、更新を行う回数を指定します。デフォルトは1回分です。前章でも用いたそれぞれのエージェントが所持金を増やしていくゲームの例で、この動作を確認してみましょう。\n\n# Gフィールドを作成する\nmoney &lt;- 1:5\nselected_agent &lt;- 1:5\nadd_money &lt;- function(b = 1){self$money[self$selected_agent] &lt;- self$money[self$selected_agent] + b}\nselect_agent &lt;- function(){self$selected_agent &lt;- sample(1:5, size = 2)}\nG &lt;- Game(State(money), State(selected_agent), Act(add_money), Act(select_agent))\n\nまずは、（１）ランダムにエージェントを選び、（２）選ばれたエージェントが所持金を増やすというシミュレーションを3回回してみたいと思います（結果省略）。\n\nG2 &lt;- run_Game(G = G, plan = c(\"select_agent\", \"add_money\"), times = 3)\n\nなお今回の例では、初期設定でselected_agentにすべてのエージェントを選んでいるため、select_agentをかけなければ、すべてのエージェントの所持金が増えることになります。\n\nG3 &lt;- run_Game(G = G, plan = \"add_money\", times = 3)\n\nまた、前章で見たようにact_FUNの引数を変えることで、増えるお金の量を変えることもできます。\n\nG4 &lt;- run_Game(G = G, plan = c(\"select_agent\", \"add_money(b = 2)\"), times = 3)\n\nこのように（１）使用するact_FUN、（２）act_FUNの順序、（３）act_FUNの引数をrun_ABMの時点でさまざまに変えることができます。これにより、新たに一からGameオブジェクトを作りなおすことなく、さまざまなシナリオを検討することができます。\n\n\n(2) run_Gameの仕組み\nここで、run_Gameの仕組みの内部について簡単に解説します。これを掴むことで、なぜ前述のような動作が可能になるのかを理解できるはずです。\nrun_Gameの内部では次のような処理を順番に行っています。\n\nGをdeep copyし新たにG'を内部に生成する。これにより投入されたGameオブジェクトは変化させないようにする。\nplanにおいてもしもしてされたact_FUNの名前に(引数)が付いていれば、その部分を当該のact_FUNに反映させるよう引数を書き換える。\nplanに書かれている順序に基づいて、更新関数update_FUNを内部で生成する\n引数nm_stop_FUNが存在する場合には当該のstop_FUNを使用し、指定がない場合にはtimesに指定された回数をもとに内部でstop_FUNを生成する\nupdate_FUNをstop_FUNの条件が満たされるまで繰り返し実行する。\n\nこのように、run_ABMではユーザーの指定に基づいて、その都度複数の関数を加工・生成することで柔軟な実行を可能にしています。なお、生成されたupdate_FUNは、run_Gameの引数return_update_FUNをTRUEにすることで、取得することができます。",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>7. run_Game</span>"
+    ]
+  },
+  {
+    "objectID": "Series_JP.html#seriesについて",
+    "href": "Series_JP.html#seriesについて",
+    "title": "10. Series",
+    "section": "",
+    "text": "(1) 目的\nSeriesはここまで解説した一連のrABMの設定や実行に関するスクリプトをchunkとして保存し、任意のchunkを組み合わせて実行する機能です。この機能は大きく二つの目的で使用することができます。\n\nGameオブジェクトをrun_Gameによって回すだけではなく、変数やフィールドの設定からの一連の流れで毎回のシミュレーションを回す場合\nABMの実行が一度のrun_Gameを実行するだけでは終了せず、複数のrun_Gameを組み合わせる必要がある場合（たとえばいったん収束値に至ったうえで、そこに何らかのランダムな変化を**State**フィールドに与えて、さらにrun_Gameを実行する場合など）\n\n\n\n(2) 基礎的な使用方法\nSeriesはABMに関するものだけではなく、通常のスクリプトに関しても使用することができます。概要を掴むうえでは、こちらの方が分かりやすいため、以下の例では、通常の簡単なスクリプトをSeriesとして実行しています。\n\nlibrary(rABM)\n\nはじめに各スクリプトをChunk({...})としてくくります。なお1行のみのスクリプトはChunk(x &lt;- 1)のように書いても内部で処理されますが2行以上の場合にはエラーになります。したがって、常に{ }でくくる癖をつけたほうが無難です。\n\n# チャンクを\nstep1 &lt;- Chunk({\n  x &lt;- 1\n})\n\nstep2 &lt;- Chunk({\n  y &lt;- x + 1\n})\n\nstep3 &lt;- Chunk({\n  z &lt;- y + 1\n})\n\nこれらの各ChunkをSeries()として定義することで、Seriesオブジェクトが作成されます。\n\nS &lt;- Series(step1, step2, step3)\n\nこのSeriesオブジェクトの中身は、通常通りプリントすることで確認できます。\n\nS\n\n&lt;Series&gt;\n[chunks]\n$step1\n{\n    x &lt;- 1\n}\n\n$step2\n{\n    y &lt;- x + 1\n}\n\n$step3\n{\n    z &lt;- y + 1\n}\n\n[default]\n  (none)\n-------------------\nn of chunks  : 3 \n  chunks     : step1, step2, step3 \nn of defaults: 0 \n  defaults   :  \n-------------------\n\n\nSeriesオブジェクトは、run_Series()関数で、実行することができます。\n\nS2 &lt;- run_Series(Series = S)\n\n[Series plan]\nstep1 -&gt; step2 -&gt; step3 \n\nSeries implementing...\n  Step 1: step1\n  Step 2: step2\n  Step 3: step3\nSeries implementation DONE!\n\n\nアウトプットが格納されたS2オブジェクトには、run_Seriesが実行された環境下での値が$valuesという中に格納されています。\n\nS2\n\n$values\n$values$z\n[1] 3\n\n$values$y\n[1] 2\n\n$values$x\n[1] 1\n\n\n$series_plan\n[1] \"step1\" \"step2\" \"step3\"\n\n$series_seed\n[1] 1775201070\n\n$error_log\nlist()\n\n$implementation_took\n[1] \"00:00:00.000\"",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>10. Series</span>"
+    ]
+  },
+  {
+    "objectID": "Series_JP.html#応用的な利用方法",
+    "href": "Series_JP.html#応用的な利用方法",
+    "title": "10. Series",
+    "section": "10.2 応用的な利用方法",
+    "text": "10.2 応用的な利用方法\n\n(1) 複数のChunkを用意しておき、runごとに変える\nrun_Seriesでは実際に利用するChunkをseries_planで指定することができます。このことを利用して、あらかじめ複数のchunkを用意することで、分析ごとに簡単に変えることができます。\n\n# step1_1とstep1_2を両方用意しておく\nstep1_1 &lt;- Chunk({x &lt;- 1})\nstep1_2 &lt;- Chunk({x &lt;- 10})\nstep2   &lt;- Chunk({y &lt;- x^2})\n\n# Series\nS &lt;- Series(step1_1, step1_2, step2)\n\n# step1_1の方を利用して計算する\nS2 &lt;- run_Series(S, series_plan = c(\"step1_1\", \"step2\"))\n\n[Series plan]\nstep1_1 -&gt; step2 \n\nSeries implementing...\n  Step 1: step1_1\n  Step 2: step2\nSeries implementation DONE!\n\n\n上記の例と同様に、step1_2の方を指定することで結果を変えられます。\n\n\n(2) default値を指定しておく\nあらかじめdefault値を指定しておくことで、run_Seriesの実行時に、その値が環境に存在することを前提に計算がなされます。\n\n# x = 2というdefault値を入れておく\nstep2 &lt;- Chunk({y &lt;- x^2})\nS &lt;- Series(step2, default = list(x = 2))\n\n# step2だけ回しても、x = 2が環境に存在するため、計算が可能となる\nS2 &lt;- run_Series(S, series_plan = \"step2\")\n\n[Series plan]\nstep2 \n\nSeries implementing...\n  Step 1: step2\nSeries implementation DONE!\n\nS2\n\n$values\n$values$y\n[1] 4\n\n$values$x\n[1] 2\n\n\n$series_plan\n[1] \"step2\"\n\n$series_seed\n[1] 1775201071\n\n$error_log\nlist()\n\n$implementation_took\n[1] \"00:00:00.000\"\n\n\nDefault値をrun_Seriesの引数inputを変えることで変更できる。\n\nS3 &lt;- run_Series(S, series_plan = \"step2\", input = list(x = 3))\n\n[Series plan]\nstep2 \n\nSeries implementing...\n  Step 1: step2\nSeries implementation DONE!\n\nS3\n\n$values\n$values$y\n[1] 9\n\n$values$x\n[1] 3\n\n\n$series_plan\n[1] \"step2\"\n\n$series_seed\n[1] 1775201071\n\n$error_log\nlist()\n\n$implementation_took\n[1] \"00:00:00.000\"\n\n\n\n\n(3) 結果変数のみ取得する\nrun_Series関数のsimplify_output引数をTRUEにすると、シミュレーションに変数のみアウトプットで返します。\n\nS4 &lt;- run_Series(S, series_plan = \"step2\", simplify_output = TRUE, verbose = FALSE)\nS4\n\n$y\n[1] 4\n\n$x\n[1] 2",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>10. Series</span>"
+    ]
+  },
+  {
+    "objectID": "Series_JP.html#実際のabmでの使用用法",
+    "href": "Series_JP.html#実際のabmでの使用用法",
+    "title": "10. Series",
+    "section": "10.3 実際のABMでの使用用法",
+    "text": "10.3 実際のABMでの使用用法\n本章の最後に実際のABMでの使用方法について、ごく簡単な例を用いて解説します。\n以下のモデルにおいて更新そのものはエージェントに毎回1が足されることが共通ですが、エージェントの初期値を変えたいと思います。このようなときにSeriesが使用できます。\n\n# 二種類の初期値を用意する\nmoney_pattern1 &lt;- Chunk({money &lt;- 1:5})\nmoney_pattern2 &lt;- Chunk({money &lt;- 100:105})\n\n# 後の操作は共通\ncreate_G &lt;- Chunk({\n  # act_FUNを作成する\n  add_money &lt;- function(){self$money &lt;- self$money + 1}\n  \n  # Gameオブジェクトに格納する\n  G &lt;- Game(State(money), Act(add_money))\n})\n\nrun &lt;- Chunk({G2 &lt;- run_Game(G, plan = c(\"add_money\"))})\n\n# Seriesとして定義\nS &lt;- Series(money_pattern1, money_pattern2, create_G, run)\n\n# money_pattern2の方で回してみる\nS2 &lt;- run_Series(S, series_plan = c(\"money_pattern2\", \n                                    \"create_G\",\n                                    \"run\"),\n                 verbose = FALSE,\n                 simplify_output = TRUE)\n\n[plan] \nadd_money\n \n[stop_FUN] \nstop times at 2\n\nThe initial values at time 1 were saved.\n\nReady to run......\n   start time  : 1\n   current time: 2\nFinished at time 2 \n\nSimulation took 00:00:00.009 (hh:mm:ss.mmm)\n\n# 結果を確認してみる\nS2$G2$money\n\n[1] 101 102 103 104 105 106",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>10. Series</span>"
     ]
   }
 ]

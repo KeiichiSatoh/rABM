@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -131,7 +131,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">rABM tutorial</a> 
     </div>
@@ -145,32 +147,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABM Tutorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quick Start Guide</span></a>
+  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Quick Start Guide</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">モデルライブラリの使い方</span></a>
+  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. モデルライブラリの使い方</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABMオブジェクトの構成</span></a>
+  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. rABMオブジェクトの構成</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">State &amp; Active State</span></a>
+  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. State &amp; Active State</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">plot_FUNについて</span></a>
+  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5. plot_FUNについて</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -208,23 +210,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#はじめに" id="toc-はじめに" class="nav-link active" data-scroll-target="#はじめに">はじめに</a></li>
-  <li><a href="#act_funの作り方" id="toc-act_funの作り方" class="nav-link" data-scroll-target="#act_funの作り方">1 act_FUNの作り方</a>
+  <li><a href="#act_funの作り方" id="toc-act_funの作り方" class="nav-link active" data-scroll-target="#act_funの作り方">6.1 act_FUNの作り方</a>
   <ul class="collapse">
-  <li><a href="#stateの更新に関わる関数" id="toc-stateの更新に関わる関数" class="nav-link" data-scroll-target="#stateの更新に関わる関数">1.1 Stateの更新に関わる関数</a></li>
-  <li><a href="#エージェントの選択に関わる関数" id="toc-エージェントの選択に関わる関数" class="nav-link" data-scroll-target="#エージェントの選択に関わる関数">1.2 エージェントの選択に関わる関数</a></li>
+  <li><a href="#stateの更新に関わる関数" id="toc-stateの更新に関わる関数" class="nav-link" data-scroll-target="#stateの更新に関わる関数">(1) Stateの更新に関わる関数</a></li>
+  <li><a href="#作成の際のアドバイス" id="toc-作成の際のアドバイス" class="nav-link" data-scroll-target="#作成の際のアドバイス">(2) 作成の際のアドバイス</a></li>
+  <li><a href="#act_funのテスト" id="toc-act_funのテスト" class="nav-link" data-scroll-target="#act_funのテスト">(3) act_FUNのテスト</a></li>
+  <li><a href="#エージェントの選択に関わる関数" id="toc-エージェントの選択に関わる関数" class="nav-link" data-scroll-target="#エージェントの選択に関わる関数">(4) エージェントの選択に関わる関数</a></li>
   </ul></li>
-  <li><a href="#引数を変えられるようにする" id="toc-引数を変えられるようにする" class="nav-link" data-scroll-target="#引数を変えられるようにする">2 引数を変えられるようにする</a>
+  <li><a href="#引数を変えられるようにする" id="toc-引数を変えられるようにする" class="nav-link" data-scroll-target="#引数を変えられるようにする">6.2 引数を変えられるようにする</a>
   <ul class="collapse">
-  <li><a href="#引数がほかのフィールドを参照するように設計する" id="toc-引数がほかのフィールドを参照するように設計する" class="nav-link" data-scroll-target="#引数がほかのフィールドを参照するように設計する">2.1 引数がほかのフィールドを参照するように設計する</a></li>
-  <li><a href="#引数をあらかじめ設定しrun_gameのplanで指定する" id="toc-引数をあらかじめ設定しrun_gameのplanで指定する" class="nav-link" data-scroll-target="#引数をあらかじめ設定しrun_gameのplanで指定する">2.2 引数をあらかじめ設定し、run_Gameのplanで指定する</a></li>
+  <li><a href="#引数がほかのフィールドを参照するように設計する" id="toc-引数がほかのフィールドを参照するように設計する" class="nav-link" data-scroll-target="#引数がほかのフィールドを参照するように設計する">(1) 引数がほかのフィールドを参照するように設計する</a></li>
+  <li><a href="#引数をあらかじめ設定しrun_gameのplanで指定する" id="toc-引数をあらかじめ設定しrun_gameのplanで指定する" class="nav-link" data-scroll-target="#引数をあらかじめ設定しrun_gameのplanで指定する">(2) 引数をあらかじめ設定し、run_Gameのplanで指定する</a></li>
   </ul></li>
-  <li><a href="#速度を上げるためのアイデア" id="toc-速度を上げるためのアイデア" class="nav-link" data-scroll-target="#速度を上げるためのアイデア">3 速度を上げるためのアイデア</a>
+  <li><a href="#速度を上げるためのアイデア" id="toc-速度を上げるためのアイデア" class="nav-link" data-scroll-target="#速度を上げるためのアイデア">6.3 速度を上げるためのアイデア</a>
   <ul class="collapse">
-  <li><a href="#ベクトル計算する" id="toc-ベクトル計算する" class="nav-link" data-scroll-target="#ベクトル計算する">3.1 ベクトル計算する</a></li>
-  <li><a href="#メモリをあらかじめ確保する" id="toc-メモリをあらかじめ確保する" class="nav-link" data-scroll-target="#メモリをあらかじめ確保する">3.2 メモリをあらかじめ確保する</a></li>
-  <li><a href="#キャッシュする" id="toc-キャッシュする" class="nav-link" data-scroll-target="#キャッシュする">3.3 キャッシュする</a></li>
-  <li><a href="#do.callでまとめて結合する" id="toc-do.callでまとめて結合する" class="nav-link" data-scroll-target="#do.callでまとめて結合する">3.4 do.callでまとめて結合する</a></li>
+  <li><a href="#ベクトル計算する" id="toc-ベクトル計算する" class="nav-link" data-scroll-target="#ベクトル計算する">(1) ベクトル計算する</a></li>
+  <li><a href="#メモリをあらかじめ確保する" id="toc-メモリをあらかじめ確保する" class="nav-link" data-scroll-target="#メモリをあらかじめ確保する">(2) メモリをあらかじめ確保する</a></li>
+  <li><a href="#キャッシュする" id="toc-キャッシュする" class="nav-link" data-scroll-target="#キャッシュする">(3) キャッシュする</a></li>
+  <li><a href="#do.callでまとめて結合する" id="toc-do.callでまとめて結合する" class="nav-link" data-scroll-target="#do.callでまとめて結合する">(4) do.callでまとめて結合する</a></li>
+  <li><a href="#参考並列計算に関する注意" id="toc-参考並列計算に関する注意" class="nav-link" data-scroll-target="#参考並列計算に関する注意">【参考】並列計算に関する注意</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -251,16 +255,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="はじめに" class="level2">
-<h2 class="anchored" data-anchor-id="はじめに">はじめに</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p><strong>act_FUN</strong>はエージェントの更新に関わる関数で、<strong>rABM</strong>の中核をなすコンポーネントです。</p>
 <p>この章では、はじめにact_FUNの基本的な作り方を復習します。次に、関数の引数を変化させられるように設定する二つの方法について学びます。最後に更新を行ううえで速度を上げるためのいくつかのアイデアについて紹介します。</p>
-</section>
+</div>
+</div>
 <section id="act_funの作り方" class="level2">
-<h2 class="anchored" data-anchor-id="act_funの作り方">1 act_FUNの作り方</h2>
+<h2 class="anchored" data-anchor-id="act_funの作り方">6.1 act_FUNの作り方</h2>
 <p>act_FUNは、（１）<strong>State</strong>の更新に関わる関数、（２）更新を行うエージェントの選択に関する関数の二つに区分して考えることができます。</p>
 <section id="stateの更新に関わる関数" class="level3">
-<h3 class="anchored" data-anchor-id="stateの更新に関わる関数">1.1 Stateの更新に関わる関数</h3>
+<h3 class="anchored" data-anchor-id="stateの更新に関わる関数">(1) Stateの更新に関わる関数</h3>
 <p>act_FUNのもっとも基本的な使い方は、エージェントの状態を表現する<strong>State</strong>フィールドの更新を行うことです。以下の例は、エージェントの所持金額が各回ごとに1ずつ増加する更新を行う関数の作成例です。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ライブラリを読み込む</span></span>
@@ -298,8 +311,9 @@ n of fields  : 1
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Gに格納する</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">Act</span>(get_money))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="作成の際のアドバイス" class="level4">
-<h4 class="anchored" data-anchor-id="作成の際のアドバイス">作成の際のアドバイス</h4>
+</section>
+<section id="作成の際のアドバイス" class="level3">
+<h3 class="anchored" data-anchor-id="作成の際のアドバイス">(2) 作成の際のアドバイス</h3>
 <p>前章で紹介したように実際の作成においては、先にStateのみを作成したGオブジェクトを作成し、それをselfに付け替えたうえで、確認しながら関数を作成するほうが行いやすいです。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># いったんStateだけのGameオブジェクトを作成する</span></span>
@@ -316,8 +330,8 @@ n of fields  : 1
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">add_field</span>(G, <span class="fu">Act</span>(get_money))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="act_funのテスト" class="level4">
-<h4 class="anchored" data-anchor-id="act_funのテスト">act_FUNのテスト</h4>
+<section id="act_funのテスト" class="level3">
+<h3 class="anchored" data-anchor-id="act_funのテスト">(3) act_FUNのテスト</h3>
 <p><code>act_FUN</code>は、通常通り呼び出すことで関数を実行します。ただし<code>関数名()</code>のように（）をつけることで実行できることに注意してください。こちらを用いて、きちんと関数が機能しているのかを確認することができます。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 現状の所持金を確認</span></span>
@@ -337,9 +351,8 @@ n of fields  : 1
 </div>
 </div>
 </section>
-</section>
 <section id="エージェントの選択に関わる関数" class="level3">
-<h3 class="anchored" data-anchor-id="エージェントの選択に関わる関数">1.2 エージェントの選択に関わる関数</h3>
+<h3 class="anchored" data-anchor-id="エージェントの選択に関わる関数">(4) エージェントの選択に関わる関数</h3>
 <p>上記の例ではすべてのエージェントの所持金が更新されていましたが、もしも特定のエージェントのみを選択したい場合にはどうしたらよいでしょうか。この場合には、更新対象のエージェントを選択する別の関数を用意し、選択されたエージェントのインデックスをStateに格納したうえで、更新の際にそのStateを参照するということが考えられます。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># エージェントの初期所持金</span></span>
@@ -361,10 +374,10 @@ n of fields  : 1
 </section>
 </section>
 <section id="引数を変えられるようにする" class="level2">
-<h2 class="anchored" data-anchor-id="引数を変えられるようにする">2 引数を変えられるようにする</h2>
+<h2 class="anchored" data-anchor-id="引数を変えられるようにする">6.2 引数を変えられるようにする</h2>
 <p>ABMにおいては、更新のルールを変更することによって、シミュレーションの結果がどのように変化するのかを検証する作業がしばしば行われます。このような機能をact_FUNに持たせるには、大きく二つの方法があります。すなわち（１）引数がほかのフィールドを参照するように設計する、（２）<code>run_Game</code>の実行時に引数の指定を変えるというものです。以下順番に説明します。</p>
 <section id="引数がほかのフィールドを参照するように設計する" class="level3">
-<h3 class="anchored" data-anchor-id="引数がほかのフィールドを参照するように設計する">2.1 引数がほかのフィールドを参照するように設計する</h3>
+<h3 class="anchored" data-anchor-id="引数がほかのフィールドを参照するように設計する">(1) 引数がほかのフィールドを参照するように設計する</h3>
 <p>以下の例では、加えられる金額<code>b</code>が、別のフィールド<code>beta</code>を参照するように設計することで、<code>beta</code>を変えることと<code>add_money</code>の引数が変わることが連動するように設計しています。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 初期所持金</span></span>
@@ -405,7 +418,7 @@ n of fields  : 1
 </div>
 </section>
 <section id="引数をあらかじめ設定しrun_gameのplanで指定する" class="level3">
-<h3 class="anchored" data-anchor-id="引数をあらかじめ設定しrun_gameのplanで指定する">2.2 引数をあらかじめ設定し、run_Gameのplanで指定する</h3>
+<h3 class="anchored" data-anchor-id="引数をあらかじめ設定しrun_gameのplanで指定する">(2) 引数をあらかじめ設定し、run_Gameのplanで指定する</h3>
 <p>次の例は、<code>add_money</code>に<code>beta</code>という引数を設定するところまでは同じですが、<code>beta</code>の値を<code>run_Game</code>の実行時に、直接<code>plan</code>の中で指定する方法です。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 初期所持金</span></span>
@@ -437,20 +450,20 @@ The initial values at time 1 were saved.</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>G2<span class="sc">$</span>add_money</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>function (E = E, beta = 2) 
+<pre><code>function (beta = 2) 
 {
     self$money &lt;- self$money + beta
 }
-&lt;environment: 0x0000020f87ba74d0&gt;</code></pre>
+&lt;environment: 0x000001e3eedaae40&gt;</code></pre>
 </div>
 </div>
 </section>
 </section>
 <section id="速度を上げるためのアイデア" class="level2">
-<h2 class="anchored" data-anchor-id="速度を上げるためのアイデア">3 速度を上げるためのアイデア</h2>
+<h2 class="anchored" data-anchor-id="速度を上げるためのアイデア">6.3 速度を上げるためのアイデア</h2>
 <p><strong>act_FUN</strong>はシミュレーション中に何度も呼ばれる関数となるため、更新の速度が速い設計にしておく方が望ましいです。究極的には<strong>RCPP</strong>パッケージを用いたC言語で書くという方法が考えられますが、ここではもう少し簡単にできる工夫を３つ紹介したいと思います。これらはいずれも、act_FUNに特有というよりも、Rでの計算を行う場合に一般的に当てはまるものです。</p>
 <section id="ベクトル計算する" class="level3">
-<h3 class="anchored" data-anchor-id="ベクトル計算する">3.1 ベクトル計算する</h3>
+<h3 class="anchored" data-anchor-id="ベクトル計算する">(1) ベクトル計算する</h3>
 <p>Rはベクトル計算の方が、個々の計算を行うよりも圧倒的に速くなります。例えば、ここまで用いてきた<code>add_money</code>関数は、ベクトル<code>money</code>に1を足すというベクトル計算を行っています。一方、同じ<code>add_money</code>は以下のようにも書くことができますが、セルごとにループ計算を行うため速度は遅くなります。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>add_money2 <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
@@ -461,7 +474,7 @@ The initial values at time 1 were saved.</code></pre>
 </div>
 </section>
 <section id="メモリをあらかじめ確保する" class="level3">
-<h3 class="anchored" data-anchor-id="メモリをあらかじめ確保する">3.2 メモリをあらかじめ確保する</h3>
+<h3 class="anchored" data-anchor-id="メモリをあらかじめ確保する">(2) メモリをあらかじめ確保する</h3>
 <p>もちろん、どうしてもループ処理をしなければならない場面も出てきます。そのような場合には、あらかじめ計算結果を格納する対象のオブジェクトを用意し、メモリを確保したうえでループを行うほうが、計算速度が速くなります。</p>
 <p>以下では、<code>x</code>に<code>i</code>を順に足していく単純な例で、あらかじめメモリを確保せずにループの途中で逐次的に追加していく遅い方法と、メモリを確保したうえで追加する速い方法を並べてみました。</p>
 <div class="cell">
@@ -496,7 +509,7 @@ The initial values at time 1 were saved.</code></pre>
 </div>
 </section>
 <section id="キャッシュする" class="level3">
-<h3 class="anchored" data-anchor-id="キャッシュする">3.3 キャッシュする</h3>
+<h3 class="anchored" data-anchor-id="キャッシュする">(3) キャッシュする</h3>
 <p>シミュレーションの際にはしばしば結果が同じになる計算を何度も行う場面が出てきます。このようなものについては、あらかじめ計算結果を別のフィールドに保存しておくことによって、計算をスキップし、速度を上げることができます。</p>
 <p>以下の例は、毎回エージェントの数を<code>length</code>で計算するのではなく、settingsというフィールドに格納しておいて、そちらを参照することによって計算速度を（この例の場合にはごくわずかですが）上げています。</p>
 <div class="cell">
@@ -519,7 +532,7 @@ The initial values at time 1 were saved.</code></pre>
 </div>
 </section>
 <section id="do.callでまとめて結合する" class="level3">
-<h3 class="anchored" data-anchor-id="do.callでまとめて結合する">3.4 do.callでまとめて結合する</h3>
+<h3 class="anchored" data-anchor-id="do.callでまとめて結合する">(4) do.callでまとめて結合する</h3>
 <p><code>lapply</code>関数などを用いてリスト形式のものをまとめる場合には、do.callを用いると一括して結合を行うことができます。次の例は、個々に生成された<code>data.frame</code>を<code>do.call</code>を用いて、一括して<code>rbind</code>するものです。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>act <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
@@ -532,12 +545,12 @@ The initial values at time 1 were saved.</code></pre>
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind, dat_list)</span>
 <span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="参考並列計算に関する注意" class="level4">
-<h4 class="anchored" data-anchor-id="参考並列計算に関する注意">【参考】並列計算に関する注意</h4>
+</section>
+<section id="参考並列計算に関する注意" class="level3">
+<h3 class="anchored" data-anchor-id="参考並列計算に関する注意">【参考】並列計算に関する注意</h3>
 <p>このほか、並列計算を用いるという手法も考えられますが、あとの章で紹介するように、<code>run_Game</code>にも複数のシミュレーションを並列計算をする機能が実装されており、それぞれの機能が衝突する可能性があるため、基本的にはお勧めしません。ただし、run_Gameをあくまで単体のシミュレーションを行うことしか予定していないならば、並列計算を<strong>act_FUN</strong>に組み込むことは理論上可能です。</p>
 
 
-</section>
 </section>
 </section>
 
@@ -944,8 +957,8 @@ The initial values at time 1 were saved.</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./plot_FUN_JP.html" class="pagination-link" aria-label="plot_FUNについて">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">plot_FUNについて</span></span>
+      <a href="./plot_FUN_JP.html" class="pagination-link" aria-label="5. plot_FUNについて">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">5. plot_FUNについて</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

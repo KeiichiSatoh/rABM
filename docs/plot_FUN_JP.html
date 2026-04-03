@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>plot_FUNについて – rABM tutorial</title>
+<title>5. plot_FUNについて – rABM tutorial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./act_FUN_JP.html" rel="next">
 <link href="./state_JP.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -73,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -117,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./plot_FUN_JP.html"><span class="chapter-title">plot_FUNについて</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./plot_FUN_JP.html"><span class="chapter-title">5. plot_FUNについて</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -130,7 +131,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">rABM tutorial</a> 
     </div>
@@ -144,32 +147,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABM Tutorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quick Start Guide</span></a>
+  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Quick Start Guide</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">モデルライブラリの使い方</span></a>
+  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. モデルライブラリの使い方</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABMオブジェクトの構成</span></a>
+  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. rABMオブジェクトの構成</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">State &amp; Active State</span></a>
+  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. State &amp; Active State</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">plot_FUNについて</span></a>
+  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">5. plot_FUNについて</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./act_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">6. act_FUN</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./run_Game_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">7. run_Game</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./stop_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">8. Stop_FUN</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./report_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">9. report_FUN</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Series_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10. Series</span></a>
   </div>
 </li>
     </ul>
@@ -182,14 +210,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#はじめに" id="toc-はじめに" class="nav-link active" data-scroll-target="#はじめに">はじめに</a></li>
-  <li><a href="#plot_funの作り方" id="toc-plot_funの作り方" class="nav-link" data-scroll-target="#plot_funの作り方">plot_FUNの作り方</a>
+  <li><a href="#plot_funの作り方" id="toc-plot_funの作り方" class="nav-link active" data-scroll-target="#plot_funの作り方">5.1 plot_FUNの作り方</a>
   <ul class="collapse">
-  <li><a href="#baseパッケージを用いたplot" id="toc-baseパッケージを用いたplot" class="nav-link" data-scroll-target="#baseパッケージを用いたplot">baseパッケージを用いたplot</a></li>
-  <li><a href="#ggplot2パッケージを用いたプロット" id="toc-ggplot2パッケージを用いたプロット" class="nav-link" data-scroll-target="#ggplot2パッケージを用いたプロット">ggplot2パッケージを用いたプロット</a></li>
+  <li><a href="#baseパッケージを用いたplot" id="toc-baseパッケージを用いたplot" class="nav-link" data-scroll-target="#baseパッケージを用いたplot">(1) baseパッケージを用いたplot</a></li>
+  <li><a href="#ggplot2パッケージを用いたプロット" id="toc-ggplot2パッケージを用いたプロット" class="nav-link" data-scroll-target="#ggplot2パッケージを用いたプロット">(2) ggplot2パッケージを用いたプロット</a></li>
+  <li><a href="#定義されたすべてのplotを順にみる" id="toc-定義されたすべてのplotを順にみる" class="nav-link" data-scroll-target="#定義されたすべてのplotを順にみる">(3) 定義されたすべてのplotを順にみる</a></li>
   </ul></li>
-  <li><a href="#定義されたすべてのplotを順にみる" id="toc-定義されたすべてのplotを順にみる" class="nav-link" data-scroll-target="#定義されたすべてのplotを順にみる">定義されたすべてのplotを順にみる</a></li>
-  <li><a href="#logをプロットする" id="toc-logをプロットする" class="nav-link" data-scroll-target="#logをプロットする">logをプロットする</a></li>
+  <li><a href="#logをプロットする" id="toc-logをプロットする" class="nav-link" data-scroll-target="#logをプロットする">5.2 logをプロットする</a></li>
   </ul>
 </nav>
     </div>
@@ -198,7 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">plot_FUNについて</span></h1>
+<h1 class="title"><span class="chapter-title">5. plot_FUNについて</span></h1>
 </div>
 
 
@@ -215,14 +242,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="はじめに" class="level2">
-<h2 class="anchored" data-anchor-id="はじめに">はじめに</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>自身でABMを作成する際に、<strong>state</strong>と<strong>active state</strong>の次の手順として作ることをお勧めするのが描画に関するフィールドカテゴリー（<strong>plot_FUN</strong>）です。<strong>plot_FUN</strong>を早い段階でつくっておくことで、自身のstateがどのような状況か、更新を行ったあとstateが適切に変化しているのかを把握しやすくなります。この章では、plot_FUNの作成、作成上の注意について解説します。</p>
-</section>
+</div>
+</div>
 <section id="plot_funの作り方" class="level2">
-<h2 class="anchored" data-anchor-id="plot_funの作り方">plot_FUNの作り方</h2>
+<h2 class="anchored" data-anchor-id="plot_funの作り方">5.1 plot_FUNの作り方</h2>
 <section id="baseパッケージを用いたplot" class="level3">
-<h3 class="anchored" data-anchor-id="baseパッケージを用いたplot">baseパッケージを用いたplot</h3>
+<h3 class="anchored" data-anchor-id="baseパッケージを用いたplot">(1) baseパッケージを用いたplot</h3>
 <p><strong>plot_FUN</strong>は、<code>Plot()</code>で関数をくくったうえで、<code>Game</code>オブジェクトに格納することで実装できます。以下は、100人のエージェントの正規分布に従った得点<code>x</code>のヒストグラムをプロットするplot_FUNを作成する例です。なお、ABMにおいて、プロットしている時間がどの時点なのかは特に重要なことが多いため、plot_FUNを作る際には時点を同時に表記できるように関数を組むことがお勧めします。当該時点は<code>$time</code>でアクセスできますので、関数上は<code>self$time</code>と参照させるようにすればよいです。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rABM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -249,27 +285,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;Game&gt;
 $x(state)
-  [1]  0.756870595 -0.147444014  0.714630200 -1.283199968  1.679667091
-  [6] -0.380927315 -0.699519458  0.533097048 -2.089019667 -0.363241121
- [11]  0.585237512  0.116406128  0.502537785  1.066209045 -0.672112692
- [16]  0.848643884 -1.468030704 -0.439423170 -1.261828581 -0.537948137
- [21]  0.345303347  0.235454515  0.525358003  0.989738452 -0.101065928
- [26] -0.041810065 -0.606803069  1.217669765  0.643800410 -0.676872304
+  [1]  0.378473849  0.097873167 -0.342488064 -0.175056328 -1.054047941
+  [6]  0.425224134 -0.575651866 -0.628467056 -0.536051587 -0.602213661
+ [11] -0.515536695  0.187918477  1.540957498 -0.676046146 -0.568634605
+ [16]  0.101851729  0.999183150 -0.530184170 -1.647724912  1.550487013
+ [21] -0.739287529  0.942165610  0.012674254  0.867070679 -0.122140260
+ [26] -0.110102313 -0.181250555  0.997137498  0.316022328 -1.145035170
   ---- (truncated) ----
 
 $plot_x(plot_FUN)
-function (E = E) 
+function () 
 {
     hist(self$x, main = paste("time =", self$time), xlab = "x")
 }
 
 ------------------- 
-time       : 1 
-n of logs  : 0 
-n of notes : 0 
-n of fields: 2 
-  state: x
-  plot_FUN: plot_x
+time         : 1 
+n of logs    : 0 
+n of notes   : 0 
+n of fields  : 2 
+ state       : x
+ plot_FUN    : plot_x
 ------------------- 
 *Some fields are truncated. Increase 'max_lines' to display more.</code></pre>
 </div>
@@ -287,13 +323,13 @@ n of fields: 2
 </div>
 </section>
 <section id="ggplot2パッケージを用いたプロット" class="level3">
-<h3 class="anchored" data-anchor-id="ggplot2パッケージを用いたプロット">ggplot2パッケージを用いたプロット</h3>
+<h3 class="anchored" data-anchor-id="ggplot2パッケージを用いたプロット">(2) ggplot2パッケージを用いたプロット</h3>
 <p>なお、ここでは<code>base</code>パッケージのプロット機能を用いていますが、<code>ggplot</code>を使用することももちろんできます。ただしggplotはbaseパッケージよりも描画に時間がかかることが多いことに留意しておいてください。また、<strong>関数末尾において、明示的にggplotのオブジェクトをprint()で呼び出す必要**</strong>があることに注意してください。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot2を読み込む</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.4.3</code></pre>
+<pre><code>Warning: package 'ggplot2' was built under R version 4.5.2</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot2を用いた図示用の関数を作成する</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plot_x_ggp <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
@@ -316,7 +352,7 @@ n of fields: 2
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 図示する</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>G<span class="sc">$</span><span class="fu">plot_x_ggp</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -327,9 +363,8 @@ n of fields: 2
 </div>
 </div>
 </section>
-</section>
-<section id="定義されたすべてのplotを順にみる" class="level2">
-<h2 class="anchored" data-anchor-id="定義されたすべてのplotを順にみる">定義されたすべてのplotを順にみる</h2>
+<section id="定義されたすべてのplotを順にみる" class="level3">
+<h3 class="anchored" data-anchor-id="定義されたすべてのplotを順にみる">(3) 定義されたすべてのplotを順にみる</h3>
 <p><code>Game</code>オブジェクトに定義されたすべての<strong>plot_FUN</strong>は、<code>plot()</code>で<code>Game</code>オブジェクトを呼び出すことによって、順に呼び出すことができます。以下の関数を実行すると、インテラクティブモードになり、&lt;ENTER&gt;を推すたびに、定義されているplot_FUNが順に呼び出されます（出力省略）。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -347,8 +382,9 @@ n of fields: 2
 </div>
 <p>使っているエディターによっては、plotはジェネリックのため引数候補を見にくい場合があるかもしれません。その場合には<code>plot_Game</code>関数を用いていください。この関数は、<code>plot</code>関数のラッパーとなっており、結果的に同じ出力がなされます。</p>
 </section>
+</section>
 <section id="logをプロットする" class="level2">
-<h2 class="anchored" data-anchor-id="logをプロットする">logをプロットする</h2>
+<h2 class="anchored" data-anchor-id="logをプロットする">5.2 logをプロットする</h2>
 <p><code>Game</code>オブジェクトに保存されている<code>log</code>をプロットしたい場合には、<code>plot</code>関数の引数のlog指定をしてください。<code>log</code>はインデックス(i.e., 1, 2, 3,…）もしくは、時点の文字列（i.e., <code>"t1"</code>,<code>"t2"</code>）のいずれかで指定できます。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 例示のための簡単なxの更新関数を作成する。</span></span>
@@ -819,11 +855,14 @@ n of fields: 2
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./state_JP.html" class="pagination-link" aria-label="State &amp; Active State">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">State &amp; Active State</span></span>
+      <a href="./state_JP.html" class="pagination-link" aria-label="4. State &amp; Active State">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">4. State &amp; Active State</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./act_FUN_JP.html" class="pagination-link" aria-label="6. act_FUN">
+        <span class="nav-page-text"><span class="chapter-title">6. act_FUN</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

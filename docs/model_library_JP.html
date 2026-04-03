@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>モデルライブラリの使い方 – rABM tutorial</title>
+<title>2. モデルライブラリの使い方 – rABM tutorial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./model_library_JP.html"><span class="chapter-title">モデルライブラリの使い方</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./model_library_JP.html"><span class="chapter-title">2. モデルライブラリの使い方</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -147,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABM Tutorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -157,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">モデルライブラリの使い方</span></a>
+  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">2. モデルライブラリの使い方</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -210,14 +210,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#はじめに" id="toc-はじめに" class="nav-link active" data-scroll-target="#はじめに">はじめに</a></li>
-  <li><a href="#heros-and-cowardsモデル" id="toc-heros-and-cowardsモデル" class="nav-link" data-scroll-target="#heros-and-cowardsモデル">Heros and Cowardsモデル</a>
+  <li><a href="#heros-and-cowardsモデル" id="toc-heros-and-cowardsモデル" class="nav-link active" data-scroll-target="#heros-and-cowardsモデル">Heros and Cowardsモデル</a>
   <ul class="collapse">
-  <li><a href="#モデルの概要" id="toc-モデルの概要" class="nav-link" data-scroll-target="#モデルの概要">モデルの概要</a></li>
-  <li><a href="#モデルを回す" id="toc-モデルを回す" class="nav-link" data-scroll-target="#モデルを回す">モデルを回す</a></li>
-  <li><a href="#結果を確認する" id="toc-結果を確認する" class="nav-link" data-scroll-target="#結果を確認する">結果を確認する</a></li>
-  <li><a href="#動画でプロットを見る" id="toc-動画でプロットを見る" class="nav-link" data-scroll-target="#動画でプロットを見る">動画でプロットを見る</a></li>
-  <li><a href="#設定を変える" id="toc-設定を変える" class="nav-link" data-scroll-target="#設定を変える">設定を変える</a></li>
+  <li><a href="#モデルの概要" id="toc-モデルの概要" class="nav-link" data-scroll-target="#モデルの概要">(1) モデルの概要</a></li>
+  <li><a href="#モデルを回す" id="toc-モデルを回す" class="nav-link" data-scroll-target="#モデルを回す">(2) モデルを回す</a></li>
+  <li><a href="#結果を確認する" id="toc-結果を確認する" class="nav-link" data-scroll-target="#結果を確認する">(3) 結果を確認する</a></li>
+  <li><a href="#動画でプロットを見る" id="toc-動画でプロットを見る" class="nav-link" data-scroll-target="#動画でプロットを見る">(4) 動画でプロットを見る</a></li>
+  <li><a href="#設定を変える" id="toc-設定を変える" class="nav-link" data-scroll-target="#設定を変える">(5) 設定を変える</a></li>
   <li><a href="#補遺mixedタイプを加える" id="toc-補遺mixedタイプを加える" class="nav-link" data-scroll-target="#補遺mixedタイプを加える">補遺：mixedタイプを加える</a></li>
   </ul></li>
   </ul>
@@ -228,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">モデルライブラリの使い方</span></h1>
+<h1 class="title"><span class="chapter-title">2. モデルライブラリの使い方</span></h1>
 </div>
 
 
@@ -245,16 +244,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="はじめに" class="level1">
-<h1>はじめに</h1>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>rABMには、ABMに関する代表的なモデルを実装したモデル・ライブラリがいくつか用意されています。これらのモデルは、rABMの機能を確かめたり、簡単な実験を行ったり、独自の修正を加えて新たなオリジナルモデルを作成するためのテンプレートとして利用することができます。<br>
 <br>
 これらのモデルは <strong>model_XXXX</strong> という名称で統一されているため、簡単に検索することができます。本章では、NetLogoで有名な <strong>Heros and Cowards</strong> をrABMに移植したモデルを例に、モデルライブラリの実行方法と、rABMの基本的な機能を概観します。</p>
-</section>
-<section id="heros-and-cowardsモデル" class="level1">
-<h1>Heros and Cowardsモデル</h1>
-<section id="モデルの概要" class="level2">
-<h2 class="anchored" data-anchor-id="モデルの概要">モデルの概要</h2>
+</div>
+</div>
+<section id="heros-and-cowardsモデル" class="level2">
+<h2 class="anchored" data-anchor-id="heros-and-cowardsモデル">Heros and Cowardsモデル</h2>
+<section id="モデルの概要" class="level3">
+<h3 class="anchored" data-anchor-id="モデルの概要">(1) モデルの概要</h3>
 <p>このモデルには3つのタイプのエージェントがおり、タイプ（<code>agent_type</code>）ごとに行動が変わります。</p>
 <ul>
 <li><p>英雄 hero（type = 1)：味方と敵の間に割って入るように行動する（具体的には敵と味方の中間点を目標地点とする）</p></li>
@@ -271,8 +279,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>このように、きわめて単純なシミュレーションでありながら毎回ランダムに設定される初期値ごとに、エージェントが極めて多様な動きをすることがから、複雑系シミュレーションを体験するためのよい教材として知られています。</p>
 </section>
-<section id="モデルを回す" class="level2">
-<h2 class="anchored" data-anchor-id="モデルを回す">モデルを回す</h2>
+<section id="モデルを回す" class="level3">
+<h3 class="anchored" data-anchor-id="モデルを回す">(2) モデルを回す</h3>
 <p>はじめにrABMを読み込みます。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rABM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -298,8 +306,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>このように、モデル・ライブラリではデフォルト設定のままでもモデルが実行できるよう設計されています。まずは動作を確認し、その後でパラメーターを変更して挙動を観察するのが基本的な使い方です。</p>
 </section>
-<section id="結果を確認する" class="level2">
-<h2 class="anchored" data-anchor-id="結果を確認する">結果を確認する</h2>
+<section id="結果を確認する" class="level3">
+<h3 class="anchored" data-anchor-id="結果を確認する">(3) 結果を確認する</h3>
 <p>モデル・ライブラリの出力は、通常2つのGameオブジェクトを含むリストです。<code>$G_init</code>はシミュレーションを回す前、<code>$G_finished</code>は実行後の状態を示します。</p>
 <p>ここでは、実行後のオブジェクトを <code>G</code> としてコピーし、中身を確認します。</p>
 <div class="cell">
@@ -342,22 +350,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>posit_mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            x         y
-t1  0.4350399 0.5674030
-t2  0.4481487 0.5724032
-t3  0.4600889 0.5804754
-t4  0.4712360 0.5753844
-t5  0.4821545 0.5878446
-t6  0.4971226 0.5976850
-t7  0.4955286 0.5881881
-t8  0.4891646 0.5864962
-t9  0.4804174 0.5701470
-t10 0.4704999 0.5455383
-t11 0.4625521 0.5309776</code></pre>
+t1  0.5366394 0.5131643
+t2  0.5272327 0.5050073
+t3  0.5089099 0.5006822
+t4  0.4883705 0.4953143
+t5  0.4786521 0.4916636
+t6  0.4557584 0.4930384
+t7  0.4283791 0.4919579
+t8  0.4002341 0.5104515
+t9  0.4010746 0.5183030
+t10 0.3940397 0.5367430
+t11 0.3954333 0.5538190</code></pre>
 </div>
 </div>
 </section>
-<section id="動画でプロットを見る" class="level2">
-<h2 class="anchored" data-anchor-id="動画でプロットを見る">動画でプロットを見る</h2>
+<section id="動画でプロットを見る" class="level3">
+<h3 class="anchored" data-anchor-id="動画でプロットを見る">(4) 動画でプロットを見る</h3>
 <p>シミュレーション後の<code>Game</code>オブジェクトには、それぞれの時点における<strong>state</strong>（および後の章で解説する<strong>active state</strong>）フィールドの結果が、<code>$log</code>の下にネストされる形で保存されています。各時点のstateをプロットしたい場合には、下記のように<code>name</code>に<strong>plot_FUN</strong>の名前、<code>log</code>に見たい時点を指定することで呼び出せます。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(G, <span class="at">name =</span> <span class="st">"plot_space"</span>, <span class="at">log =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -381,8 +389,8 @@ t11 0.4625521 0.5309776</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">animate_log</span>(<span class="at">G =</span> G, <span class="at">name =</span> <span class="st">"plot_space"</span>, <span class="at">delay =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="設定を変える" class="level2">
-<h2 class="anchored" data-anchor-id="設定を変える">設定を変える</h2>
+<section id="設定を変える" class="level3">
+<h3 class="anchored" data-anchor-id="設定を変える">(5) 設定を変える</h3>
 <p>ここまで読んだユーザーの方は、さまざまなほかの設定を試してみたくなることでしょう。たとえば、エージェントのタイプの割合を変えたらどうなるのだろうか、シード値を変えてみたら、関係を任意のものに変えてみたならば・・・などなど。</p>
 <p>前述の通り、これらの値は引数で変えることができます。ただしモデルで想定されている投入値の形式とずれてしまわないように、いったん出力されたモデルで、操作したいフィールドの値がどのようになっているのかを確認することをお勧めします。たとえば、エージェントのタイプに関しては、現状のモデルではこのようになっています。</p>
 <div class="cell">
@@ -406,8 +414,8 @@ t11 0.4625521 0.5309776</code></pre>
 </div>
 <p>あとはここまで見たように、シミュレーションの結果がどのように変わるのかを観察してみてください。</p>
 </section>
-<section id="補遺mixedタイプを加える" class="level2">
-<h2 class="anchored" data-anchor-id="補遺mixedタイプを加える">補遺：mixedタイプを加える</h2>
+<section id="補遺mixedタイプを加える" class="level3">
+<h3 class="anchored" data-anchor-id="補遺mixedタイプを加える">補遺：mixedタイプを加える</h3>
 <p>前述の通り、このモデルでは特殊なタイプとして変わり者 （=9）を加えることができます。その設定の方法は以下の例のようになります。ここでは、英雄、臆病者、変わり者を1/3ずつ設定しました。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mixedタイプを設定</span></span>

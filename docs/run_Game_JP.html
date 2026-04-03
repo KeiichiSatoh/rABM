@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -131,7 +131,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">rABM tutorial</a> 
     </div>
@@ -145,32 +147,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABM Tutorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quick Start Guide</span></a>
+  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Quick Start Guide</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">モデルライブラリの使い方</span></a>
+  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. モデルライブラリの使い方</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABMオブジェクトの構成</span></a>
+  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. rABMオブジェクトの構成</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">State &amp; Active State</span></a>
+  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. State &amp; Active State</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">plot_FUNについて</span></a>
+  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5. plot_FUNについて</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -208,12 +210,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#run_gameの基礎とその仕組み" id="toc-run_gameの基礎とその仕組み" class="nav-link active" data-scroll-target="#run_gameの基礎とその仕組み">1. run_Gameの基礎とその仕組み</a>
+  <li><a href="#run_gameの基礎とその仕組み" id="toc-run_gameの基礎とその仕組み" class="nav-link active" data-scroll-target="#run_gameの基礎とその仕組み">7.1 run_Gameの基礎とその仕組み</a>
   <ul class="collapse">
-  <li><a href="#run_gameの回し方" id="toc-run_gameの回し方" class="nav-link" data-scroll-target="#run_gameの回し方">1.1 run_Gameの回し方</a></li>
-  <li><a href="#run_gameの仕組み" id="toc-run_gameの仕組み" class="nav-link" data-scroll-target="#run_gameの仕組み">1.2 run_Gameの仕組み</a></li>
-  <li><a href="#速度を上げるための工夫" id="toc-速度を上げるための工夫" class="nav-link" data-scroll-target="#速度を上げるための工夫">2. 速度を上げるための工夫</a></li>
-  <li><a href="#その他のさまざまな機能" id="toc-その他のさまざまな機能" class="nav-link" data-scroll-target="#その他のさまざまな機能">3. その他のさまざまな機能</a></li>
+  <li><a href="#run_gameの回し方" id="toc-run_gameの回し方" class="nav-link" data-scroll-target="#run_gameの回し方">(1) run_Gameの回し方</a></li>
+  <li><a href="#run_gameの仕組み" id="toc-run_gameの仕組み" class="nav-link" data-scroll-target="#run_gameの仕組み">(2) run_Gameの仕組み</a></li>
+  </ul></li>
+  <li><a href="#速度を上げるための工夫" id="toc-速度を上げるための工夫" class="nav-link" data-scroll-target="#速度を上げるための工夫">7.2 速度を上げるための工夫</a>
+  <ul class="collapse">
+  <li><a href="#verbose引数をfalseにする" id="toc-verbose引数をfalseにする" class="nav-link" data-scroll-target="#verbose引数をfalseにする">(1)<code>verbose</code>引数を<code>FALSE</code>にする</a></li>
+  <li><a href="#save_log引数をfalseにする" id="toc-save_log引数をfalseにする" class="nav-link" data-scroll-target="#save_log引数をfalseにする">(2) <code>save_log</code>引数を<code>FALSE</code>にする</a></li>
+  <li><a href="#保存対象を絞る" id="toc-保存対象を絞る" class="nav-link" data-scroll-target="#保存対象を絞る">(3) 保存対象を絞る</a></li>
+  <li><a href="#保存のインターバルを指定する" id="toc-保存のインターバルを指定する" class="nav-link" data-scroll-target="#保存のインターバルを指定する">(4) 保存のインターバルを指定する</a></li>
+  </ul></li>
+  <li><a href="#その他のさまざまな機能" id="toc-その他のさまざまな機能" class="nav-link" data-scroll-target="#その他のさまざまな機能">7.3 その他のさまざまな機能</a>
+  <ul class="collapse">
+  <li><a href="#seed値" id="toc-seed値" class="nav-link" data-scroll-target="#seed値">(1) seed値</a></li>
+  <li><a href="#beep" id="toc-beep" class="nav-link" data-scroll-target="#beep">(2) beep</a></li>
+  <li><a href="#中間保存" id="toc-中間保存" class="nav-link" data-scroll-target="#中間保存">(3) 中間保存</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -253,10 +266,10 @@ Note
 <p>作成した<strong>Game</strong>オブジェクトを実際に回すのが<code>run_Game</code>関数です。この関数には、シミュレーションを回すためのさまざまな機能が備わっています。この章では、はじめに<code>run_Game</code>を使用する上でのごく基礎的な方法について紹介したうえで、実際のシミュレーションに生かせるさまざまな機能について紹介します。</p>
 </div>
 </div>
-<section id="run_gameの基礎とその仕組み" class="level1">
-<h1>1. run_Gameの基礎とその仕組み</h1>
+<section id="run_gameの基礎とその仕組み" class="level2">
+<h2 class="anchored" data-anchor-id="run_gameの基礎とその仕組み">7.1 run_Gameの基礎とその仕組み</h2>
 <section id="run_gameの回し方" class="level3">
-<h3 class="anchored" data-anchor-id="run_gameの回し方">1.1 run_Gameの回し方</h3>
+<h3 class="anchored" data-anchor-id="run_gameの回し方">(1) run_Gameの回し方</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ライブラリを読み込む</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rABM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -285,7 +298,7 @@ Note
 <p>このように（１）使用するact_FUN、（２）act_FUNの順序、（３）act_FUNの引数をrun_ABMの時点でさまざまに変えることができます。これにより、新たに一から<code>Game</code>オブジェクトを作りなおすことなく、さまざまなシナリオを検討することができます。</p>
 </section>
 <section id="run_gameの仕組み" class="level3">
-<h3 class="anchored" data-anchor-id="run_gameの仕組み">1.2 run_Gameの仕組み</h3>
+<h3 class="anchored" data-anchor-id="run_gameの仕組み">(2) run_Gameの仕組み</h3>
 <p>ここで、<code>run_Game</code>の仕組みの内部について簡単に解説します。これを掴むことで、なぜ前述のような動作が可能になるのかを理解できるはずです。</p>
 <p>run_Gameの内部では次のような処理を順番に行っています。</p>
 <ol type="1">
@@ -297,39 +310,40 @@ Note
 </ol>
 <p>このように、run_ABMではユーザーの指定に基づいて、その都度複数の関数を加工・生成することで柔軟な実行を可能にしています。なお、生成された<code>update_FUN</code>は、<code>run_Game</code>の引数<code>return_update_FUN</code>を<code>TRUE</code>にすることで、取得することができます。</p>
 </section>
+</section>
 <section id="速度を上げるための工夫" class="level2">
-<h2 class="anchored" data-anchor-id="速度を上げるための工夫">2. 速度を上げるための工夫</h2>
+<h2 class="anchored" data-anchor-id="速度を上げるための工夫">7.2 速度を上げるための工夫</h2>
 <p>前章では<strong>act_FUN</strong>の設計を工夫することで実行速度をあげられることを述べましたが、<code>run_ABM</code>においても下記の設定を変えることで速度を上げることができます。</p>
-<section id="verbose引数をfalseにする" class="level4">
-<h4 class="anchored" data-anchor-id="verbose引数をfalseにする"><strong>(1)</strong><code>verbose</code>引数を<code>FALSE</code>にする</h4>
+<section id="verbose引数をfalseにする" class="level3">
+<h3 class="anchored" data-anchor-id="verbose引数をfalseにする">(1)<code>verbose</code>引数を<code>FALSE</code>にする</h3>
 <p><code>run_Game</code>を回すと、コンソールにはさまざまな中間メッセージが出てきます。実はこのメッセージの生成そのものは実行を遅くする原因にもなります。<code>verbose</code>を<code>FALSE</code>に変更することで、速度を若干上げることができます。</p>
 </section>
-<section id="save_log引数をfalseにする" class="level4">
-<h4 class="anchored" data-anchor-id="save_log引数をfalseにする"><strong>(2)</strong><code>save_log</code>引数を<code>FALSE</code>にする</h4>
+<section id="save_log引数をfalseにする" class="level3">
+<h3 class="anchored" data-anchor-id="save_log引数をfalseにする">(2) <code>save_log</code>引数を<code>FALSE</code>にする</h3>
 <p>デフォルトでは、各回の一連の更新が終わるたびに、すべての<strong>State</strong>および<strong>Active State</strong>フィールドは<code>$log</code>に保存されます。しかしもしもこのような中間生成物は分析上不要であり、最終時点での実行結果のみを利用するならば、<code>save_log</code>を<code>FALSE</code>にすることで劇的に更新速度を上げることができます。</p>
 </section>
-<section id="保存対象を絞る" class="level4">
-<h4 class="anchored" data-anchor-id="保存対象を絞る"><strong>(3)</strong>保存対象を絞る</h4>
+<section id="保存対象を絞る" class="level3">
+<h3 class="anchored" data-anchor-id="保存対象を絞る">(3) 保存対象を絞る</h3>
 <p>もっとも、すべてではないが一部の<code>log</code>は分析上利用したいという場合もあるでしょう。この場合には、保存対象のフィールド名を<code>fields_to_save</code>引数に文字列で指定することで、保存対象を絞ることができます。特に多くの<strong>Active State</strong>が設定されている場合、各回ごとに多くの計算が発生します。保存対象を絞ることで余分なactive stateを呼び出さないことにつながります。</p>
 </section>
-<section id="保存のインターバルを指定する" class="level4">
-<h4 class="anchored" data-anchor-id="保存のインターバルを指定する"><strong>(4)</strong>保存のインターバルを指定する</h4>
+<section id="保存のインターバルを指定する" class="level3">
+<h3 class="anchored" data-anchor-id="保存のインターバルを指定する">(4) 保存のインターバルを指定する</h3>
 <p>(3)と組み合わせて、特に長いシミュレーションを行う場合にできる工夫として、すべての時点の<code>log</code>を取得するのではなく、一定の間隔でのみ保存をすることもできます。すなわち、<code>save_interval</code>引数に1以上の任意の自然数を指定することです。</p>
 </section>
 </section>
 <section id="その他のさまざまな機能" class="level2">
-<h2 class="anchored" data-anchor-id="その他のさまざまな機能">3. その他のさまざまな機能</h2>
+<h2 class="anchored" data-anchor-id="その他のさまざまな機能">7.3 その他のさまざまな機能</h2>
 <p><code>run_ABM</code>にはこのほかにもさまざまな機能が組み込まれています。以下では特にユーザーにとって有用と思われる機能を紹介します。</p>
-<section id="seed値" class="level4">
-<h4 class="anchored" data-anchor-id="seed値">(1) seed値</h4>
+<section id="seed値" class="level3">
+<h3 class="anchored" data-anchor-id="seed値">(1) seed値</h3>
 <p><strong>act_FUN</strong>がなんらかのランダム性を持つ計算を伴う場合、<code>run_Game</code>のたびに実行結果が変わります。もしもなんらかの実行結果を再現したい場合には、<code>seed</code>に正の整数値を設定することで、原則的に同じ実行結果を得ることができます。ただしこの機能は、<code>set.seed()</code>に<code>seed</code>値を渡すだけであり、この操作で制御できないランダム性を持つような関数の場合には望むような再現ができない可能性があることに注意してください。なおデフォルトでは、実行時点から任意の整数値を生成しています。ランダム生成されたseed値は、アウトプットの<code>Game</code>オブジェクトの<code>$notes$seed</code>で確認できます。</p>
 </section>
-<section id="beep" class="level4">
-<h4 class="anchored" data-anchor-id="beep">(2) beep</h4>
+<section id="beep" class="level3">
+<h3 class="anchored" data-anchor-id="beep">(2) beep</h3>
 <p><code>beep</code>引数を<code>TRUE</code>にすることで、シミュレーションが終わった時点で、ビープ音を鳴らすことができます。長いシミュレーションをさせている間に、コーヒーを飲んで休憩したい時などに便利です。</p>
 </section>
-<section id="中間保存" class="level4">
-<h4 class="anchored" data-anchor-id="中間保存">(3) 中間保存</h4>
+<section id="中間保存" class="level3">
+<h3 class="anchored" data-anchor-id="中間保存">(3) 中間保存</h3>
 <p>特に長いシミュレーションを行う際に、コンピューターが途中でダウンしてしまった場合それまでの計算がすべて無駄になるという悲劇が起こります。このような事態を避ける保険として、その時点での最新版の<code>G'</code>オブジェクトをRDSファイルとして保存しておくことができます。この機能を利用したい場合には、<code>saveRDS_inbetween</code>引数を<code>TRUE</code>にしてください。なお保存するRDSファイル名は<code>RDS_file_name</code>引数で変更することができます。なお注意点として、RDSファイルの保存そのものにも時間がかかるため、この機能を用いる場合には、実行速度も遅くなるというトレードオフがあります。</p>
 <p>なお現状の版では実装されていませんが、近日中に以下の機能についても追加される予定です。</p>
 <ul>
@@ -339,7 +353,6 @@ Note
 </ul>
 
 
-</section>
 </section>
 </section>
 

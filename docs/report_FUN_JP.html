@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -131,7 +131,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">rABM tutorial</a> 
     </div>
@@ -145,32 +147,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABM Tutorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quick Start Guide</span></a>
+  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Quick Start Guide</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">モデルライブラリの使い方</span></a>
+  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. モデルライブラリの使い方</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABMオブジェクトの構成</span></a>
+  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. rABMオブジェクトの構成</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">State &amp; Active State</span></a>
+  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. State &amp; Active State</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">plot_FUNについて</span></a>
+  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5. plot_FUNについて</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -211,10 +213,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#report_funの概要" id="toc-report_funの概要" class="nav-link active" data-scroll-target="#report_funの概要">9.1 report_FUNの概要</a></li>
   <li><a href="#三つの使い方" id="toc-三つの使い方" class="nav-link" data-scroll-target="#三つの使い方">9.2 三つの使い方</a>
   <ul class="collapse">
-  <li><a href="#計算結果を出力する" id="toc-計算結果を出力する" class="nav-link" data-scroll-target="#計算結果を出力する">9.2.1. 計算結果を出力する</a></li>
-  <li><a href="#プロットを出力する" id="toc-プロットを出力する" class="nav-link" data-scroll-target="#プロットを出力する">9.2.2 プロットを出力する</a></li>
+  <li><a href="#計算結果を出力する" id="toc-計算結果を出力する" class="nav-link" data-scroll-target="#計算結果を出力する">(1) 計算結果を出力する</a></li>
+  <li><a href="#プロットを出力する" id="toc-プロットを出力する" class="nav-link" data-scroll-target="#プロットを出力する">(2) プロットを出力する</a></li>
   </ul></li>
-  <li><a href="#logと組み合わせる" id="toc-logと組み合わせる" class="nav-link" data-scroll-target="#logと組み合わせる">9.2.3 logと組み合わせる</a></li>
+  <li><a href="#logと組み合わせる" id="toc-logと組み合わせる" class="nav-link" data-scroll-target="#logと組み合わせる">(3) logと組み合わせる</a></li>
   </ul>
 </nav>
     </div>
@@ -316,7 +318,7 @@ Note
 <section id="三つの使い方" class="level2">
 <h2 class="anchored" data-anchor-id="三つの使い方">9.2 三つの使い方</h2>
 <section id="計算結果を出力する" class="level3">
-<h3 class="anchored" data-anchor-id="計算結果を出力する">9.2.1. 計算結果を出力する</h3>
+<h3 class="anchored" data-anchor-id="計算結果を出力する">(1) 計算結果を出力する</h3>
 <p>今回のゲームの場合、シミュレーションの結果すべてのエージェントのスコアが平均値以下からalpha以上離れていないことが条件です。では現状の各アクターの標準編偏差はどのような値をとっているのでしょうか。現状の<code>x</code>の値の標準偏差を計算するreport_FUNを作成してみたいと思います。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># report_FUN</span></span>
@@ -334,7 +336,7 @@ Note
 <p>なお、この値はそのまま別のオブジェクトにも格納できるので、さらなる分析にも使用することができます。</p>
 </section>
 <section id="プロットを出力する" class="level3">
-<h3 class="anchored" data-anchor-id="プロットを出力する">9.2.2 プロットを出力する</h3>
+<h3 class="anchored" data-anchor-id="プロットを出力する">(2) プロットを出力する</h3>
 <p><strong>report_FUN</strong>にplotをする機能を組み込むことも可能です。以下の例は、<code>x</code>の分布をヒストグラムで出力する関数です。同時にxの平均と標準偏差を出力します。</p>
 <p>なお、このような使い方をする場合には<code>plot_FUN</code>と事実上機能はほとんど同じになります。概念上、<code>plot_FUN</code>はプロットを主たる出力とするいっぽう、<code>report_FUN</code>は主な出力は要約統計であり、plotは補助的な位置づけとして関数を組んでおくと、実務上使いやすくなるのではないかと思います。</p>
 <div class="cell">
@@ -371,7 +373,7 @@ $sd
 </section>
 </section>
 <section id="logと組み合わせる" class="level2">
-<h2 class="anchored" data-anchor-id="logと組み合わせる">9.2.3 logと組み合わせる</h2>
+<h2 class="anchored" data-anchor-id="logと組み合わせる">(3) logと組み合わせる</h2>
 <p>ABMにおいては、StateやActive Stateの値が時系列的にどのような変化をするのかは、重要な観察ポイントとなります。logからそれぞれの値を<code>apply</code>関数などを使って取得することは可能ですが、<code>rABM</code>にはよりユーザーが簡便に使いやすい<code>value_of</code>という関数を用意しています。引数<code>log</code>には取得したいlogのインデックスを書けばその値、<code>all</code>と書けばすべてのログを取得します。return_FUNはデフォルトでは<code>NULL</code>ですが、何らかの関数を書けば、それぞれのlogから取得した各時点のデータに<code>return_FUN</code>を適用します（出力省略）。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">value_of</span>(<span class="at">G =</span> G2, <span class="at">field_name =</span> <span class="st">"x"</span>, <span class="at">log =</span> <span class="st">"all"</span>, <span class="at">return_FUN =</span> sd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

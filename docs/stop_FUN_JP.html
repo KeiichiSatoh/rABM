@@ -65,6 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./report_FUN_JP.html" rel="next">
 <link href="./run_Game_JP.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -146,32 +147,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABM Tutorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quick Start Guide</span></a>
+  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Quick Start Guide</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">モデルライブラリの使い方</span></a>
+  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. モデルライブラリの使い方</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABMオブジェクトの構成</span></a>
+  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. rABMオブジェクトの構成</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">State &amp; Active State</span></a>
+  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. State &amp; Active State</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">plot_FUNについて</span></a>
+  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5. plot_FUNについて</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -189,6 +190,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <a href="./stop_FUN_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">8. Stop_FUN</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./report_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">9. report_FUN</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Series_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10. Series</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -199,13 +210,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#stop_funの基礎" id="toc-stop_funの基礎" class="nav-link active" data-scroll-target="#stop_funの基礎">1. stop_FUNの基礎</a></li>
-  <li><a href="#さまざまな停止条件の作り方" id="toc-さまざまな停止条件の作り方" class="nav-link" data-scroll-target="#さまざまな停止条件の作り方">2. さまざまな停止条件の作り方</a></li>
-  <li><a href="#一定の値に達した時" id="toc-一定の値に達した時" class="nav-link" data-scroll-target="#一定の値に達した時">2.1 一定の値に達した時</a></li>
-  <li><a href="#一定の値に収束した時" id="toc-一定の値に収束した時" class="nav-link" data-scroll-target="#一定の値に収束した時">2.2 一定の値に収束した時</a>
+  <li><a href="#stop_funの基礎" id="toc-stop_funの基礎" class="nav-link active" data-scroll-target="#stop_funの基礎">8.1 stop_FUNの基礎</a></li>
+  <li><a href="#さまざまな停止条件の作り方" id="toc-さまざまな停止条件の作り方" class="nav-link" data-scroll-target="#さまざまな停止条件の作り方">8.2 さまざまな停止条件の作り方</a>
   <ul class="collapse">
-  <li><a href="#一定の範囲内に値が収まった場合" id="toc-一定の範囲内に値が収まった場合" class="nav-link" data-scroll-target="#一定の範囲内に値が収まった場合">（1）一定の範囲内に値が収まった場合</a></li>
-  <li><a href="#一定の範囲内に値が収まる状況が一定以上続いたとき" id="toc-一定の範囲内に値が収まる状況が一定以上続いたとき" class="nav-link" data-scroll-target="#一定の範囲内に値が収まる状況が一定以上続いたとき">（2）一定の範囲内に値が収まる状況が一定以上続いたとき</a></li>
+  <li><a href="#一定の値に達した時" id="toc-一定の値に達した時" class="nav-link" data-scroll-target="#一定の値に達した時">(1) 一定の値に達した時</a></li>
+  <li><a href="#一定の値に収束した時" id="toc-一定の値に収束した時" class="nav-link" data-scroll-target="#一定の値に収束した時">(2) 一定の値に収束した時</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -234,7 +243,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>前章では<code>run_Game</code>を一定のシミュレーション回数を回すことで終了していましたが、この他の条件でシミュレーションを終了させることができます。そのような意図で用いられるのが<strong>stop_FUN</strong>です。この章では、<strong>stop_FUN</strong>の代表的な条件の作成の仕方を紹介します。</p>
 <section id="stop_funの基礎" class="level2">
-<h2 class="anchored" data-anchor-id="stop_funの基礎">1. stop_FUNの基礎</h2>
+<h2 class="anchored" data-anchor-id="stop_funの基礎">8.1 stop_FUNの基礎</h2>
 <p><strong>stop_FUN</strong>は、何らかの終了条件が出た場合に<code>TRUE</code>を返すように関数を組みます。次の例は、毎回ランダムにコイントスを行い、表が出たら終了という条件を作成してみました。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ライブラリを読み込む</span></span>
@@ -257,11 +266,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 <section id="さまざまな停止条件の作り方" class="level2">
-<h2 class="anchored" data-anchor-id="さまざまな停止条件の作り方">2. さまざまな停止条件の作り方</h2>
+<h2 class="anchored" data-anchor-id="さまざまな停止条件の作り方">8.2 さまざまな停止条件の作り方</h2>
 <p>ここでは、実際の場面でよくつかわれると思われる二つの条件の作り方を紹介します。</p>
-</section>
-<section id="一定の値に達した時" class="level2">
-<h2 class="anchored" data-anchor-id="一定の値に達した時">2.1 一定の値に達した時</h2>
+<section id="一定の値に達した時" class="level3">
+<h3 class="anchored" data-anchor-id="一定の値に達した時">(1) 一定の値に達した時</h3>
 <p>以下は、5人のうちランダムに選んだ一人のエージェントに1を毎回足していき、一人が10に達したときに更新を止めるように<code>stop_FUN</code>を設定する例です。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5人のエージェントの値のベクトルxを設定する</span></span>
@@ -286,10 +294,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>G2 <span class="ot">&lt;-</span> <span class="fu">run_Game</span>(<span class="at">G =</span> G, <span class="at">plan =</span> <span class="st">"add_1_randomly"</span>, <span class="at">nm_stop_FUN =</span> <span class="st">"is_x_10"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="一定の値に収束した時" class="level2">
-<h2 class="anchored" data-anchor-id="一定の値に収束した時">2.2 一定の値に収束した時</h2>
-<section id="一定の範囲内に値が収まった場合" class="level3">
-<h3 class="anchored" data-anchor-id="一定の範囲内に値が収まった場合">（1）一定の範囲内に値が収まった場合</h3>
+<section id="一定の値に収束した時" class="level3">
+<h3 class="anchored" data-anchor-id="一定の値に収束した時">(2) 一定の値に収束した時</h3>
+<section id="一定の範囲内に値が収まった場合" class="level4">
+<h4 class="anchored" data-anchor-id="一定の範囲内に値が収まった場合"><strong>一定の範囲内に値が収まった場合</strong></h4>
 <p>次の例は各回１名分選ばれたエージェントの持つ値に全体平均からの差分を足すことで、最終的に収束へ導く<strong>act_FUN</strong>を実装しています。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># State</span></span>
@@ -324,8 +332,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="一定の範囲内に値が収まる状況が一定以上続いたとき" class="level3">
-<h3 class="anchored" data-anchor-id="一定の範囲内に値が収まる状況が一定以上続いたとき">（2）一定の範囲内に値が収まる状況が一定以上続いたとき</h3>
+<section id="一定の範囲内に値が収まる状況が一定以上続いたとき" class="level4">
+<h4 class="anchored" data-anchor-id="一定の範囲内に値が収まる状況が一定以上続いたとき"><strong>一定の範囲内に値が収まる状況が一定以上続いたとき</strong></h4>
 <p>先ほどの例を少し発展させると、値が一度だけ一定範囲内に入った場合ではなく、その状態が一定期間続いたときにはじめて収束と判定したい場合があります。<br>
 </p>
 <p>このような場合には、<strong>act_FUN</strong> の中で各時点の状態が条件を満たしているかどうかを評価し、その結果を満たした回数を <strong>State</strong> に記録しておきます。そして <strong>stop_FUN</strong> では、その条件が連続回数があらかじめ定めた閾値に達した時にシミュレーションを停止させます。</p>
@@ -374,6 +382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 
 
+</section>
 </section>
 </section>
 
@@ -785,6 +794,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./report_FUN_JP.html" class="pagination-link" aria-label="9. report_FUN">
+        <span class="nav-page-text"><span class="chapter-title">9. report_FUN</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

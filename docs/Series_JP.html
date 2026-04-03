@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-d9ea66fcd6c317012447f26e9c021348.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -130,7 +130,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">rABM tutorial</a> 
     </div>
@@ -144,32 +146,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABM Tutorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quick Start Guide</span></a>
+  <a href="./quick_start_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1. Quick Start Guide</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">モデルライブラリの使い方</span></a>
+  <a href="./model_library_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2. モデルライブラリの使い方</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABMオブジェクトの構成</span></a>
+  <a href="./rABM_classes_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3. rABMオブジェクトの構成</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">State &amp; Active State</span></a>
+  <a href="./state_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4. State &amp; Active State</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">plot_FUNについて</span></a>
+  <a href="./plot_FUN_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">5. plot_FUNについて</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -207,18 +209,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#seriesについて" id="toc-seriesについて" class="nav-link active" data-scroll-target="#seriesについて">1. Seriesについて</a>
+  <li><a href="#seriesについて" id="toc-seriesについて" class="nav-link active" data-scroll-target="#seriesについて">10.1 Seriesについて</a>
   <ul class="collapse">
-  <li><a href="#目的" id="toc-目的" class="nav-link" data-scroll-target="#目的">1.1 目的</a></li>
-  <li><a href="#基礎的な使用方法" id="toc-基礎的な使用方法" class="nav-link" data-scroll-target="#基礎的な使用方法">1.2 基礎的な使用方法</a></li>
+  <li><a href="#目的" id="toc-目的" class="nav-link" data-scroll-target="#目的">(1) 目的</a></li>
+  <li><a href="#基礎的な使用方法" id="toc-基礎的な使用方法" class="nav-link" data-scroll-target="#基礎的な使用方法">(2) 基礎的な使用方法</a></li>
   </ul></li>
-  <li><a href="#応用的な利用方法" id="toc-応用的な利用方法" class="nav-link" data-scroll-target="#応用的な利用方法">2. 応用的な利用方法</a>
+  <li><a href="#応用的な利用方法" id="toc-応用的な利用方法" class="nav-link" data-scroll-target="#応用的な利用方法">10.2 応用的な利用方法</a>
   <ul class="collapse">
-  <li><a href="#複数のchunkを用意しておきrunごとに変える" id="toc-複数のchunkを用意しておきrunごとに変える" class="nav-link" data-scroll-target="#複数のchunkを用意しておきrunごとに変える">2.1 複数のChunkを用意しておき、runごとに変える</a></li>
-  <li><a href="#default値を指定しておく" id="toc-default値を指定しておく" class="nav-link" data-scroll-target="#default値を指定しておく">2.2 default値を指定しておく</a></li>
-  <li><a href="#結果変数のみ取得する" id="toc-結果変数のみ取得する" class="nav-link" data-scroll-target="#結果変数のみ取得する">2.3 結果変数のみ取得する</a></li>
+  <li><a href="#複数のchunkを用意しておきrunごとに変える" id="toc-複数のchunkを用意しておきrunごとに変える" class="nav-link" data-scroll-target="#複数のchunkを用意しておきrunごとに変える">(1) 複数のChunkを用意しておき、runごとに変える</a></li>
+  <li><a href="#default値を指定しておく" id="toc-default値を指定しておく" class="nav-link" data-scroll-target="#default値を指定しておく">(2) default値を指定しておく</a></li>
+  <li><a href="#結果変数のみ取得する" id="toc-結果変数のみ取得する" class="nav-link" data-scroll-target="#結果変数のみ取得する">(3) 結果変数のみ取得する</a></li>
   </ul></li>
-  <li><a href="#実際のabmでの使用用法" id="toc-実際のabmでの使用用法" class="nav-link" data-scroll-target="#実際のabmでの使用用法">3. 実際のABMでの使用用法</a></li>
+  <li><a href="#実際のabmでの使用用法" id="toc-実際のabmでの使用用法" class="nav-link" data-scroll-target="#実際のabmでの使用用法">10.3 実際のABMでの使用用法</a></li>
   </ul>
 </nav>
     </div>
@@ -257,18 +259,18 @@ Note
 <p>ここまで解説した機能でABMを回すことはできますが、この章では一連の設定を自動化して実行するSeriesという機能を紹介します。はじめにSeriesについて概観し、実際に簡単な例で実際の使い方を解説します。</p>
 </div>
 </div>
-<section id="seriesについて" class="level1">
-<h1>1. Seriesについて</h1>
-<section id="目的" class="level2">
-<h2 class="anchored" data-anchor-id="目的">1.1 目的</h2>
+<section id="seriesについて" class="level2">
+<h2 class="anchored" data-anchor-id="seriesについて">10.1 Seriesについて</h2>
+<section id="目的" class="level3">
+<h3 class="anchored" data-anchor-id="目的">(1) 目的</h3>
 <p><strong>Series</strong>はここまで解説した一連のrABMの設定や実行に関するスクリプトを<strong>chunk</strong>として保存し、任意の<strong>chunk</strong>を組み合わせて実行する機能です。この機能は大きく二つの目的で使用することができます。</p>
 <ul>
 <li><p><strong>Game</strong>オブジェクトを<code>run_Game</code>によって回すだけではなく、変数やフィールドの設定からの一連の流れで毎回のシミュレーションを回す場合</p></li>
 <li><p>ABMの実行が一度の<code>run_Game</code>を実行するだけでは終了せず、複数の<code>run_Game</code>を組み合わせる必要がある場合（たとえばいったん収束値に至ったうえで、そこに何らかのランダムな変化を**State**フィールドに与えて、さらに<code>run_Game</code>を実行する場合など）</p></li>
 </ul>
 </section>
-<section id="基礎的な使用方法" class="level2">
-<h2 class="anchored" data-anchor-id="基礎的な使用方法">1.2 基礎的な使用方法</h2>
+<section id="基礎的な使用方法" class="level3">
+<h3 class="anchored" data-anchor-id="基礎的な使用方法">(2) 基礎的な使用方法</h3>
 <p>SeriesはABMに関するものだけではなく、通常のスクリプトに関しても使用することができます。概要を掴むうえでは、こちらの方が分かりやすいため、以下の例では、通常の簡単なスクリプトを<strong>Series</strong>として実行しています。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rABM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -356,7 +358,7 @@ $series_plan
 [1] "step1" "step2" "step3"
 
 $series_seed
-[1] 1775195139
+[1] 1775201070
 
 $error_log
 list()
@@ -367,10 +369,10 @@ $implementation_took
 </div>
 </section>
 </section>
-<section id="応用的な利用方法" class="level1">
-<h1>2. 応用的な利用方法</h1>
-<section id="複数のchunkを用意しておきrunごとに変える" class="level2">
-<h2 class="anchored" data-anchor-id="複数のchunkを用意しておきrunごとに変える">2.1 複数のChunkを用意しておき、runごとに変える</h2>
+<section id="応用的な利用方法" class="level2">
+<h2 class="anchored" data-anchor-id="応用的な利用方法">10.2 応用的な利用方法</h2>
+<section id="複数のchunkを用意しておきrunごとに変える" class="level3">
+<h3 class="anchored" data-anchor-id="複数のchunkを用意しておきrunごとに変える">(1) 複数のChunkを用意しておき、runごとに変える</h3>
 <p><code>run_Series</code>では実際に利用するChunkを<code>series_plan</code>で指定することができます。このことを利用して、あらかじめ複数のchunkを用意することで、分析ごとに簡単に変えることができます。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># step1_1とstep1_2を両方用意しておく</span></span>
@@ -395,8 +397,8 @@ Series implementation DONE!</code></pre>
 </div>
 <p>上記の例と同様に、<code>step1_2</code>の方を指定することで結果を変えられます。</p>
 </section>
-<section id="default値を指定しておく" class="level2">
-<h2 class="anchored" data-anchor-id="default値を指定しておく">2.2 default値を指定しておく</h2>
+<section id="default値を指定しておく" class="level3">
+<h3 class="anchored" data-anchor-id="default値を指定しておく">(2) default値を指定しておく</h3>
 <p>あらかじめdefault値を指定しておくことで、<code>run_Series</code>の実行時に、その値が環境に存在することを前提に計算がなされます。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># x = 2というdefault値を入れておく</span></span>
@@ -427,7 +429,7 @@ $series_plan
 [1] "step2"
 
 $series_seed
-[1] 1775195139
+[1] 1775201071
 
 $error_log
 list()
@@ -461,7 +463,7 @@ $series_plan
 [1] "step2"
 
 $series_seed
-[1] 1775195139
+[1] 1775201071
 
 $error_log
 list()
@@ -471,8 +473,8 @@ $implementation_took
 </div>
 </div>
 </section>
-<section id="結果変数のみ取得する" class="level2">
-<h2 class="anchored" data-anchor-id="結果変数のみ取得する">2.3 結果変数のみ取得する</h2>
+<section id="結果変数のみ取得する" class="level3">
+<h3 class="anchored" data-anchor-id="結果変数のみ取得する">(3) 結果変数のみ取得する</h3>
 <p><code>run_Series</code>関数の<code>simplify_output</code>引数を<code>TRUE</code>にすると、シミュレーションに変数のみアウトプットで返します。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>S4 <span class="ot">&lt;-</span> <span class="fu">run_Series</span>(S, <span class="at">series_plan =</span> <span class="st">"step2"</span>, <span class="at">simplify_output =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
@@ -487,8 +489,8 @@ $x
 </div>
 </section>
 </section>
-<section id="実際のabmでの使用用法" class="level1">
-<h1>3. 実際のABMでの使用用法</h1>
+<section id="実際のabmでの使用用法" class="level2">
+<h2 class="anchored" data-anchor-id="実際のabmでの使用用法">10.3 実際のABMでの使用用法</h2>
 <p>本章の最後に実際のABMでの使用方法について、ごく簡単な例を用いて解説します。</p>
 <p>以下のモデルにおいて更新そのものはエージェントに毎回1が足されることが共通ですが、エージェントの初期値を変えたいと思います。このようなときにSeriesが使用できます。</p>
 <div class="cell">
@@ -530,7 +532,7 @@ Ready to run......
    current time: 2
 Finished at time 2 
 
-Simulation took 00:00:00.005 (hh:mm:ss.mmm)</code></pre>
+Simulation took 00:00:00.009 (hh:mm:ss.mmm)</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 結果を確認してみる</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>S2<span class="sc">$</span>G2<span class="sc">$</span>money</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
