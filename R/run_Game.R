@@ -146,8 +146,10 @@ run_Game <- function(G,
     formals(stop_FUN) <- formals(.format_FUN_formals(fun = G[[nm]],
                                                      include_self = TRUE))
 
-    cat("[stop_FUN]","\n")
-    cat(nm_stop_FUN, "\n")
+    if(isTRUE(verbose)){
+      cat("[stop_FUN]","\n")
+      cat(nm_stop_FUN, "\n")
+    }
   } else {
     stopifnot(
       "times must be a positive integer." =
@@ -157,10 +159,11 @@ run_Game <- function(G,
     sim_time <- G$time + times
     stop_FUN <- function(self = self) { self$time >= sim_time }
 
-    cat("[stop_FUN]","\n")
-
-    cat(paste0("stop times at ", sim_time, "\n"))
-    cat("\n")
+    if(isTRUE(verbose)){
+      cat("[stop_FUN]","\n")
+      cat(paste0("stop times at ", sim_time, "\n"))
+      cat("\n")
+    }
   }
 
   # seed (set once)
@@ -193,7 +196,9 @@ run_Game <- function(G,
                                   add_tryCatch = add_tryCatch)
     log_time[[log_idx]] <- G$time
 
-    cat("The initial values at time ", G$time, " were saved.\n", sep = "")
+    if(isTRUE(verbose)){
+      cat("The initial values at time ", G$time, " were saved.\n", sep = "")
+    }
   }
 
   # Ready to run

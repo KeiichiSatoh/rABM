@@ -64,7 +64,7 @@
 
   # match
   looked <- match(fields_to_save, field_list$name)
-  if(is.na(looked)){
+  if(any(is.na(looked))){
     stop(c("The following field name(s) were not found in 'G':", paste0(looked[is.na(looked)], collapse = ", ")))
   }
 
