@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "rABM tutorial",
     "section": "",
-    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n探索的な操作性: 試行錯誤がしやすいこと\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、速く効率的に分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n\nrABM開発チーム\n\n　　　　　　　\n\n日本語版\n\n1. Quick start guide\n2. model library\n3. rABMオブジェクトの構成\n4. state & active state\n5. plot_FUN\n6. act_FUN\n7. run_Game\n8. stop_FUN\n9. report_FUN\n10. Series\n\n\n\nEnglish Version\nComing soon…",
+    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n直感的な操作性: 標準的なRユーザーが簡単にABMに取り組めるように、Rの標準的な記法や設計思想を最大限尊重すること\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、様々な試行錯誤が速く効率的にでき、結果的に迅速な分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n\nrABM開発チーム\n\n　　　　　　　\n\n日本語版\n\n1. Quick start guide\n2. model library\n3. rABMオブジェクトの構成\n4. state & active state\n5. plot_FUN\n6. act_FUN\n7. run_Game\n8. stop_FUN\n9. report_FUN\n10. Series\n\n\n\nEnglish Version\nComing soon…",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>rABM Tutorial</span>"
     ]
