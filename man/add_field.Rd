@@ -31,5 +31,5 @@ All structural and semantic validation is delegated to
 \code{ABM_Game}'s internal \code{.add()} method.
 }
 \seealso{
-\code{\link{remove_field}}
+\code{\link{remove_field}}, \code{\link{replace_field}}
 }

@@ -30,7 +30,7 @@ all categories.
 \code{...} accepts \code{ABM_Field} objects.}
 \item{\code{.add(...)}}{Add \code{ABM_Field} objects to the game.}
 \item{\code{.remove(...)}}{Remove fields by name.}
-\item{\code{.replace(name, x)}}{Replace a field value or function.}
+\item{\code{.replace(...)}}{Replace a field value or function.}
 \item{\code{.get_category()}}{Return the named character vector of field categories.}
 \item{\code{.get_flist()}}{Return a \code{data.frame} of field names and categories.}
 \item{\code{.snapshot(field_names, add_tryCatch)}}{Retrieve a snapshot of selected

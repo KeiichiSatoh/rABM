@@ -1,9 +1,12 @@
 # rABM (development version)
 
+# rABM 1.1.10
+2026-04-04
+* [added] `replace_field`: added an internal method `.replace()` to `Game` class.
+
 # rABM 1.1.9
 2026-04-03
 * [fixed] `run_ABM`: fixed the malfunctioned `fields_to_save`argument. Improved the behavior, when `verbose` is `FALSE`
-
 
 # rABM 1.1.8
 2026-04-02

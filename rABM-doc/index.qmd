@@ -35,3 +35,5 @@ rABM開発チーム
 # English Version
 
 Coming soon...
+
+※パッケージへのご意見やご提案、バグの報告等は、GithubページのIssues（<https://github.com/KeiichiSatoh/rABM/issues>）にお寄せいただくか、管理者（佐藤圭一・一橋大学、keiichi.satoh \[at\] r.hit-u.ac.jp）までお寄せください。

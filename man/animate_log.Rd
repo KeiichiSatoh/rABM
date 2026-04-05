@@ -12,7 +12,7 @@ animate_log(
   width = 800,
   height = 600,
   res = 96,
-  add_time_label = TRUE,
+  add_time_label = FALSE,
   file = "temp.gif",
   play = TRUE,
   check = TRUE,

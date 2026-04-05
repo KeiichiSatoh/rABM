@@ -25,7 +25,7 @@
 #'   `...` accepts `ABM_Field` objects.}
 #'   \item{`.add(...)`}{Add `ABM_Field` objects to the game.}
 #'   \item{`.remove(...)`}{Remove fields by name.}
-#'   \item{`.replace(name, x)`}{Replace a field value or function.}
+#'   \item{`.replace(...)`}{Replace a field value or function.}
 #'   \item{`.get_category()`}{Return the named character vector of field categories.}
 #'   \item{`.get_flist()`}{Return a `data.frame` of field names and categories.}
 #'   \item{`.snapshot(field_names, add_tryCatch)`}{Retrieve a snapshot of selected
@@ -233,45 +233,29 @@ ABM_Game <- R6::R6Class(
     #================================================================
     # replace
     #================================================================
-    .replace = function(name, x){
-      if (!is.character(name) || length(name) != 1L || is.na(name) || !nzchar(name)) {
-        stop("'name' must be a single non-empty character string.")
-      }
+    .replace = function(...){
+      # Unzip the input
+      x <- Unzip(...)
+      x_names <- vapply(x, function(x_i) x_i$name, character(1))
 
+      field_check <- vapply(x, inherits, logical(1), what = "ABM_Field")
+      stopifnot("Some elements in the input '...' are not 'ABM_Field' class objects." = all(field_check))
+
+      # retrieve the field category
       fc <- private$field_category
-      idx <- match(name, names(fc))
-      if (is.na(idx)) stop("'name' does not exist in the fields.")
 
-      cat_i <- unname(fc[idx])
-      if (is.na(cat_i) || !cat_i %in% c("state", "active_stage",
-                                        "act_FUN", "stop_FUN",
-                                        "plot_FUN", "report_FUN")) {
-        stop("Unknown field category: ", cat_i)
+      # match the field category
+      matched <- match(x_names, names(fc))
+      if(any(is.na(matched))){
+        stop("The following field(s) do not exist: ", paste(x_names[is.na(matched)], collapse = ", "))
       }
 
-      if (cat_i %in% c("act_FUN", "stop_FUN", "plot_FUN", "report_FUN")) {
-        stopifnot("Put a function to the '*_FUN' category field." = is.function(x))
-        unlockBinding(name, self)
-        on.exit(lockBinding(name, self), add = TRUE)
+      # Remove the field
+      self$.remove(x_names)
 
-        x <- .format_FUN_formals(x)
-        environment(x) <- self$.__enclos_env__
+      # add the new ones
+      self$.add(...)
 
-        self[[name]] <- x
-        return(invisible(self))
-      }
-
-      switch(cat_i,
-             "state" = {
-               stopifnot("Do not put a function to the 'state' category field." = !is.function(x))
-               self[[name]] <- x
-             },
-             "active_state" = {
-               stopifnot("Put a function to the 'active_state' category field." = is.function(x))
-               self$.remove(name = name)      # remove binding + registry
-               private$.add_active(name, x)   # recreate binding
-             }
-      )
 
       invisible(self)
     },
