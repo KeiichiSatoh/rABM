@@ -16,6 +16,7 @@ book:
     - stop_FUN_JP.qmd
     - report_FUN_JP.qmd
     - Series_JP.qmd
+    - Core_functions_JP.qmd
 
 format:
   html:

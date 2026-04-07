@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 1.1.11
+2026-04-07
+* [added] `add_chunk`, `remove_chunk`, `replace_chunk`.
+
 # rABM 1.1.10
 2026-04-04
 * [added] `replace_field`: added an internal method `.replace()` to `Game` class.

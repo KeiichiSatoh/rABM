@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>rABM tutorial</title>
+<title>11. Core functions – rABM tutorial</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./quick_start_JP.html" rel="next">
+<link href="./Series_JP.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">rABM Tutorial</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Core_functions_JP.html"><span class="chapter-title">11. Core functions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">rABM Tutorial</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">rABM Tutorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -164,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Core_functions_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">11. Core functions</span></a>
+  <a href="./Core_functions_JP.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">11. Core functions</span></a>
   </div>
 </li>
     </ul>
@@ -177,8 +177,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#日本語版" id="toc-日本語版" class="nav-link active" data-scroll-target="#日本語版">日本語版</a></li>
-  <li><a href="#english-version" id="toc-english-version" class="nav-link" data-scroll-target="#english-version">English Version</a></li>
+  <li><a href="#gameオブジェクトの操作" id="toc-gameオブジェクトの操作" class="nav-link active" data-scroll-target="#gameオブジェクトの操作">Gameオブジェクトの操作</a></li>
+  <li><a href="#seriesオブジェクトの操作" id="toc-seriesオブジェクトの操作" class="nav-link" data-scroll-target="#seriesオブジェクトの操作">Seriesオブジェクトの操作</a></li>
   </ul>
 </nav>
     </div>
@@ -187,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">rABM tutorial</h1>
+<h1 class="title"><span class="chapter-title">11. Core functions</span></h1>
 </div>
 
 
@@ -204,37 +204,77 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><strong>rABM</strong>はRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。<strong>R</strong>はABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、<strong>rABM</strong>では次の三つの設計思想を大切にして作られています。</p>
-<ul>
-<li><p><strong>直感的な操作性</strong>: 標準的なRユーザーが簡単にABMに取り組めるように、Rの標準的な記法や設計思想を最大限尊重すること</p></li>
-<li><p><strong>柔軟な拡張性</strong>: さまざまな拡張を自由にできること</p></li>
-<li><p><strong>総合的な効率性</strong>：ABMの構想から、実行、分析までをトータルで見た場合に、様々な試行錯誤が速く効率的にでき、結果的に迅速な分析作業が行えること</p></li>
-</ul>
-<p>rABMがぜひとも皆様の研究のお役に立てることを祈っています。</p>
-<div style="text-align: right;">
-<p>rABM開発チーム</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p>　　　　　　　</p>
-<section id="日本語版" class="level1">
-<h1>日本語版</h1>
-<ul>
-<li><a href="./quick_start_JP.html">1. Quick start guide</a></li>
-<li><a href="./model_library_JP.html">2. model library</a></li>
-<li><a href="./rABM_classes_JP.html">3. rABMオブジェクトの構成</a></li>
-<li><a href="./state_JP.html">4. state &amp; active state</a></li>
-<li><a href="./plot_FUN_JP.html">5. plot_FUN</a></li>
-<li><a href="./act_FUN_JP.html">6. act_FUN</a></li>
-<li><a href="./run_Game_JP.html">7. run_Game</a></li>
-<li><a href="./stop_FUN_JP.html">8. stop_FUN</a></li>
-<li><a href="./report_FUN_JP.html">9. report_FUN</a></li>
-<li><a href="./Series_JP.html">10. Series</a></li>
-<li><a href="./Core_functions_JP.html">11. Core functions</a></li>
-</ul>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>rABMで実装されている関数のうち、特に重要なものを列挙します。詳細は各関数のヘルプページをご覧ください。</p>
+<p>【注意】このページはアップデート中です。ほとんどの関数は以下の表ではまだ網羅されていません。（26/4/7）</p>
+</div>
+</div>
+<section id="gameオブジェクトの操作" class="level2">
+<h2 class="anchored" data-anchor-id="gameオブジェクトの操作">Gameオブジェクトの操作</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>関数</th>
+<th>機能</th>
+<th>補足</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>add_field</code></td>
+<td>フィールドの追加</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>remove_field</code></td>
+<td>フィールドの削除</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>replace_field</code></td>
+<td>フィールドの入れ替え</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="english-version" class="level1">
-<h1>English Version</h1>
-<p>Coming soon…</p>
-<p>※パッケージへのご意見やご提案、バグの報告等は、GithubページのIssues（<a href="https://github.com/KeiichiSatoh/rABM/issues" class="uri">https://github.com/KeiichiSatoh/rABM/issues</a>）にお寄せいただくか、管理者（佐藤圭一・一橋大学、keiichi.satoh [at] r.hit-u.ac.jp）までお寄せください。</p>
+<section id="seriesオブジェクトの操作" class="level2">
+<h2 class="anchored" data-anchor-id="seriesオブジェクトの操作">Seriesオブジェクトの操作</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>関数</th>
+<th>ラベル</th>
+<th>補足</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>add_chunk</code></td>
+<td>チャンクの追加</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>remove_chunk</code></td>
+<td>チャンクの削除</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>replace_chunk</code></td>
+<td>チャンクの入れ替え</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 
 </section>
@@ -642,11 +682,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./Series_JP.html" class="pagination-link" aria-label="10. Series">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">10. Series</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./quick_start_JP.html" class="pagination-link" aria-label="1. Quick Start Guide">
-        <span class="nav-page-text"><span class="chapter-title">1. Quick Start Guide</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

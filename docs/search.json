@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "rABM tutorial",
     "section": "",
-    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n直感的な操作性: 標準的なRユーザーが簡単にABMに取り組めるように、Rの標準的な記法や設計思想を最大限尊重すること\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、様々な試行錯誤が速く効率的にでき、結果的に迅速な分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n\nrABM開発チーム\n\n　　　　　　　\n\n日本語版\n\n1. Quick start guide\n2. model library\n3. rABMオブジェクトの構成\n4. state & active state\n5. plot_FUN\n6. act_FUN\n7. run_Game\n8. stop_FUN\n9. report_FUN\n10. Series\n\n\n\nEnglish Version\nComing soon…\n※パッケージへのご意見やご提案、バグの報告等は、GithubページのIssues（https://github.com/KeiichiSatoh/rABM/issues）にお寄せいただくか、管理者（佐藤圭一・一橋大学、keiichi.satoh [at] r.hit-u.ac.jp）までお寄せください。",
+    "text": "rABMはRでエージェント・ベースド・モデリング（ABM）を行うためのパッケージです。RはABMのようなシミュレーションを行う上で計算実行速度自体は速いとは言えませんが、代わりに直感的な操作性と豊富な統計パッケージに恵まれた言語です。このRの特性を生かして、rABMでは次の三つの設計思想を大切にして作られています。\n\n直感的な操作性: 標準的なRユーザーが簡単にABMに取り組めるように、Rの標準的な記法や設計思想を最大限尊重すること\n柔軟な拡張性: さまざまな拡張を自由にできること\n総合的な効率性：ABMの構想から、実行、分析までをトータルで見た場合に、様々な試行錯誤が速く効率的にでき、結果的に迅速な分析作業が行えること\n\nrABMがぜひとも皆様の研究のお役に立てることを祈っています。\n\nrABM開発チーム\n\n　　　　　　　\n\n日本語版\n\n1. Quick start guide\n2. model library\n3. rABMオブジェクトの構成\n4. state & active state\n5. plot_FUN\n6. act_FUN\n7. run_Game\n8. stop_FUN\n9. report_FUN\n10. Series\n11. Core functions\n\n\n\nEnglish Version\nComing soon…\n※パッケージへのご意見やご提案、バグの報告等は、GithubページのIssues（https://github.com/KeiichiSatoh/rABM/issues）にお寄せいただくか、管理者（佐藤圭一・一橋大学、keiichi.satoh [at] r.hit-u.ac.jp）までお寄せください。",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>rABM Tutorial</span>"
     ]
@@ -757,6 +757,36 @@
     "text": "10.3 実際のABMでの使用用法\n本章の最後に実際のABMでの使用方法について、ごく簡単な例を用いて解説します。\n以下のモデルにおいて更新そのものはエージェントに毎回1が足されることが共通ですが、エージェントの初期値を変えたいと思います。このようなときにSeriesが使用できます。\n\n# 二種類の初期値を用意する\nmoney_pattern1 &lt;- Chunk({money &lt;- 1:5})\nmoney_pattern2 &lt;- Chunk({money &lt;- 100:105})\n\n# 後の操作は共通\ncreate_G &lt;- Chunk({\n  # act_FUNを作成する\n  add_money &lt;- function(){self$money &lt;- self$money + 1}\n  \n  # Gameオブジェクトに格納する\n  G &lt;- Game(State(money), Act(add_money))\n})\n\nrun &lt;- Chunk({G2 &lt;- run_Game(G, plan = c(\"add_money\"))})\n\n# Seriesとして定義\nS &lt;- Series(money_pattern1, money_pattern2, create_G, run)\n\n# money_pattern2の方で回してみる\nS2 &lt;- run_Series(S, series_plan = c(\"money_pattern2\", \n                                    \"create_G\",\n                                    \"run\"),\n                 verbose = FALSE,\n                 simplify_output = TRUE)\n\n[plan] \nadd_money\n \n[stop_FUN] \nstop times at 2\n\nThe initial values at time 1 were saved.\n\nReady to run......\n   start time  : 1\n   current time: 2\nFinished at time 2 \n\nSimulation took 00:00:00.009 (hh:mm:ss.mmm)\n\n# 結果を確認してみる\nS2$G2$money\n\n[1] 101 102 103 104 105 106",
     "crumbs": [
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>10. Series</span>"
+    ]
+  },
+  {
+    "objectID": "Core_functions_JP.html",
+    "href": "Core_functions_JP.html",
+    "title": "11. Core functions",
+    "section": "",
+    "text": "Gameオブジェクトの操作",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>11. Core functions</span>"
+    ]
+  },
+  {
+    "objectID": "Core_functions_JP.html#gameオブジェクトの操作",
+    "href": "Core_functions_JP.html#gameオブジェクトの操作",
+    "title": "11. Core functions",
+    "section": "",
+    "text": "関数\n機能\n補足\n\n\n\n\nadd_field\nフィールドの追加\n\n\n\nremove_field\nフィールドの削除\n\n\n\nreplace_field\nフィールドの入れ替え",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>11. Core functions</span>"
+    ]
+  },
+  {
+    "objectID": "Core_functions_JP.html#seriesオブジェクトの操作",
+    "href": "Core_functions_JP.html#seriesオブジェクトの操作",
+    "title": "11. Core functions",
+    "section": "Seriesオブジェクトの操作",
+    "text": "Seriesオブジェクトの操作\n\n\n\n関数\nラベル\n補足\n\n\n\n\nadd_chunk\nチャンクの追加\n\n\n\nremove_chunk\nチャンクの削除\n\n\n\nreplace_chunk\nチャンクの入れ替え",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>11. Core functions</span>"
     ]
   }
 ]
