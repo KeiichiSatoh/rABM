@@ -238,7 +238,7 @@ act_ga <- function(parents,
   )
 
   children_comb <- rbind(sel$elite_parents, children)
-  rownames(children_comb) <- NULL
+  rownames(children_comb) <- rownames(parents)
 
   if (!isTRUE(parent_info)) {
     return(children_comb)

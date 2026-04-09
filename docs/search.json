@@ -788,5 +788,35 @@
     "crumbs": [
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>11. Core functions</span>"
     ]
+  },
+  {
+    "objectID": "Core_functions_JP.html#モデル",
+    "href": "Core_functions_JP.html#モデル",
+    "title": "11. Core functions",
+    "section": "モデル",
+    "text": "モデル\n\n\n\n\n\n\n\n\n関数\nラベル\n補足\n\n\n\n\nmodel_schelling_segregation\nT. Schelling (1971)の空間分居モデル\n\n\n\nmodel_hero_coward\nNetLogoのHeros and Cowardsモデル\n\n\n\nmodel_fire_spread\nNetLogoのforest fireモデル\n\n\n\nmodel_knapsack_ga\n遺伝的アルゴリズムに基づいてナップザック問題を解くモデル\n\n\n\nmodel_opinion_jager\nJager & Amblard (2005)による意見ダイナミクスモデル\n原典に加えて多様なネットワークや多次元の意見をサポート",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>11. Core functions</span>"
+    ]
+  },
+  {
+    "objectID": "Core_functions_JP.html#stateフィールド作成補助",
+    "href": "Core_functions_JP.html#stateフィールド作成補助",
+    "title": "11. Core functions",
+    "section": "Stateフィールド作成補助",
+    "text": "Stateフィールド作成補助\n\n\n\n\n\n\n\n\n関数\nラベル\n補足\n\n\n\n\nmake_group_labels\ngroup_propに従ってグループラベルを作成\n\n\n\nmake_grid_neighborhood\n2Dの碁盤目状のグリッドの隣接グリッド番号をリスト化\nreturn_as = \"network\" で隣接行列を作成",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>11. Core functions</span>"
+    ]
+  },
+  {
+    "objectID": "Core_functions_JP.html#actフィールド作成補助",
+    "href": "Core_functions_JP.html#actフィールド作成補助",
+    "title": "11. Core functions",
+    "section": "Actフィールド作成補助",
+    "text": "Actフィールド作成補助\n\n\n\n\n\n\n\n\n関数\nラベル\n補足\n\n\n\n\nsample2\n`sample`と機能上は全く同じだが、xが長さ1の数字だった場合にベクトルの長さと解釈されてしまう問題を回避\n\n\n\nact_ga\n遺伝的アルゴリズムに基づくフィールドの更新\n２値、多値、数値いずれの型にも対応",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>11. Core functions</span>"
+    ]
   }
 ]

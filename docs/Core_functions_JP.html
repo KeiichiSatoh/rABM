@@ -179,6 +179,9 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#gameオブジェクトの操作" id="toc-gameオブジェクトの操作" class="nav-link active" data-scroll-target="#gameオブジェクトの操作">Gameオブジェクトの操作</a></li>
   <li><a href="#seriesオブジェクトの操作" id="toc-seriesオブジェクトの操作" class="nav-link" data-scroll-target="#seriesオブジェクトの操作">Seriesオブジェクトの操作</a></li>
+  <li><a href="#モデル" id="toc-モデル" class="nav-link" data-scroll-target="#モデル">モデル</a></li>
+  <li><a href="#stateフィールド作成補助" id="toc-stateフィールド作成補助" class="nav-link" data-scroll-target="#stateフィールド作成補助">Stateフィールド作成補助</a></li>
+  <li><a href="#actフィールド作成補助" id="toc-actフィールド作成補助" class="nav-link" data-scroll-target="#actフィールド作成補助">Actフィールド作成補助</a></li>
   </ul>
 </nav>
     </div>
@@ -272,6 +275,113 @@ Note
 <td><code>replace_chunk</code></td>
 <td>チャンクの入れ替え</td>
 <td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="モデル" class="level2">
+<h2 class="anchored" data-anchor-id="モデル">モデル</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>関数</th>
+<th>ラベル</th>
+<th>補足</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>model_schelling_segregation</code></td>
+<td>T. Schelling (1971)の空間分居モデル</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>model_hero_coward</code></td>
+<td>NetLogoのHeros and Cowardsモデル</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>model_fire_spread</code></td>
+<td>NetLogoのforest fireモデル</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>model_knapsack_ga</code></td>
+<td>遺伝的アルゴリズムに基づいてナップザック問題を解くモデル</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>model_opinion_jager</code></td>
+<td>Jager &amp; Amblard (2005)による意見ダイナミクスモデル</td>
+<td>原典に加えて多様なネットワークや多次元の意見をサポート</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="stateフィールド作成補助" class="level2">
+<h2 class="anchored" data-anchor-id="stateフィールド作成補助">Stateフィールド作成補助</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>関数</th>
+<th>ラベル</th>
+<th>補足</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>make_group_labels</code></td>
+<td><code>group_prop</code>に従ってグループラベルを作成</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>make_grid_neighborhood</code></td>
+<td>2Dの碁盤目状のグリッドの隣接グリッド番号をリスト化</td>
+<td><code>return_as = "network"</code> で隣接行列を作成</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="actフィールド作成補助" class="level2">
+<h2 class="anchored" data-anchor-id="actフィールド作成補助">Actフィールド作成補助</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>関数</th>
+<th>ラベル</th>
+<th>補足</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sample2</code></td>
+<td><code>`sample`</code>と機能上は全く同じだが、xが長さ1の数字だった場合にベクトルの長さと解釈されてしまう問題を回避</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>act_ga</code></td>
+<td>遺伝的アルゴリズムに基づくフィールドの更新</td>
+<td>２値、多値、数値いずれの型にも対応</td>
 </tr>
 </tbody>
 </table>

@@ -1,5 +1,11 @@
 # rABM (development version)
 
+
+# rABM 1.1.12
+2026-04-09
+* [added] `model_knapsack_ga`, `model_fire_spread`, `model_opinion_jager`.
+
+
 # rABM 1.1.11
 2026-04-07
 * [added] `add_chunk`, `remove_chunk`, `replace_chunk`.
