@@ -1,6 +1,10 @@
 # rABM (development version)
 
 
+# rABM 1.1.13
+2026-04-11
+* [added] `model_party_laver`
+
 # rABM 1.1.12
 2026-04-09
 * [added] `model_knapsack_ga`, `model_fire_spread`, `model_opinion_jager`.
