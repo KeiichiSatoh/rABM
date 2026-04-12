@@ -814,7 +814,7 @@
     "href": "Core_functions_JP.html#actフィールド作成補助",
     "title": "11. Core functions",
     "section": "Actフィールド作成補助",
-    "text": "Actフィールド作成補助\n\n\n\n\n\n\n\n\n関数\nラベル\n補足\n\n\n\n\nsample2\n`sample`と機能上は全く同じだが、xが長さ1の数字だった場合にベクトルの長さと解釈されてしまう問題を回避\n\n\n\nact_ga\n遺伝的アルゴリズムに基づくフィールドの更新\n２値、多値、数値いずれの型にも対応\n\n\nmove_coord\nエージェントの移動先座標を現状のエージェントの位置と目標地点、移動速度から計算\n目標地点の代わりにラジアン（目標角度）でも指定可能",
+    "text": "Actフィールド作成補助\n\n\n\n\n\n\n\n\n関数\nラベル\n補足\n\n\n\n\nsample2\n`sample`と機能上は全く同じだが、xが長さ1の数字だった場合にベクトルの長さと解釈されてしまう問題を回避\n\n\n\nsample_weighted\nケース×各オプションの選択確率ウェイトのデータ型に対してベクトル計算を行うことで、sampleよりも大幅に速く計算。\n複数選択も可。復元抽出・非復元抽出のいずれも可。\n\n\nact_ga\n遺伝的アルゴリズムに基づくフィールドの更新\n２値、多値、数値いずれの型にも対応\n\n\nmove_coord\nエージェントの移動先座標を現状のエージェントの位置と目標地点、移動速度から計算\n目標地点の代わりにラジアン（目標角度）でも指定可能",
     "crumbs": [
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>11. Core functions</span>"
     ]

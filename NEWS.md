@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 1.1.14
+2026-04-11
+* [added] `sample_weighted`
+
 
 # rABM 1.1.13
 2026-04-11

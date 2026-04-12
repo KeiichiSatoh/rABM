@@ -11,6 +11,7 @@
 #' @importFrom matrixStats colMins
 #' @importFrom matrixStats colSds
 #' @importFrom matrixStats rowRanks
+#' @importFrom matrixStats rowSums2
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom Rcpp sourceCpp
 #' @importFrom rlang enexprs
