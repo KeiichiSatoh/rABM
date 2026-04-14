@@ -31,6 +31,7 @@
 #'   catches fire at a given time step. A value of \code{1} means fire always
 #'   spreads; lower values introduce stochastic resistance.
 #'   Default: \code{1}.
+#' @param max_time A positive integer giving the naumber of max times to run.
 #'
 #' @details
 #' ## Cell states
@@ -131,6 +132,7 @@ model_fire_spread <- function(
     ignition_point = NULL,
     n_row = 50,
     n_col = 50,
+    max_time = 300,
     seed = NULL,
     spark = FALSE,
     burn_prob = 1
@@ -160,7 +162,8 @@ model_fire_spread <- function(
                    n_col = n_col,
                    n_cell = n_cell,
                    spark = spark,
-                   burn_prob = burn_prob)
+                   burn_prob = burn_prob,
+                   max_time = max_time)
   add_field(G, State(settings))
 
   #===== Active State ==========
@@ -235,7 +238,7 @@ model_fire_spread <- function(
 
 
   #==== stop_FUN =============
-  sim_stop <- function(max_time = 300){
+  sim_stop <- function(max_time = self$max_time){
     is_completely_burned <- self$tree_stat["burned"]==100
     is_time_met <- self$time >= max_time
 
