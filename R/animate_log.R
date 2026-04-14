@@ -41,6 +41,7 @@
 #' G <- run_Game(G, plan = ..., save_log = TRUE)
 #' animate_log(G, name = "plot_agents", log = NULL, file = "anim.gif")
 #' }
+#' @export
 animate_log <- function(G, name, log = NULL,
                         delay = 1,
                         width = 800, height = 600, res = 96,
