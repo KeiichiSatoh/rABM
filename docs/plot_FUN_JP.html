@@ -200,6 +200,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <a href="./Series_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">10. Series</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Core_functions_JP.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">11. Core functions</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -285,12 +290,12 @@ Note
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;Game&gt;
 $x(state)
-  [1]  0.378473849  0.097873167 -0.342488064 -0.175056328 -1.054047941
-  [6]  0.425224134 -0.575651866 -0.628467056 -0.536051587 -0.602213661
- [11] -0.515536695  0.187918477  1.540957498 -0.676046146 -0.568634605
- [16]  0.101851729  0.999183150 -0.530184170 -1.647724912  1.550487013
- [21] -0.739287529  0.942165610  0.012674254  0.867070679 -0.122140260
- [26] -0.110102313 -0.181250555  0.997137498  0.316022328 -1.145035170
+  [1] -0.572710029 -1.529958264  1.214787849  0.438515323  0.797292492
+  [6] -1.105725044  0.310056123  0.947605551 -1.056944811 -1.037795536
+ [11] -0.949176600 -1.119942130  0.063040425  0.549170684 -0.752226958
+ [16]  0.655800438 -0.963703585  0.384823934 -1.024311177 -0.628106820
+ [21] -0.857408716  0.186055742 -1.787702484  0.415800001  0.448885023
+ [26]  0.840768752  0.037455330  0.990692427 -0.782215200 -0.356266198
   ---- (truncated) ----
 
 $plot_x(plot_FUN)
@@ -329,7 +334,7 @@ n of fields  : 2
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot2を読み込む</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.5.2</code></pre>
+<pre><code>Warning: パッケージ 'ggplot2' はバージョン 4.5.2 の R の下で造られました</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ggplot2を用いた図示用の関数を作成する</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plot_x_ggp <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>

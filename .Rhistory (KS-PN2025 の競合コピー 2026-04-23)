@@ -1,0 +1,512 @@
+x_std <- x_std / matrixStats::rowSums2(x_std)
+x_csm <- matrixStats::rowCumsums(x_std)
+# select
+th <- runif(n_cases, 0, 1)
+choice <- max.col(th <= x_csm, ties.method = "first")
+choice_mat[ ,s] <- choice
+# update the choice
+if(s < size) x_std[cbind(1:n_cases, choice)] <- 0
+}
+out <- matrix(col_names[choice_mat], nrow = n_cases, ncol = size)
+dimnames(out) <- list(rownames(x), 1:size)
+out
+}
+}
+x <- matrix(1:12, 3, 4)
+x
+sample_weighted(x)
+size <- as.integer(size)
+size
+# validation
+stopifnot("'x' must be a matrix." = is.matrix(x))
+stopifnot("'size' must be a positive integer." =
+length(size) == 1 && size >= 1)
+stopifnot("'size' must be <= ncol(x)." = size <= ncol(x))
+if (any(x < 0)) {
+stop("'x' contains negative valuesx. Provide 'x' whose minimum value is 0.")
+}
+if (any(is.na(x))) {
+stop("'x' contains NA. Set 0 if the probability of choosing this opition should be 0.")
+}
+sample_weighted <- function(x, size = 1){
+size <- as.integer(size)
+# validation
+stopifnot("'x' must be a matrix." = is.matrix(x))
+stopifnot("'size' must be a positive integer." =
+length(size) == 1 && size >= 1)
+stopifnot("'size' must be <= ncol(x)." = size <= ncol(x))
+if (any(x < 0)) {
+stop("'x' contains negative valuesx. Provide 'x' whose minimum value is 0.")
+}
+if (any(is.na(x))) {
+stop("'x' contains NA. Set 0 if the probability of choosing this opition should be 0.")
+}
+if (is.null(colnames(x))) colnames(x) <- paste0("x", 1:ncol(x))
+n_cases <- nrow(x)
+col_names <- colnames(x)
+if(size == 1){
+# standardize x
+x_std <- x / matrixStats::rowSums2(x)
+x_csm <- matrixStats::rowCumsums(x_std)
+# select
+th <- runif(n_cases, 0, 1)
+choice <- max.col(th <= x_csm, ties.method = "first")
+return(col_names[choice])
+}else{
+choice_mat <- matrix(0L, n_cases, size)
+x_std <- x
+for(s in seq_len(size)){
+# standardize
+x_std <- x_std / matrixStats::rowSums2(x_std)
+x_csm <- matrixStats::rowCumsums(x_std)
+# select
+th <- runif(n_cases, 0, 1)
+choice <- max.col(th <= x_csm, ties.method = "first")
+choice_mat[ ,s] <- choice
+# update the choice
+if(s < size) x_std[cbind(1:n_cases, choice)] <- 0
+}
+out <- matrix(col_names[choice_mat], nrow = n_cases, ncol = size)
+dimnames(out) <- list(rownames(x), 1:size)
+out
+}
+}
+sample_weighted(x)
+sample_weighted(x)
+sample_weighted(x)
+sample_weighted(x)
+sample_weighted(x)
+sample_weighted(x)
+sample_weighted(x)
+sample_weighted(x)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+x
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+x[1,] <- 0
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+x <- matrix(1:15, 3, 5)
+x[1,] <- 0
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+x[2,] <- 1
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+sample_weighted(x, size = 2)
+x <- matrix(1:15, 3, 5)
+size
+size <- as.integer(size)
+# validation
+stopifnot("'x' must be a matrix." = is.matrix(x))
+stopifnot("'size' must be a positive integer." =
+length(size) == 1 && size >= 1)
+stopifnot("'size' must be <= ncol(x)." = size <= ncol(x))
+if (any(x < 0)) {
+stop("'x' contains negative valuesx. Provide 'x' whose minimum value is 0.")
+}
+if (any(is.na(x))) {
+stop("'x' contains NA. Set 0 if the probability of choosing this opition should be 0.")
+}
+if (is.null(colnames(x))) colnames(x) <- paste0("x", 1:ncol(x))
+n_cases <- nrow(x)
+col_names <- colnames(x)
+choice_mat <- matrix(0L, n_cases, size)
+x_std <- x
+choice_mat
+x_std <- x
+x_std
+# standardize
+x_std <- x_std / matrixStats::rowSums2(x_std)
+x_std
+x
+x <- matrix(1:15, 3, 5)
+x[1,] <- 0
+x[2,] <- 1
+x
+choice_mat <- matrix(0L, n_cases, size)
+x_std <- x
+# standardize
+x_std <- x_std / matrixStats::rowSums2(x_std)
+x_csm <- matrixStats::rowCumsums(x_std)
+x_std
+x_csm <- matrixStats::rowCumsums(x_std)
+x_csm
+# select
+th <- runif(n_cases, 0, 1)
+choice <- max.col(th <= x_csm, ties.method = "first")
+choice
+choice_mat[ ,s] <- choice
+choice_mat[ ,s]
+choice_mat
+# update the choice
+if(s < size) x_std[cbind(1:n_cases, choice)] <- 0
+x_std
+1:n_cases
+choice
+x_std[cbind(1:n_cases, choice)]
+# update the choice
+if(s < size) x_std[cbind(1:n_cases, choice)] <- 0
+x_std
+s < size
+x_std[cbind(1:n_cases, choice)] <- 0
+x_std
+matrixStats::rowSums2(x_std)
+matrixStats::rowSums2(x_std)
+x_std / matrixStats::rowSums2(x_std)
+use_import_from("matrixStats","rowSums2","rowCumsums")
+document()
+library(matrixStats)
+library(microbenchmark)
+# ---------------------------------------------------------
+# Baseline: apply + sample()
+# Each row draws one category according to row-specific prob
+# ---------------------------------------------------------
+sample_apply <- function(x){
+if (is.null(colnames(x))) colnames(x) <- paste0("x", 1:ncol(x))
+col_names <- colnames(x)
+apply(x, 1, function(prob){
+col_names[sample.int(n = length(prob), size = 1, prob = prob)]
+})
+}
+# ---------------------------------------------------------
+# Alternative baseline: explicit for-loop + sample()
+# Sometimes useful because apply itself has overhead
+# ---------------------------------------------------------
+sample_for <- function(x){
+if (is.null(colnames(x))) colnames(x) <- paste0("x", 1:ncol(x))
+col_names <- colnames(x)
+n_cases <- nrow(x)
+out <- character(n_cases)
+for(i in 1:n_cases){
+out[i] <- col_names[sample.int(n = ncol(x), size = 1, prob = x[i, ])]
+}
+out
+}
+# ---------------------------------------------------------
+# Generate test matrix
+# Positive weights only, row sums > 0 guaranteed
+# ---------------------------------------------------------
+make_prob_matrix <- function(n_cases = 10000, n_choices = 10, seed = 123){
+set.seed(seed)
+x <- matrix(
+rexp(n_cases * n_choices, rate = 1),
+nrow = n_cases,
+ncol = n_choices
+)
+colnames(x) <- paste0("x", 1:n_choices)
+x
+}
+# ---------------------------------------------------------
+# Small correctness check
+# ---------------------------------------------------------
+set.seed(1)
+x_test <- make_prob_matrix(n_cases = 20, n_choices = 5, seed = 1)
+x_test
+out_fast  <- sample_weighted(x_test, size = 1)
+out_apply <- sample_apply(x_test)
+out_for   <- sample_for(x_test)
+str(out_fast)
+out_fast
+out_apply
+out_for
+# ---------------------------------------------------------
+# Main benchmark
+# Adjust n_cases / n_choices as needed
+# ---------------------------------------------------------
+x <- make_prob_matrix(n_cases = 10000, n_choices = 10, seed = 42)
+# warm-up
+invisible(sample_weighted(x, size = 1))
+invisible(sample_apply(x))
+invisible(sample_for(x))
+bm <- microbenchmark(
+sample_weighted = sample_weighted(x, size = 1),
+apply_sample    = sample_apply(x),
+for_sample      = sample_for(x),
+times = 30L,
+unit = "ms"
+)
+print(bm)
+print(summary(bm))
+# ---------------------------------------------------------
+# Optional: benchmark across multiple dimensions
+# ---------------------------------------------------------
+run_benchmark_grid <- function(
+n_cases_vec   = c(1000, 5000, 10000),
+n_choices_vec = c(5, 10, 20),
+times = 20L,
+seed = 123
+){
+res <- vector("list", length(n_cases_vec) * length(n_choices_vec))
+idx <- 1L
+for(n_cases in n_cases_vec){
+for(n_choices in n_choices_vec){
+x <- make_prob_matrix(
+n_cases = n_cases,
+n_choices = n_choices,
+seed = seed
+)
+invisible(sample_weighted(x, size = 1))
+invisible(sample_apply(x))
+invisible(sample_for(x))
+bm <- microbenchmark(
+sample_weighted = sample_weighted(x, size = 1),
+apply_sample    = sample_apply(x),
+for_sample      = sample_for(x),
+times = times,
+unit = "ms"
+)
+tmp <- summary(bm)
+tmp$n_cases <- n_cases
+tmp$n_choices <- n_choices
+res[[idx]] <- tmp
+idx <- idx + 1L
+}
+}
+do.call(rbind, res)
+}
+# ---------------------------------------------------------
+# Baseline 1: apply + sample()
+# size >= 2 supported via repeated sampling without replacement
+# ---------------------------------------------------------
+sample_apply <- function(x, size = 1){
+if (is.null(colnames(x))) colnames(x) <- paste0("x", 1:ncol(x))
+col_names <- colnames(x)
+if (size == 1) {
+return(apply(x, 1, function(prob){
+col_names[sample.int(length(prob), size = 1, prob = prob)]
+}))
+}
+out <- apply(x, 1, function(prob){
+col_names[sample.int(length(prob), size = size, prob = prob, replace = FALSE)]
+})
+t(out)
+}
+# ---------------------------------------------------------
+# Baseline 2: explicit for + sample()
+# size >= 2 supported via repeated sampling without replacement
+# ---------------------------------------------------------
+sample_for <- function(x, size = 1){
+if (is.null(colnames(x))) colnames(x) <- paste0("x", 1:ncol(x))
+col_names <- colnames(x)
+n_cases <- nrow(x)
+if (size == 1) {
+out <- character(n_cases)
+for(i in 1:n_cases){
+out[i] <- col_names[sample.int(ncol(x), size = 1, prob = x[i, ])]
+}
+return(out)
+}
+out <- matrix(NA_character_, nrow = n_cases, ncol = size)
+for(i in 1:n_cases){
+out[i, ] <- col_names[sample.int(ncol(x), size = size, prob = x[i, ], replace = FALSE)]
+}
+dimnames(out) <- list(rownames(x), 1:size)
+out
+}
+# ---------------------------------------------------------
+# Data generator
+# Positive weights only
+# ---------------------------------------------------------
+make_prob_matrix <- function(n_cases = 10000, n_choices = 10, seed = 123){
+set.seed(seed)
+x <- matrix(
+rexp(n_cases * n_choices, rate = 1),
+nrow = n_cases,
+ncol = n_choices
+)
+colnames(x) <- paste0("x", 1:n_choices)
+x
+}
+# ---------------------------------------------------------
+# Benchmark one condition
+# ---------------------------------------------------------
+benchmark_one <- function(n_cases, n_choices, size, times = 20L, seed = 123){
+x <- make_prob_matrix(
+n_cases   = n_cases,
+n_choices = n_choices,
+seed      = seed
+)
+# warm up
+invisible(sample_weighted(x, size = size))
+invisible(sample_apply(x, size = size))
+invisible(sample_for(x, size = size))
+bm <- microbenchmark(
+sample_weighted = sample_weighted(x, size = size),
+apply_sample    = sample_apply(x, size = size),
+for_sample      = sample_for(x, size = size),
+times = times,
+unit = "ms"
+)
+out <- summary(bm)
+out$n_cases   <- n_cases
+out$n_choices <- n_choices
+out$size      <- size
+out
+}
+# ---------------------------------------------------------
+# Run grid benchmark
+# ---------------------------------------------------------
+run_benchmark_grid <- function(
+n_cases_vec   = c(1000, 5000, 10000),
+n_choices_vec = c(5, 10, 20, 50),
+size_vec      = c(1, 2, 3),
+times         = 20L,
+seed          = 123
+){
+res <- vector("list", length(n_cases_vec) * length(n_choices_vec) * length(size_vec))
+idx <- 1L
+for(n_cases in n_cases_vec){
+for(n_choices in n_choices_vec){
+for(size in size_vec){
+cat("Running:",
+"n_cases =", n_cases,
+"| n_choices =", n_choices,
+"| size =", size, "\n")
+res[[idx]] <- benchmark_one(
+n_cases   = n_cases,
+n_choices = n_choices,
+size      = size,
+times     = times,
+seed      = seed
+)
+idx <- idx + 1L
+}
+}
+}
+out <- do.call(rbind, res)
+rownames(out) <- NULL
+out
+}
+# ---------------------------------------------------------
+# Summarize relative speed
+# ---------------------------------------------------------
+summarize_speedup <- function(bm_grid){
+keep <- bm_grid[, c("expr", "median", "mean", "n_cases", "n_choices", "size")]
+split_key <- interaction(keep$n_cases, keep$n_choices, keep$size, drop = TRUE)
+groups <- split(keep, split_key)
+out <- lapply(groups, function(df){
+med_fast  <- df$median[df$expr == "sample_weighted"]
+med_apply <- df$median[df$expr == "apply_sample"]
+med_for   <- df$median[df$expr == "for_sample"]
+data.frame(
+n_cases = df$n_cases[1],
+n_choices = df$n_choices[1],
+size = df$size[1],
+median_fast = med_fast,
+median_apply = med_apply,
+median_for = med_for,
+speedup_vs_apply = med_apply / med_fast,
+speedup_vs_for = med_for / med_fast
+)
+})
+do.call(rbind, out)
+}
+# ---------------------------------------------------------
+# Example run
+# ---------------------------------------------------------
+bm_grid <- run_benchmark_grid(
+n_cases_vec   = c(1000, 5000, 10000),
+n_choices_vec = c(5, 10, 20),
+size_vec      = c(1, 2, 3),
+times         = 20L,
+seed          = 42
+)
+# Main results
+print(bm_grid[, c("expr", "n_cases", "n_choices", "size", "median", "mean", "min", "max")])
+# Speedup table
+speed_table <- summarize_speedup(bm_grid)
+print(speed_table)
+# Optional: sort by largest gain vs apply
+speed_table <- speed_table[order(-speed_table$speedup_vs_apply), ]
+print(speed_table)
+print(speed_table)
+# Main results
+print(bm_grid[, c("expr", "n_cases", "n_choices", "size", "median", "mean", "min", "max")])
+library(ggplot2)
+# ---------------------------------------------
+# 0. 前処理
+# ---------------------------------------------
+bm_plot <- bm_grid
+bm_plot$expr <- factor(
+bm_plot$expr,
+levels = c("sample_weighted", "for_sample", "apply_sample")
+)
+speed_table$size <- factor(speed_table$size)
+speed_table$n_choices <- factor(speed_table$n_choices)
+speed_table$n_cases <- factor(speed_table$n_cases)
+# ---------------------------------------------
+# 1. Median runtime plot
+#    x = n_cases
+#    y = median time (ms)
+#    color = method
+#    facet = n_choices x size
+# ---------------------------------------------
+p_runtime <- ggplot(
+bm_plot,
+aes(x = n_cases, y = median, color = expr, group = expr)
+) +
+geom_line() +
+geom_point(size = 2) +
+facet_grid(size ~ n_choices, scales = "free_y") +
+scale_x_continuous(breaks = sort(unique(bm_plot$n_cases))) +
+labs(
+title = "Benchmark comparison by method",
+x = "Number of cases",
+y = "Median runtime (ms)",
+color = "Method"
+) +
+theme_bw()
+p_runtime
+as.numeric("A")
+as.numeric(c("1","2","3"))
+document()
+rm("sample_weighted")
+document()
+library(devtools)
+load_all()
+?model_fire_spread
+out <- model_fire_spread()
+out$G_init
+G <- out$G_finished
+G
+G$plot_land()
+out$G_init$plot_land()
+out$G_finished$plot_land()
+plot(G, name = "plot_land", log = 1)
+plot(G, name = "plot_land", log = 10)
+plot(G, name = "plot_land", log = 30)
+plot(G, name = "plot_land", log = 100)
+G
+G$report_stat()
+stat <- G$report_stat()
+stat
+animate_log(G = G, name = "plot_land")
+?animate_log
+animate_log(G = G, name = "plot_land", delay = 0.2)
+out <- model_fire_spread(vacancy_prop = 0.5)
+out$G_finished$plot_land()
+out <- model_fire_spread(vacancy_prop = 0.5, ignition_point = matrix(c(25,25), 1, 2))
+document()
+document()

@@ -106,8 +106,7 @@ model_schelling_segregation <- function(
   stopifnot(
     is.numeric(group_prop),
     length(group_prop) >= 2,
-    all(group_prop > 0),
-    abs(sum(group_prop) - 1) < 1e-8
+    all(group_prop > 0)
   )
   neib_type <- match.arg(neib_type)
   n_agent <- floor(n_row * n_col * (1 - vacant_prop))

@@ -9,7 +9,6 @@ model_fire_spread(
   ignition_point = NULL,
   n_row = 50,
   n_col = 50,
-  max_time = 300,
   seed = NULL,
   spark = FALSE,
   burn_prob = 1
@@ -34,8 +33,6 @@ Default: \code{50}.}
 
 \item{n_col}{A positive integer giving the number of columns in the grid.
 Default: \code{50}.}
-
-\item{max_time}{A positive integer giving the naumber of max times to run.}
 
 \item{seed}{An optional positive integer passed to \code{\link{set.seed}}
 for reproducibility. If \code{NULL} (default), no seed is set.}

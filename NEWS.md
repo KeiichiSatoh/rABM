@@ -1,9 +1,16 @@
 # rABM (development version)
 
+# rABM 1.1.16
+2026-04-23
+* [fixed] some minor bugs in `model_fire_spread` and `model_schelling_segregation`
+
+# rABM 1.1.15
+2026-04-21
+* [fixed] some minor description in `quick_start_JP.qmd`
+
 # rABM 1.1.14
 2026-04-11
 * [added] `sample_weighted`
-
 
 # rABM 1.1.13
 2026-04-11

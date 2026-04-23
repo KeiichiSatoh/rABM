@@ -7,7 +7,7 @@
 #' trees have burned or the maximum number of time steps is reached.
 #'
 #' @param vacancy_prop A numeric scalar in \eqn{[0, 1]} giving the proportion
-#'   of grid cells that contain no tree. Default: \code{0.4}.
+#'   of grid cells that contain no tree. Default: \code{0.3}.
 #' @param ignition_point Optional. Specifies the cell(s) where fire starts.
 #'   \itemize{
 #'     \item If \code{NULL} (default), one intact tree is chosen at random.
@@ -238,9 +238,9 @@ model_fire_spread <- function(
 
 
   #==== stop_FUN =============
-  sim_stop <- function(max_time = self$max_time){
+  sim_stop <- function(){
     is_completely_burned <- self$tree_stat["burned"]==100
-    is_time_met <- self$time >= max_time
+    is_time_met <- self$time >= self$settings$max_time
 
     # is time to stop
     is_completely_burned||is_time_met
