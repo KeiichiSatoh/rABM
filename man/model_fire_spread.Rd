@@ -9,6 +9,7 @@ model_fire_spread(
   ignition_point = NULL,
   n_row = 50,
   n_col = 50,
+  max_time = 300,
   seed = NULL,
   spark = FALSE,
   burn_prob = 1
@@ -16,7 +17,7 @@ model_fire_spread(
 }
 \arguments{
 \item{vacancy_prop}{A numeric scalar in \eqn{[0, 1]} giving the proportion
-of grid cells that contain no tree. Default: \code{0.4}.}
+of grid cells that contain no tree. Default: \code{0.3}.}
 
 \item{ignition_point}{Optional. Specifies the cell(s) where fire starts.
 \itemize{
@@ -33,6 +34,8 @@ Default: \code{50}.}
 
 \item{n_col}{A positive integer giving the number of columns in the grid.
 Default: \code{50}.}
+
+\item{max_time}{A positive integer giving the naumber of max times to run.}
 
 \item{seed}{An optional positive integer passed to \code{\link{set.seed}}
 for reproducibility. If \code{NULL} (default), no seed is set.}
