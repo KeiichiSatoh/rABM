@@ -27,3 +27,4 @@ Thumbs.db
 **/.quarto/
 **/*_cache/
 **/*.quarto_ipynb
+.positai

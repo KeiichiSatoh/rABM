@@ -16,7 +16,7 @@
 #' }
 #'
 #' The model uses bounded space with the movement rule \code{movement_type = "stop"} in
-#' \code{\link{act_coord_move}} (agents stop at the first boundary encountered).
+#' \code{\link{coord_move}} (agents stop at the first boundary encountered).
 #' The space is assumed to have lower bounds fixed at 0, i.e., \code{[0, x_max] × [0, y_max]}.
 #'
 #' @details
@@ -46,7 +46,7 @@
 #' \code{set.seed()}.
 #'
 #' @param n Integer. Number of agents.
-#' @param speed Numeric scalar. Movement distance per step passed to \code{\link{act_coord_move}}.
+#' @param speed Numeric scalar. Movement distance per step passed to \code{\link{coord_move}}.
 #' @param x_max,y_max Numeric scalars. Upper bounds of the space. Lower bounds are assumed to be 0.
 #' @param sim_time Integer. Number of simulation steps (times) for \code{\link{run_Game}}.
 #' @param agent_type Optional numeric/integer vector of length \code{n}. Each element must be one of
@@ -70,7 +70,7 @@
 #' @seealso
 #' \code{\link{Game}}, \code{\link{State}}, \code{\link{Active}}, \code{\link{Act}},
 #' \code{\link{Plot}}, \code{\link{Report}}, \code{\link{add_field}},
-#' \code{\link{run_Game}}, \code{\link{act_coord_move}}, \code{\link{animate_log}}
+#' \code{\link{run_Game}}, \code{\link{coord_move}}, \code{\link{animate_log}}
 #'
 #' @export
 model_hero_coward <- function(n = 30,
@@ -232,14 +232,14 @@ model_hero_coward <- function(n = 30,
   # ============================================================
 
   move_agent <- function(speed = self$settings$speed) {
-    # target positions (may be outside; boundary is handled by act_coord_move)
+    # target positions (may be outside; boundary is handled by move_coord)
     target_posit <- get_target_posit(
       friend_posit = self$friend_posit,
       enemy_posit  = self$enemy_posit,
       agent_type   = self$agent_type
     )
 
-    new_posit <- act_coord_move(
+    new_posit <- coord_move(
       agent_posit     = self$posit,
       target_posit    = target_posit,
       movement_speed  = speed,

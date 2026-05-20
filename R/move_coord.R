@@ -98,8 +98,6 @@ NULL
 
 #' @rdname move_coord_family
 #' @export
-
-agent_posit <- c(1,1)
 move_coord <- function(agent_posit,
                        target_posit = NULL,
                        speed = 0.1,

@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 1.1.17
+2026-05-29
+* [fixed] A bugs in `model_hero_coward` is fixed.
+
 # rABM 1.1.16
 2026-04-23
 * [fixed] some minor bugs in `model_fire_spread` and `model_schelling_segregation`
