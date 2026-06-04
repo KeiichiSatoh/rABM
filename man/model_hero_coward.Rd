@@ -19,7 +19,7 @@ model_hero_coward(
 \arguments{
 \item{n}{Integer. Number of agents.}
 
-\item{speed}{Numeric scalar. Movement distance per step passed to \code{\link{act_coord_move}}.}
+\item{speed}{Numeric scalar. Movement distance per step passed to \code{\link{coord_move}}.}
 
 \item{x_max, y_max}{Numeric scalars. Upper bounds of the space. Lower bounds are assumed to be 0.}
 
@@ -54,7 +54,7 @@ with the friend–enemy line).
 }
 
 The model uses bounded space with the movement rule \code{movement_type = "stop"} in
-\code{\link{act_coord_move}} (agents stop at the first boundary encountered).
+\code{\link{coord_move}} (agents stop at the first boundary encountered).
 The space is assumed to have lower bounds fixed at 0, i.e., \code{[0, x_max] × [0, y_max]}.
 }
 \details{
@@ -101,5 +101,5 @@ animate_log(SIM$G_finished, name = "plot_space", delay = 0.2, check = FALSE)
 \seealso{
 \code{\link{Game}}, \code{\link{State}}, \code{\link{Active}}, \code{\link{Act}},
 \code{\link{Plot}}, \code{\link{Report}}, \code{\link{add_field}},
-\code{\link{run_Game}}, \code{\link{act_coord_move}}, \code{\link{animate_log}}
+\code{\link{run_Game}}, \code{\link{coord_move}}, \code{\link{animate_log}}
 }

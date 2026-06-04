@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 1.1.18
+2026-06-04
+* [added] `model_opinion_flache`.
+
 # rABM 1.1.17
 2026-05-29
 * [fixed] A bugs in `model_hero_coward` is fixed.
