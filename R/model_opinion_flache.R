@@ -185,7 +185,7 @@
 #' @references
 #' Flache, A., & Macy, M. W. (2011). Small worlds and cultural polarization.
 #' \emph{Journal of Mathematical Sociology}, 35(1-3), 146--176.
-x#'
+#'
 #' Huberman, B. A., & Glance, N. S. (1993). Evolutionary games and computer
 #' simulations. \emph{Proceedings of the National Academy of Sciences}, 90,
 #' 7716--7718.

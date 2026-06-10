@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_opinion_flache.R
 \name{model_opinion_flache}
 \alias{model_opinion_flache}
-\title{Opinion Dynamics and Cultural Polarization}
+\title{Agent-Based Model of Opinion Dynamics and Cultural Polarization}
 \usage{
 model_opinion_flache(
   n_agent = 100,
@@ -98,22 +98,43 @@ The following methods are also attached to the returned object:
 opinion updates.}
 \item{\code{add_random_tie()}}{Act. Adds random ties at the specified
 iteration. No-op at all other times.}
-\item{\code{plot_network(layout_type)}}{Plot. Visualizes the access network
-with network statistics in the subtitle. \code{layout_type} is passed to
-\code{sna::gplot()} (default \code{"circle"}).}
-\item{\code{plot_opinion(x, y, pch, time, ...)}}{Plot. Scatter plot of
-agent opinions on two dimensions. If \code{time} is specified, retrieves
-the logged state at that iteration.}
-\item{\code{report_polarization(log, show_plot)}}{Report. Returns the
-polarization measure. If \code{log = NULL}, returns a single numeric
+\item{\code{plot_network(opinion_dim, ...)}}{Plot. Visualizes the access
+network with vertex colors reflecting agent opinions on dimension
+\code{opinion_dim} (blue = \eqn{-1}, white = \eqn{0}, red = \eqn{+1};
+default \code{opinion_dim = 1}). Network statistics (density,
+clustering, mean path length) are shown in the subtitle. Additional
+arguments are passed to \code{sna::gplot()}.
+Note: \code{plot_network()} internally calls
+\code{self$report_net_stat(print = FALSE)}, so \code{net_stat} must be
+computed before the subtitle is drawn.}
+\item{\code{plot_opinion(x, y, pch, time, xlim, ylim, ...)}}{Plot.
+Scatter plot of agent opinions on dimensions \code{x} and \code{y}
+(defaults \code{1} and \code{2}). \code{pch} defaults to \code{1}
+(open circle). \code{xlim} and \code{ylim} both default to
+\code{c(-1, 1)}. If \code{time} is specified, retrieves the logged
+state at that iteration. Additional arguments are passed to
+\code{plot()}.}
+\item{\code{report_polarization(log, show_plot, ylim)}}{Report. Returns
+the polarization measure. If \code{log = NULL}, returns a single numeric
 value for the current state. If \code{log} is specified, returns a data
 frame with columns \code{time} and \code{polarization} across logged
 iterations, and optionally plots the time series (\code{show_plot =
-    TRUE}).}
+    TRUE}). \code{ylim} controls the y-axis range of the time-series plot
+(default \code{c(0, 1.25)}).}
 \item{\code{report_net_stat(print)}}{Report. Computes and optionally
 prints network density, average local clustering coefficient, and mean
 geodesic path length. Returns a named numeric vector
 \code{c(density, clustering, path_length)}.}
+\item{\code{report_group_opinion(opinion_dim, log, show_plot, ylim)}}{
+Report. Detects network communities via
+\code{igraph::cluster_walktrap()} and summarizes mean opinion per
+community. \code{opinion_dim} selects the opinion dimension to report
+(default \code{1}). If \code{log = NULL}, displays a boxplot of current
+opinions by community and returns a named vector of community means. If
+\code{log} is specified (default \code{"all"}), returns a matrix of
+community mean opinions over time and optionally plots trajectories
+(\code{show_plot = TRUE}). \code{ylim} controls the y-axis range
+(default \code{c(-1, 1)}).}
 }
 }
 \description{
@@ -183,7 +204,7 @@ The \code{report_polarization()} method computes the variance of pairwise
 Manhattan distances (averaged across issues) between all agent pairs,
 excluding self-distances. This corresponds to the polarization measure P
 in Equation 3 of Flache and Macy (2011), with the minor difference that
-Rbase \code{var()} uses \eqn{n-1} in the denominator rather than \eqn{n}.
+R's \code{var()} uses \eqn{n-1} in the denominator rather than \eqn{n}.
 This difference is negligible for \code{n_agent = 100}.
 }
 
@@ -199,12 +220,12 @@ Each iteration executes \code{add_random_tie} before \code{update_opinion}.
 # Replicate baseline condition of Experiment 1 in Flache & Macy (2011):
 # disconnected caveman graph, no random ties, negative weights allowed
 G_base <- model_opinion_flache(
-  n_agent             = 100,
-  n_agent_per_cave    = 5,
-  n_issue             = 2,
-  negative_weight     = TRUE,
+  n_agent                = 100,
+  n_agent_per_cave       = 5,
+  n_issue                = 2,
+  negative_weight        = TRUE,
   random_tie_prop_outset = 0,
-  times               = 100
+  times                  = 100
 )
 
 # Polarization at the end state
@@ -212,31 +233,37 @@ G_base$report_polarization()
 
 # Add random ties at the outset (small-world condition)
 G_sw <- model_opinion_flache(
-  n_agent             = 100,
-  n_agent_per_cave    = 5,
-  n_issue             = 2,
-  negative_weight     = TRUE,
+  n_agent                = 100,
+  n_agent_per_cave       = 5,
+  n_issue                = 2,
+  negative_weight        = TRUE,
   random_tie_prop_outset = 0.003,
-  times               = 100
+  times                  = 100
 )
 
 # Add random ties mid-simulation (iteration 50)
 G_mid <- model_opinion_flache(
-  n_agent               = 100,
-  n_agent_per_cave      = 5,
-  n_issue               = 2,
-  negative_weight       = TRUE,
+  n_agent                  = 100,
+  n_agent_per_cave         = 5,
+  n_issue                  = 2,
+  negative_weight          = TRUE,
   random_tie_prop_outset   = 0,
   random_tie_prop_midpoint = 0.003,
   random_tie_adding_at     = 50,
   times                    = 100
 )
 
-# Plot opinion distribution at the current state
+# Scatter plot of opinions on dimensions 1 and 2
 G_mid$plot_opinion()
 
-# Plot polarization over time (requires logging; see run_Game)
+# Network plot with vertex colours reflecting dimension-1 opinions
+G_mid$plot_network(opinion_dim = 1)
+
+# Polarization trajectory (requires logging; see run_Game)
 G_mid$report_polarization(log = 1:100, show_plot = TRUE)
+
+# Mean opinion per community over time
+G_mid$report_group_opinion(opinion_dim = 1, log = "all", show_plot = TRUE)
 
 # Return initialized object without running (for inspection)
 G_init <- model_opinion_flache(times = 0)
