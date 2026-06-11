@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 1.1.19
+2026-06-11
+* [added] `model_net_creation`.
+
 # rABM 1.1.18
 2026-06-04
 * [added] `model_opinion_flache`.
