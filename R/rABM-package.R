@@ -3,7 +3,6 @@
 
 ## usethis namespace: start
 #' @importFrom beepr beep
-#' @importFrom gifski save_gif
 #' @importFrom graphics image
 #' @importFrom graphics title
 #' @importFrom igraph make_lattice

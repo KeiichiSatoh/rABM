@@ -1,5 +1,9 @@
 # rABM (development version)
 
+# rABM 1.1.20
+2026-07-07
+* [changed] Moved `duckdb` and `gifski` packages from Imports to Suggests.
+
 # rABM 1.1.19
 2026-06-11
 * [added] `model_net_creation`.
