@@ -13,6 +13,16 @@ Manages fields across the following categories:
 \code{"state"}, \code{"active_state"}, \code{"act_FUN"}, \code{"stop_FUN"},
 \code{"report_FUN"}, and \code{"plot_FUN"}. Field names must be unique across
 all categories.
+
+Dynamically added methods (\code{act_FUN}, \code{stop_FUN}, \code{report_FUN},
+\code{plot_FUN}, \code{active_state}) keep access to the environment in which
+they were originally defined (e.g. a calling package's namespace),
+in addition to \code{self}/\code{private}. This allows such methods to call
+non-exported functions from the package where they were written.
+Because \code{R6}'s built-in \code{clone()} does not preserve this behavior
+for functions/active bindings, use \code{\link[=copy_obj]{copy_obj()}} (or call
+\verb{$.rebind_dynamic_fields()} manually after \verb{$clone(deep = TRUE)})
+to obtain a fully independent, correctly-bound copy.
 }
 \section{Public fields}{
 
@@ -38,10 +48,17 @@ fields as a named list, appended with \code{time}. If \code{add_tryCatch = TRUE}
 errors during field access are captured as \code{structure(NULL, class = "error")}.}
 \item{\code{print(max_lines, ...)}}{Print a preview of fields with truncation.}
 \item{\code{.summary()}}{Return a \code{summary.ABM_Game} object.}
+\item{\code{.rebind_dynamic_fields()}}{Re-bind all dynamically added methods
+and active bindings (\code{act_FUN}, \code{stop_FUN}, \code{report_FUN}, \code{plot_FUN},
+\code{active_state}) so that \code{self}/\code{private} refer to the current object,
+while preserving access to each method's original definition
+environment. Intended to be called after \verb{$clone(deep = TRUE)},
+since R6's default clone does not correctly carry over dynamically
+added functions and active bindings.}
 }
 }
 
 \seealso{
-\code{\link[=Game]{Game()}}, \code{\link[=as.Game]{as.Game()}}, \code{\link{summary.ABM_Game}}
+\code{\link[=Game]{Game()}}, \code{\link[=as.Game]{as.Game()}}, \code{\link{summary.ABM_Game}}, \code{\link[=copy_obj]{copy_obj()}}
 }
 \keyword{internal}

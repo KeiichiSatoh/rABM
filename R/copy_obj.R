@@ -52,22 +52,10 @@ copy_obj <- function(x) {
 
 #' @rdname copy_obj
 #' @export
-copy_obj.ABM_Agent <- function(x){
-  x$clone(deep = TRUE)
-}
-
-#' @rdname copy_obj
-#' @export
-copy_obj.ABM_Group <- function(x){
-  new_group <- lapply(x, function(a) a$clone(deep = TRUE))
-  names(new_group) <- names(x)
-  structure(new_group, class = class(x))
-}
-
-#' @rdname copy_obj
-#' @export
 copy_obj.ABM_Game <- function(x){
-  x$clone(deep = TRUE)
+  new_obj <- x$clone(deep = TRUE)
+  new_obj$.rebind_dynamic_fields()
+  new_obj
 }
 
 #' @rdname copy_obj

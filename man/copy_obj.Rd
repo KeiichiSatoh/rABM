@@ -2,8 +2,6 @@
 % Please edit documentation in R/copy_obj.R
 \name{copy_obj}
 \alias{copy_obj}
-\alias{copy_obj.ABM_Agent}
-\alias{copy_obj.ABM_Group}
 \alias{copy_obj.ABM_Game}
 \alias{copy_obj.R6}
 \title{Deep copy ABM and R6 objects}
@@ -11,10 +9,6 @@
 copy_obj(x)
 
 copy_obj(x)
-
-\method{copy_obj}{ABM_Agent}(x)
-
-\method{copy_obj}{ABM_Group}(x)
 
 \method{copy_obj}{ABM_Game}(x)
 

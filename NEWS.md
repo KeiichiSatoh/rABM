@@ -1,4 +1,8 @@
 # rABM (development version)
+# rABM 1.2.0
+2026-07-15
+* [revised] Change the environment settings related to .add_method, .add_active, and .remove in `ABM_Game` class, 
+so that it accepts the CPP file smoothly.
 
 # rABM 1.1.20
 2026-07-07

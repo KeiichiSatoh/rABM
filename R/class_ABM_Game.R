@@ -12,6 +12,16 @@
 #' `"report_FUN"`, and `"plot_FUN"`. Field names must be unique across
 #' all categories.
 #'
+#' Dynamically added methods (`act_FUN`, `stop_FUN`, `report_FUN`,
+#' `plot_FUN`, `active_state`) keep access to the environment in which
+#' they were originally defined (e.g. a calling package's namespace),
+#' in addition to `self`/`private`. This allows such methods to call
+#' non-exported functions from the package where they were written.
+#' Because `R6`'s built-in `clone()` does not preserve this behavior
+#' for functions/active bindings, use [`copy_obj()`] (or call
+#' `$.rebind_dynamic_fields()` manually after `$clone(deep = TRUE)`)
+#' to obtain a fully independent, correctly-bound copy.
+#'
 #' @section Public fields:
 #' \describe{
 #'   \item{time}{Integer time step (default: `1`).}
@@ -33,9 +43,16 @@
 #'   errors during field access are captured as `structure(NULL, class = "error")`.}
 #'   \item{`print(max_lines, ...)`}{Print a preview of fields with truncation.}
 #'   \item{`.summary()`}{Return a `summary.ABM_Game` object.}
+#'   \item{`.rebind_dynamic_fields()`}{Re-bind all dynamically added methods
+#'   and active bindings (`act_FUN`, `stop_FUN`, `report_FUN`, `plot_FUN`,
+#'   `active_state`) so that `self`/`private` refer to the current object,
+#'   while preserving access to each method's original definition
+#'   environment. Intended to be called after `$clone(deep = TRUE)`,
+#'   since R6's default clone does not correctly carry over dynamically
+#'   added functions and active bindings.}
 #' }
 #'
-#' @seealso [`Game()`], [`as.Game()`], [`summary.ABM_Game`]
+#' @seealso [`Game()`], [`as.Game()`], [`summary.ABM_Game`], [`copy_obj()`]
 #'
 #' @keywords internal
 #' @import R6
@@ -210,25 +227,31 @@ ABM_Game <- R6::R6Class(
         idx <- indices[i]
         cat_i <- unname(fc[name])
 
-      # 1) remove from self
-      if (exists(name, envir = self, inherits = FALSE)) {
-        rm(list = name, envir = self)
-      }
-
-      # 2) if active_stage, also remove from registry of active functions
-      if (identical(cat_i, "active_state")) {
-        if (!is.null(self$.__enclos_env__$.__active__)) {
-          self$.__enclos_env__$.__active__[[name]] <- NULL
+        # 1) remove from self
+        if (exists(name, envir = self, inherits = FALSE)) {
+          rm(list = name, envir = self)
         }
-      }
 
-      # 3) update field_category
-      idx <- which(names(private$field_category)==name)
-      private$field_category <- private$field_category[-idx]
+        # 2) if active_stage, also remove from registry of active functions
+        if (identical(cat_i, "active_state")) {
+          if (!is.null(self$.__enclos_env__$.__active__)) {
+            self$.__enclos_env__$.__active__[[name]] <- NULL
+          }
+        }
+
+        # 3) if act_FUN/stop_FUN/report_FUN/plot_FUN or active_state,
+        #    also remove the recorded original environment (used by clone())
+        if (!is.null(private$.method_registry[[name]])) {
+          private$.method_registry[[name]] <- NULL
+        }
+
+        # 4) update field_category
+        idx <- which(names(private$field_category)==name)
+        private$field_category <- private$field_category[-idx]
       }
 
       invisible(self)
-      },
+    },
 
     #================================================================
     # replace
@@ -413,11 +436,51 @@ ABM_Game <- R6::R6Class(
       )
       class(out) <- "summary.ABM_Game"
       out
+    },
+    #=====================================
+    # .rebind_dynamic_fields
+    #=====================================
+    .rebind_dynamic_fields = function() {
+      fc <- private$field_category
+
+      for (nm in names(private$.method_registry)) {
+        reg      <- private$.method_registry[[nm]]
+        orig_fn  <- reg$fn
+        orig_env <- reg$orig_env
+        category <- unname(fc[nm])
+
+        new_env  <- new.env(parent = orig_env)
+        new_env$self    <- self
+        new_env$private <- private
+
+        fn <- orig_fn
+        environment(fn) <- new_env
+
+        if (identical(category, "active_state")) {
+          if (exists(nm, envir = self, inherits = FALSE)) {
+            rm(list = nm, envir = self)
+          }
+          makeActiveBinding(nm, fn, self)
+          self$.__enclos_env__$.__active__[[nm]] <- fn
+        } else {
+          self[[nm]] <- fn
+        }
+      }
+
+      invisible(self)
     }
   ),
   private = list(
     #=====================================
-    # add_stage
+    # field_category
+    #=====================================
+    field_category = character(0),
+    #=====================================
+    # method_orig_env
+    #=====================================
+    .method_registry = list(),
+     #=====================================
+    # add_state
     #=====================================
     .add_state = function(name, x){
       self[[name]] <- x
@@ -426,16 +489,26 @@ ABM_Game <- R6::R6Class(
     # add_method
     #=====================================
     .add_method = function(name, x) {
-      # input
-      environment(x) <- self$.__enclos_env__
+      orig_env <- environment(x)
+      private$.method_registry[[name]] <- list(fn = x, orig_env = orig_env)
+
+      new_env  <- new.env(parent = orig_env)
+      new_env$self    <- self
+      new_env$private <- private
+      environment(x) <- new_env
       self[[name]] <- x
     },
     #=====================================
     # add_active
     #=====================================
     .add_active = function(name, x) {
-      # input
-      environment(x) <- self$.__enclos_env__
+      orig_env <- environment(x)
+      private$.method_registry[[name]] <- list(fn = x, orig_env = orig_env)
+
+      new_env  <- new.env(parent = orig_env)
+      new_env$self    <- self
+      new_env$private <- private
+      environment(x) <- new_env
       makeActiveBinding(name, x, self)
       self$.__enclos_env__$.__active__[[name]] <- x
     }
