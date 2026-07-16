@@ -1,4 +1,8 @@
 # rABM (development version)
+# rABM 1.2.1
+2026-07-16
+* [fixed] Changed from cloning to copy_obj() in `run_Game`.
+
 # rABM 1.2.0
 2026-07-15
 * [revised] Change the environment settings related to .add_method, .add_active, and .remove in `ABM_Game` class, 

@@ -75,7 +75,7 @@ run_Game <- function(G,
                    beep = FALSE) {
   # deep clone the G
   stopifnot(inherits(G, "ABM_Game"))
-  G <- G$clone(deep = TRUE)
+  G <- copy_obj(G)
 
   # validate plan
   if (is.list(plan)) plan <- unlist(plan, use.names = FALSE)
