@@ -15,7 +15,9 @@ ABM_Field(
 
 \item{name}{Field name (single character string).}
 
-\item{category}{Field category.}
+\item{category}{One of \code{"state"}, \code{"active_state"}, \code{"act_FUN"},
+\code{"stop_FUN"}, \code{"report_FUN"}, or \code{"plot_FUN"}. See
+\link{Field} for the constructor that produces each category.}
 }
 \value{
 An object of class \code{"ABM_Field"}.

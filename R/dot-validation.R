@@ -1,3 +1,22 @@
+#===============================================================================
+# helpers (internal)
+#===============================================================================
+
+#' Validate a return_FUN
+#'
+#' check whether a return FUN used in \code{value_of} and \code{value_of_log}
+#' is a function.
+#'
+#' @param return_FUN A function
+#' @return  The validated \code{return_FUN} (invisibly).
+#' @keywords internal
+.validate_return_FUN <- function(return_FUN) {
+  if (!is.null(return_FUN)) {
+    stopifnot("'return_FUN' must be a function." = is.function(return_FUN))
+  }
+  invisible(return_FUN)
+}
+
 #' Validate a field name
 #'
 #' Check whether \code{field_name} is a valid single, non-empty character string.

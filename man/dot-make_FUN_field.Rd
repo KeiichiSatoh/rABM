@@ -4,14 +4,7 @@
 \alias{.make_FUN_field}
 \title{Create a function-category field with call support (internal)}
 \usage{
-.make_FUN_field(
-  x,
-  x_sbs,
-  name = NULL,
-  category,
-  label = category,
-  envir = parent.frame()
-)
+.make_FUN_field(x, x_sbs, name = NULL, category, label, envir = parent.frame())
 }
 \arguments{
 \item{x}{Input to the user-facing constructor.}
@@ -22,7 +15,7 @@
 
 \item{category}{Category string.}
 
-\item{label}{Label used in error messages.}
+\item{label}{Label used in error messages (e.g. \code{"Active()"}).}
 
 \item{envir}{Environment used to evaluate the call head.}
 }

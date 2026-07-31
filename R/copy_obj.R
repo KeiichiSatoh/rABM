@@ -1,26 +1,30 @@
+#-------------------------------------------------------------------------------
+# copy_obj()
+#-------------------------------------------------------------------------------
+
 #' Deep copy ABM and R6 objects
 #'
-#' Create a deep copy of an ABM or R6 object.
+#' Create a deep copy of an \code{ABM_Game} or other \code{R6} object.
 #'
 #' This function provides a unified interface for cloning objects used in
-#' rABM. For ABM and R6 objects, it performs a deep clone using
-#' \code{$clone(deep = TRUE)}.
+#' rABM, dispatching on the class of \code{x}.
 #'
 #' @param x An object to copy. Supported classes are:
 #'   \itemize{
-#'     \item \code{ABM_Agent}
-#'     \item \code{ABM_Group}
 #'     \item \code{ABM_Game}
-#'     \item \code{R6}
+#'     \item \code{R6} (any other R6 object)
 #'   }
 #'
 #' @details
-#' For \code{ABM_Agent}, \code{ABM_Game}, and other \code{R6} objects,
-#' \code{copy_obj()} calls \code{$clone(deep = TRUE)}.
+#' For \code{ABM_Game} objects, \code{copy_obj()} calls
+#' \code{x$clone(deep = TRUE)} and then \code{$.rebind_dynamic_fields()} on
+#' the clone, since R6's default \code{clone()} does not correctly carry
+#' over the dynamically added methods and active bindings (\code{act_FUN},
+#' \code{stop_FUN}, \code{report_FUN}, \code{plot_FUN}, \code{active_state})
+#' that \code{ABM_Game} attaches at runtime (see \code{ABM_Game}).
 #'
-#' For \code{ABM_Group}, which is internally represented as a list of agents,
-#' each agent is deep-cloned individually, and the group structure (including
-#' element names) is preserved.
+#' For any other \code{R6} object, \code{copy_obj()} simply calls
+#' \code{x$clone(deep = TRUE)}.
 #'
 #' Objects that do not belong to the supported classes are not handled by
 #' this function and will result in an error.
@@ -31,21 +35,11 @@
 #' @export
 #'
 #' @examples
-#' # Pseudo-code (depends on constructors):
-#' # A  <- Agent(state = list(a = 1))
-#' # A2 <- copy_obj(A)
+#' pop <- 100
+#' reproduce <- function() { self$pop <- self$pop * 1.1 }
 #'
-#' # Gr  <- Group(list(ID1 = A, ID2 = A))
-#' # Gr2 <- copy_obj(Gr)
-#'
-#' # G  <- Game(stage = list(x = 1), group = Gr)
-#' # G2 <- copy_obj(G)
-copy_obj <- function(x) {
-  UseMethod("copy_obj")
-}
-
-#' @rdname copy_obj
-#' @export
+#' G  <- Game(State(pop), Act(reproduce))
+#' G2 <- copy_obj(G)
 copy_obj <- function(x) {
   UseMethod("copy_obj")
 }
@@ -63,5 +57,3 @@ copy_obj.ABM_Game <- function(x){
 copy_obj.R6 <- function(x){
   x$clone(deep = TRUE)
 }
-
-

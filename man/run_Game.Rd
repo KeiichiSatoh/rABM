@@ -24,17 +24,48 @@ run_Game(
 \arguments{
 \item{G}{An \code{ABM_Game} object representing the simulation state and structure.}
 
-\item{plan}{A character vector specifying the sequence of functions to execute
-in each simulation step. Can include agent-level functions using the syntax \code{agent:fun(arg=val)}.
-Defaults to \code{NULL}.}
+\item{plan}{A character vector giving the sequence of \code{act_FUN}
+fields (registered in \code{G} via \code{Act()}) to run at each time
+step, in the exact order supplied. Each element is one of:
+\itemize{
+\item a bare field name, e.g. \code{"add_money"}, which runs that
+\code{act_FUN} with its currently stored default arguments; or
+\item a field name with call-style arguments, e.g.
+\code{"add_money(b = 2)"}, which runs that \code{act_FUN} with the
+given argument(s) overriding its defaults for this run only (the
+original \code{G} passed in is never modified -- see Details).
+}
+If \code{plan} has more than one element, every element is executed, in
+the order given, at every time step -- e.g.
+\code{plan = c("select_agent", "add_money")} runs \code{select_agent}
+and then \code{add_money} at each step. Every element must name an
+\code{act_FUN} field already present in \code{G}; other field categories
+(\code{state}, \code{active_state}, \code{stop_FUN}, ...) are not valid
+entries here.}
 
-\item{times}{Integer specifying the number of steps to run the simulation
-(used only if \code{stop_FUN_name} is not provided). Defaults to \code{1}.}
+\item{nm_stop_FUN}{A character scalar naming a \code{stop_FUN} field
+already registered in \code{G} (see \code{Stop()}) to use as the stopping
+condition. If supplied, \code{times} is ignored entirely and the
+simulation runs until that \code{stop_FUN} returns \code{TRUE}. If
+\code{NULL} (the default), the simulation instead stops after exactly
+\code{times} steps.}
 
-\item{save_log}{Logical; if \code{TRUE}, logs the state at each time step using \code{G$.save()}.
-Defaults to \code{TRUE}.}
+\item{times}{Integer specifying the number of steps to run the simulation.
+Only used when \code{nm_stop_FUN} is \code{NULL}; ignored otherwise.
+Defaults to \code{1}.}
 
-\item{seed}{Optional integer; if \code{NULL}, the seed is derived from \code{Sys.time()}.}
+\item{save_log}{Logical; if \code{TRUE}, saves a snapshot of the selected fields
+at each saved time step. Defaults to \code{TRUE}.}
+
+\item{save_interval}{Positive integer; when \code{save_log = TRUE}, a snapshot
+is saved once every \code{save_interval} steps. Defaults to \code{1} (every step).}
+
+\item{fields_to_save}{A character vector of field names to include in each saved
+snapshot. If \code{NULL}, all \code{"state"} and \code{"active_state"} fields
+registered in \code{G} are saved. Defaults to \code{NULL}.}
+
+\item{seed}{Optional integer; if \code{NULL}, a seed is generated automatically
+and recorded (see Details).}
 
 \item{add_tryCatch}{Logical; if \code{TRUE}, each function call is wrapped in \code{tryCatch()}
 to allow simulations to continue in case of errors. Defaults to \code{TRUE}.}
@@ -45,50 +76,99 @@ to allow simulations to continue in case of errors. Defaults to \code{TRUE}.}
 \item{saveRDS_inbetween}{Logical; if \code{TRUE}, saves the entire \code{G} object as an RDS file
 at every simulation step. Defaults to \code{FALSE}.}
 
+\item{verbose}{Logical; if \code{TRUE}, prints progress messages (the plan,
+the stop condition, the current time step, and elapsed time) during the run.
+Defaults to \code{TRUE}.}
+
 \item{RDS_file_name}{A character scalar specifying the file name for saving RDS
 objects if \code{saveRDS_inbetween = TRUE}. Defaults to \code{"G_temp.rds"}.}
 
-\item{update_FUN_name}{A character scalar specifying the name of an \code{update_FUN}
-already stored in \code{G}. If \code{NULL}, an update function is generated from \code{plan}.}
-
-\item{stop_FUN_name}{A character scalar indicating the name of a stop function stored in \code{G}.
-If \code{NULL}, the simulation stops after \code{times} steps.}
-
-\item{temp_E}{Logical; if \code{TRUE}, creates a temporary environment \code{E} passed
-to each function during simulation. Defaults to \code{TRUE}.}
+\item{beep}{Logical; if \code{TRUE}, plays a notification sound via
+\code{beepr::beep()} once the simulation finishes. Defaults to \code{FALSE}.}
 }
 \value{
-The updated \code{ABM_G} object after running the simulation.
+The updated \code{ABM_Game} object after running the simulation.
 If \code{return_update_FUN = TRUE}, the update function used is stored as a character
 vector in \code{G$notes$update_FUN_used}.
 }
 \description{
-Runs a simulation using an \code{ABM_G} object, either by executing a predefined update
-function or by constructing an update function from a user-defined execution plan.
-The simulation proceeds step by step and can include logging, custom stop conditions,
-and RDS file output.
+Runs a simulation using an \code{ABM_Game} object by constructing an
+update function from a user-defined execution plan (\code{plan}) and
+repeatedly applying it. The simulation proceeds step by step and can
+include logging, a custom stop condition, and RDS file output.
 }
 \details{
-The simulation proceeds by either calling a registered \code{update_FUN} stored in \code{G},
-or generating a new one based on a user-defined \code{plan}.
-Each element of \code{plan} can be a function name (e.g., \code{"fun_name"})
-or a namespaced string specifying the target agent group (e.g., \code{"agents:fun_name"}).
-
-If multiple elements are provided in \code{plan}, they are executed sequentially
-in the specified order at each time step. For example,
-\code{c("children:get_older", "parents:get_older")} applies the \code{get_older}
-function to both children and parents agents in order.
-
-If no \code{select_FUN} is provided prior to an \code{act_FUN}, a default
-\code{[select_all]} is automatically inserted for convenience.
-When using \code{plan}, each entry can reference a global or agent-level function,
-and arguments can be passed via standard R function syntax. Agent-level functions must be
-preceded by a valid \code{select_FUN}, which selects the agents to which the function applies.
-If no \code{select_FUN} is present, a default \code{[select_all]} is added automatically.
+\code{run_Game()} proceeds through the following steps:
+\enumerate{
+\item \code{G} is deep-cloned internally (via \code{copy_obj()}) into a
+fresh object; the \code{G} the caller passed in is never modified, so
+it can safely be reused as a starting point for other runs (as in the
+examples below).
+\item If any element of \code{plan} (or \code{nm_stop_FUN}) includes
+call-style arguments, e.g. \code{"add_money(b = 2)"}, those arguments
+are used to override that field's defaults on the internal clone only.
+\item An \code{update_FUN} is built from \code{plan}, to be run once
+per time step, executing each named \code{act_FUN} in the given order.
+\item If \code{nm_stop_FUN} is supplied, that \code{stop_FUN} field is
+used as the stopping rule and \code{times} is ignored; otherwise, a
+stopping rule based on \code{times} steps is generated automatically.
+\item \code{update_FUN} is called repeatedly until the stopping
+condition is met.
+}
 
 If \code{add_tryCatch = TRUE}, runtime errors in user-defined functions are caught
 and logged as warnings, and simulation continues.
 
+If \code{seed} is \code{NULL}, a seed is generated automatically and
+passed to \code{set.seed()} before the run, so that any randomness in
+\code{act_FUN}s is reproducible from the returned object; the actual seed
+used is recorded in \code{G$notes$seed} regardless of whether it was
+supplied or auto-generated.
+
 To examine the simulation runtime, the total elapsed time is printed and also saved in
 \code{G$notes$simulation_took}.
+}
+\examples{
+# A simple example: agents accumulate money over several time steps.
+money          <- 1:5
+selected_agent <- 1:5
+add_money <- function(b = 1) {
+  self$money[self$selected_agent] <- self$money[self$selected_agent] + b
+}
+select_agent <- function() {
+  self$selected_agent <- sample(1:5, size = 2)
+}
+G <- Game(State(money), State(selected_agent), Act(add_money), Act(select_agent))
+
+# Each step: pick two agents, then give them money.
+G2 <- run_Game(G = G, plan = c("select_agent", "add_money"), times = 3)
+
+# Skip select_agent entirely -- since 'selected_agent' still holds its
+# initial value (all 5 agents), everyone gets money each step.
+G3 <- run_Game(G = G, plan = "add_money", times = 3)
+
+# Override add_money's default argument for this run only; G itself is
+# untouched, so it can still be reused as above.
+G4 <- run_Game(G = G, plan = c("select_agent", "add_money(b = 2)"), times = 3)
+
+# Use a custom stop_FUN instead of a fixed number of steps. Note that
+# 'times' is ignored once 'nm_stop_FUN' is supplied.
+wealthy_enough <- function() { sum(self$money) >= 100 }
+G5 <- Game(
+  State(money), State(selected_agent),
+  Act(add_money), Act(select_agent), Stop(wealthy_enough)
+)
+G6 <- run_Game(
+  G = G5, plan = c("select_agent", "add_money"),
+  nm_stop_FUN = "wealthy_enough"
+)
+
+# For long runs, turn off console output and logging for speed, and
+# inspect the generated update_FUN afterwards.
+G7 <- run_Game(
+  G = G, plan = "add_money", times = 100,
+  verbose = FALSE, save_log = FALSE, return_update_FUN = TRUE
+)
+cat(G7$notes$update_FUN_used, sep = "\n")
+
 }

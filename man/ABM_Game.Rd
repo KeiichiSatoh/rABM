@@ -43,11 +43,14 @@ to obtain a fully independent, correctly-bound copy.
 \item{\code{.replace(...)}}{Replace a field value or function.}
 \item{\code{.get_category()}}{Return the named character vector of field categories.}
 \item{\code{.get_flist()}}{Return a \code{data.frame} of field names and categories.}
-\item{\code{.snapshot(field_names, add_tryCatch)}}{Retrieve a snapshot of selected
+#'   \item{\code{.snapshot(field_names, add_tryCatch)}}{Retrieve a snapshot of selected
 fields as a named list, appended with \code{time}. If \code{add_tryCatch = TRUE},
-errors during field access are captured as \code{structure(NULL, class = "error")}.}
-\item{\code{print(max_lines, ...)}}{Print a preview of fields with truncation.}
-\item{\code{.summary()}}{Return a \code{summary.ABM_Game} object.}
+errors during field access are captured as the raised condition object
+(which inherits from class \code{"error"}) instead of propagating.}
+\item{\code{print(fields, max_lines, ...)}}{Print a preview of fields with
+truncation. By default (\code{fields = FALSE}), only metadata and a
+per-category field-name summary are shown; pass \code{fields = TRUE} to
+also preview each field's contents.}
 \item{\code{.rebind_dynamic_fields()}}{Re-bind all dynamically added methods
 and active bindings (\code{act_FUN}, \code{stop_FUN}, \code{report_FUN}, \code{plot_FUN},
 \code{active_state}) so that \code{self}/\code{private} refer to the current object,
@@ -59,6 +62,6 @@ added functions and active bindings.}
 }
 
 \seealso{
-\code{\link[=Game]{Game()}}, \code{\link[=as.Game]{as.Game()}}, \code{\link{summary.ABM_Game}}, \code{\link[=copy_obj]{copy_obj()}}
+\code{\link[=Game]{Game()}}, \code{\link[=copy_obj]{copy_obj()}}, \code{\link{summary.ABM_Game}}
 }
 \keyword{internal}

@@ -11,7 +11,8 @@ Unzip(...)
 }
 \arguments{
 \item{...}{Objects to be bundled or unbundled. Typically \code{"ABM_Field"}
-objects, but \code{Unzip()} will accept any objects and only expand those
+objects, but neither \code{Zip()} nor \code{Unzip()} enforces this: any
+object is accepted, and \code{Unzip()} only recursively expands elements
 inheriting from \code{"ABM_Zip"}.}
 }
 \value{
@@ -22,10 +23,10 @@ inheriting from \code{"ABM_Zip"}.}
 }
 }
 \description{
-\code{Zip()} groups multiple objects (typically \code{"ABM_Field"} objects)
-into a single container of class \code{"ABM_Zip"}.
+\code{Zip()} groups multiple objects (typically \code{\link[=ABM_Field]{ABM_Field()}} objects)
+into a single container of class \code{\link[=ABM_Zip]{ABM_Zip()}}.
 \code{Unzip()} flattens such containers back into a simple list, recursively
-expanding nested \code{"ABM_Zip"} objects.
+expanding nested \code{\link[=ABM_Zip]{ABM_Zip()}} objects.
 }
 \details{
 \itemize{
@@ -37,6 +38,10 @@ supplied objects in a list with class \code{"ABM_Zip"}.
 \item If an element inherits from \code{"ABM_Zip"}, it is recursively expanded.
 \item Otherwise, the element is returned as-is.
 }
+\item If arguments are supplied with names (e.g. \code{Zip(a = State(x))}),
+those names are not preserved through \code{Unzip()}; only the values are
+retained. This is usually inconsequential for \code{"ABM_Field"} objects,
+which already carry their own \code{name} element.
 }
 
 This utility is mainly intended to help combine multiple \code{"ABM_Field"}
@@ -50,13 +55,13 @@ b <- 2
 
 P <- Zip(State(a), State(b))
 
-# Flatten
-Unzip(State(a), State(b), P)
-# -> list(State(a), State(b), State(a), State(b))
+# Unzip
+Unzip(P)
 
 # Nested Zip objects are also flattened
 Q <- Zip(P, State(a))
 Unzip(Q)
-# -> list(State(a), State(b), State(a))
+# Returns a list of 3 ABM_Field objects, in this order:
+#   State(a), State(b), State(a)
 
 }

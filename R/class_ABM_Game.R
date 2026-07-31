@@ -1,3 +1,7 @@
+#-------------------------------------------------------------------------------
+# ABM_Game (internal R6 class) and its user-facing constructor Game()
+#-------------------------------------------------------------------------------
+
 #' @title ABM_Game (internal R6 class)
 #' @name ABM_Game
 #' @docType class
@@ -38,11 +42,14 @@
 #'   \item{`.replace(...)`}{Replace a field value or function.}
 #'   \item{`.get_category()`}{Return the named character vector of field categories.}
 #'   \item{`.get_flist()`}{Return a `data.frame` of field names and categories.}
-#'   \item{`.snapshot(field_names, add_tryCatch)`}{Retrieve a snapshot of selected
+#'   #'   \item{`.snapshot(field_names, add_tryCatch)`}{Retrieve a snapshot of selected
 #'   fields as a named list, appended with `time`. If `add_tryCatch = TRUE`,
-#'   errors during field access are captured as `structure(NULL, class = "error")`.}
-#'   \item{`print(max_lines, ...)`}{Print a preview of fields with truncation.}
-#'   \item{`.summary()`}{Return a `summary.ABM_Game` object.}
+#'   errors during field access are captured as the raised condition object
+#'   (which inherits from class `"error"`) instead of propagating.}
+#'   \item{`print(fields, max_lines, ...)`}{Print a preview of fields with
+#'   truncation. By default (`fields = FALSE`), only metadata and a
+#'   per-category field-name summary are shown; pass `fields = TRUE` to
+#'   also preview each field's contents.}
 #'   \item{`.rebind_dynamic_fields()`}{Re-bind all dynamically added methods
 #'   and active bindings (`act_FUN`, `stop_FUN`, `report_FUN`, `plot_FUN`,
 #'   `active_state`) so that `self`/`private` refer to the current object,
@@ -52,7 +59,7 @@
 #'   added functions and active bindings.}
 #' }
 #'
-#' @seealso [`Game()`], [`as.Game()`], [`summary.ABM_Game`], [`copy_obj()`]
+#' @seealso [`Game()`], [`copy_obj()`], [`summary.ABM_Game`]
 #'
 #' @keywords internal
 #' @import R6
@@ -94,48 +101,47 @@ ABM_Game <- R6::R6Class(
 
       # preparation of x
       x <- Unzip(...)
-      if(all(vapply(x, is.null, FUN.VALUE = logical(1)))){
-        return(self)
+      has_fields <- !all(vapply(x, is.null, FUN.VALUE = logical(1)))
+
+      if (has_fields) {
+        # check x to be the ABM_Field class
+        field_check <- vapply(x, inherits, logical(1), what = "ABM_Field")
+        stopifnot("Some elements in the input '...' are not 'ABM_Field' class objects." = all(field_check))
+
+        # retrieve field name/category/value
+        x_names <- vapply(x, function(x_i) x_i$name, character(1))
+        stopifnot(
+          "All ABM_Field objects must have a non-empty name." =
+            all(!is.na(x_names) & nzchar(x_names))
+        )
+
+        dup <- unique(x_names[duplicated(x_names)])
+        if (length(dup)) stop("Duplicated field names: ", paste(dup, collapse = ", "))
+
+        # retrieve field category
+        x_category <- vapply(x, function(x_i) x_i$category, character(1))
+        names(x_category) <- x_names
+
+        # retrieve field values
+        x_values <- lapply(x, function(x_i) x_i$value)
+        names(x_values) <- x_names
+
+        # add-----------------------------------
+        for (nm in x_names[x_category == "state"]) {
+          private$.add_state(name = nm, x = x_values[[nm]])
+        }
+
+        for (nm in x_names[x_category == "active_state"]) {
+          private$.add_active(name = nm, x = x_values[[nm]])
+        }
+
+        for (nm in x_names[x_category %in% c("act_FUN", "stop_FUN", "report_FUN", "plot_FUN")]) {
+          private$.add_method(name = nm, x = x_values[[nm]])
+        }
+
+        # register the category only after all additions have succeeded
+        private$field_category <- x_category
       }
-
-      # check x to be the ABM_Field class
-      field_check <- vapply(x, inherits, logical(1), what = "ABM_Field")
-      stopifnot("Some elements in the input '...' are not 'ABM_Field' class objects." = all(field_check))
-
-      # retrieve field name/category/value
-      x_names <- vapply(x, function(x_i) x_i$name, character(1))
-      stopifnot(
-        "All ABM_Field objects must have a non-empty name." =
-          all(!is.na(x_names) & nzchar(x_names))
-      )
-
-      dup <- unique(x_names[duplicated(x_names)])
-      if (length(dup)) stop("Duplicated field names: ", paste(dup, collapse = ", "))
-
-      # retrieve field category
-      x_category <- vapply(x, function(x_i) x_i$category, character(1))
-      names(x_category) <- x_names
-
-      # retrieve field values
-      x_values <- lapply(x, function(x_i) x_i$value)
-      names(x_values) <- x_names
-
-      # register the category
-      private$field_category <- x_category
-
-      # add-----------------------------------
-      for (nm in x_names[x_category == "state"]) {
-        private$.add_state(name = nm, x = x_values[[nm]])
-      }
-
-      for (nm in x_names[x_category == "active_state"]) {
-        private$.add_active(name = nm, x = x_values[[nm]])
-      }
-
-      for (nm in x_names[x_category %in% c("act_FUN", "stop_FUN", "report_FUN", "plot_FUN")]) {
-        private$.add_method(name = nm, x = x_values[[nm]])
-      }
-
 
       # time
       if(!is.null(time)){
@@ -154,6 +160,7 @@ ABM_Game <- R6::R6Class(
 
       invisible(self)
     },
+
     #============================================================
     # add
     #============================================================
@@ -190,9 +197,6 @@ ABM_Game <- R6::R6Class(
       x_values <- lapply(x, function(x_i) x_i$value)
       names(x_values) <- x_names
 
-      # register the category
-      private$field_category <- c(private$field_category, x_category)
-
       # add-----------------------------------
       for (nm in x_names[x_category == "state"]) {
         private$.add_state(name = nm, x = x_values[[nm]])
@@ -206,8 +210,12 @@ ABM_Game <- R6::R6Class(
         private$.add_method(name = nm, x = x_values[[nm]])
       }
 
+      # register the category only after all additions have succeeded
+      private$field_category <- c(private$field_category, x_category)
+
       invisible(self)
     },
+
     #================================================================
     # remove
     #================================================================
@@ -224,7 +232,6 @@ ABM_Game <- R6::R6Class(
 
       for(i in seq_along(field_names)){
         name <- field_names[i]
-        idx <- indices[i]
         cat_i <- unname(fc[name])
 
         # 1) remove from self
@@ -259,10 +266,18 @@ ABM_Game <- R6::R6Class(
     .replace = function(...){
       # Unzip the input
       x <- Unzip(...)
-      x_names <- vapply(x, function(x_i) x_i$name, character(1))
 
       field_check <- vapply(x, inherits, logical(1), what = "ABM_Field")
       stopifnot("Some elements in the input '...' are not 'ABM_Field' class objects." = all(field_check))
+
+      x_names <- vapply(x, function(x_i) x_i$name, character(1))
+      stopifnot(
+        "All ABM_Field objects must have a non-empty name." =
+          all(!is.na(x_names) & nzchar(x_names))
+      )
+
+      dup <- unique(x_names[duplicated(x_names)])
+      if (length(dup)) stop("Duplicated field names in the input: ", paste(dup, collapse = ", "))
 
       # retrieve the field category
       fc <- private$field_category
@@ -273,12 +288,63 @@ ABM_Game <- R6::R6Class(
         stop("The following field(s) do not exist: ", paste(x_names[is.na(matched)], collapse = ", "))
       }
 
-      # Remove the field
+      # Snapshot the fields being replaced, so we can roll back if `.add()`
+      # fails after `.remove()` has already mutated the object.
+      backup <- lapply(x_names, function(nm) {
+        cat_nm <- unname(fc[nm])
+        val <- if (identical(cat_nm, "state")) {
+          self[[nm]]
+        } else {
+          private$.method_registry[[nm]]$fn
+        }
+        list(name = nm, category = cat_nm, value = val)
+      })
+
+      # Remove the old fields
       self$.remove(x_names)
 
-      # add the new ones
-      self$.add(...)
+      # Add the new ones; roll back to the pre-remove state on failure.
+      #
+      # NOTE: this rollback is not fully atomic. If self$.add(...) fails
+      # partway through -- i.e. after adding some but not all of the
+      # replacement fields -- those partially-added fields remain attached
+      # to `self` even though they are not registered in `field_category`
+      # (registration only happens after the whole .add() loop succeeds).
+      # Such fields become invisible to .get_flist()/print()/etc. but are
+      # still reachable via self$<name> directly. This is a known,
+      # low-probability limitation: it can only occur if a field addition
+      # itself throws partway through .add()'s internal loop (e.g. an
+      # unexpected error inside a state/active/method assignment), not from
+      # ordinary validation failures, which are all raised before any
+      # fields are added.
+      add_result <- tryCatch({
+        self$.add(...)
+        TRUE
+      }, error = function(e) e)
 
+      if (!isTRUE(add_result)) {
+        for (b in backup) {
+          if (identical(b$category, "state")) {
+            private$.add_state(name = b$name, x = b$value)
+          } else if (identical(b$category, "active_state")) {
+            private$.add_active(name = b$name, x = b$value)
+          } else {
+            private$.add_method(name = b$name, x = b$value)
+          }
+        }
+        backup_categories <- setNames(
+          vapply(backup, function(b) b$category, character(1)),
+          vapply(backup, function(b) b$name, character(1))
+        )
+        private$field_category <- c(private$field_category, backup_categories)
+
+        stop(
+          "'.replace()' failed while adding the replacement field(s); ",
+          "the original field(s) have been restored. Original error: ",
+          conditionMessage(add_result),
+          call. = FALSE
+        )
+      }
 
       invisible(self)
     },
@@ -286,6 +352,7 @@ ABM_Game <- R6::R6Class(
     # get_category
     #==================================================
     .get_category = function(){private$field_category},
+
     #==================================================
     # get_flist
     #==================================================
@@ -310,7 +377,7 @@ ABM_Game <- R6::R6Class(
         for (nm in field_names) {
           value[[nm]] <- tryCatch(
             self[[nm]],
-            error = function(e) structure(NULL, class = "error")
+            error = function(e) e
           )
         }
       } else {
@@ -323,10 +390,15 @@ ABM_Game <- R6::R6Class(
       # combine
       c(value, list(time = self$time))
     },
+
     #=====================================================
     # print
     #=====================================================
-    print = function(max_lines = 6, ...) {
+    print = function(fields = FALSE, max_lines = 6, ...) {
+      stopifnot(
+        "'fields' must be a single logical value." =
+          is.logical(fields) && length(fields) == 1L && !is.na(fields)
+      )
       stopifnot(
         "'max_lines' must be a single non-negative integer" =
           is.numeric(max_lines) &&
@@ -337,106 +409,92 @@ ABM_Game <- R6::R6Class(
       )
       max_lines <- as.integer(max_lines)
 
+      fc <- private$field_category
       truncated_any <- FALSE
-
-      .truncate <- function(lines, max_lines) {
-        truncated <- FALSE
-
-        if (max_lines == 0L) {
-          truncated <- length(lines) > 0
-          return(list(lines = character(0), truncated = truncated))
-        }
-
-        if (length(lines) > max_lines) {
-          truncated <- TRUE
-          lines <- c(lines[seq_len(max_lines)], "  ---- (truncated) ----")
-        }
-
-        list(lines = lines, truncated = truncated)
-      }
-
-      .preview <- function(x, max_lines, ...) {
-        if (is.function(x)) {
-          out <- .truncate(deparse(x), max_lines)
-        } else {
-          lines <- capture.output(base::print(x, ...))
-          if (!length(lines)) {
-            lines <- capture.output(utils::str(x))
-          }
-          out <- .truncate(lines, max_lines)
-        }
-
-        if (length(out$lines)) {
-          cat(paste(out$lines, collapse = "\n"), "\n", sep = "")
-        }
-
-        out$truncated
-      }
 
       cat("<Game>\n")
 
-      fc <- private$field_category
-      for (nm in names(fc)) {
-        cat("$", nm, "(", fc[[nm]], ")\n", sep = "")
-        if (.preview(self[[nm]], max_lines, ...)) {
-          truncated_any <- TRUE
+      if (isTRUE(fields)) {
+
+        .truncate_lines <- function(lines, max_lines) {
+          truncated <- FALSE
+          if (max_lines == 0L) {
+            return(list(lines = character(0), truncated = length(lines) > 0))
+          }
+          if (length(lines) > max_lines) {
+            truncated <- TRUE
+            lines <- c(lines[seq_len(max_lines)], "  ---- (truncated) ----")
+          }
+          list(lines = lines, truncated = truncated)
         }
-        cat("\n")
+
+        .preview <- function(x, max_lines) {
+          if (is.function(x)) {
+            out <- .truncate_lines(deparse(x), max_lines)
+          } else if ((is.data.frame(x) || is.matrix(x)) && nrow(x) > max_lines) {
+            lines <- capture.output(base::print(utils::head(x, max_lines)))
+            out <- list(lines = c(lines, "  ---- (truncated) ----"), truncated = TRUE)
+          } else if (is.atomic(x) && is.null(dim(x)) && length(x) > max_lines) {
+            lines <- capture.output(base::print(utils::head(x, max_lines)))
+            out <- list(lines = c(lines, "  ---- (truncated) ----"), truncated = TRUE)
+          } else {
+            lines <- capture.output(base::print(x))
+            if (!length(lines)) lines <- capture.output(utils::str(x))
+            out <- .truncate_lines(lines, max_lines)
+          }
+
+          if (length(out$lines)) {
+            cat(paste(out$lines, collapse = "\n"), "\n", sep = "")
+          }
+          out$truncated
+        }
+
+        for (nm in names(fc)) {
+          cat("$", nm, " (", .category_label(fc[[nm]]), ")\n", sep = "")
+          if (.preview(self[[nm]], max_lines)) {
+            truncated_any <- TRUE
+          }
+          cat("\n")
+        }
       }
 
       cat("-------------------", "\n")
-      cat("time         :", self$time, "\n")
-      cat("n of logs    :", length(self$log), "\n")
-      cat("n of notes   :", length(self$notes), "\n")
-      cat("n of fields  :", length(fc), "\n")
+      cat("time          :", self$time, "\n")
+      cat("n of logs     :", length(self$log), "\n")
+      cat("n of notes    :", length(self$notes), "\n")
+      cat("n of fields   :", length(fc), "\n")
 
-      cat_label <- c(state        = "state       : ",
-                     active_state = "active_state: ",
-                     act_FUN      = "act_FUN     : ",
-                     stop_FUN     = "stop_FUN    : ",
-                     plot_FUN     = "plot_FUN    : ",
-                     report_FUN   = "report_FUN  : ")
+      category_order <- c("state", "active_state", "act_FUN", "stop_FUN", "report_FUN", "plot_FUN")
+      labels         <- .category_label(category_order)
+      label_width    <- max(nchar(labels))
+      avail_width    <- max(getOption("width", 80L) - label_width - 4L, 20L)
 
-      for(category in c("state","active_state","act_FUN","stop_FUN","plot_FUN","report_FUN")){
-        if(any(fc == category)){
-          cat(" ", unname(cat_label[category]), paste0(names(fc[fc==category]), collapse = ", "), "\n", sep = "")
+      for (i in seq_along(category_order)) {
+        category <- category_order[i]
+        if (any(fc == category)) {
+          label   <- formatC(labels[i], width = -label_width)
+          nms     <- names(fc[fc == category])
+          wrapped <- strwrap(paste(nms, collapse = ", "), width = avail_width)
+
+          cat("  ", label, ": ", wrapped[1L], "\n", sep = "")
+          if (length(wrapped) > 1L) {
+            pad <- strrep(" ", label_width + 4L)
+            for (w in wrapped[-1L]) cat(pad, w, "\n", sep = "")
+          }
         }
       }
       cat("-------------------", "\n")
 
-      if (isTRUE(truncated_any)) {
-        cat(
-          "*Some fields are truncated. ",
-          "Increase 'max_lines' to display more.\n",
-          sep = ""
-        )
+      if (isTRUE(fields) && isTRUE(truncated_any)) {
+        cat("*Some fields are truncated. Increase 'max_lines' to display more.\n")
+      }
+      if (!isTRUE(fields)) {
+        cat("*Field contents are hidden by default. Use print(fields = TRUE) to preview them.\n")
       }
 
       invisible(NULL)
     },
-    #==============================================
-    # summary
-    #==============================================
-    .summary = function() {
-      fl <- self$.get_flist()
-      field_table <- table(factor(fl$category,
-                                  c("state", "active_state",
-                                    "act_FUN", "stop_FUN",
-                                    "report_FUN", "plot_FUN")),
-                                  useNA = "always")
 
-      # output
-      out <- list(
-        n_fields = nrow(fl),
-        field_table = field_table,
-        field_list = fl,
-        time = self$time,
-        n_log = if (!is.null(self$log)) length(self$log) else 0,
-        note_names = if (!is.null(self$notes)) names(self$notes) else NULL
-      )
-      class(out) <- "summary.ABM_Game"
-      out
-    },
     #=====================================
     # .rebind_dynamic_fields
     #=====================================
@@ -479,7 +537,7 @@ ABM_Game <- R6::R6Class(
     # method_orig_env
     #=====================================
     .method_registry = list(),
-     #=====================================
+    #=====================================
     # add_state
     #=====================================
     .add_state = function(name, x){
@@ -515,4 +573,118 @@ ABM_Game <- R6::R6Class(
   )
 )
 
+#-------------------------------------------------------------------------------
+# Game(): user-facing constructor
+#-------------------------------------------------------------------------------
 
+#' Create an ABM game object
+#'
+#' `Game()` is the user-facing constructor for an [`ABM_Game`] object,
+#' the core object of the **rABM** package.
+#' It wraps the internal R6 class [`ABM_Game`] so that users do not need to
+#' interact with R6 directly.
+#'
+#' @details
+#' The `ABM_Game` object manages several field categories:
+#' - `"state"`: non-function global fields (e.g., parameters, data objects)
+#' - `"active_state"`: active bindings (functions evaluated on access)
+#' - `"act_FUN"`, `"stop_FUN"`, `"report_FUN"`, `"plot_FUN"`:
+#'   functions registered as model-level methods
+#'
+#' Field names must be unique across all categories.
+#'
+#' `Game()` passes \code{...} directly to \code{ABM_Game$new()}. Each element
+#' of \code{...} must be an [`ABM_Field`] object -- typically created with
+#' [`State()`], [`Active()`], [`Act()`], [`Stop()`], [`Report()`], or
+#' [`Plot()`] -- or an [`ABM_Zip`] bundle of such objects created with
+#' [`Zip()`], which is flattened automatically.
+#'
+#' @param ... [`ABM_Field`] objects (see [`State()`], [`Active()`],
+#'   [`Act()`], [`Stop()`], [`Report()`], [`Plot()`]), or [`Zip()`] bundles
+#'   thereof, to be registered on the game.
+#' @param time A positive integer time step. If `NULL`, the default (`1`) is used.
+#' @param log A list of saved snapshots (default: `NULL`).
+#' @param notes A list of notes (default: `NULL`).
+#'
+#' @return An [`ABM_Game`] object.
+#'
+#' @seealso [`ABM_Game`], [`Field`], [`Zip`]
+#'
+#' @export
+#' @examples
+#' pop <- 100
+#' growth_rate <- function(rate = 1.05) { self$pop * rate }
+#' reproduce   <- function() { self$pop <- self$pop * 1.1 }
+#'
+#' G <- Game(
+#'   State(pop),
+#'   Active(growth_rate),
+#'   Act(reproduce)
+#' )
+#' G
+#'
+#' # ABM_Field objects can also be bundled with Zip() and passed as one argument
+#' common_fields <- Zip(State(pop), Active(growth_rate))
+#' G2 <- Game(common_fields, Act(reproduce))
+Game <- function(...,
+                 time = NULL, log = NULL, notes = NULL){
+  ABM_Game$new(...,
+               time = time,
+               log = log,
+               notes = notes)
+}
+
+#-------------------------------------------------------------------------------
+# Summary
+#-------------------------------------------------------------------------------
+
+#' Summarize an ABM game object
+#'
+#' `ABM_Game` objects do not provide a dedicated statistical summary, since
+#' the content and meaningful aggregation of \code{state} fields varies
+#' widely across models. This method exists so that calling
+#' \code{summary()} on a [`Game()`] object gives a clear, actionable
+#' message instead of silently falling back to [`summary.default()`].
+#'
+#' @param object An [`ABM_Game`] object.
+#' @param ... Reserved for future extensions; currently unused.
+#'
+#' @return Invisibly returns \code{object}.
+#'
+#' @seealso [`ABM_Game`], [`Game()`]
+#'
+#' @export
+summary.ABM_Game <- function(object, ...) {
+  message(
+    "summary() is not implemented for 'ABM_Game' objects, since ",
+    "meaningful summary statistics depend heavily on what each model ",
+    "stores in its 'state' fields. Use print(object) or ",
+    "print(object, fields = TRUE) to inspect the game instead."
+  )
+  invisible(object)
+}
+
+#-------------------------------------------------------------------------------
+# (internal) Map internal field category strings to display labels
+#-------------------------------------------------------------------------------
+
+#' Map internal field category strings to user-facing display labels (internal)
+#'
+#' @param category Character vector of internal category strings (e.g.
+#'   \code{"state"}, \code{"active_state"}, \code{"act_FUN"}, ...).
+#' @return Character vector of the same length giving human-readable labels,
+#'   for use in \code{print()} output. The underlying category strings
+#'   themselves (see \link{Field}) are unaffected; this is purely a
+#'   presentation-layer mapping.
+#' @keywords internal
+.category_label <- function(category) {
+  labels <- c(
+    state        = "State",
+    active_state = "Active State",
+    act_FUN      = "Act",
+    stop_FUN     = "Stop",
+    report_FUN   = "Report",
+    plot_FUN     = "Plot"
+  )
+  unname(labels[category])
+}

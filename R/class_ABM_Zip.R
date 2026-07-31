@@ -1,13 +1,12 @@
 #-------------------------------------------------------------------------------
 # Zip / Unzip ABM_Field objects
 #-------------------------------------------------------------------------------
-
 #' Bundle and unbundle ABM_Field objects
 #'
-#' \code{Zip()} groups multiple objects (typically \code{"ABM_Field"} objects)
-#' into a single container of class \code{"ABM_Zip"}.
+#' \code{Zip()} groups multiple objects (typically [`ABM_Field()`] objects)
+#' into a single container of class [`ABM_Zip()`].
 #' \code{Unzip()} flattens such containers back into a simple list, recursively
-#' expanding nested \code{"ABM_Zip"} objects.
+#' expanding nested [`ABM_Zip()`] objects.
 #'
 #' @details
 #' \itemize{
@@ -19,6 +18,10 @@
 #'     \item If an element inherits from \code{"ABM_Zip"}, it is recursively expanded.
 #'     \item Otherwise, the element is returned as-is.
 #'   }
+#'   \item If arguments are supplied with names (e.g. \code{Zip(a = State(x))}),
+#'   those names are not preserved through \code{Unzip()}; only the values are
+#'   retained. This is usually inconsequential for \code{"ABM_Field"} objects,
+#'   which already carry their own \code{name} element.
 #' }
 #'
 #' This utility is mainly intended to help combine multiple \code{"ABM_Field"}
@@ -26,7 +29,8 @@
 #' while still allowing easy flattening back to individual fields.
 #'
 #' @param ... Objects to be bundled or unbundled. Typically \code{"ABM_Field"}
-#'   objects, but \code{Unzip()} will accept any objects and only expand those
+#'   objects, but neither \code{Zip()} nor \code{Unzip()} enforces this: any
+#'   object is accepted, and \code{Unzip()} only recursively expands elements
 #'   inheriting from \code{"ABM_Zip"}.
 #'
 #' @return
@@ -43,23 +47,20 @@
 #'
 #' P <- Zip(State(a), State(b))
 #'
-#' # Flatten
-#' Unzip(State(a), State(b), P)
-#' # -> list(State(a), State(b), State(a), State(b))
+#' # Unzip
+#' Unzip(P)
 #'
 #' # Nested Zip objects are also flattened
 #' Q <- Zip(P, State(a))
 #' Unzip(Q)
-#' # -> list(State(a), State(b), State(a))
+#' # Returns a list of 3 ABM_Field objects, in this order:
+#' #   State(a), State(b), State(a)
 #'
 #' @name Zip
 NULL
-
-
 #-------------------------------------------------------------------------------
 # Internal constructor
 #-------------------------------------------------------------------------------
-
 #' Construct an ABM_Zip object (internal)
 #'
 #' Internal low-level constructor for objects of class \code{"ABM_Zip"}.
@@ -70,38 +71,29 @@ NULL
 #' @keywords internal
 ABM_Zip <- function(...) {
   x_list <- list(...)
-
   structure(x_list, class = "ABM_Zip")
 }
-
-
 #-------------------------------------------------------------------------------
 # User-facing API
 #-------------------------------------------------------------------------------
-
 #' @rdname Zip
 #' @export
 Zip <- function(...) ABM_Zip(...)
-
-
 #' @rdname Zip
 #' @export
 Unzip <- function(...) {
   xs <- list(...)
-
   out <- list()
-
   push <- function(x) {
     if (inherits(x, "ABM_Zip")) {
       # recursive flatten (also handles nested Zip objects)
       for (el in unclass(x)) push(el)
     } else {
-      out[[length(out) + 1L]] <<- x
+      # Note: NULL is preserved as a genuine list element, matching the
+      # documented behavior ("the element is returned as-is").
+      out <<- c(out, list(x))
     }
   }
-
   for (x in xs) push(x)
-
   out
 }
-

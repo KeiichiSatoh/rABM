@@ -10,12 +10,6 @@
 \alias{Plot}
 \title{Field constructors for rABM objects}
 \usage{
-Field(
-  x,
-  name,
-  category = c("state", "active_state", "act_FUN", "stop_FUN", "plot_FUN", "report_FUN")
-)
-
 State(x, name = NULL)
 
 Active(x, name = NULL)
@@ -29,46 +23,58 @@ Report(x, name = NULL)
 Plot(x, name = NULL)
 }
 \arguments{
-\item{x}{A value or a function to be stored in the field.}
+\item{x}{A value (for \code{State()}) or a function (for \code{Active()},
+\code{Act()}, \code{Stop()}, \code{Report()}, \code{Plot()}) to be
+stored in the field.}
 
-\item{name}{A single character string giving the field name.
-\code{Field()} requires \code{name}. For helper constructors,
-\code{name = NULL} will infer the name from \code{x}.}
-
-\item{category}{A single character string specifying the field category.}
+\item{name}{An optional single character string giving the field name.
+If \code{NULL} (the default), the name is inferred from \code{x}.}
 }
 \value{
 An object of class \code{"ABM_Field"} (a list with elements
 \code{value}, \code{name}, and \code{category}).
 }
 \description{
-\code{Field()} and the helper constructors (\code{State()}, \code{Active()},
-\code{Act()}, \code{Stop()}, \code{Report()}, \code{Plot()}) create an
+The helper constructors \code{State()}, \code{Active()}, \code{Act()},
+\code{Stop()}, \code{Report()}, and \code{Plot()} create an
 \code{"ABM_Field"} object that stores a value, its name, and a category label.
 }
 \details{
 \code{ABM_Field()} and the internal helpers are intended for internal use.
-Most users should use \code{Field()} or one of the helper constructors.
+Users should create fields using one of the constructors listed above.
 
 \itemize{
-\item \code{Field()} is a general constructor where you provide \code{name}
-explicitly.
 \item \code{State()}, \code{Active()}, \code{Act()}, \code{Stop()},
-\code{Report()}, and \code{Plot()} are convenience constructors that accept
-\code{name = NULL}.
-\item For helper constructors, if \code{name} is \code{NULL}, the field name
-is inferred from the expression passed to \code{x} (via \code{substitute(x)})
-at the top-level helper (so it works for \code{State(y)} etc.).
-\item For function categories (Active/Act/Stop/Report/Plot), a call input
-like \code{fun(a = 3)} is allowed: it is converted into a new function whose
-default arguments are updated according to the call (partial application by
-updating defaults, not by fixing values).
-\item \code{State()} does not accept call inputs when \code{name} is \code{NULL}.
+\code{Report()}, and \code{Plot()} each accept \code{name = NULL}
+(the default) or an explicit \code{name}.
+\item If \code{name} is \code{NULL}, the field name is inferred from the
+expression passed to \code{x} (via \code{substitute(x)}) at the
+top-level helper (so it works for \code{State(y)} etc.).
+\item For function categories (\code{Active()}, \code{Act()},
+\code{Stop()}, \code{Report()}, \code{Plot()}), a call input like
+\code{fun(a = 3)} is allowed: it is converted into a new function whose
+default arguments are updated according to the call (partial application
+by updating defaults, not by fixing values).
+\item \code{State()} does not accept call inputs when \code{name} is
+\code{NULL}.
+\item For \code{Active()}, a call-input default (e.g.
+\code{Active(fn(v = 1))}) only affects arguments that are not used to
+detect reads vs. writes. If the underlying function distinguishes reads
+from writes via that argument (typically with \code{missing()}),
+supplying a call-input default for it has no effect.
 }
 
-The category labels are currently:
-\code{"state"}, \code{"active_state"}, \code{"act_FUN"}, \code{"stop_FUN"},
-\code{"plot_FUN"}, and \code{"report_FUN"}.
+Each constructor stores its field under a fixed category label:
+\code{State()} uses \code{"state"}, \code{Active()} uses
+\code{"active_state"}, and \code{Act()}, \code{Stop()}, \code{Report()},
+\code{Plot()} use \code{"act_FUN"}, \code{"stop_FUN"}, \code{"report_FUN"},
+\code{"plot_FUN"} respectively.
+
+\code{"active_state"} is named after its access pattern (accessed like a
+state, via \code{self$x}, without parentheses) rather than following the
+\code{"_FUN"} suffix pattern used by the other function categories,
+because it is implemented as an R6 active binding rather than a callable
+method.
 }
 \examples{
 # State (name inferred from the object name)
@@ -77,9 +83,12 @@ State(y)            # name = "y"
 State(1, name="y")  # literal allowed when name is provided
 
 # Function fields
-fun <- function(a = 1, b = 2) c(a, b)
-Plot(fun)           # name = "fun"
-Plot(fun(a = 3))    # function(a = 3, b = 2) ...
-Plot(function() 1, name = "my_plot")  # anonymous OK with explicit name
+get_older <- function(){self$age <- self$age + 1}
+Act(get_older)
+
+get_older2 <- function(a = 1){self$age <- self$age + a}        # with arguments
+Act(get_older2(a = 2))
+
+Act(function(){self$age <- self$age + 1}, name = "get_older")  # anonymous OK with explicit name
 
 }

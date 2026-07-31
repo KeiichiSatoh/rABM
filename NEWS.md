@@ -1,4 +1,9 @@
 # rABM (development version)
+# rABM 1.3.0
+2026-07-31
+* [revised] Revised `ABM_Field`,`ABM_Game`, `run_Game`, `value_of`.
+* [added] `value_of_log`.
+
 # rABM 1.2.1
 2026-07-16
 * [fixed] Changed from cloning to copy_obj() in `run_Game`.

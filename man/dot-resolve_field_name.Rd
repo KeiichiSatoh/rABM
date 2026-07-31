@@ -4,19 +4,21 @@
 \alias{.resolve_field_name}
 \title{Resolve the field name from an expression (internal)}
 \usage{
-.resolve_field_name(x_sbs, name = NULL, allow_call = FALSE)
+.resolve_field_name(x_sbs, name = NULL)
 }
 \arguments{
 \item{x_sbs}{Expression from \code{substitute(x)} at the top-level constructor.}
 
 \item{name}{Optional explicit name.}
-
-\item{allow_call}{Logical; whether call expressions are allowed for name inference.}
 }
 \value{
 A character scalar name.
 }
 \description{
-Resolve the field name from an expression (internal)
+Used when \code{name} is \code{NULL}: infers the field name from the
+expression originally passed to \code{x} at the top-level constructor.
+Call expressions (e.g. \code{fun(a = 3)}) are never resolved here; they
+are handled upstream by \code{\link{.coerce_call_to_FUN}} before this
+function is reached.
 }
 \keyword{internal}

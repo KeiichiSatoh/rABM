@@ -4,7 +4,7 @@
 \alias{.make_field}
 \title{Create an ABM_Field with validation (internal)}
 \usage{
-.make_field(x, category, must_be_function = NULL, label = NULL, name)
+.make_field(x, category, must_be_function = NULL, label, name)
 }
 \arguments{
 \item{x}{A value or function.}
@@ -14,7 +14,8 @@
 \item{must_be_function}{Logical scalar or \code{NULL}. If \code{TRUE}, \code{x}
 must be a function; if \code{FALSE}, \code{x} must not be a function.}
 
-\item{label}{Label used in error messages (defaults to \code{category}).}
+\item{label}{Label used in error messages (e.g. \code{"State()"},
+\code{"Active()"}). Every current caller passes this explicitly.}
 
 \item{name}{Field name (required).}
 }
@@ -22,7 +23,6 @@ must be a function; if \code{FALSE}, \code{x} must not be a function.}
 An object of class \code{"ABM_Field"}.
 }
 \description{
-IMPORTANT: This helper does NOT infer names from \code{substitute(x)}.
-Name inference must be done at the top-level user-facing constructors.
+Create an ABM_Field with validation (internal)
 }
 \keyword{internal}
