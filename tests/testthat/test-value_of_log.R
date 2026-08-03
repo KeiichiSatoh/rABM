@@ -4,6 +4,15 @@
 ##   value_of_log.default
 ##   value_of_log.ABM_Game
 ##
+## value_of_log.ABM_Game() gained a `simplify` argument (default FALSE):
+## whether a single, explicitly-selected log entry (`log` a length-1
+## character/numeric value other than "all") is unwrapped to its raw value
+## (simplify = TRUE, the old/pre-refactor behavior) or still returned as a
+## named list of length 1 (simplify = FALSE, the new default -- a uniform
+## list-based return type regardless of how many log entries were
+## requested). `log = "all"` and multi-entry `log` vectors are unaffected by
+## `simplify` and always return a named list, as before.
+##
 ## Mirrors the structure of test-value_of.R. Fixtures use the real ABM_Game
 ## R6 class and the real State() field constructor; G$log is populated
 ## directly via ABM_Game$new(..., log = list(...)) rather than via
@@ -89,33 +98,49 @@ test_that("value_of_log.ABM_Game() default 'log' argument behaves like log='all'
 })
 
 # ---------------------------------------------------------------------------
-# value_of_log.ABM_Game -- log = single entry (name or position)
+# value_of_log.ABM_Game -- 'simplify' argument default
 # ---------------------------------------------------------------------------
 
-test_that("value_of_log.ABM_Game() with a single character 'log' returns the raw value", {
+test_that("value_of_log.ABM_Game()'s 'simplify' argument defaults to FALSE", {
+  expect_identical(formals(value_of_log.ABM_Game)$simplify, FALSE)
+})
+
+test_that("value_of_log()'s generic and default method also default 'simplify' to FALSE", {
+  expect_identical(formals(value_of_log)$simplify, FALSE)
+  expect_identical(formals(value_of_log.default)$simplify, FALSE)
+})
+
+# ---------------------------------------------------------------------------
+# value_of_log.ABM_Game -- log = single entry (name or position),
+# simplify = FALSE (the default): always a named list of length 1
+# ---------------------------------------------------------------------------
+
+test_that("value_of_log.ABM_Game() with a single character 'log' returns a named list of length 1 by default (simplify = FALSE)", {
   G <- make_game_with_log()
   result <- value_of_log(G, "agent_wealth", log = "t2")
-  expect_equal(result, c(2, 3, 4))
-  expect_false(is.list(result))
+  expect_type(result, "list")
+  expect_named(result, "t2")
+  expect_equal(result, list(t2 = c(2, 3, 4)))
 })
 
-test_that("value_of_log.ABM_Game() with a single numeric 'log' returns the raw value", {
+test_that("value_of_log.ABM_Game() with a single numeric 'log' returns a named list of length 1 by default (simplify = FALSE)", {
   G <- make_game_with_log()
   result <- value_of_log(G, "agent_wealth", log = 2)
-  expect_equal(result, c(2, 3, 4))
-  expect_false(is.list(result))
+  expect_type(result, "list")
+  expect_named(result, "t2")
+  expect_equal(result, list(t2 = c(2, 3, 4)))
 })
 
-test_that("value_of_log.ABM_Game() single-entry selection applies return_FUN once", {
+test_that("value_of_log.ABM_Game() single-entry selection (simplify = FALSE) applies return_FUN once, result still wrapped in a list", {
   G <- make_game_with_log()
   result <- value_of_log(G, "agent_wealth", log = "t2", return_FUN = sum)
-  expect_equal(result, 9)
+  expect_equal(result, list(t2 = 9))
 })
 
-test_that("value_of_log.ABM_Game() single-entry selection passes ... to return_FUN", {
+test_that("value_of_log.ABM_Game() single-entry selection (simplify = FALSE) passes ... to return_FUN", {
   G <- make_game_with_log(log = list(t1 = list(agent_wealth = c(1, NA, 3))))
   result <- value_of_log(G, "agent_wealth", log = "t1", return_FUN = mean, na.rm = TRUE)
-  expect_equal(result, 2)
+  expect_equal(result, list(t1 = 2))
 })
 
 test_that("value_of_log.ABM_Game() with log='all' passes ... to return_FUN for every entry", {
@@ -125,6 +150,37 @@ test_that("value_of_log.ABM_Game() with log='all' passes ... to return_FUN for e
   ))
   result <- value_of_log(G, "agent_wealth", return_FUN = mean, na.rm = TRUE)
   expect_equal(result, list(t1 = 2, t2 = 5))
+})
+
+# ---------------------------------------------------------------------------
+# value_of_log.ABM_Game -- log = single entry (name or position),
+# simplify = TRUE (opt-in unwrapping, matching the pre-refactor behavior)
+# ---------------------------------------------------------------------------
+
+test_that("value_of_log.ABM_Game() with simplify = TRUE unwraps a single character 'log' selection to the raw value", {
+  G <- make_game_with_log()
+  result <- value_of_log(G, "agent_wealth", log = "t2", simplify = TRUE)
+  expect_equal(result, c(2, 3, 4))
+  expect_false(is.list(result))
+})
+
+test_that("value_of_log.ABM_Game() with simplify = TRUE unwraps a single numeric 'log' selection to the raw value", {
+  G <- make_game_with_log()
+  result <- value_of_log(G, "agent_wealth", log = 2, simplify = TRUE)
+  expect_equal(result, c(2, 3, 4))
+  expect_false(is.list(result))
+})
+
+test_that("value_of_log.ABM_Game() single-entry selection with simplify = TRUE applies return_FUN once, unwrapped", {
+  G <- make_game_with_log()
+  result <- value_of_log(G, "agent_wealth", log = "t2", simplify = TRUE, return_FUN = sum)
+  expect_equal(result, 9)
+})
+
+test_that("value_of_log.ABM_Game() single-entry selection with simplify = TRUE passes ... to return_FUN", {
+  G <- make_game_with_log(log = list(t1 = list(agent_wealth = c(1, NA, 3))))
+  result <- value_of_log(G, "agent_wealth", log = "t1", simplify = TRUE, return_FUN = mean, na.rm = TRUE)
+  expect_equal(result, 2)
 })
 
 # ---------------------------------------------------------------------------
@@ -161,6 +217,85 @@ test_that("value_of_log.ABM_Game() with a multi-entry vector 'log' passes ... to
   ))
   result <- value_of_log(G, "agent_wealth", log = c("t1", "t2"), return_FUN = mean, na.rm = TRUE)
   expect_equal(result, list(t1 = 2, t2 = 5))
+})
+
+# ---------------------------------------------------------------------------
+# value_of_log.ABM_Game -- 'simplify' has no effect on log = "all" or on a
+# multi-entry 'log' vector: both always return a named list
+# ---------------------------------------------------------------------------
+
+test_that("simplify = TRUE has no effect on log = 'all'", {
+  G <- make_game_with_log()
+  result_default  <- value_of_log(G, "agent_wealth")
+  result_simplify <- value_of_log(G, "agent_wealth", simplify = TRUE)
+  expect_equal(result_default, result_simplify)
+  expect_type(result_simplify, "list")
+  expect_named(result_simplify, c("t1", "t2", "t3"))
+})
+
+test_that("simplify = TRUE has no effect on log = 'all' even for a single-entry log", {
+  G <- make_game_with_log(log = list(t1 = list(agent_wealth = c(9, 9, 9))))
+  result <- value_of_log(G, "agent_wealth", simplify = TRUE)
+  expect_type(result, "list")
+  expect_named(result, "t1")
+  expect_equal(result, list(t1 = c(9, 9, 9)))
+})
+
+test_that("simplify = TRUE has no effect on a multi-entry 'log' vector", {
+  G <- make_game_with_log()
+  result_default  <- value_of_log(G, "agent_wealth", log = c("t1", "t3"))
+  result_simplify <- value_of_log(G, "agent_wealth", log = c("t1", "t3"), simplify = TRUE)
+  expect_equal(result_default, result_simplify)
+  expect_type(result_simplify, "list")
+  expect_named(result_simplify, c("t1", "t3"))
+})
+
+# ---------------------------------------------------------------------------
+# value_of_log.ABM_Game -- regression: single-entry wrapping must not be
+# decided by inspecting the *type* of the extracted value, since list-like
+# values (such as a data.frame, for which is.list() is TRUE) would
+# otherwise be indistinguishable from "already a named list of entries".
+# The decision must be based on 'log' itself (its length / whether it is
+# "all"). This is exactly the pattern set_segGame()'s report_segregation()
+# / report_landlord_stat() rely on (house_list[[t]], resident_list[[t]], ...).
+# ---------------------------------------------------------------------------
+
+test_that("value_of_log.ABM_Game() default (simplify = FALSE) correctly wraps a single log entry even when the field value is itself list-like (e.g. a data.frame)", {
+  G <- make_game_with_log(log = list(
+    t1 = list(house = data.frame(ID = 1:3, block = c(1, 1, 2))),
+    t2 = list(house = data.frame(ID = 4:6, block = c(2, 3, 3)))
+  ))
+  result <- value_of_log(G, "house", log = "t1")
+  expect_type(result, "list")
+  expect_named(result, "t1")
+  expect_true(is.data.frame(result[["t1"]]))
+  expect_equal(result[["t1"]], data.frame(ID = 1:3, block = c(1, 1, 2)))
+})
+
+test_that("value_of_log.ABM_Game() with simplify = TRUE unwraps a data.frame-valued single log entry to the raw data.frame", {
+  G <- make_game_with_log(log = list(
+    t1 = list(house = data.frame(ID = 1:3, block = c(1, 1, 2)))
+  ))
+  result <- value_of_log(G, "house", log = "t1", simplify = TRUE)
+  expect_true(is.data.frame(result))
+  expect_equal(result, data.frame(ID = 1:3, block = c(1, 1, 2)))
+})
+
+test_that("value_of_log.ABM_Game() default (simplify = FALSE) supports positional list-indexing across a multi-entry selection, including data.frame-valued fields", {
+  # Mirrors how report_segregation()/report_landlord_stat() in set_segGame()
+  # consume value_of_log()'s output: entries pulled out via house_list[[t]].
+  G <- make_game_with_log(log = list(
+    t1 = list(house = data.frame(ID = 1:2, block = c(1, 2))),
+    t2 = list(house = data.frame(ID = 3:4, block = c(1, 1)))
+  ))
+  result <- value_of_log(G, "house", log = c("t1", "t2"))
+  expect_type(result, "list")
+  expect_length(result, 2)
+  for (t in seq_along(result)) {
+    expect_true(is.data.frame(result[[t]]))
+  }
+  expect_equal(result[[1]], data.frame(ID = 1:2, block = c(1, 2)))
+  expect_equal(result[[2]], data.frame(ID = 3:4, block = c(1, 1)))
 })
 
 # ---------------------------------------------------------------------------
@@ -213,12 +348,17 @@ test_that("value_of_log.ABM_Game() errors when field_name is missing from a log 
 test_that("value_of_log.ABM_Game() errors with the entry name when a single-entry selection is missing field_name", {
   # Same underlying .extract_from_collection() error path as the 'all'
   # case above, but reached via a single explicit entry selector rather
-  # than the 'all'/multi-entry loop.
+  # than the 'all'/multi-entry loop. This holds regardless of 'simplify',
+  # since the missing-field check happens before the wrap/unwrap decision.
   G <- make_game_with_log(log = list(
     t1 = list(agent_id = c(1, 2, 3))  # no 'agent_wealth' here
   ))
   expect_error(
     value_of_log(G, "agent_wealth", log = "t1"),
+    "Field 'agent_wealth' was not found in log entry 't1'\\."
+  )
+  expect_error(
+    value_of_log(G, "agent_wealth", log = "t1", simplify = TRUE),
     "Field 'agent_wealth' was not found in log entry 't1'\\."
   )
 })

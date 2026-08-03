@@ -5,6 +5,15 @@
 ##   value_of.ABM_Game
 ##   value_of.list
 ##
+## value_of.list() gained a `simplify` argument (default FALSE): whether a
+## single, explicitly-selected entry (`which` a length-1 character/numeric
+## value other than "all") is unwrapped to its raw value (simplify = TRUE,
+## the old/pre-refactor behavior) or still returned as a named list of
+## length 1 (simplify = FALSE, the new default -- a uniform list-based
+## return type regardless of how many entries were requested). `which =
+## "all"` and multi-entry `which` vectors are unaffected by `simplify` and
+## always return a named list, as before.
+##
 ## These tests assume they run inside the package's testthat suite, so that:
 ##   - the internal R6 generator `ABM_Game`, the constructor `Game()`, and
 ##     the Field constructors `State()`/`Active()` are visible (used to
@@ -201,52 +210,144 @@ test_that("value_of.list() applies return_FUN elementwise when which='all'", {
 })
 
 # ---------------------------------------------------------------------------
-# value_of.list -- which = single entry (name or position)
+# value_of.list -- 'simplify' argument default
 # ---------------------------------------------------------------------------
 
-test_that("value_of.list() with a single character 'which' returns the raw value", {
+test_that("value_of.list()'s 'simplify' argument defaults to FALSE", {
+  expect_identical(formals(value_of.list)$simplify, FALSE)
+})
+
+# ---------------------------------------------------------------------------
+# value_of.list -- which = single entry (name or position), simplify = FALSE
+# (the default): always a named list of length 1
+# ---------------------------------------------------------------------------
+
+test_that("value_of.list() with a single character 'which' returns a named list of length 1 by default (simplify = FALSE)", {
   result <- value_of(sample_list, "a", which = "t2")
-  expect_equal(result, 2)
-  expect_false(is.list(result) && !is.null(names(result)) )
+  expect_type(result, "list")
+  expect_named(result, "t2")
+  expect_equal(result, list(t2 = 2))
 })
 
-test_that("value_of.list() with a single numeric 'which' returns the raw value", {
+test_that("value_of.list() with a single numeric 'which' returns a named list of length 1 by default (simplify = FALSE)", {
   result <- value_of(sample_list, "a", which = 2)
-  expect_equal(result, 2)
+  expect_type(result, "list")
+  expect_named(result, "t2")
+  expect_equal(result, list(t2 = 2))
 })
 
-test_that("value_of.list() single-entry selection applies return_FUN once", {
+test_that("value_of.list() single-entry selection (simplify = FALSE) applies return_FUN once, result still wrapped in a list", {
   result <- value_of(sample_list, "a", which = "t2", return_FUN = function(v) v * 100)
+  expect_equal(result, list(t2 = 200))
+})
+
+test_that("value_of.list() single-entry selection (simplify = FALSE) passes ... to return_FUN", {
+  entry_with_na <- list(t1 = list(a = c(1, NA, 3)))
+  result <- value_of(entry_with_na, "a", which = "t1", return_FUN = mean, na.rm = TRUE)
+  expect_equal(result, list(t1 = 2))
+})
+
+# ---------------------------------------------------------------------------
+# value_of.list -- which = single entry (name or position), simplify = TRUE
+# (opt-in unwrapping, matching the pre-refactor behavior)
+# ---------------------------------------------------------------------------
+
+test_that("value_of.list() with simplify = TRUE unwraps a single character 'which' selection to the raw value", {
+  result <- value_of(sample_list, "a", which = "t2", simplify = TRUE)
+  expect_equal(result, 2)
+  expect_false(is.list(result))
+})
+
+test_that("value_of.list() with simplify = TRUE unwraps a single numeric 'which' selection to the raw value", {
+  result <- value_of(sample_list, "a", which = 2, simplify = TRUE)
+  expect_equal(result, 2)
+  expect_false(is.list(result))
+})
+
+test_that("value_of.list() single-entry selection with simplify = TRUE applies return_FUN once, unwrapped", {
+  result <- value_of(sample_list, "a", which = "t2", simplify = TRUE, return_FUN = function(v) v * 100)
   expect_equal(result, 200)
 })
 
-test_that("value_of.list() single-entry selection passes ... to return_FUN", {
+test_that("value_of.list() single-entry selection with simplify = TRUE passes ... to return_FUN", {
   entry_with_na <- list(t1 = list(a = c(1, NA, 3)))
-  result <- value_of(entry_with_na, "a", which = "t1", return_FUN = mean, na.rm = TRUE)
+  result <- value_of(entry_with_na, "a", which = "t1", simplify = TRUE, return_FUN = mean, na.rm = TRUE)
   expect_equal(result, 2)
 })
 
 # ---------------------------------------------------------------------------
-# value_of.list -- which = vector of length >= 2
+# value_of.list -- 'simplify' has no effect on which = "all" or on a
+# multi-entry 'which' vector: both always return a named list
 # ---------------------------------------------------------------------------
 
-test_that("value_of.list() with a character vector 'which' returns a named list", {
-  result <- value_of(sample_list, "a", which = c("t1", "t3"))
-  expect_type(result, "list")
-  expect_named(result, c("t1", "t3"))
-  expect_equal(result, list(t1 = 1, t3 = 3))
+test_that("simplify = TRUE has no effect on which = 'all'", {
+  result_default   <- value_of(sample_list, "a")
+  result_simplify  <- value_of(sample_list, "a", simplify = TRUE)
+  expect_equal(result_default, result_simplify)
+  expect_type(result_simplify, "list")
+  expect_named(result_simplify, c("t1", "t2", "t3"))
 })
 
-test_that("value_of.list() with a numeric vector 'which' returns a named list", {
-  result <- value_of(sample_list, "a", which = c(1, 3))
+test_that("simplify = TRUE has no effect on which = 'all' even for a single-entry x", {
+  one_entry <- list(t1 = list(a = 42))
+  result <- value_of(one_entry, "a", simplify = TRUE)
   expect_type(result, "list")
-  expect_named(result, c("t1", "t3"))
-  expect_equal(result, list(t1 = 1, t3 = 3))
+  expect_named(result, "t1")
+  expect_equal(result, list(t1 = 42))
 })
 
-test_that("value_of.list() applies return_FUN elementwise for multi-entry 'which'", {
-  result <- value_of(sample_list, "a", which = c("t1", "t2"), return_FUN = function(v) v + 1)
-  expect_equal(result, list(t1 = 2, t2 = 3))
+test_that("simplify = TRUE has no effect on a multi-entry 'which' vector", {
+  result_default  <- value_of(sample_list, "a", which = c("t1", "t3"))
+  result_simplify <- value_of(sample_list, "a", which = c("t1", "t3"), simplify = TRUE)
+  expect_equal(result_default, result_simplify)
+  expect_type(result_simplify, "list")
+  expect_named(result_simplify, c("t1", "t3"))
+})
+
+# ---------------------------------------------------------------------------
+# value_of.list -- regression: single-entry wrapping must not be decided by
+# inspecting the *type* of the extracted value, since list-like values (such
+# as a data.frame, for which is.list() is TRUE) would otherwise be
+# indistinguishable from "already a named list of entries". The decision
+# must be based on 'which' itself (its length / whether it is "all").
+# ---------------------------------------------------------------------------
+
+test_that("value_of.list() default (simplify = FALSE) correctly wraps a single entry even when the field value is itself list-like (e.g. a data.frame)", {
+  df_list <- list(
+    t1 = list(house = data.frame(ID = 1:3, block = c(1, 1, 2))),
+    t2 = list(house = data.frame(ID = 4:6, block = c(2, 3, 3)))
+  )
+  result <- value_of(df_list, "house", which = "t1")
+  expect_type(result, "list")
+  expect_named(result, "t1")
+  expect_true(is.data.frame(result[["t1"]]))
+  expect_equal(result[["t1"]], data.frame(ID = 1:3, block = c(1, 1, 2)))
+})
+
+test_that("value_of.list() with simplify = TRUE unwraps a data.frame-valued single entry to the raw data.frame", {
+  df_list <- list(
+    t1 = list(house = data.frame(ID = 1:3, block = c(1, 1, 2)))
+  )
+  result <- value_of(df_list, "house", which = "t1", simplify = TRUE)
+  expect_true(is.data.frame(result))
+  expect_equal(result, data.frame(ID = 1:3, block = c(1, 1, 2)))
+})
+
+test_that("value_of.list() default (simplify = FALSE) supports positional list-indexing across a multi-entry selection, including data.frame-valued fields", {
+  # Mirrors how report_segregation()/report_landlord_stat() in set_segGame()
+  # consume value_of_log()'s output: entries pulled out via house_list[[t]].
+  df_list <- list(
+    t1 = list(house = data.frame(ID = 1:2, block = c(1, 2))),
+    t2 = list(house = data.frame(ID = 3:4, block = c(1, 1)))
+  )
+  result <- value_of(df_list, "house", which = c("t1", "t2"))
+  expect_type(result, "list")
+  expect_length(result, 2)
+  for (t in seq_along(result)) {
+    expect_true(is.data.frame(result[[t]]))
+  }
+  expect_equal(result[[1]], data.frame(ID = 1:2, block = c(1, 2)))
+  expect_equal(result[[2]], data.frame(ID = 3:4, block = c(1, 1)))
 })
 
 # ---------------------------------------------------------------------------

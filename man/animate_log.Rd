@@ -17,66 +17,109 @@ animate_log(
   play = TRUE,
   check = TRUE,
   interval = 1,
+  plot_args = list(),
   ...
 )
 }
 \arguments{
 \item{G}{An \code{ABM_Game} object.}
 
-\item{name}{A field name in \code{G} indicating the plotting function to use.
-The field must be a function (typically categorized as \code{"plot_FUN"}).}
+\item{name}{A field name in \code{G} indicating the \code{plot_FUN} to use
+for each frame (see \code{\link{plot.ABM_Game}}).}
 
-\item{log}{Which log entries to replay. This is passed to
-\code{.resolve_log_idx()} and can be a character vector (e.g.,
-\code{names(G$log)}) or a numeric index vector.}
+\item{log}{Which log entries to replay. \code{NULL} (the default) uses all
+entries (\code{"all"}); otherwise this is passed directly to
+\code{\link{value_of_log}} (via \code{\link{plot.ABM_Game}}) and accepts
+the same forms: \code{"all"}, a character vector matching
+\code{names(G$log)}, or a numeric vector of positions.}
 
-\item{delay}{Delay between frames in seconds. Passed to \code{gifski::save_gif()}.}
+\item{delay}{Delay between frames in seconds. Passed to
+\code{gifski::save_gif()}.}
 
 \item{width, height}{Width/height of the GIF in pixels.}
 
 \item{res}{Resolution (ppi). Passed to \code{gifski::save_gif()}.}
 
-\item{add_time_label}{Logical. If \code{TRUE}, add a subtitle indicating time
-(uses \code{snapshot$time} if available; otherwise uses the log index).}
+\item{add_time_label}{Logical. If \code{TRUE}, add a subtitle indicating
+the \code{time} of each frame (via \code{graphics::title(sub = ...)}).}
 
 \item{file}{Output GIF file path.}
 
 \item{play}{Logical. If \code{TRUE}, open the resulting file after creation.}
 
-\item{check}{Logical. If \code{TRUE}, stop when the number of frames would
-exceed 500 (after thinning by \code{interval}).}
+\item{check}{Logical. If \code{TRUE} (the default), stop when the number of
+frames would exceed 500 (after thinning by \code{interval}), rather than
+silently building a very large GIF.}
 
-\item{interval}{A positive integer. Use every \code{interval}-th frame
-(1 = use all frames).}
+\item{interval}{A positive integer. Use every \code{interval}-th selected
+frame (\code{1} = use all of them).}
 
-\item{...}{Additional arguments passed to the plotting function \code{name}.}
+\item{plot_args}{A list of additional arguments passed to
+\code{\link{plot.ABM_Game}} for each frame -- and from there, ultimately
+to the underlying \code{plot_FUN} named by \code{name}. Use this (rather
+than \code{...}) to pass arguments through to the plotting function.}
+
+\item{...}{Additional arguments passed to \code{gifski::save_gif()} (e.g.
+\code{loop}, \code{progress}). These do \strong{not} reach \code{plot_FUN};
+use \code{plot_args} for that.}
 }
 \value{
 Invisibly returns \code{file}.
 }
 \description{
-This function replays stored snapshots in \code{G$log} and generates an
-animated GIF by repeatedly calling a plotting function (\code{plot_FUN})
-stored in the \code{ABM_Game} object.
-}
-\details{
-The plotting function is executed with \code{G} and \code{E} from the current
-game object, while a snapshot for each frame is injected via the \code{self}
-argument.
+Replays stored snapshots in \code{G$log} and generates an animated GIF by
+calling \code{\link{plot.ABM_Game}} once per selected log entry.
 }
 \section{Notes}{
 
 At replay time, only values stored in \code{G$log} are available via
-\code{self}. If your plotting function requires additional fields, you must
-ensure that those fields were saved into the log when running the simulation.
+\code{self} (see \code{\link{plot.ABM_Game}}). If your \code{plot_FUN}
+requires additional fields, ensure those fields were saved into the log
+when running the simulation (see \code{run_Game(fields_to_save = ...)}).
 }
 
 \examples{
 \dontrun{
-G <- run_Game(G, plan = ..., save_log = TRUE)
-animate_log(G, name = "plot_agents", log = NULL, file = "anim.gif")
+set.seed(1)
+wealth <- rep(10, 20)
+grow_wealth <- function() {
+  rate <- rnorm(length(self$wealth), mean = 0.01, sd = 0.05)
+  self$wealth <- pmax(self$wealth * (1 + rate), 0.1)
+}
+# Fixed bin edges (rather than a target count) so every frame uses
+# exactly the same bins -- otherwise hist() recomputes bin width from
+# each frame's own data range, making bins drift across frames.
+wealth_breaks <- seq(0, 40, by = 4)
+plot_hist <- function() {
+  graphics::hist(self$wealth, main = "wealth", xlim = c(0, 40),
+                breaks = wealth_breaks)
+}
+
+G <- run_Game(
+  Game(State(wealth), Act(grow_wealth), Plot(plot_hist)),
+  plan  = c("grow_wealth"),
+  times = 20
+)
+
+animate_log(G, name = "plot_hist", add_time_label = TRUE, file = "wealth.gif")
+
+# Pass an argument through to plot_hist() itself -- still fixed bin
+# edges, just resolved via plot_args instead of a closure variable.
+plot_hist2 <- function(breaks = seq(0, 40, by = 4)) {
+  graphics::hist(self$wealth, main = "wealth", xlim = c(0, 40), breaks = breaks)
+}
+G2 <- run_Game(
+  Game(State(wealth), Act(grow_wealth), Plot(plot_hist2)),
+  plan  = c("grow_wealth"),
+  times = 20
+)
+animate_log(
+  G2, name = "plot_hist2",
+  plot_args = list(breaks = seq(0, 40, by = 2)),
+  file = "wealth2.gif"
+)
 }
 }
 \seealso{
-\code{\link[gifski]{save_gif}}
+\code{\link{plot.ABM_Game}}, \code{\link[gifski]{save_gif}}
 }
