@@ -13,16 +13,26 @@
 #' is handled internally by the \code{ABM_Game} method.
 #'
 #' @param G An object of class \code{ABM_Game}.
-#' @param ... Fields to be added. The interpretation of the input
-#'   depends on the internal implementation of \code{G$.add()}.
+#' @param ... One or more \code{ABM_Field} objects to add -- typically
+#'   created with \code{\link{State}}, \code{\link{Active}}, \code{\link{Act}},
+#'   \code{\link{Stop}}, \code{\link{Report}}, or \code{\link{Plot}} -- or
+#'   \code{\link{Zip}} bundles thereof (e.g. \code{add_field(G, State(pop),
+#'   Act(reproduce))}). At least one field must be supplied.
 #'
 #' @return The modified \code{ABM_Game} object (invisibly).
 #'
 #' @details
 #' This function is a thin wrapper and performs only minimal validation
-#' (checking that \code{G} inherits from \code{ABM_Game}).
+#' (checking that \code{G} inherits from \code{ABM_Game} and that \code{...}
+#' is not empty).
 #' All structural and semantic validation is delegated to
 #' \code{ABM_Game}'s internal \code{.add()} method.
+#'
+#' @examples
+#' pop <- 100
+#' G <- Game(State(pop))
+#' reproduce <- function() { self$pop <- self$pop * 1.1 }
+#' add_field(G, Act(reproduce))
 #'
 #' @seealso \code{\link{remove_field}}, \code{\link{replace_field}}
 #'
@@ -30,6 +40,8 @@
 add_field <- function(G, ...){
   stopifnot("'G' must be a 'ABM_Game' class object." =
               inherits(G, "ABM_Game"))
+  stopifnot("'...' must not be empty: supply at least one 'ABM_Field' object (or 'Zip()' bundle) to add." =
+              length(list(...)) > 0L)
   G$.add(...)
   invisible(G)
 }
@@ -47,16 +59,23 @@ add_field <- function(G, ...){
 #' is handled internally by the \code{ABM_Game} method.
 #'
 #' @param G An object of class \code{ABM_Game}.
-#' @param ... Field names to remove. The interpretation of the input
-#'   depends on the internal implementation of \code{G$.remove()}.
+#' @param ... One or more field names (character strings) to remove, e.g.
+#'   \code{remove_field(G, "pop")} or \code{remove_field(G, "pop",
+#'   "reproduce")}. At least one name must be supplied.
 #'
 #' @return The modified \code{ABM_Game} object (invisibly).
 #'
 #' @details
 #' This function is a thin wrapper and performs only minimal validation
-#' (checking that \code{G} inherits from \code{ABM_Game}).
+#' (checking that \code{G} inherits from \code{ABM_Game} and that \code{...}
+#' is not empty).
 #' All structural and semantic validation is delegated to
 #' \code{ABM_Game}'s internal \code{.remove()} method.
+#'
+#' @examples
+#' pop <- 100
+#' G <- Game(State(pop))
+#' remove_field(G, "pop")
 #'
 #' @seealso \code{\link{add_field}}, \code{\link{replace_field}}
 #'
@@ -64,6 +83,8 @@ add_field <- function(G, ...){
 remove_field <- function(G, ...){
   stopifnot("'G' must be a 'ABM_Game' class object." =
               inherits(G, "ABM_Game"))
+  stopifnot("'...' must not be empty: supply at least one field name to remove." =
+              length(list(...)) > 0L)
   G$.remove(...)
   invisible(G)
 }
@@ -80,14 +101,19 @@ remove_field <- function(G, ...){
 #' is handled internally by the \code{ABM_Game} method.
 #'
 #' @param G An object of class \code{ABM_Game}.
-#' @param ... Fields to replace. Each element must be an \code{ABM_Field}
-#'   object whose name matches an existing field in \code{G}.
+#' @param ... One or more \code{ABM_Field} objects whose names match
+#'   existing fields in \code{G} -- typically created with
+#'   \code{\link{State}}, \code{\link{Active}}, \code{\link{Act}},
+#'   \code{\link{Stop}}, \code{\link{Report}}, or \code{\link{Plot}} -- or
+#'   \code{\link{Zip}} bundles thereof (e.g. \code{replace_field(G,
+#'   State(pop))}). At least one field must be supplied.
 #'
 #' @return The modified \code{ABM_Game} object (invisibly).
 #'
 #' @details
 #' This function is a thin wrapper and performs only minimal validation
-#' (checking that \code{G} inherits from \code{ABM_Game}).
+#' (checking that \code{G} inherits from \code{ABM_Game} and that \code{...}
+#' is not empty).
 #' All structural and semantic validation is delegated to
 #' \code{ABM_Game}'s internal \code{.replace()} method.
 #'
@@ -96,8 +122,6 @@ remove_field <- function(G, ...){
 #' The category of the replacement field may differ from the original,
 #' allowing a field to be reassigned to a different category (e.g.,
 #' from \code{"state"} to \code{"active_state"}).
-#' Note that replacing a field removes and re-adds it internally,
-#' so the field's position in the field list may change.
 #'
 #' @examples
 #' # prepare a Game object
@@ -119,6 +143,8 @@ remove_field <- function(G, ...){
 replace_field <- function(G, ...){
   stopifnot("'G' must be a 'ABM_Game' class object." =
               inherits(G, "ABM_Game"))
+  stopifnot("'...' must not be empty: supply at least one 'ABM_Field' object (or 'Zip()' bundle) to replace." =
+              length(list(...)) > 0L)
   G$.replace(...)
   invisible(G)
 }

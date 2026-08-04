@@ -1,5 +1,8 @@
 # rABM (development version)
-# rABM 1.4.0
+# rABM 1.5.0
+2026-08-04
+* [revised] `modify_field`.
+
 2026-08-03
 * [revised] Revised `plot.ABM_Game`,`animate_log`.
 

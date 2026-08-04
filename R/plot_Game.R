@@ -178,13 +178,8 @@ plot.ABM_Game <- function(x, name = NULL, log = NULL, verbose = TRUE, pause = TR
   .assert_plot_field(x, name)
 
   # log replay --------------------------------------------------------------
-  # Resolve both "which entries" and "their time values" via value_of_log(),
-  # instead of a separate .resolve_log_idx() call plus manual
-  # x$log[[t]]$time indexing. value_of_log()'s index resolution
-  # (.resolve_collection_idx()) follows the same NULL/"all"/character/numeric
-  # contract as .resolve_log_idx() and preserves the order of the 'log'
-  # argument, so log_idx derived from names(times_ls) refers to the same
-  # entries in the same order .resolve_log_idx(x, log) would have returned.
+  # Resolve both "which entries" and "their time values" via value_of_log().,
+  # value_of_log()'s index resolution.
   times_ls <- value_of_log(x, field_name = "time", log = log, simplify = FALSE)
   times    <- vapply(times_ls, function(v) v, numeric(1))
   log_idx  <- match(names(times_ls), names(x$log))
