@@ -1,7 +1,7 @@
 Package: rABM
 Title: A flexible and extensible agent-based modeling package for exploratory social science research
-Version: 1.5.0
-Date: 2026-08-04
+Version: 1.6.0
+Date: 2026-08-05
 Authors@R: c(
     person("Keiichi", "Satoh", email = "keiichi.satoh@r.hit-u.ac.jp", role = c("aut", "cre")),
     person("Liang", "Hao", role = c("ctb"))

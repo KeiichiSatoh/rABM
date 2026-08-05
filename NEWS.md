@@ -1,4 +1,8 @@
 # rABM (development version)
+# rABM 1.6.0
+2026-08-05
+* [revised] `ABM_Chunk`, `ABM_Series`, `run_Series`.
+
 # rABM 1.5.0
 2026-08-04
 * [revised] `modify_field`.

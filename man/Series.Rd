@@ -2,32 +2,53 @@
 % Please edit documentation in R/class_ABM_Series.R
 \name{Series}
 \alias{Series}
-\alias{as.Series}
-\alias{as.Series.ABM_Series}
-\alias{as.Series.default}
 \alias{print.ABM_Series}
 \title{Create an ABM_Series Object}
 \usage{
 Series(..., default = NULL)
 
-as.Series(x, ...)
-
-\method{as.Series}{ABM_Series}(x, ...)
-
-\method{as.Series}{default}(x, ...)
-
-\method{print}{ABM_Series}(x, max_lines = 6L, ...)
+\method{print}{ABM_Series}(x, contents = FALSE, max_lines = 6L, ...)
 }
 \arguments{
 \item{...}{Named or unnamed \code{ABM_Chunk} objects created by \code{Chunk()}.
-If no name is provided, the variable name is used as the key.
 All arguments must be \code{ABM_Chunk} objects; passing other types will
-result in an error. Chunk names must be unique.}
+result in an error. Chunk names must be unique. Names are resolved as
+follows, in order:
+\enumerate{
+\item If an argument is passed with an explicit name (e.g.
+\code{Series(init = step1)}), that name is used.
+\item Otherwise, if the argument is a bare variable reference (e.g.
+\code{Series(step1)}), the variable name itself is used.
+\item Otherwise (e.g. an inline \code{Series(Chunk({...}))}, where there is
+no variable name to fall back on), an automatic name of the form
+\code{"Chunk1"}, \code{"Chunk2"}, ... is assigned, numbered in the order such
+arguments appear among \code{...} (not counting explicitly named or
+bare-variable arguments).
+}}
 
 \item{default}{An optional list of default objects (values and/or functions)
 to be injected into the execution environment before running chunks.
 These can be overridden at runtime via \code{run_Series(..., input = ...)}.
-If \code{NULL}, an empty default list is stored.}
+If \code{NULL} (the default), an empty default list is stored. If supplied,
+\code{default} must be a plain list with every element explicitly named
+(e.g. \code{default = list(add2 = function(a, b) a + b)}); unlike
+\code{run_Series()}'s \code{input} argument, no automatic naming is attempted
+here, so an unnamed or partially named list raises an error rather
+than being auto-named.}
+
+\item{x}{An \code{"ABM_Series"} object (for \code{print.ABM_Series()}).}
+
+\item{contents}{Logical; passed to \code{print.ABM_Series()}. If \code{FALSE} (the
+default), only metadata is shown -- the number of chunks/defaults and
+their names -- without previewing each chunk's or default's actual
+content. If \code{TRUE}, each chunk's body and each default's value are also
+previewed (subject to truncation via \code{max_lines}). Mirrors the
+lightweight-by-default design of \code{print.ABM_Game(fields = FALSE)}.}
+
+\item{max_lines}{Passed to \code{print.ABM_Series()}. A single non-negative
+integer controlling how many lines of each chunk's/default's preview
+are shown before truncating, when \code{contents = TRUE}. Ignored when
+\code{contents = FALSE}.}
 }
 \value{
 An object of class \code{"ABM_Series"}, a list with the following elements:
@@ -63,6 +84,14 @@ Named arguments can be used to override the variable name as the key:
 \if{html}{\out{<div class="sourceCode">}}\preformatted{S <- Series(init = step1, calc = step2)
 }\if{html}{\out{</div>}}
 
+Passing an inline, unnamed chunk (i.e. not a bare variable reference)
+falls back to automatic sequential naming, since there is no variable
+name available:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{S <- Series(step1, Chunk(\{ z <- y + 1 \}))
+# chunk names: "step1", "Chunk1"
+}\if{html}{\out{</div>}}
+
 The \code{default} slot represents the initial state of the execution environment.
 Users can later override these defaults at runtime via
 \code{run_Series(..., input = ...)}.
@@ -75,8 +104,17 @@ step2 <- Chunk({ y <- x + 1 })
 S <- Series(step1, step2)
 str(S)
 
+# Default print(): metadata only (chunk/default names and counts)
+S
+
+# Preview actual chunk/default contents
+print(S, contents = TRUE)
+
 # With explicit names
 S <- Series(init = step1, calc = step2)
+
+# Inline, unnamed chunk gets an automatic "Chunk<N>" name
+S <- Series(step1, Chunk({ z <- y + 1 }))
 
 # With default objects
 S <- Series(
