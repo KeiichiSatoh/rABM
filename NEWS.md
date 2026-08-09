@@ -1,5 +1,5 @@
 # rABM (development version)
-# rABM 1.7.0
+# rABM 1.7.1
 2026-08-09
 * [added] `batch_Chunk`.
 

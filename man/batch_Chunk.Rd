@@ -15,14 +15,13 @@ batch_Chunk(
   inherit_env = TRUE,
   export_objects = NULL,
   export_pkgs = NULL,
-  return_with_feed = FALSE,
+  return_with_feed = TRUE,
   seed = NULL,
   on_error = c("continue", "stop"),
   keep = NULL,
   parent = parent.frame(),
   verbose = TRUE,
-  output_only = FALSE,
-  return_FUN = NULL
+  output_only = FALSE
 )
 }
 \arguments{

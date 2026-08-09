@@ -227,6 +227,17 @@ test_that("return_with_feed attaches the feed used for each run (list)", {
   )
 })
 
+test_that("return_with_feed defaults to TRUE", {
+  chunk_add1 <- Chunk({ y <- x + 1 })
+  # 'return_with_feed' intentionally left unset, to check the default.
+  res <- batch_Chunk(chunk_add1, feed = data.frame(x = 1:2), n_each_run = 2,
+                     keep = "y", verbose = FALSE)
+
+  expect_true("feed" %in% names(res))
+  expect_equal(res$feed$batch, res$batch_label)
+  expect_equal(res$feed$x, c(1, 1, 2, 2))
+})
+
 test_that("parallel = TRUE (multisession) gives the same results as sequential execution", {
   skip_if_not_installed("future")
   skip_if_not_installed("future.apply")
