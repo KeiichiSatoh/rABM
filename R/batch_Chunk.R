@@ -153,6 +153,8 @@
 #' )
 #' res$values_out
 #' res$feed
+#'
+#' @export
 batch_Chunk <- function(
     chunk,
     feed = NULL,

@@ -89,7 +89,7 @@
 #'
 #' @export
 
-model_schelling_segregation <- function(
+model_segregation_schelling <- function(
     vacant_prop = 0.2,
     group_prop = c(0.5, 0.5),
     minimum_same_prop = 0.3,
