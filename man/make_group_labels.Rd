@@ -20,7 +20,9 @@ non-negative and must not sum to zero. If unnamed, groups will be
 labeled as integers (1, 2, ...).}
 
 \item{adjustment_by}{Optional. A single group label to prioritize
-when adjusting counts. Must match exactly one of the group labels.}
+when adjusting counts. Must match exactly one of the group labels;
+this is validated immediately, even if rounding happens not to
+require any adjustment.}
 
 \item{random_adjustment}{Logical. If \code{TRUE}, adjustments are
 made randomly across groups when \code{adjustment_by} is not specified.
