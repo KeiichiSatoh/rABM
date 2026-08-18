@@ -1,4 +1,9 @@
 # rABM (development version)
+# rABM 1.8.0
+2026-08-15
+* [added] `grid_neighbors`.
+* [revised] `grid_index`: Now RCPP based.
+
 # rABM 1.7.1
 2026-08-09
 * [added] `batch_Chunk`.

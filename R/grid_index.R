@@ -1,25 +1,36 @@
+#-------------------------------------------------------------------------------
+# grid_index(): convert between linear and (row, col) grid indices
+#-------------------------------------------------------------------------------
+
 #' Convert between linear and matrix grid indices
 #'
-#' Fast conversion between linear indices and (row, col) matrix coordinates
-#' under R's column-major ordering.
+#' Fast, bidirectional conversion between linear indices and \code{(row,
+#' col)} matrix coordinates under R's column-major ordering.
 #'
-#' If \code{index} is a two-column matrix, it is interpreted as
-#' \code{(row, col)} coordinates and converted to linear indices.
-#' If \code{index} is a numeric vector, it is interpreted as linear indices
-#' and converted to a two-column matrix \code{(row, col)}.
+#' If \code{index} is a two-column matrix, it is interpreted as \code{(row,
+#' col)} coordinates and converted to linear indices. If \code{index} is a
+#' numeric vector, it is interpreted as linear indices and converted to a
+#' two-column matrix with columns \code{row} and \code{col}.
 #'
-#' This function assumes column-major order (R default):
-#' \deqn{linear = (col - 1) * n_row + row}
+#' This function assumes column-major order (R's default):
+#' \deqn{linear = (col - 1) \times n\_row + row}
 #'
-#' No extensive input validation is performed for speed.
+#' The computational core is implemented in C++ for speed (see
+#' \code{grid_index_rc2lin_cpp()} / \code{grid_index_lin2rc_cpp()}); this
+#' function only validates \code{index}'s type/shape and dispatches to the
+#' appropriate backend. Out-of-bounds coordinates are only checked when
+#' \code{n_col} is supplied.
 #'
 #' @param index A numeric vector of linear indices, or a two-column matrix
 #'   of \code{(row, col)} coordinates.
 #' @param n_row Integer. Number of rows in the grid.
+#' @param n_col Integer, optional. Number of columns in the grid. If
+#'   supplied, out-of-bounds coordinates raise an error. If \code{NULL}
+#'   (the default), this check is skipped.
 #'
 #' @return
-#' If \code{index} is a matrix, returns an integer vector of linear indices.
-#' If \code{index} is a vector, returns a two-column matrix with columns
+#' If \code{index} is a matrix, an integer vector of linear indices.
+#' If \code{index} is a vector, a two-column integer matrix with columns
 #' \code{row} and \code{col}.
 #'
 #' @examples
@@ -31,91 +42,24 @@
 #' id <- c(1, 6, 10)
 #' grid_index(id, n_row = 5)
 #'
+#' # with bounds checking (n_col supplied)
+#' grid_index(id, n_row = 5, n_col = 3)
+#'
 #' @export
-grid_index <- function(index, n_row) {
-  if (is.matrix(index)) {
-    return((index[, 2L] - 1L) * n_row + index[, 1L])
-  }
-
-  col <- (index - 1L) %/% n_row + 1L
-  row <- index - (col - 1L) * n_row
-  cbind(row = row, col = col)
-}
-
-
-
-
-grid_index <- function(index, n_row) {
-  # auto-detect:
-  #   matrix(,2) -> linear
-  #   numeric vector -> (row, col)
-  # column-major (R default)
-
-  if (!is.null(dim(index))) {
-    # (row, col) -> linear
-    return((index[, 2L] - 1L) * n_row + index[, 1L])
-  }
-
-  # linear -> (row, col)
-  col <- (index - 1L) %/% n_row + 1L
-  row <- index - (col - 1L) * n_row
-  cbind(row = row, col = col)
-}
-
-
-?which
-
-mat <- matrix(1:12, 4, 3)
-
-posit <- matrix(c(1,1,
-                  2,3), 2, 2, byrow = TRUE)
-
-n_row <- 4
-n_col <- 3
-
-posit <- c(1,4)
-
-function(posit, n_row, n_col, change_to = c("lin", "arr")){
-  out <- switch(change_to,
-                "lin" = {(posit[,2] - 1)*n_row + posit[,1]},
-                "arr" = {
-                  y <- (posit - 1) %/% n_row + 1
-                  x <- posit - (y - 1)*n_row
-                  cbind(x, y)
-                })
- out
-}
-
-
-
-
-
 grid_index <- function(index, n_row, n_col = NULL) {
-  # auto: (row,col) matrix -> linear,  or linear vector -> (row,col)
-  # column-major (R default): linear = (col-1)*n_row + row
+  if (!is.numeric(index)) {
+    stop("'index' must be a numeric vector or a 2-column numeric matrix.")
+  }
 
-  # ---- matrix: (row, col) -> linear
+  check_bounds <- !is.null(n_col)
+  n_col_arg <- if (check_bounds) as.integer(n_col) else NA_integer_
+
   if (!is.null(dim(index))) {
-    # fastest minimal sanity: 2 columns
-    if (ncol(index) != 2L) stop("'index' must have 2 columns: (row, col).")
-
-    # assume integer-ish; keep it fast
-    return((index[, 2L] - 1L) * n_row + index[, 1L])
-  }
-
-  # ---- vector: linear -> (row, col)
-  # (avoid heavy checks; just require numeric/integer)
-  if (!is.numeric(index)) stop("'index' must be a numeric vector or a 2-col matrix.")
-
-  col <- (index - 1L) %/% n_row + 1L
-  row <- index - (col - 1L) * n_row
-
-  # optional bound check if n_col provided (still cheap-ish)
-  if (!is.null(n_col)) {
-    if (any(row < 1L | row > n_row | col < 1L | col > n_col)) {
-      stop("Index out of bounds.")
+    if (ncol(index) != 2L) {
+      stop("'index' must have exactly 2 columns: (row, col).")
     }
+    return(grid_index_rc2lin_cpp(index, as.integer(n_row), n_col_arg, check_bounds))
   }
 
-  cbind(row = row, col = col)
+  grid_index_lin2rc_cpp(index, as.integer(n_row), n_col_arg, check_bounds)
 }

@@ -2,26 +2,44 @@
 % Please edit documentation in R/make_group_labels.R
 \name{make_group_labels}
 \alias{make_group_labels}
-\title{Generate Group labels Based on Proportions with Adjustment}
+\title{Generate Group Labels Based on Proportions with Adjustment}
 \usage{
-make_group_labels(n, prop, adjustment_by = NULL, random_adjustment = TRUE)
+make_group_labels(
+  n,
+  prop,
+  adjustment_by = NULL,
+  random_adjustment = TRUE,
+  from_zero = FALSE
+)
 }
 \arguments{
 \item{n}{Integer. The total number of items to allocate.}
 
-\item{prop}{Numeric vector. Proportions for each group.
-If unnamed, groups will be labeled as integers (1, 2, ...).}
+\item{prop}{Numeric vector. Proportions for each group. Must be
+non-negative and must not sum to zero. If unnamed, groups will be
+labeled as integers (1, 2, ...).}
 
 \item{adjustment_by}{Optional. A single group label to prioritize
-when adjusting counts. Must match one of the group labels.}
+when adjusting counts. Must match exactly one of the group labels.}
 
 \item{random_adjustment}{Logical. If \code{TRUE}, adjustments are
 made randomly across groups when \code{adjustment_by} is not specified.
-Default is \code{TRUE}.}
+Default is \code{TRUE}. If \code{FALSE} and \code{adjustment_by} is \code{NULL},
+no adjustment is made; a warning explaining why is issued and the
+returned vector's length will not equal \code{n}.}
+
+\item{from_zero}{Logical. If \code{TRUE}, group labels are returned as
+0-based integers (\verb{0, 1, 2, ...}, in the order the groups appear
+in \code{prop}) instead of the default 1-based integer or name-based
+labels. If \code{adjustment_by} is also used together with \code{from_zero},
+it must refer to the 0-based label (e.g. \code{0}), not the original
+name. Default is \code{FALSE}.}
 }
 \value{
-A character or integer vector of length \code{n},
-containing the group labels for each item.
+A character, integer, or numeric vector of length \code{n}
+(except in the one case described under \code{random_adjustment}
+where the length may differ from \code{n}), containing the group
+labels for each item.
 }
 \description{
 This function generates a vector of group labels based on
@@ -39,19 +57,27 @@ adjustments are made:
 to correct the total.
 \item Otherwise, adjustments are made randomly across groups when
 \code{random_adjustment = TRUE}.
+\item If neither is available, no adjustment is made and a warning
+explains why the returned vector's length differs from \code{n}.
 }
 
 The function includes safeguards to prevent infinite loops during
-adjustments.
+adjustments, and to prevent any group's count from being adjusted
+below zero.
 }
 \examples{
 # Basic usage with named proportions
-generate_group_labels(10, c(A = 0.4, B = 0.6))
+make_group_labels(10, c(A = 0.4, B = 0.6))
 
 # Adjust prioritizing group "A"
-generate_group_labels(11, c(A = 0.4, B = 0.6), adjustment_by = "A")
+make_group_labels(11, c(A = 0.4, B = 0.6), adjustment_by = "A")
 
-# Random adjustment without specifying a group
-generate_group_labels(11, c(A = 0.4, B = 0.6), random_adjustment = TRUE)
+# Random adjustment without specifying a group (the default)
+make_group_labels(11, c(A = 0.4, B = 0.6))
+
+# Returned as 0-based integers instead of 1-based (works for any
+# number of groups)
+make_group_labels(10, c(A = 0.4, B = 0.6), from_zero = TRUE)
+make_group_labels(10, c(A = 0.2, B = 0.3, C = 0.5), from_zero = TRUE)
 
 }

@@ -11,26 +11,34 @@ grid_index(index, n_row, n_col = NULL)
 of \code{(row, col)} coordinates.}
 
 \item{n_row}{Integer. Number of rows in the grid.}
+
+\item{n_col}{Integer, optional. Number of columns in the grid. If
+supplied, out-of-bounds coordinates raise an error. If \code{NULL}
+(the default), this check is skipped.}
 }
 \value{
-If \code{index} is a matrix, returns an integer vector of linear indices.
-If \code{index} is a vector, returns a two-column matrix with columns
+If \code{index} is a matrix, an integer vector of linear indices.
+If \code{index} is a vector, a two-column integer matrix with columns
 \code{row} and \code{col}.
 }
 \description{
-Fast conversion between linear indices and (row, col) matrix coordinates
-under R's column-major ordering.
+Fast, bidirectional conversion between linear indices and \code{(row,
+col)} matrix coordinates under R's column-major ordering.
 }
 \details{
-If \code{index} is a two-column matrix, it is interpreted as
-\code{(row, col)} coordinates and converted to linear indices.
-If \code{index} is a numeric vector, it is interpreted as linear indices
-and converted to a two-column matrix \code{(row, col)}.
+If \code{index} is a two-column matrix, it is interpreted as \code{(row,
+col)} coordinates and converted to linear indices. If \code{index} is a
+numeric vector, it is interpreted as linear indices and converted to a
+two-column matrix with columns \code{row} and \code{col}.
 
-This function assumes column-major order (R default):
-\deqn{linear = (col - 1) * n_row + row}
+This function assumes column-major order (R's default):
+\deqn{linear = (col - 1) \times n\_row + row}
 
-No extensive input validation is performed for speed.
+The computational core is implemented in C++ for speed (see
+\code{grid_index_rc2lin_cpp()} / \code{grid_index_lin2rc_cpp()}); this
+function only validates \code{index}'s type/shape and dispatches to the
+appropriate backend. Out-of-bounds coordinates are only checked when
+\code{n_col} is supplied.
 }
 \examples{
 # (row, col) -> linear
@@ -40,5 +48,8 @@ grid_index(rc, n_row = 5)
 # linear -> (row, col)
 id <- c(1, 6, 10)
 grid_index(id, n_row = 5)
+
+# with bounds checking (n_col supplied)
+grid_index(id, n_row = 5, n_col = 3)
 
 }
