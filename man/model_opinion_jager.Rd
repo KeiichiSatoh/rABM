@@ -95,14 +95,8 @@ Default is \code{c("select_alter", "update_opinion")}.}
 (no seed set).}
 }
 \value{
-A named list with two elements:
-\describe{
-\item{\code{G_init}}{A copy of the \code{Game} object capturing the
-initial state before any simulation steps.}
-\item{\code{G_finished}}{The \code{Game} object after all
-\code{sim_times} steps have been executed, including logged trajectories
-accessible via \code{value_of}.}
-}
+An \code{ABM_Game} object: either the freshly initialized (unrun) model
+when \code{simx_times == 0}, or the finished model after running.
 }
 \description{
 Simulates opinion dynamics among agents based on the bounded confidence
@@ -223,5 +217,5 @@ attitude change. Computational & Mathematical Organization Theory,
 \seealso{
 \code{\link[sna]{rgraph}} for random network generation;
 \code{\link[igraph]{make_lattice}} for lattice network generation;
-\code{value_of}, \code{run_Game}, \code{copy_obj} for game utilities.
+\code{value_of_log}, \code{run_Game}, \code{copy_obj} for game utilities.
 }

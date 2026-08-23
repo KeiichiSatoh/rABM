@@ -32,34 +32,42 @@
 #'
 #' @param agent_accept Numeric vector of length \code{n_agent}. Acceptance
 #'   threshold for each agent: opinion differences below this value trigger
-#'   assimilation. Default is \code{rep(0.3, n_agent)}.
+#'   assimilation. Default is \code{rep(0.4, n_agent)}.
 #'
 #' @param agent_reject Numeric vector of length \code{n_agent}. Rejection
 #'   threshold for each agent: opinion differences above this value trigger
 #'   contrast (i.e., opinion movement away from the alter). Should satisfy
 #'   \code{agent_reject > agent_accept} for sensible dynamics. Default is
-#'   \code{rep(0.5, n_agent)}.
+#'   \code{rep(0.6, n_agent)}.
 #'
 #' @param agent_learn Numeric vector of length \code{n_agent}. Learning rate
 #'   \eqn{\lambda \in (0, 1]} controlling the step size of opinion updating.
 #'   Default is \code{rep(0.1, n_agent)}.
 #'
-#' @param agent_self_influence Numeric vector of length \code{n_agent}.
-#'   Self-influence rate governing how strongly an agent's opinion on \code{x1}
-#'   (the major issue) pulls their opinion on \code{x2} (the minor issue) via
-#'   \code{influence_opinion}. This parameter has no counterpart in the original
-#'   Jager-Amblard model and is specific to this two-dimensional extension.
-#'   Default is \code{rep(0.1, n_agent)}.
+#' @param agent_self_influence Numeric vector of length \code{n_agent}, with
+#'   each element in \eqn{[0, 1]}. Self-influence rate governing how strongly
+#'   an agent's opinion on \code{x1} (the major issue) pulls their opinion on
+#'   \code{x2} (the minor issue) via \code{influence_opinion}. Because
+#'   \code{influence_opinion} updates \code{x2} as a weighted average of its
+#'   current value and \code{x1}, keeping this parameter within \eqn{[0, 1]}
+#'   is what guarantees \code{x2} stays within \eqn{[-1, 1]} without needing
+#'   an explicit truncation step. This parameter has no counterpart in the
+#'   original Jager-Amblard model and is specific to this two-dimensional
+#'   extension. Default is \code{rep(0.1, n_agent)}.
 #'
 #' @param net_agent An \code{n_agent} by \code{n_agent} numeric adjacency
 #'   matrix. If provided, \code{net_type} and \code{tprob} are ignored and
-#'   a warning is issued if \code{net_type} is also specified. Default is
-#'   \code{NULL}.
+#'   a warning is issued if \code{net_type} is also specified. Every agent
+#'   (row) must have at least one neighbour; isolated nodes are not
+#'   supported. Default is \code{NULL}.
 #'
 #' @param net_type Character string specifying the network topology to generate
 #'   when \code{net_agent} is \code{NULL}. One of \code{"complete"} (default),
 #'   \code{"random"}, or \code{"lattice"}. For \code{"lattice"},
-#'   \code{n_agent} must be a perfect square.
+#'   \code{n_agent} must be a perfect square. For \code{"random"}, a low
+#'   \code{tprob} can produce isolated nodes, which will cause validation
+#'   to fail; increase \code{tprob} or supply \code{net_agent} directly if
+#'   that happens.
 #'
 #' @param tprob Numeric scalar in \eqn{[0, 1]}. Edge probability used when
 #'   \code{net_type = "random"}. Ignored for other network types. Default is
@@ -87,8 +95,9 @@
 #'   }
 #'   Default is \code{c("select_alter", "update_opinion")}.
 #'
-#' @param sim_times Integer. Number of simulation time steps. Default is
-#'   \code{30}.
+#' @param sim_times Integer. Number of simulation time steps. If \code{0},
+#'   the freshly initialized (unrun) model is returned immediately without
+#'   calling \code{\link{run_Game}}. Default is \code{30}.
 #'
 #' @param seed Integer or \code{NULL}. Random seed passed to
 #'   \code{\link{set.seed}} for reproducibility. Default is \code{NULL}
@@ -106,7 +115,8 @@
 #' \code{tprob} (\code{"random"}, via \code{\link[sna]{rgraph}}), or a regular
 #' two-dimensional square lattice (\code{"lattice"}, via
 #' \code{\link[igraph]{make_lattice}}). For the lattice option, \code{n_agent}
-#' must be a perfect square.
+#' must be a perfect square. Whichever source is used, every agent must have
+#' at least one neighbour (isolated nodes are rejected).
 #'
 #' \strong{Two-dimensional extension.} The original Jager-Amblard (2005) model
 #' is strictly one-dimensional. This implementation adds a second opinion
@@ -115,21 +125,18 @@
 #' \code{x1} opinion at a rate governed by \code{agent_self_influence}. The
 #' labels \emph{major} (\code{x1}) and \emph{minor} (\code{x2}) reflect the
 #' intended use case, but the roles can be reversed by adjusting \code{plan}
-#' and \code{agent_self_influence}.
+#' and \code{agent_self_influence}. Note that the current implementation is
+#' specifically two-dimensional: \code{agent_opinion} is always validated to
+#' have exactly two columns, so this is not a general \eqn{k}-dimensional
+#' extension.
 #'
 #' \strong{Topic switching.} When \code{"change_issue"} is included in
 #' \code{plan}, the discussion alternates stochastically between \code{x1} and
-#' \code{x2} at each time step with probability \code{issue_change_prob}. This
-#' requires \code{ncol(agent_opinion) >= 2}; a warning is issued otherwise.
+#' \code{x2} at each time step with probability \code{issue_change_prob}.
 #'
-#' @return A named list with two elements:
-#' \describe{
-#'   \item{\code{G_init}}{A copy of the \code{Game} object capturing the
-#'     initial state before any simulation steps.}
-#'   \item{\code{G_finished}}{The \code{Game} object after all
-#'     \code{sim_times} steps have been executed, including logged trajectories
-#'     accessible via \code{value_of}.}
-#' }
+#' @return
+#' An \code{ABM_Game} object: the freshly initialized (unrun) model when
+#' \code{sim_times == 0}, or the finished (simulated) model otherwise.
 #'
 #' @references
 #' Jager, W., & Amblard, F. (2005). Uniformity, bipolarization and pluriformity
@@ -140,7 +147,7 @@
 #' @seealso
 #' \code{\link[sna]{rgraph}} for random network generation;
 #' \code{\link[igraph]{make_lattice}} for lattice network generation;
-#' \code{value_of}, \code{run_Game}, \code{copy_obj} for game utilities.
+#' \code{value_of_log}, \code{run_Game}, \code{copy_obj} for game utilities.
 #'
 #' @examples
 #' ## ------------------------------------------------------------------
@@ -149,10 +156,10 @@
 #' result <- model_opinion_jager(n_agent = 20, sim_times = 50, seed = 42)
 #'
 #' ## Plot opinion trajectories for issue x1
-#' result$G_finished$report_trajectory(issue_idx = 1)
+#' result$report_trajectory(issue_idx = 1)
 #'
 #' ## Plot number of opinion clusters over time
-#' result$G_finished$report_n_groups(issue_idx = 1)
+#' result$report_n_groups(issue_idx = 1)
 #'
 #' ## ------------------------------------------------------------------
 #' ## Example 2: Cross-issue influence (two-dimensional extension)
@@ -164,8 +171,8 @@
 #'   seed      = 123
 #' )
 #'
-#' result2$G_finished$report_trajectory(issue_idx = 1)
-#' result2$G_finished$report_trajectory(issue_idx = 2)
+#' result2$report_trajectory(issue_idx = 1)
+#' result2$report_trajectory(issue_idx = 2)
 #'
 #' ## ------------------------------------------------------------------
 #' ## Example 3: Lattice network (n_agent must be a perfect square)
@@ -218,6 +225,15 @@ model_opinion_jager <- function(
     sim_times            = 30,
     seed                 = NULL
 ){
+  #======= seed ===========
+  # Set the seed before any random draws happen -- including the default
+  # 'agent_opinion' initialization below and the network generation further
+  # down -- so that the whole model (initial opinions, network, and the
+  # simulation run itself) is reproducible from 'seed', not just the part
+  # that happens to run after this point.
+  if(!is.null(seed)){
+    set.seed(seed = seed)
+  }
   #======= validation =====
   if(is.null(agent_opinion)){
     agent_opinion <- data.frame(x1 = runif(n_agent, min = -1, max = 1),
@@ -225,27 +241,23 @@ model_opinion_jager <- function(
   } else {
     stopifnot("'agent_opinion' must range from -1 to 1." =
                 all(agent_opinion <= 1) && all(agent_opinion >= -1))
+    stopifnot("The number of columns of 'agent_opinion' must be 2." = ncol(agent_opinion) == 2)
+    stopifnot("The number of rows of 'agent_opinion' must equal 'n_agent'." = nrow(agent_opinion) == n_agent)
   }
-
   stopifnot("'tprob' must range between 0 and 1." = tprob >= 0 && tprob <= 1)
-
   if(length(agent_accept)==1) agent_accept <- rep(agent_accept, n_agent)
   if(length(agent_reject)==1) agent_reject <- rep(agent_reject, n_agent)
   if(length(agent_learn)==1) agent_learn <- rep(agent_learn, n_agent)
   if(length(agent_self_influence)==1) agent_self_influence <- rep(agent_self_influence, n_agent)
-
   stopifnot("'agent_accept' must be the length of 'n_agent'. " = length(agent_accept) == n_agent)
   stopifnot("'agent_reject' must be the length of 'n_agent'. " = length(agent_reject) == n_agent)
   stopifnot("'agent_learn' must be the length of 'n_agent'. " = length(agent_learn) == n_agent)
   stopifnot("'agent_self_influence' must be the length of 'n_agent'. " = length(agent_self_influence) == n_agent)
-
   stopifnot("Each of 'agent_accept' must be smaller or equal to 'agent_reject'. " = all(agent_accept <= agent_reject))
-
-  #======= seed ===========
-  if(!is.null(seed)){
-    set.seed(seed = seed)
-  }
-
+  stopifnot("'agent_learn' must be between 0 (exclusive) and 1 (inclusive)." =
+              all(agent_learn > 0 & agent_learn <= 1))
+  stopifnot("'agent_self_influence' must be between 0 and 1 (inclusive)." =
+              all(agent_self_influence >= 0 & agent_self_influence <= 1))
   #====== network validation & creation =========
   if(!is.null(net_agent)){
     if(!missing(net_type)){
@@ -253,9 +265,7 @@ model_opinion_jager <- function(
     }
   } else {
     net_type  <- match.arg(net_type)
-
     is_perfect_square <- function(n){ s <- round(sqrt(n)); s^2 == n }
-
     net_agent <- switch(net_type,
                         "complete" = {
                           mat <- matrix(1, n_agent, n_agent)
@@ -274,28 +284,25 @@ model_opinion_jager <- function(
                         }
     )
   }
-
   stopifnot("Number of rows and columns of 'net_agent' must equal 'n_agent'." =
               nrow(net_agent) == n_agent && ncol(net_agent) == n_agent)
-
+  stopifnot("Every agent must have at least one neighbour in 'net_agent' (isolated nodes are not supported)." =
+              all(rowSums(net_agent) > 0))
   #======= State ==========
-  settings <- list(n_agent          = n_agent,
-                   agent_idx        = seq_len(n_agent),
-                   issue_change_prob = issue_change_prob)
-
+  settings <- list(n_agent           = n_agent,
+                   agent_idx         = seq_len(n_agent),
+                   issue_change_prob = issue_change_prob,
+                   opinion_dim_label = colnames(agent_opinion))
   G <- Game(State(agent_opinion), State(agent_accept), State(agent_reject),
             State(agent_learn), State(agent_self_influence),
             State(net_agent),
             State(settings))
-
   selected_alter <- apply(net_agent, 1, function(net_i){
     sample2((1:n_agent)[net_i == 1], size = 1)
   })
   add_field(G, State(selected_alter))
-
   issue_discussing <- 1
   add_field(G, State(issue_discussing))
-
   #======= Plot ==========
   plot_opinion_hist <- function(issue_idx = 1){
     hist(self$agent_opinion[ , issue_idx],
@@ -304,7 +311,6 @@ model_opinion_jager <- function(
          main = paste0("time = ", self$time))
   }
   add_field(G, Plot(plot_opinion_hist))
-
   plot_network <- function(issue_idx = 1){
     opinion      <- self$agent_opinion[ , issue_idx]
     opinion_attr <- ifelse(opinion > 0, "blue", ifelse(opinion == 0, "gray", "red"))
@@ -315,14 +321,15 @@ model_opinion_jager <- function(
                              colnames(self$agent_opinion)[issue_idx]))
   }
   add_field(G, Plot(plot_network))
-
+  # plot_opinion
   plot_opinion <- function(){
     plot(x = self$agent_opinion[ ,1], y = self$agent_opinion[ ,2],
          xlim = c(-1, 1), ylim = c(-1, 1),
-         main = paste0("time = ", self$time))
+         main = paste0("time = ", self$time),
+         xlab = self$settings$opinion_dim_label[1],
+         ylab = self$settings$opinion_dim_label[2])
   }
   add_field(G, Plot(plot_opinion))
-
   plot_learning <- function(issue_idx = 1){
     opinion      <- self$agent_opinion[ , issue_idx]
     edges        <- cbind(self$selected_alter, self$settings$agent_idx)
@@ -336,7 +343,6 @@ model_opinion_jager <- function(
                              colnames(self$agent_opinion)[issue_idx]))
   }
   add_field(G, Plot(plot_learning))
-
   #======= Act ===========
   select_alter <- function(){
     selected_alter <- apply(self$net_agent, 1, function(net_i){
@@ -344,19 +350,16 @@ model_opinion_jager <- function(
     self$selected_alter <- selected_alter
   }
   add_field(G, Act(select_alter))
-
   update_opinion <- function(){
     opinion <- self$agent_opinion[ , self$issue_discussing]
     accept  <- self$agent_accept
     reject  <- self$agent_reject
     learn   <- self$agent_learn
-
     new_opinion <- rep(NA, self$settings$n_agent)
     for(i in self$settings$agent_idx){
       opinion_ego   <- opinion[i]
       opinion_alter <- opinion[self$selected_alter[i]]
       opinion_abs   <- abs(opinion_ego - opinion_alter)
-
       if(opinion_abs < accept[i]){
         new_opinion[i] <- opinion_ego + learn[i] * (opinion_alter - opinion_ego)
       } else if(opinion_abs > reject[i]){
@@ -365,16 +368,13 @@ model_opinion_jager <- function(
         new_opinion[i] <- opinion_ego
       }
     }
-
     # truncate the opinion to [-1:+1]
     new_opinion[new_opinion < -1] <- -1
     new_opinion[new_opinion > 1] <- 1
-
     # update
     self$agent_opinion[ , self$issue_discussing] <- new_opinion
   }
   add_field(G, Act(update_opinion))
-
   influence_opinion <- function(from = 1, to = 2){
     opinion_from <- self$agent_opinion[ , from]
     opinion_to   <- self$agent_opinion[ , to]
@@ -383,89 +383,96 @@ model_opinion_jager <- function(
     self$agent_opinion[ , to] <- opinion_to
   }
   add_field(G, Act(influence_opinion))
-
   change_issue <- function(){
-    if(ncol(self$agent_opinion) == 1){
+    if(ncol(self$agent_opinion) < 2){
       warning("This action only works when number of columns of 'agent_opinion' is greater than or equal to 2.")
       return(invisible(NULL))
     }
-
     prob      <- self$settings$issue_change_prob
     do_change <- sample(c(TRUE, FALSE), size = 1, prob = c(prob, 1 - prob))
     if(do_change){
       next_issue_candid    <- seq_len(ncol(self$agent_opinion))[-self$issue_discussing]
-      new_issue            <- sample(next_issue_candid, size = 1)
+      # NOTE: next_issue_candid can have length 1 (e.g., c(2)). Using base
+      # sample() here would trigger R's "sample(x, ...) samples from 1:x
+      # when length(x) == 1 and x is numeric" pitfall, making the switch
+      # non-deterministic when it shouldn't be. sample2() (already used by
+      # select_alter()) avoids that pitfall.
+      new_issue            <- sample2(next_issue_candid, size = 1)
       self$issue_discussing <- new_issue
     } else {
       invisible(NULL)
     }
   }
   add_field(G, Act(change_issue))
-
   #========= report ===============
   report_trajectory <- function(n = NULL, issue_idx = 1){
     # old_par
     old_par <- par(no.readonly = TRUE)
     on.exit(par(old_par), add = TRUE)
-
     if(is.null(n)){
       agent_idx <- self$settings$agent_idx
     } else {
       agent_idx <- sample2(self$settings$agent_idx, n)
     }
-
-    opinion_list <- value_of(self, "agent_opinion", log = "all",
+    opinion_list <- value_of_log(self, "agent_opinion", log = "all",
                              return_FUN = function(x){x[ , issue_idx]})
-    opinion <- do.call(rbind, opinion_list)
+    opinion_all <- do.call(rbind, opinion_list)
+    # Subset to just the selected agents (in 'agent_idx' order) up front.
+    # Previously the code plotted raw column 1 of the *full* n_agent-column
+    # matrix (ignoring agent_idx[1] entirely) and then looped over
+    # agent_idx[-1] as column indices into that same full matrix -- an
+    # inconsistent selection -- before assigning colnames(opinion) using
+    # only length(agent_idx) names onto all n_agent columns, which throws
+    # a dimnames-length error whenever n < n_agent. Subsetting first makes
+    # 'opinion' have exactly ncol(opinion) == length(agent_idx) columns,
+    # so both the plotting loop and the colnames assignment line up.
+    opinion <- opinion_all[ , agent_idx, drop = FALSE]
     times   <- seq_len(nrow(opinion))
     nm      <- colnames(self$agent_opinion)[issue_idx]
-
     plot(x = times, y = opinion[ , 1], type = "l", ylab = nm,
          ylim = c(-1, 1), xlab = "time",
          sub  = paste0("Acceptance(mean) = ", mean(self$agent_accept), "; ",
                        "Rejection(mean) = ",  mean(self$agent_reject)))
     par(new = TRUE)
-
-    for(i in agent_idx[2:length(agent_idx)]){
-      plot(x = times, y = opinion[ , i], type = "l", xlab = "", ylab = "",
-           ylim = c(-1, 1), ann = FALSE, axes = FALSE)
-      par(new = TRUE)
+    if(ncol(opinion) > 1){
+      for(i in 2:ncol(opinion)){
+        plot(x = times, y = opinion[ , i], type = "l", xlab = "", ylab = "",
+             ylim = c(-1, 1), ann = FALSE, axes = FALSE)
+        par(new = TRUE)
+      }
     }
-
     colnames(opinion) <- paste0("agent_", agent_idx)
     return(opinion)
   }
   add_field(G, Report(report_trajectory))
-
   report_n_groups <- function(issue_idx = 1, interval = 0.05){
-    opinion_list <- value_of(self, "agent_opinion", log = "all",
+    opinion_list <- value_of_log(self, "agent_opinion", log = "all",
                              return_FUN = function(x_t){x_t[ , issue_idx]})
     opinion     <- do.call(rbind, opinion_list)
-    opinion_cat <- cut(opinion, breaks = seq(-1, 1, interval))
+    # include.lowest = TRUE: without it, an opinion truncated to exactly
+    # -1 by update_opinion() falls outside every bin's default
+    # left-open/right-closed interval and becomes NA, which unique()
+    # then silently counts as an extra "group".
+    opinion_cat <- cut(opinion, breaks = seq(-1, 1, interval), include.lowest = TRUE)
     opinion_cat <- array(opinion_cat, dim = dim(opinion))
-
     n_clust <- apply(opinion_cat, 1, function(x_i){
       length(unique(x_i))
     })
-
     plot(x = 1:nrow(opinion), y = n_clust, type = "l",
          xlab = "time", ylab = "number of groups")
-
     names(n_clust) <- rownames(opinion)
     n_clust
   }
   add_field(G, Report(report_n_groups))
-
-  #======== G_init ==================
-  G_init <- copy_obj(G)
-
+  #======== Return G_init ==================
+  if(sim_times == 0){
+    return(G)
+  }
   #======= run ======================
   G_finished <- run_Game(G,
                          plan  = plan,
                          times = sim_times,
                          seed  = seed)
   #====== output ====================
-  out <- list(G_init     = G_init,
-              G_finished = G_finished)
-  out
+  G_finished
 }

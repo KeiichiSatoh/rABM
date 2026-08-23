@@ -1,4 +1,8 @@
 # rABM (development version)
+# rABM 1.9.0
+2026-08-23
+* [revised] `model_opinion_jager`, `model_segregation_schelling`.
+
 # rABM 1.8.0
 2026-08-15
 * [added] `grid_neighbors`.
