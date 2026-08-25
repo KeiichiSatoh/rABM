@@ -32,34 +32,42 @@ rows representing the initial opinions of each agent. If \code{NULL}
 
 \item{agent_accept}{Numeric vector of length \code{n_agent}. Acceptance
 threshold for each agent: opinion differences below this value trigger
-assimilation. Default is \code{rep(0.3, n_agent)}.}
+assimilation. Default is \code{rep(0.4, n_agent)}.}
 
 \item{agent_reject}{Numeric vector of length \code{n_agent}. Rejection
 threshold for each agent: opinion differences above this value trigger
 contrast (i.e., opinion movement away from the alter). Should satisfy
 \code{agent_reject > agent_accept} for sensible dynamics. Default is
-\code{rep(0.5, n_agent)}.}
+\code{rep(0.6, n_agent)}.}
 
 \item{agent_learn}{Numeric vector of length \code{n_agent}. Learning rate
 \eqn{\lambda \in (0, 1]} controlling the step size of opinion updating.
 Default is \code{rep(0.1, n_agent)}.}
 
-\item{agent_self_influence}{Numeric vector of length \code{n_agent}.
-Self-influence rate governing how strongly an agent's opinion on \code{x1}
-(the major issue) pulls their opinion on \code{x2} (the minor issue) via
-\code{influence_opinion}. This parameter has no counterpart in the original
-Jager-Amblard model and is specific to this two-dimensional extension.
-Default is \code{rep(0.1, n_agent)}.}
+\item{agent_self_influence}{Numeric vector of length \code{n_agent}, with
+each element in \eqn{[0, 1]}. Self-influence rate governing how strongly
+an agent's opinion on \code{x1} (the major issue) pulls their opinion on
+\code{x2} (the minor issue) via \code{influence_opinion}. Because
+\code{influence_opinion} updates \code{x2} as a weighted average of its
+current value and \code{x1}, keeping this parameter within \eqn{[0, 1]}
+is what guarantees \code{x2} stays within \eqn{[-1, 1]} without needing
+an explicit truncation step. This parameter has no counterpart in the
+original Jager-Amblard model and is specific to this two-dimensional
+extension. Default is \code{rep(0.1, n_agent)}.}
 
 \item{net_agent}{An \code{n_agent} by \code{n_agent} numeric adjacency
 matrix. If provided, \code{net_type} and \code{tprob} are ignored and
-a warning is issued if \code{net_type} is also specified. Default is
-\code{NULL}.}
+a warning is issued if \code{net_type} is also specified. Every agent
+(row) must have at least one neighbour; isolated nodes are not
+supported. Default is \code{NULL}.}
 
 \item{net_type}{Character string specifying the network topology to generate
 when \code{net_agent} is \code{NULL}. One of \code{"complete"} (default),
 \code{"random"}, or \code{"lattice"}. For \code{"lattice"},
-\code{n_agent} must be a perfect square.}
+\code{n_agent} must be a perfect square. For \code{"random"}, a low
+\code{tprob} can produce isolated nodes, which will cause validation
+to fail; increase \code{tprob} or supply \code{net_agent} directly if
+that happens.}
 
 \item{tprob}{Numeric scalar in \eqn{[0, 1]}. Edge probability used when
 \code{net_type = "random"}. Ignored for other network types. Default is
@@ -87,16 +95,17 @@ when needed.}
 }
 Default is \code{c("select_alter", "update_opinion")}.}
 
-\item{sim_times}{Integer. Number of simulation time steps. Default is
-\code{30}.}
+\item{sim_times}{Integer. Number of simulation time steps. If \code{0},
+the freshly initialized (unrun) model is returned immediately without
+calling \code{\link{run_Game}}. Default is \code{30}.}
 
 \item{seed}{Integer or \code{NULL}. Random seed passed to
 \code{\link{set.seed}} for reproducibility. Default is \code{NULL}
 (no seed set).}
 }
 \value{
-An \code{ABM_Game} object: either the freshly initialized (unrun) model
-when \code{simx_times == 0}, or the finished model after running.
+An \code{ABM_Game} object: the freshly initialized (unrun) model when
+\code{sim_times == 0}, or the finished (simulated) model otherwise.
 }
 \description{
 Simulates opinion dynamics among agents based on the bounded confidence
@@ -131,7 +140,8 @@ graph (\code{"complete"}), an Erdos-Renyi random graph with edge probability
 \code{tprob} (\code{"random"}, via \code{\link[sna]{rgraph}}), or a regular
 two-dimensional square lattice (\code{"lattice"}, via
 \code{\link[igraph]{make_lattice}}). For the lattice option, \code{n_agent}
-must be a perfect square.
+must be a perfect square. Whichever source is used, every agent must have
+at least one neighbour (isolated nodes are rejected).
 
 \strong{Two-dimensional extension.} The original Jager-Amblard (2005) model
 is strictly one-dimensional. This implementation adds a second opinion
@@ -140,12 +150,14 @@ dimension (\code{x2}) to explore cross-issue influence: the action
 \code{x1} opinion at a rate governed by \code{agent_self_influence}. The
 labels \emph{major} (\code{x1}) and \emph{minor} (\code{x2}) reflect the
 intended use case, but the roles can be reversed by adjusting \code{plan}
-and \code{agent_self_influence}.
+and \code{agent_self_influence}. Note that the current implementation is
+specifically two-dimensional: \code{agent_opinion} is always validated to
+have exactly two columns, so this is not a general \eqn{k}-dimensional
+extension.
 
 \strong{Topic switching.} When \code{"change_issue"} is included in
 \code{plan}, the discussion alternates stochastically between \code{x1} and
-\code{x2} at each time step with probability \code{issue_change_prob}. This
-requires \code{ncol(agent_opinion) >= 2}; a warning is issued otherwise.
+\code{x2} at each time step with probability \code{issue_change_prob}.
 }
 \examples{
 ## ------------------------------------------------------------------
@@ -154,10 +166,10 @@ requires \code{ncol(agent_opinion) >= 2}; a warning is issued otherwise.
 result <- model_opinion_jager(n_agent = 20, sim_times = 50, seed = 42)
 
 ## Plot opinion trajectories for issue x1
-result$G_finished$report_trajectory(issue_idx = 1)
+result$report_trajectory(issue_idx = 1)
 
 ## Plot number of opinion clusters over time
-result$G_finished$report_n_groups(issue_idx = 1)
+result$report_n_groups(issue_idx = 1)
 
 ## ------------------------------------------------------------------
 ## Example 2: Cross-issue influence (two-dimensional extension)
@@ -169,8 +181,8 @@ result2 <- model_opinion_jager(
   seed      = 123
 )
 
-result2$G_finished$report_trajectory(issue_idx = 1)
-result2$G_finished$report_trajectory(issue_idx = 2)
+result2$report_trajectory(issue_idx = 1)
+result2$report_trajectory(issue_idx = 2)
 
 ## ------------------------------------------------------------------
 ## Example 3: Lattice network (n_agent must be a perfect square)
